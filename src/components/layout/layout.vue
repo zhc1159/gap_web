@@ -4,7 +4,7 @@
     <div class="layout-sidebar" :class="{ 'is-collapse': isCollapse }">
       <div class="sidebar-head">
         <div class="sidebar-logo">
-          <el-icon :size="28" color="#667eea"><Lock /></el-icon>
+          <el-icon :size="28"><Lock /></el-icon>
         </div>
         <span v-show="!isCollapse" class="sidebar-title">GAP管理系统</span>
       </div>
@@ -15,6 +15,9 @@
         :unique-opened="true"
         router
         class="sidebar-menu"
+        background-color="transparent"
+        text-color="#a3aec9"
+        active-text-color="#00d4ff"
       >
         <template v-for="item in menuList" :key="item.path">
           <!-- Has children -->
@@ -51,7 +54,7 @@
               <component :is="isCollapse ? 'Expand' : 'Fold'" />
             </el-icon>
           </div>
-          <el-breadcrumb separator="/">
+          <el-breadcrumb separator="/" class="header-breadcrumb">
             <el-breadcrumb-item v-for="item in breadcrumbs" :key="item.path">
               {{ item.title }}
             </el-breadcrumb-item>
@@ -60,7 +63,7 @@
         <div class="header-right">
           <el-dropdown trigger="click" @command="handleCommand">
             <div class="user-info">
-              <el-avatar :size="32">{{ nickName?.charAt(0) }}</el-avatar>
+              <el-avatar :size="32" class="user-avatar">{{ nickName?.charAt(0) }}</el-avatar>
               <span class="nick-name">{{ nickName }}</span>
               <el-icon><ArrowDown /></el-icon>
             </div>
@@ -186,7 +189,6 @@ const handleCommand = async (command: string) => {
       router.push('/system/user')
       break
     case 'password':
-      // TODO: Open change password dialog
       ElNotification({
         title: '提示',
         message: '修改密码功能开发中',
@@ -225,15 +227,18 @@ const handleCommand = async (command: string) => {
 .layout-container {
   display: flex;
   min-height: 100vh;
+  background: #0f172a;
 }
 
+/* Sidebar - Dark Tech Style */
 .layout-sidebar{
   width: 220px;
-  background: #fff;
-  border-right: 1px solid #e6e6e6;
+  background: linear-gradient(180deg, #1a202c 0%, #0f172a 100%);
+  border-right: 1px solid #2d3748;
   transition: width 0.3s;
   display: flex;
   flex-direction: column;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .layout-sidebar.is-collapse{
@@ -241,106 +246,206 @@ const handleCommand = async (command: string) => {
 }
 
 .sidebar-head{
-  height: 60px;
+  height: 64px;
   display: flex;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid #2d3748;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-logo{
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 8px;
+  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  border-radius: 10px;
   color: #fff;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
 }
 
 .sidebar-title{
-  margin-left: 12px;
+  margin-left: 14px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   white-space: nowrap;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
 }
 
 .sidebar-menu{
   flex: 1;
   border-right: none;
   overflow-y: auto;
+  padding: 10px 0;
 }
 
+/* Custom scrollbar */
+.sidebar-menu::-webkit-scrollbar{
+  width: 4px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb{
+  background: #2d3748;
+  border-radius: 2px;
+}
+
+/* Menu styles */
+.sidebar-menu :deep(.el-menu-item),
+.sidebar-menu :deep(.el-sub-menu__title){
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  height: 48px;
+  line-height: 48px;
+  margin: 4px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu :deep(.el-sub-menu .el-menu-item){
+  font-size: 13px;
+  font-weight: 500;
+  padding-left: 52px !important;
+  margin: 2px 12px;
+  height: 42px;
+  line-height: 42px;
+}
+
+.sidebar-menu :deep(.el-menu-item:hover),
+.sidebar-menu :deep(.el-sub-menu__title:hover){
+  background-color: rgba(0, 212, 255, 0.1) !important;
+  color: #00d4ff !important;
+}
+
+.sidebar-menu :deep(.el-menu-item.is-active){
+  color: #00d4ff !important;
+  background: linear-gradient(90deg, rgba(0, 212, 255, 0.15) 0%, transparent 100%) !important;
+  border-left: 3px solid #00d4ff;
+  font-weight: 700;
+}
+
+.sidebar-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title){
+  color: #00d4ff !important;
+  font-weight: 700;
+}
+
+.sidebar-menu :deep(.el-icon){
+  font-size: 18px;
+}
+
+/* Main content area */
 .layout-main{
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: #0f172a;
 }
 
+/* Header - Dark Tech Style */
 .layout-header{
-  height: 60px;
-  background: #fff;
-  border-bottom: 1px solid #e6e6e6;
+  height: 64px;
+  background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+  border-bottom: 1px solid #2d3748;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .header-left{
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .hamburger{
   cursor: pointer;
-  padding: 8px;
-  border-radius: 4px;
+  padding: 10px;
+  border-radius: 8px;
+  color: #a3aec9;
+  transition: all 0.3s ease;
 }
 
 .hamburger:hover{
-  background: #f5f5f5;
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
+}
+
+.header-breadcrumb :deep(.el-breadcrumb__inner){
+  color: #a3aec9;
+  font-weight: 500;
+}
+
+.header-breadcrumb :deep(.el-breadcrumb__inner:last-child){
+  color: #00d4ff;
+}
+
+.header-breadcrumb :deep(.el-breadcrumb__separator){
+  color: #4a5568;
+}
+
+.header-right{
+  display: flex;
+  align-items: center;
 }
 
 .user-info{
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .user-info:hover{
-  background: #f5f5f5;
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.user-avatar{
+  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  color: #fff;
+  font-weight: 700;
 }
 
 .nick-name{
+  color: #e2e8f0;
+  font-weight: 600;
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.layout-content{
-  flex: 1;
-  padding: 20px;
-  overflow: auto;
-  background: #f5f7fa;
+.user-info .el-icon{
+  color: #a3aec9;
 }
 
+/* Content area */
+.layout-content{
+  flex: 1;
+  padding: 24px;
+  overflow: auto;
+  background: #0f172a;
+}
+
+/* Footer */
 .layout-footer{
-  height: 40px;
-  background: #fff;
-  border-top: 1px solid #e6e6e6;
+  height: 44px;
+  background: #1a202c;
+  border-top: 1px solid #2d3748;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #909399;
+  color: #4a5568;
   font-size: 12px;
+  font-weight: 500;
 }
 
 /* Transition */
@@ -352,5 +457,20 @@ const handleCommand = async (command: string) => {
 .fade-enter-from,
 .fade-leave-to{
   opacity: 0;
+}
+
+/* Dropdown menu dark theme */
+:deep(.el-dropdown-menu){
+  background: #1a202c;
+  border: 1px solid #2d3748;
+}
+
+:deep(.el-dropdown-menu__item){
+  color: #a3aec9;
+}
+
+:deep(.el-dropdown-menu__item:hover){
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
 }
 </style>

@@ -1,23 +1,53 @@
-/* Global CSS Variables */
+/* Global CSS Variables - Dark Tech Theme */
 :root {
-  /* Background colors (can be configured dynamically) */
-  --sw-background-color: #0f172a;
+  /* Primary colors - Cyan/Blue tech style */
+  --primary-color: #00d4ff;
+  --primary-light: #6366f1;
+  --primary-gradient: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
 
-  /* Card shadow */
-  --sw-card-shadow: 0px 0px 20px #25313dd2;
-
-  /* Element Plus theme override */
-  --el-color-primary: #000000;
-  --el-color-primary-light-3: #3d3e3e;
-  --el-color-primary-light-5: #636363;
-  --el-color-primary-light-7: #8d8d8d;
-  --el-color-primary-light-9: #b0b0b0;
+  /* Background colors */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1a202c;
+  --bg-card: #1e293b;
+  --bg-hover: rgba(0, 212, 255, 0.1);
 
   /* Text colors */
-  --el-text-color-primary: #303133;
-  --el-text-color-regular: #606266;
-  --el-text-color-secondary: #909399;
-  --el-text-color-placeholder: #c0c4cc;
+  --text-primary: #f1f5f9;
+  --text-secondary: #a3aec9;
+  --text-muted: #64748b;
+
+  /* Border colors */
+  --border-color: #2d3748;
+  --border-light: #4a5568;
+
+  /* Status colors */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --info-color: #3b82f6;
+
+  /* Shadows */
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --glow-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+
+  /* Element Plus theme override */
+  --el-color-primary: #00d4ff;
+  --el-color-primary-light-3: #33ddff;
+  --el-color-primary-light-5: #66e5ff;
+  --el-color-primary-light-7: #99edff;
+  --el-color-primary-light-9: #ccf5ff;
+
+  --el-bg-color: #1a202c;
+  --el-bg-color-overlay: #1e293b;
+
+  --el-text-color-primary: #f1f5f9;
+  --el-text-color-regular: #cbd5e1;
+  --el-text-color-secondary: #94a3b8;
+  --el-text-color-placeholder: #64748b;
+
+  --el-border-color: #2d3748;
+  --el-border-color-light: #4a5568;
+  --el-border-color-lighter: #334155;
 }
 
 /* Reset styles */
@@ -32,8 +62,29 @@ html, body {
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
-  color: var(--el-text-color-primary);
-  background-color: var(--sw-background-color);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
 }
 
 /* Page container - full width flex column layout */
@@ -43,19 +94,20 @@ html, body {
   flex-direction: column;
 }
 
-/* Page card - rounded background + shadow */
+/* Page card - dark tech style */
 .page-card{
   width: 100%;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: var(--sw-card-shadow);
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
 }
 
 /* Page description */
 .page-describe{
   padding: 20px 20px 0 20px;
   font-size: 14px;
-  color: var(--el-text-color-secondary);
+  color: var(--text-secondary);
 }
 
 /* Page utility buttons */
@@ -69,7 +121,7 @@ html, body {
 /* Page button group */
 .page-button{
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Page table wrapper */
@@ -87,64 +139,196 @@ html, body {
 /* Page title styles */
 .page-title-1{
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .page-title-2{
-  font-size: 23px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 /* Form label styles */
 .form-label :deep(.el-form-item__label){
-  font-weight: bold;
-  color: var(--el-text-color-primary);
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-/* Avatar uploader styles */
-.avatar-uploader :deep(.el-upload){
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  width: 100px;
-  height: 100px;
+/* Card header title */
+.card-header-title{
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.avatar-uploader :deep(.el-upload:hover){
-  border-color: #409eff;
-}
-
-.avatar-uploader .avatar{
-  width: 100px;
-  height: 100px;
-  display: block;
-}
-
-.avatar-uploader-icon{
-  font-size: 28px;
-  color: #8c939d;
-  width: 100px;
-  height: 100px;
-  text-align: center;
-  line-height: 100px;
-}
-
-/* Custom dialog body */
-.dialog-body-custom{
-  padding: 20px;
+.card-header-title::before{
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: var(--primary-gradient);
+  border-radius: 2px;
 }
 
 /* Notification styles */
 .notification-success :deep(.el-notification__title){
-  color: #67c23a;
+  color: var(--success-color);
 }
 
 .notification-error :deep(.el-notification__title){
-  color: #f56c6c;
+  color: var(--danger-color);
 }
 
 .notification-warning :deep(.el-notification__title){
-  color: #e6a23c;
+  color: var(--warning-color);
+}
+
+/* Element Plus dark theme overrides */
+
+/* Button */
+.el-button--primary{
+  background: var(--primary-gradient);
+  border: none;
+  font-weight: 600;
+}
+
+.el-button--primary:hover{
+  opacity: 0.9;
+}
+
+/* Input */
+.el-input__wrapper{
+  background-color: var(--bg-secondary) !important;
+  box-shadow: 0 0 0 1px var(--border-color) inset !important;
+}
+
+.el-input__wrapper:hover{
+  box-shadow: 0 0 0 1px var(--border-light) inset !important;
+}
+
+.el-input__wrapper.is-focus{
+  box-shadow: 0 0 0 1px var(--primary-color) inset !important;
+}
+
+.el-input__inner{
+  color: var(--text-primary) !important;
+}
+
+.el-input__inner::placeholder{
+  color: var(--text-muted) !important;
+}
+
+/* Select */
+.el-select .el-input__wrapper{
+  background-color: var(--bg-secondary) !important;
+}
+
+/* Table dark theme */
+.el-table{
+  --el-table-bg-color: transparent;
+  --el-table-tr-bg-color: transparent;
+  --el-table-header-bg-color: var(--bg-secondary);
+  --el-table-row-hover-bg-color: var(--bg-hover);
+  --el-table-border-color: var(--border-color);
+  --el-table-text-color: var(--text-primary);
+  --el-table-header-text-color: var(--text-secondary);
+}
+
+.el-table th.el-table__cell{
+  background-color: var(--bg-secondary);
+  font-weight: 600;
+}
+
+/* Pagination dark theme */
+.el-pagination{
+  --el-pagination-bg-color: var(--bg-secondary);
+  --el-pagination-text-color: var(--text-secondary);
+  --el-pagination-button-bg-color: var(--bg-secondary);
+  --el-pagination-button-color: var(--text-primary);
+  --el-pagination-hover-color: var(--primary-color);
+}
+
+/* Dialog dark theme */
+.el-dialog{
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.el-dialog__title{
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+
+.el-dialog__body{
+  color: var(--text-secondary);
+}
+
+/* Message Box dark theme */
+.el-message-box{
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color);
+}
+
+.el-message-box__title{
+  color: var(--text-primary);
+}
+
+.el-message-box__content{
+  color: var(--text-secondary);
+}
+
+/* Tag */
+.el-tag{
+  font-weight: 500;
+}
+
+/* Checkbox */
+.el-checkbox__label{
+  color: var(--text-secondary);
+}
+
+/* Dropdown menu */
+.el-dropdown-menu{
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.el-dropdown-menu__item{
+  color: var(--text-secondary);
+}
+
+.el-dropdown-menu__item:hover{
+  background-color: var(--bg-hover) !important;
+  color: var(--primary-color) !important;
+}
+
+/* Form item */
+.el-form-item__label{
+  color: var(--text-secondary) !important;
+}
+
+/* Card */
+.el-card{
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.el-card__header{
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Breadcrumb */
+.el-breadcrumb__inner a,
+.el-breadcrumb__inner.is-link{
+  font-weight: 500;
+}
+
+/* Empty */
+.el-empty__description{
+  color: var(--text-muted);
 }

@@ -1,12 +1,18 @@
 <template>
   <div class="login-container">
+    <!-- Background effects -->
+    <div class="login-bg">
+      <div class="bg-grid"></div>
+      <div class="bg-glow"></div>
+    </div>
+
     <div class="login-card">
       <div class="login-header">
         <div class="login-logo">
-          <el-icon :size="48" color="#667eea"><Lock /></el-icon>
+          <el-icon :size="42"><Lock /></el-icon>
         </div>
         <h1 class="login-title">GAP安全隔离网闸</h1>
-        <p class="login-subtitle">管理系统</p>
+        <p class="login-subtitle">Security Isolation Gateway</p>
       </div>
 
       <div class="login-tabs">
@@ -67,8 +73,8 @@
       </el-form>
 
       <div class="login-footer">
-        <p>提示：首次登录请使用管理员账号</p>
-        <p>默认管理员：admin / admin123</p>
+        <p>首次登录请使用管理员账号</p>
+        <p class="account-hint">admin / admin123</p>
       </div>
     </div>
   </div>
@@ -153,90 +159,174 @@ const handleLogin = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+  background: #0f172a;
 }
 
+/* Background effects */
+.login-bg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg-grid{
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.bg-glow{
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Login card */
 .login-card{
   width: 420px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 40px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: rgba(30, 41, 59, 0.95);
+  border-radius: 16px;
+  padding: 48px 40px;
+  border: 1px solid #2d3748;
+  box-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(10px);
 }
 
 .login-header{
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .login-logo{
   width: 80px;
   height: 80px;
-  margin: 0 auto 16px;
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
+  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  border-radius: 20px;
   color: #fff;
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
 }
 
 .login-title{
-  font-size: 24px;
-  font-weight: bold;
-  color: #303133;
+  font-size: 26px;
+  font-weight: 700;
+  color: #f1f5f9;
   margin-bottom: 8px;
+  letter-spacing: 1px;
 }
 
 .login-subtitle{
   font-size: 14px;
-  color: #909399;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 2px;
 }
 
+/* Login tabs */
 .login-tabs{
   display: flex;
-  margin-bottom: 24px;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
+  margin-bottom: 28px;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
   overflow: hidden;
+  background: rgba(15, 23, 42, 0.5);
 }
 
 .login-tab{
   flex: 1;
-  padding: 12px;
+  padding: 14px;
   text-align: center;
   cursor: pointer;
   font-size: 14px;
-  color: #606266;
+  font-weight: 500;
+  color: #94a3b8;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  transition: all 0.3s;
+  gap: 8px;
+  transition: all 0.3s ease;
+  border-right: 1px solid #2d3748;
+}
+
+.login-tab:last-child{
+  border-right: none;
 }
 
 .login-tab:hover{
-  background: #f5f7fa;
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.05);
 }
 
 .login-tab.active{
-  background: var(--el-color-primary);
-  color: #fff;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%);
+  color: #00d4ff;
+  font-weight: 600;
 }
 
+/* Form */
 .login-form{
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
 .login-button{
   width: 100%;
+  height: 46px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
+.login-button:hover{
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Checkbox */
+:deep(.el-checkbox__label){
+  color: #94a3b8;
+}
+
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner){
+  background-color: #00d4ff;
+  border-color: #00d4ff;
+}
+
+/* Footer */
 .login-footer{
-  margin-top: 30px;
+  margin-top: 32px;
   text-align: center;
-  color: #909399;
-  font-size: 12px;
-  line-height: 1.8;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.account-hint{
+  color: #00d4ff;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 </style>
