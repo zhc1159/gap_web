@@ -1,0 +1,150 @@
+/* Global CSS Variables */
+:root {
+  /* Background colors (can be configured dynamically) */
+  --sw-background-color: #0f172a;
+
+  /* Card shadow */
+  --sw-card-shadow: 0px 0px 20px #25313dd2;
+
+  /* Element Plus theme override */
+  --el-color-primary: #000000;
+  --el-color-primary-light-3: #3d3e3e;
+  --el-color-primary-light-5: #636363;
+  --el-color-primary-light-7: #8d8d8d;
+  --el-color-primary-light-9: #b0b0b0;
+
+  /* Text colors */
+  --el-text-color-primary: #303133;
+  --el-text-color-regular: #606266;
+  --el-text-color-secondary: #909399;
+  --el-text-color-placeholder: #c0c4cc;
+}
+
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  color: var(--el-text-color-primary);
+  background-color: var(--sw-background-color);
+}
+
+/* Page container - full width flex column layout */
+.page-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page card - rounded background + shadow */
+.page-card{
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: var(--sw-card-shadow);
+}
+
+/* Page description */
+.page-describe{
+  padding: 20px 20px 0 20px;
+  font-size: 14px;
+  color: var(--el-text-color-secondary);
+}
+
+/* Page utility buttons */
+.page-util{
+  padding: 20px 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Page button group */
+.page-button{
+  display: flex;
+  gap: 10px;
+}
+
+/* Page table wrapper */
+.page-table{
+  padding: 20px;
+}
+
+/* Page pagination wrapper */
+.page-pagination{
+  padding: 0 20px 20px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Page title styles */
+.page-title-1{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.page-title-2{
+  font-size: 23px;
+  font-weight: bold;
+}
+
+/* Form label styles */
+.form-label :deep(.el-form-item__label){
+  font-weight: bold;
+  color: var(--el-text-color-primary);
+}
+
+/* Avatar uploader styles */
+.avatar-uploader :deep(.el-upload){
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+}
+
+.avatar-uploader :deep(.el-upload:hover){
+  border-color: #409eff;
+}
+
+.avatar-uploader .avatar{
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+
+.avatar-uploader-icon{
+  font-size: 28px;
+  color: #8c939d;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+}
+
+/* Custom dialog body */
+.dialog-body-custom{
+  padding: 20px;
+}
+
+/* Notification styles */
+.notification-success :deep(.el-notification__title){
+  color: #67c23a;
+}
+
+.notification-error :deep(.el-notification__title){
+  color: #f56c6c;
+}
+
+.notification-warning :deep(.el-notification__title){
+  color: #e6a23c;
+}
