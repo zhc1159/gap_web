@@ -434,9 +434,19 @@ const handleCommand = async (command: string) => {
 /* Content area */
 .layout-content{
   flex: 1;
-  padding: 24px;
+  padding: var(--spacing-xl, 24px);
+  padding-bottom: var(--spacing-2xl, 32px);
   overflow: auto;
   background: transparent;
+}
+
+/* Ensure child pages have proper spacing */
+.layout-content > * {
+  margin-bottom: var(--spacing-xl, 24px);
+}
+
+.layout-content > *:last-child {
+  margin-bottom: 0;
 }
 
 /* Footer */
