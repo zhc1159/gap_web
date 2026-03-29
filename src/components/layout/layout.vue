@@ -323,13 +323,13 @@ const handleCommand = async (command: string) => {
 
 .sidebar-menu :deep(.el-menu-item.is-active){
   color: #7c3aed !important;
-  background: linear-gradient(90deg, rgba(124, 58, 237, 0.1) 0%, transparent 100%) !important;
-  border-left: 3px solid #7c3aed;
+  background: rgba(124, 58, 237, 0.08) !important;
   font-weight: 700;
 }
 
 .sidebar-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title){
   color: #7c3aed !important;
+  background: rgba(124, 58, 237, 0.08) !important;
   font-weight: 700;
 }
 
