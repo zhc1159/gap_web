@@ -161,10 +161,10 @@ const handleLogin = async () => {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #0d0221 0%, #1a0a2e 50%, #150734 100%);
+  background: linear-gradient(135deg, #f0f4ff 0%, #fdf4ff 50%, #f0ffff 100%);
 }
 
-/* Neon city background effects */
+/* Bright background effects */
 .login-bg{
   position: absolute;
   inset: 0;
@@ -175,65 +175,39 @@ const handleLogin = async () => {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 45, 146, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
-  animation: gridMove 20s linear infinite;
-}
-
-@keyframes gridMove{
-  0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-  100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
 }
 
 .bg-glow{
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 80%, rgba(255, 45, 146, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(0, 240, 255, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(185, 103, 255, 0.1) 0%, transparent 60%);
-  animation: neonPulse 4s ease-in-out infinite;
+    radial-gradient(ellipse at 20% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+  animation: softPulse 6s ease-in-out infinite;
 }
 
-@keyframes neonPulse{
-  0%, 100% { opacity: 0.6; }
+@keyframes softPulse{
+  0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }
 }
 
-/* Login card - Neon style */
+/* Login card - Bright style */
 .login-card{
   width: 420px;
-  background: linear-gradient(145deg, rgba(26, 10, 46, 0.95) 0%, rgba(13, 2, 33, 0.98) 100%);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 24px;
   padding: 48px 40px;
-  border: 1px solid rgba(255, 45, 146, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow:
-    0 0 40px rgba(255, 45, 146, 0.2),
-    0 0 80px rgba(0, 240, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 8px 40px rgba(124, 58, 237, 0.12),
+    0 0 0 1px rgba(124, 58, 237, 0.05);
   position: relative;
   z-index: 1;
   backdrop-filter: blur(20px);
-}
-
-.login-card::before{
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(135deg, #ff2d92, #00f0ff, #b967ff, #ff2d92);
-  border-radius: 22px;
-  z-index: -1;
-  opacity: 0.5;
-  animation: borderGlow 3s ease-in-out infinite;
-}
-
-@keyframes borderGlow{
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
 }
 
 .login-header{
@@ -248,49 +222,36 @@ const handleLogin = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 50%, #00f0ff 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #06b6d4 100%);
   border-radius: 20px;
   color: #fff;
-  box-shadow:
-    0 0 30px rgba(255, 45, 146, 0.5),
-    0 0 60px rgba(0, 240, 255, 0.3);
-  animation: logoGlow 2s ease-in-out infinite;
-}
-
-@keyframes logoGlow{
-  0%, 100% {
-    box-shadow: 0 0 30px rgba(255, 45, 146, 0.5), 0 0 60px rgba(0, 240, 255, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(255, 45, 146, 0.7), 0 0 80px rgba(0, 240, 255, 0.5);
-  }
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
 }
 
 .login-title{
   font-size: 26px;
   font-weight: 700;
-  color: #f0e6ff;
+  color: #1e293b;
   margin-bottom: 8px;
   letter-spacing: 2px;
-  text-shadow: 0 0 20px rgba(255, 45, 146, 0.5);
 }
 
 .login-subtitle{
   font-size: 14px;
-  color: #b967ff;
+  color: #8b5cf6;
   font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
 }
 
-/* Login tabs - Neon style */
+/* Login tabs - Bright style */
 .login-tabs{
   display: flex;
   margin-bottom: 28px;
-  border: 1px solid rgba(185, 103, 255, 0.3);
-  border-radius: 12px;
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  border-radius: 14px;
   overflow: hidden;
-  background: rgba(21, 7, 52, 0.6);
+  background: rgba(248, 250, 252, 0.8);
 }
 
 .login-tab{
@@ -300,13 +261,13 @@ const handleLogin = async () => {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #b8a9c9;
+  color: #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   transition: all 0.3s ease;
-  border-right: 1px solid rgba(185, 103, 255, 0.2);
+  border-right: 1px solid rgba(124, 58, 237, 0.1);
 }
 
 .login-tab:last-child{
@@ -314,15 +275,14 @@ const handleLogin = async () => {
 }
 
 .login-tab:hover{
-  color: #00f0ff;
-  background: rgba(0, 240, 255, 0.1);
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.06);
 }
 
 .login-tab.active{
-  background: linear-gradient(135deg, rgba(255, 45, 146, 0.2) 0%, rgba(185, 103, 255, 0.2) 100%);
-  color: #ff2d92;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(236, 72, 153, 0.08) 100%);
+  color: #7c3aed;
   font-weight: 600;
-  text-shadow: 0 0 10px rgba(255, 45, 146, 0.5);
 }
 
 /* Form */
@@ -336,50 +296,40 @@ const handleLogin = async () => {
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 4px;
-  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 50%, #00f0ff 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
   border: none;
   border-radius: 12px;
   transition: all 0.3s ease;
-  animation: gradientMove 3s ease infinite;
-}
-
-@keyframes gradientMove{
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .login-button:hover{
-  box-shadow: 0 0 30px rgba(255, 45, 146, 0.6), 0 0 60px rgba(0, 240, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
   transform: translateY(-2px);
 }
 
 /* Checkbox */
 :deep(.el-checkbox__label){
-  color: #b8a9c9;
+  color: #64748b;
 }
 
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner){
-  background-color: #ff2d92;
-  border-color: #ff2d92;
-  box-shadow: 0 0 10px rgba(255, 45, 146, 0.5);
+  background-color: #7c3aed;
+  border-color: #7c3aed;
 }
 
 /* Footer */
 .login-footer{
   margin-top: 32px;
   text-align: center;
-  color: #6b5b7a;
+  color: #94a3b8;
   font-size: 13px;
   line-height: 2;
 }
 
 .account-hint{
-  color: #00f0ff;
+  color: #7c3aed;
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 </style>
