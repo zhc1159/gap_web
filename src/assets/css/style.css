@@ -1,53 +1,59 @@
-/* Global CSS Variables - Dark Tech Theme */
+/* Global CSS Variables - Neon City Theme */
 :root {
-  /* Primary colors - Cyan/Blue tech style */
-  --primary-color: #00d4ff;
-  --primary-light: #6366f1;
-  --primary-gradient: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  /* Primary colors - Neon pink/cyan cyberpunk style */
+  --primary-color: #ff2d92;
+  --primary-light: #b967ff;
+  --primary-gradient: linear-gradient(135deg, #ff2d92 0%, #00f0ff 50%, #b967ff 100%);
+  --neon-pink: #ff2d92;
+  --neon-cyan: #00f0ff;
+  --neon-purple: #b967ff;
+  --neon-yellow: #f9f002;
 
   /* Background colors */
-  --bg-primary: #0f172a;
-  --bg-secondary: #1a202c;
-  --bg-card: #1e293b;
-  --bg-hover: rgba(0, 212, 255, 0.1);
+  --bg-primary: #0d0221;
+  --bg-secondary: #150734;
+  --bg-card: #1a0a2e;
+  --bg-hover: rgba(255, 45, 146, 0.15);
 
   /* Text colors */
-  --text-primary: #f1f5f9;
-  --text-secondary: #a3aec9;
-  --text-muted: #64748b;
+  --text-primary: #f0e6ff;
+  --text-secondary: #b8a9c9;
+  --text-muted: #6b5b7a;
 
   /* Border colors */
-  --border-color: #2d3748;
-  --border-light: #4a5568;
+  --border-color: #2d1f3d;
+  --border-light: #4a3660;
 
   /* Status colors */
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
-  --danger-color: #ef4444;
-  --info-color: #3b82f6;
+  --success-color: #00ff88;
+  --warning-color: #f9f002;
+  --danger-color: #ff2d55;
+  --info-color: #00f0ff;
 
   /* Shadows */
-  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --glow-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --glow-pink: 0 0 20px rgba(255, 45, 146, 0.5);
+  --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.5);
+  --glow-purple: 0 0 20px rgba(185, 103, 255, 0.5);
 
   /* Element Plus theme override */
-  --el-color-primary: #00d4ff;
-  --el-color-primary-light-3: #33ddff;
-  --el-color-primary-light-5: #66e5ff;
-  --el-color-primary-light-7: #99edff;
-  --el-color-primary-light-9: #ccf5ff;
+  --el-color-primary: #ff2d92;
+  --el-color-primary-light-3: #ff57a8;
+  --el-color-primary-light-5: #ff80be;
+  --el-color-primary-light-7: #ffaad4;
+  --el-color-primary-light-9: #ffd4ea;
 
-  --el-bg-color: #1a202c;
-  --el-bg-color-overlay: #1e293b;
+  --el-bg-color: #150734;
+  --el-bg-color-overlay: #1a0a2e;
 
-  --el-text-color-primary: #f1f5f9;
-  --el-text-color-regular: #cbd5e1;
-  --el-text-color-secondary: #94a3b8;
-  --el-text-color-placeholder: #64748b;
+  --el-text-color-primary: #f0e6ff;
+  --el-text-color-regular: #d4c4e4;
+  --el-text-color-secondary: #b8a9c9;
+  --el-text-color-placeholder: #6b5b7a;
 
-  --el-border-color: #2d3748;
-  --el-border-color-light: #4a5568;
-  --el-border-color-lighter: #334155;
+  --el-border-color: #2d1f3d;
+  --el-border-color-light: #4a3660;
+  --el-border-color-lighter: #3d2850;
 }
 
 /* Reset styles */
@@ -94,13 +100,13 @@ html, body {
   flex-direction: column;
 }
 
-/* Page card - dark tech style */
+/* Page card - neon city style */
 .page-card{
   width: 100%;
-  background: var(--bg-card);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--card-shadow);
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.9) 0%, rgba(13, 2, 33, 0.95) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(185, 103, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 45, 146, 0.1);
 }
 
 /* Page description */
@@ -155,62 +161,75 @@ html, body {
   color: var(--text-primary);
 }
 
-/* Card header title */
+/* Card header title - neon style */
 .card-header-title{
   font-size: 15px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #f0e6ff;
   display: flex;
   align-items: center;
   gap: 8px;
+  text-shadow: 0 0 10px rgba(255, 45, 146, 0.3);
 }
 
 .card-header-title::before{
   content: '';
   width: 3px;
   height: 16px;
-  background: var(--primary-gradient);
+  background: linear-gradient(180deg, #ff2d92 0%, #00f0ff 100%);
   border-radius: 2px;
+  box-shadow: 0 0 10px rgba(255, 45, 146, 0.5);
 }
 
-/* Notification styles */
+/* Notification styles - neon theme */
 .notification-success :deep(.el-notification__title){
-  color: var(--success-color);
+  color: #00ff88;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
 }
 
 .notification-error :deep(.el-notification__title){
-  color: var(--danger-color);
+  color: #ff2d55;
+  text-shadow: 0 0 10px rgba(255, 45, 85, 0.5);
 }
 
 .notification-warning :deep(.el-notification__title){
-  color: var(--warning-color);
+  color: #f9f002;
+  text-shadow: 0 0 10px rgba(249, 240, 2, 0.5);
+}
+
+.el-notification{
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.95) 0%, rgba(13, 2, 33, 0.98) 100%);
+  border: 1px solid rgba(185, 103, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(185, 103, 255, 0.2);
 }
 
 /* Element Plus dark theme overrides */
 
 /* Button */
 .el-button--primary{
-  background: var(--primary-gradient);
+  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 100%);
   border: none;
   font-weight: 600;
+  box-shadow: 0 0 20px rgba(255, 45, 146, 0.4);
 }
 
 .el-button--primary:hover{
-  opacity: 0.9;
+  box-shadow: 0 0 30px rgba(255, 45, 146, 0.6);
+  transform: translateY(-1px);
 }
 
 /* Input */
 .el-input__wrapper{
-  background-color: var(--bg-secondary) !important;
+  background-color: rgba(21, 7, 52, 0.8) !important;
   box-shadow: 0 0 0 1px var(--border-color) inset !important;
 }
 
 .el-input__wrapper:hover{
-  box-shadow: 0 0 0 1px var(--border-light) inset !important;
+  box-shadow: 0 0 0 1px var(--neon-purple) inset !important;
 }
 
 .el-input__wrapper.is-focus{
-  box-shadow: 0 0 0 1px var(--primary-color) inset !important;
+  box-shadow: 0 0 0 2px var(--neon-cyan) inset, 0 0 15px rgba(0, 240, 255, 0.3) !important;
 }
 
 .el-input__inner{
@@ -221,25 +240,46 @@ html, body {
   color: var(--text-muted) !important;
 }
 
-/* Select */
+/* Select - neon theme */
 .el-select .el-input__wrapper{
-  background-color: var(--bg-secondary) !important;
+  background-color: rgba(21, 7, 52, 0.8) !important;
 }
 
-/* Table dark theme */
+.el-select-dropdown{
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.98) 0%, rgba(13, 2, 33, 0.99) 100%) !important;
+  border: 1px solid rgba(255, 45, 146, 0.3) !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(185, 103, 255, 0.2) !important;
+}
+
+.el-select-dropdown__item{
+  color: #b8a9c9;
+}
+
+.el-select-dropdown__item:hover{
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.15) 0%, transparent 100%) !important;
+  color: #00f0ff !important;
+}
+
+.el-select-dropdown__item.is-selected{
+  color: #ff2d92 !important;
+  background: linear-gradient(90deg, rgba(255, 45, 146, 0.2) 0%, transparent 100%) !important;
+}
+
+/* Table neon theme */
 .el-table{
   --el-table-bg-color: transparent;
   --el-table-tr-bg-color: transparent;
-  --el-table-header-bg-color: var(--bg-secondary);
-  --el-table-row-hover-bg-color: var(--bg-hover);
-  --el-table-border-color: var(--border-color);
+  --el-table-header-bg-color: rgba(21, 7, 52, 0.8);
+  --el-table-row-hover-bg-color: rgba(255, 45, 146, 0.1);
+  --el-table-border-color: rgba(185, 103, 255, 0.2);
   --el-table-text-color: var(--text-primary);
-  --el-table-header-text-color: var(--text-secondary);
+  --el-table-header-text-color: var(--neon-cyan);
 }
 
 .el-table th.el-table__cell{
-  background-color: var(--bg-secondary);
+  background-color: rgba(21, 7, 52, 0.8);
   font-weight: 600;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 
 /* Pagination dark theme */
@@ -251,34 +291,37 @@ html, body {
   --el-pagination-hover-color: var(--primary-color);
 }
 
-/* Dialog dark theme */
+/* Dialog neon theme */
 .el-dialog{
-  background-color: var(--bg-card) !important;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.98) 0%, rgba(13, 2, 33, 0.99) 100%) !important;
+  border: 1px solid rgba(255, 45, 146, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(255, 45, 146, 0.2), 0 0 80px rgba(0, 240, 255, 0.1);
 }
 
 .el-dialog__title{
-  color: var(--text-primary) !important;
+  color: #f0e6ff !important;
   font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 45, 146, 0.3);
 }
 
 .el-dialog__body{
-  color: var(--text-secondary);
+  color: #b8a9c9;
 }
 
-/* Message Box dark theme */
+/* Message Box neon theme */
 .el-message-box{
-  background-color: var(--bg-card) !important;
-  border: 1px solid var(--border-color);
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.98) 0%, rgba(13, 2, 33, 0.99) 100%) !important;
+  border: 1px solid rgba(185, 103, 255, 0.3);
+  box-shadow: 0 0 40px rgba(185, 103, 255, 0.2);
 }
 
 .el-message-box__title{
-  color: var(--text-primary);
+  color: #f0e6ff;
 }
 
 .el-message-box__content{
-  color: var(--text-secondary);
+  color: #b8a9c9;
 }
 
 /* Tag */
@@ -291,44 +334,86 @@ html, body {
   color: var(--text-secondary);
 }
 
-/* Dropdown menu */
+/* Dropdown menu - neon theme */
 .el-dropdown-menu{
-  background-color: var(--bg-card) !important;
-  border: 1px solid var(--border-color) !important;
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.98) 0%, rgba(13, 2, 33, 0.99) 100%) !important;
+  border: 1px solid rgba(255, 45, 146, 0.3) !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 45, 146, 0.2) !important;
 }
 
 .el-dropdown-menu__item{
-  color: var(--text-secondary);
+  color: #b8a9c9;
 }
 
 .el-dropdown-menu__item:hover{
-  background-color: var(--bg-hover) !important;
-  color: var(--primary-color) !important;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.15) 0%, transparent 100%) !important;
+  color: #00f0ff !important;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
-/* Form item */
+/* Form item - neon theme */
 .el-form-item__label{
-  color: var(--text-secondary) !important;
+  color: #b8a9c9 !important;
 }
 
-/* Card */
+/* Pagination - neon theme */
+.el-pagination.is-background .el-pager li:not(.is-disabled).is-active{
+  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 100%) !important;
+  box-shadow: 0 0 15px rgba(255, 45, 146, 0.4);
+}
+
+.el-pagination.is-background .el-pager li:not(.is-disabled):hover{
+  color: #00f0ff !important;
+}
+
+/* Card neon theme */
 .el-card{
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.9) 0%, rgba(13, 2, 33, 0.95) 100%);
+  border: 1px solid rgba(185, 103, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 .el-card__header{
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(185, 103, 255, 0.2);
 }
 
-/* Breadcrumb */
+/* Breadcrumb - neon theme */
 .el-breadcrumb__inner a,
 .el-breadcrumb__inner.is-link{
   font-weight: 500;
 }
 
+.el-breadcrumb__separator{
+  color: #6b5b7a;
+}
+
 /* Empty */
 .el-empty__description{
-  color: var(--text-muted);
+  color: #6b5b7a;
+}
+
+/* Neon text glow effects */
+.neon-text-pink{
+  color: #ff2d92;
+  text-shadow: 0 0 10px rgba(255, 45, 146, 0.5), 0 0 20px rgba(255, 45, 146, 0.3);
+}
+
+.neon-text-cyan{
+  color: #00f0ff;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.neon-text-purple{
+  color: #b967ff;
+  text-shadow: 0 0 10px rgba(185, 103, 255, 0.5), 0 0 20px rgba(185, 103, 255, 0.3);
+}
+
+/* Neon box glow */
+.neon-box-pink{
+  box-shadow: 0 0 15px rgba(255, 45, 146, 0.4), 0 0 30px rgba(255, 45, 146, 0.2);
+}
+
+.neon-box-cyan{
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), 0 0 30px rgba(0, 240, 255, 0.2);
 }

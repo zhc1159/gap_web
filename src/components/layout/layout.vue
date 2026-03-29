@@ -227,18 +227,18 @@ const handleCommand = async (command: string) => {
 .layout-container {
   display: flex;
   min-height: 100vh;
-  background: #0f172a;
+  background: linear-gradient(135deg, #0d0221 0%, #150734 100%);
 }
 
-/* Sidebar - Dark Tech Style */
+/* Sidebar - Neon City Style */
 .layout-sidebar{
   width: 220px;
-  background: linear-gradient(180deg, #1a202c 0%, #0f172a 100%);
-  border-right: 1px solid #2d3748;
+  background: linear-gradient(180deg, rgba(26, 10, 46, 0.95) 0%, rgba(13, 2, 33, 0.98) 100%);
+  border-right: 1px solid rgba(255, 45, 146, 0.2);
   transition: width 0.3s;
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 0 30px rgba(255, 45, 146, 0.1);
 }
 
 .layout-sidebar.is-collapse{
@@ -250,8 +250,8 @@ const handleCommand = async (command: string) => {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid #2d3748;
-  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(185, 103, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-logo{
@@ -260,10 +260,10 @@ const handleCommand = async (command: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 50%, #00f0ff 100%);
   border-radius: 10px;
   color: #fff;
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+  box-shadow: 0 0 20px rgba(255, 45, 146, 0.5), 0 0 40px rgba(0, 240, 255, 0.3);
 }
 
 .sidebar-title{
@@ -271,8 +271,8 @@ const handleCommand = async (command: string) => {
   font-size: 16px;
   font-weight: 700;
   white-space: nowrap;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  color: #f0e6ff;
+  text-shadow: 0 0 15px rgba(255, 45, 146, 0.5);
 }
 
 .sidebar-menu{
@@ -288,11 +288,11 @@ const handleCommand = async (command: string) => {
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb{
-  background: #2d3748;
+  background: rgba(185, 103, 255, 0.3);
   border-radius: 2px;
 }
 
-/* Menu styles */
+/* Menu styles - Neon */
 .sidebar-menu :deep(.el-menu-item),
 .sidebar-menu :deep(.el-sub-menu__title){
   font-size: 14px;
@@ -301,7 +301,7 @@ const handleCommand = async (command: string) => {
   height: 48px;
   line-height: 48px;
   margin: 4px 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: all 0.3s ease;
 }
 
@@ -316,20 +316,24 @@ const handleCommand = async (command: string) => {
 
 .sidebar-menu :deep(.el-menu-item:hover),
 .sidebar-menu :deep(.el-sub-menu__title:hover){
-  background-color: rgba(0, 212, 255, 0.1) !important;
-  color: #00d4ff !important;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.15) 0%, transparent 100%) !important;
+  color: #00f0ff !important;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .sidebar-menu :deep(.el-menu-item.is-active){
-  color: #00d4ff !important;
-  background: linear-gradient(90deg, rgba(0, 212, 255, 0.15) 0%, transparent 100%) !important;
-  border-left: 3px solid #00d4ff;
+  color: #ff2d92 !important;
+  background: linear-gradient(90deg, rgba(255, 45, 146, 0.2) 0%, transparent 100%) !important;
+  border-left: 3px solid #ff2d92;
   font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 45, 146, 0.5);
+  box-shadow: inset 0 0 20px rgba(255, 45, 146, 0.1);
 }
 
 .sidebar-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title){
-  color: #00d4ff !important;
+  color: #ff2d92 !important;
   font-weight: 700;
+  text-shadow: 0 0 10px rgba(255, 45, 146, 0.5);
 }
 
 .sidebar-menu :deep(.el-icon){
@@ -342,19 +346,19 @@ const handleCommand = async (command: string) => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #0f172a;
+  background: linear-gradient(135deg, #0d0221 0%, #150734 100%);
 }
 
-/* Header - Dark Tech Style */
+/* Header - Neon City Style */
 .layout-header{
   height: 64px;
-  background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
-  border-bottom: 1px solid #2d3748;
+  background: linear-gradient(90deg, rgba(26, 10, 46, 0.9) 0%, rgba(13, 2, 33, 0.95) 100%);
+  border-bottom: 1px solid rgba(185, 103, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
 .header-left{
@@ -366,27 +370,29 @@ const handleCommand = async (command: string) => {
 .hamburger{
   cursor: pointer;
   padding: 10px;
-  border-radius: 8px;
-  color: #a3aec9;
+  border-radius: 10px;
+  color: #b8a9c9;
   transition: all 0.3s ease;
 }
 
 .hamburger:hover{
-  background: rgba(0, 212, 255, 0.1);
-  color: #00d4ff;
+  background: rgba(0, 240, 255, 0.15);
+  color: #00f0ff;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__inner){
-  color: #a3aec9;
+  color: #b8a9c9;
   font-weight: 500;
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__inner:last-child){
-  color: #00d4ff;
+  color: #00f0ff;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__separator){
-  color: #4a5568;
+  color: #6b5b7a;
 }
 
 .header-right{
@@ -400,22 +406,26 @@ const handleCommand = async (command: string) => {
   gap: 10px;
   cursor: pointer;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: all 0.3s ease;
+  border: 1px solid transparent;
 }
 
 .user-info:hover{
-  background: rgba(0, 212, 255, 0.1);
+  background: rgba(255, 45, 146, 0.1);
+  border-color: rgba(255, 45, 146, 0.3);
+  box-shadow: 0 0 15px rgba(255, 45, 146, 0.2);
 }
 
 .user-avatar{
-  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 100%);
   color: #fff;
   font-weight: 700;
+  box-shadow: 0 0 15px rgba(255, 45, 146, 0.4);
 }
 
 .nick-name{
-  color: #e2e8f0;
+  color: #f0e6ff;
   font-weight: 600;
   max-width: 100px;
   overflow: hidden;
@@ -424,7 +434,7 @@ const handleCommand = async (command: string) => {
 }
 
 .user-info .el-icon{
-  color: #a3aec9;
+  color: #b967ff;
 }
 
 /* Content area */
@@ -432,18 +442,18 @@ const handleCommand = async (command: string) => {
   flex: 1;
   padding: 24px;
   overflow: auto;
-  background: #0f172a;
+  background: linear-gradient(135deg, #0d0221 0%, #150734 100%);
 }
 
 /* Footer */
 .layout-footer{
   height: 44px;
-  background: #1a202c;
-  border-top: 1px solid #2d3748;
+  background: rgba(21, 7, 52, 0.8);
+  border-top: 1px solid rgba(185, 103, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4a5568;
+  color: #6b5b7a;
   font-size: 12px;
   font-weight: 500;
 }
@@ -459,18 +469,20 @@ const handleCommand = async (command: string) => {
   opacity: 0;
 }
 
-/* Dropdown menu dark theme */
+/* Dropdown menu neon theme */
 :deep(.el-dropdown-menu){
-  background: #1a202c;
-  border: 1px solid #2d3748;
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.98) 0%, rgba(13, 2, 33, 0.99) 100%);
+  border: 1px solid rgba(255, 45, 146, 0.3);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 45, 146, 0.2);
 }
 
 :deep(.el-dropdown-menu__item){
-  color: #a3aec9;
+  color: #b8a9c9;
 }
 
 :deep(.el-dropdown-menu__item:hover){
-  background: rgba(0, 212, 255, 0.1);
-  color: #00d4ff;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.15) 0%, transparent 100%);
+  color: #00f0ff;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 </style>

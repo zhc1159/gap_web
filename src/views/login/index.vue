@@ -161,10 +161,10 @@ const handleLogin = async () => {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: #0f172a;
+  background: linear-gradient(135deg, #0d0221 0%, #1a0a2e 50%, #150734 100%);
 }
 
-/* Background effects */
+/* Neon city background effects */
 .login-bg{
   position: absolute;
   inset: 0;
@@ -175,37 +175,65 @@ const handleLogin = async () => {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
+    linear-gradient(rgba(255, 45, 146, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove{
+  0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+  100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
 }
 
 .bg-glow{
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
-  animation: pulse 8s ease-in-out infinite;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(255, 45, 146, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 240, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(185, 103, 255, 0.1) 0%, transparent 60%);
+  animation: neonPulse 4s ease-in-out infinite;
 }
 
-@keyframes pulse{
-  0%, 100% { opacity: 0.5; }
+@keyframes neonPulse{
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
-/* Login card */
+/* Login card - Neon style */
 .login-card{
   width: 420px;
-  background: rgba(30, 41, 59, 0.95);
-  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(26, 10, 46, 0.95) 0%, rgba(13, 2, 33, 0.98) 100%);
+  border-radius: 20px;
   padding: 48px 40px;
-  border: 1px solid #2d3748;
-  box-shadow: 0 0 40px rgba(0, 212, 255, 0.15);
+  border: 1px solid rgba(255, 45, 146, 0.3);
+  box-shadow:
+    0 0 40px rgba(255, 45, 146, 0.2),
+    0 0 80px rgba(0, 240, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   position: relative;
   z-index: 1;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+}
+
+.login-card::before{
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #ff2d92, #00f0ff, #b967ff, #ff2d92);
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0.5;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow{
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }
 
 .login-header{
@@ -220,35 +248,49 @@ const handleLogin = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 50%, #00f0ff 100%);
   border-radius: 20px;
   color: #fff;
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+  box-shadow:
+    0 0 30px rgba(255, 45, 146, 0.5),
+    0 0 60px rgba(0, 240, 255, 0.3);
+  animation: logoGlow 2s ease-in-out infinite;
+}
+
+@keyframes logoGlow{
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(255, 45, 146, 0.5), 0 0 60px rgba(0, 240, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 45, 146, 0.7), 0 0 80px rgba(0, 240, 255, 0.5);
+  }
 }
 
 .login-title{
   font-size: 26px;
   font-weight: 700;
-  color: #f1f5f9;
+  color: #f0e6ff;
   margin-bottom: 8px;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(255, 45, 146, 0.5);
 }
 
 .login-subtitle{
   font-size: 14px;
-  color: #64748b;
+  color: #b967ff;
   font-weight: 500;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
 
-/* Login tabs */
+/* Login tabs - Neon style */
 .login-tabs{
   display: flex;
   margin-bottom: 28px;
-  border: 1px solid #2d3748;
-  border-radius: 8px;
+  border: 1px solid rgba(185, 103, 255, 0.3);
+  border-radius: 12px;
   overflow: hidden;
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(21, 7, 52, 0.6);
 }
 
 .login-tab{
@@ -258,13 +300,13 @@ const handleLogin = async () => {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #94a3b8;
+  color: #b8a9c9;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   transition: all 0.3s ease;
-  border-right: 1px solid #2d3748;
+  border-right: 1px solid rgba(185, 103, 255, 0.2);
 }
 
 .login-tab:last-child{
@@ -272,14 +314,15 @@ const handleLogin = async () => {
 }
 
 .login-tab:hover{
-  color: #00d4ff;
-  background: rgba(0, 212, 255, 0.05);
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.1);
 }
 
 .login-tab.active{
-  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%);
-  color: #00d4ff;
+  background: linear-gradient(135deg, rgba(255, 45, 146, 0.2) 0%, rgba(185, 103, 255, 0.2) 100%);
+  color: #ff2d92;
   font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 45, 146, 0.5);
 }
 
 /* Form */
@@ -293,40 +336,50 @@ const handleLogin = async () => {
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 4px;
-  background: linear-gradient(135deg, #00d4ff 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #ff2d92 0%, #b967ff 50%, #00f0ff 100%);
+  background-size: 200% 200%;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: all 0.3s ease;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes gradientMove{
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .login-button:hover{
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(255, 45, 146, 0.6), 0 0 60px rgba(0, 240, 255, 0.4);
+  transform: translateY(-2px);
 }
 
 /* Checkbox */
 :deep(.el-checkbox__label){
-  color: #94a3b8;
+  color: #b8a9c9;
 }
 
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner){
-  background-color: #00d4ff;
-  border-color: #00d4ff;
+  background-color: #ff2d92;
+  border-color: #ff2d92;
+  box-shadow: 0 0 10px rgba(255, 45, 146, 0.5);
 }
 
 /* Footer */
 .login-footer{
   margin-top: 32px;
   text-align: center;
-  color: #64748b;
+  color: #6b5b7a;
   font-size: 13px;
   line-height: 2;
 }
 
 .account-hint{
-  color: #00d4ff;
+  color: #00f0ff;
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 </style>
