@@ -245,23 +245,26 @@ html, body {
   border-radius: 2px;
 }
 
-/* Notification styles - bright theme */
-.notification-success :deep(.el-notification__title){
-  color: #10b981;
+/* Notification styles - with colored glow effects */
+.notification-success {
+  background-color: #ecf6e6;
+  box-shadow: 0px 0px 12px #4fea02;
 }
 
-.notification-error :deep(.el-notification__title){
-  color: #ef4444;
+.notification-error {
+  background-color: #fcecec;
+  box-shadow: 0px 0px 12px #ff0000;
 }
 
-.notification-warning :deep(.el-notification__title){
-  color: #f59e0b;
+.notification-warning {
+  background-color: #f7f3ed;
+  box-shadow: 0px 0px 12px #f6b63f;
 }
 
 .el-notification{
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  box-shadow: var(--shadow-lg);
+  border-radius: 8px;
 }
 
 /* Element Plus bright theme overrides */
