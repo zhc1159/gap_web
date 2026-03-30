@@ -1,19 +1,19 @@
-/* Global CSS Variables - Bright Modern Theme */
+/* Global CSS Variables - Blue Theme */
 :root {
-  /* Primary colors - Vibrant purple/pink style */
-  --primary-color: #7c3aed;
-  --primary-light: #a855f7;
-  --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #06b6d4 100%);
-  --accent-pink: #ec4899;
+  /* Primary colors - Blue style */
+  --primary-color: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 50%, #0891b2 100%);
+  --accent-blue: #2563eb;
   --accent-cyan: #06b6d4;
-  --accent-purple: #8b5cf6;
-  --accent-yellow: #fbbf24;
+  --accent-sky: #0ea5e9;
+  --accent-teal: #14b8a6;
 
   /* Background colors - Bright */
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
-  --bg-hover: rgba(124, 58, 237, 0.06);
+  --bg-hover: rgba(37, 99, 235, 0.06);
 
   /* Text colors */
   --text-primary: #1e293b;
@@ -45,12 +45,12 @@
   --spacing-2xl: 32px;
   --spacing-3xl: 40px;
 
-  /* Element Plus theme override */
-  --el-color-primary: #7c3aed;
-  --el-color-primary-light-3: #9d67f2;
-  --el-color-primary-light-5: #b091f5;
-  --el-color-primary-light-7: #c4b8f8;
-  --el-color-primary-light-9: #e8e0fc;
+  /* Element Plus theme override - Blue */
+  --el-color-primary: #2563eb;
+  --el-color-primary-light-3: #3b82f6;
+  --el-color-primary-light-5: #60a5fa;
+  --el-color-primary-light-7: #93c5fd;
+  --el-color-primary-light-9: #dbeafe;
 
   --el-bg-color: #ffffff;
   --el-bg-color-overlay: #ffffff;
@@ -281,7 +281,7 @@ html, body {
 
 .el-overlay-dialog.dialog-body-custom .el-dialog__header,
 .dialog-body-custom .el-dialog__header {
-  border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.1);
   padding: 16px 20px;
   background: transparent !important;
 }
@@ -302,14 +302,14 @@ html, body {
 
 /* Button */
 .el-button--primary{
-  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   border: none;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .el-button--primary:hover{
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
   transform: translateY(-1px);
 }
 
@@ -325,7 +325,7 @@ html, body {
 }
 
 .el-input__wrapper.is-focus{
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.3) inset !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3) inset !important;
 }
 
 .el-input__inner{
@@ -359,7 +359,7 @@ html, body {
 
 .el-select-dropdown__item.is-selected{
   color: var(--primary-color) !important;
-  background: rgba(124, 58, 237, 0.06) !important;
+  background: rgba(37, 99, 235, 0.06) !important;
   font-weight: 600;
 }
 
@@ -368,7 +368,7 @@ html, body {
   --el-table-bg-color: transparent;
   --el-table-tr-bg-color: transparent;
   --el-table-header-bg-color: #f8fafc;
-  --el-table-row-hover-bg-color: rgba(124, 58, 237, 0.04);
+  --el-table-row-hover-bg-color: rgba(37, 99, 235, 0.04);
   --el-table-border-color: #e2e8f0;
   --el-table-text-color: #334155;
   --el-table-header-text-color: #64748b;
@@ -390,7 +390,7 @@ html, body {
 
 .el-pagination.is-background .el-pager li:not(.is-disabled).is-active{
   background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%) !important;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
   color: #fff !important;
 }
 

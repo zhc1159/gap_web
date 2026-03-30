@@ -228,14 +228,14 @@ const handleCommand = async (command: string) => {
 .layout-container {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f0f4ff 0%, #fdf4ff 50%, #f0ffff 100%);
+  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #ecfeff 100%);
 }
 
-/* Sidebar - Bright Style */
+/* Sidebar - Blue Style */
 .layout-sidebar{
   width: 220px;
   background: rgba(255, 255, 255, 0.85);
-  border-right: 1px solid rgba(124, 58, 237, 0.1);
+  border-right: 1px solid rgba(37, 99, 235, 0.1);
   transition: width 0.3s;
   display: flex;
   flex-direction: column;
@@ -252,8 +252,8 @@ const handleCommand = async (command: string) => {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
-  background: rgba(124, 58, 237, 0.03);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+  background: rgba(37, 99, 235, 0.03);
 }
 
 .sidebar-logo{
@@ -262,10 +262,10 @@ const handleCommand = async (command: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   border-radius: 10px;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .sidebar-title{
@@ -289,11 +289,11 @@ const handleCommand = async (command: string) => {
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb{
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(37, 99, 235, 0.15);
   border-radius: 2px;
 }
 
-/* Menu styles - Bright */
+/* Menu styles - Blue */
 .sidebar-menu :deep(.el-menu-item),
 .sidebar-menu :deep(.el-sub-menu__title){
   font-size: 14px;
@@ -318,19 +318,19 @@ const handleCommand = async (command: string) => {
 
 .sidebar-menu :deep(.el-menu-item:hover),
 .sidebar-menu :deep(.el-sub-menu__title:hover){
-  background: rgba(124, 58, 237, 0.08) !important;
-  color: #7c3aed !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+  color: #2563eb !important;
 }
 
 .sidebar-menu :deep(.el-menu-item.is-active){
-  color: #7c3aed !important;
-  background: rgba(124, 58, 237, 0.08) !important;
+  color: #2563eb !important;
+  background: rgba(37, 99, 235, 0.08) !important;
   font-weight: 700;
 }
 
 .sidebar-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title){
-  color: #7c3aed !important;
-  background: rgba(124, 58, 237, 0.08) !important;
+  color: #2563eb !important;
+  background: rgba(37, 99, 235, 0.08) !important;
   font-weight: 700;
 }
 
@@ -344,14 +344,14 @@ const handleCommand = async (command: string) => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: linear-gradient(135deg, #f0f4ff 0%, #fdf4ff 50%, #f0ffff 100%);
+  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #ecfeff 100%);
 }
 
-/* Header - Bright Style */
+/* Header - Blue Style */
 .layout-header{
   height: 64px;
   background: rgba(255, 255, 255, 0.8);
-  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -375,8 +375,8 @@ const handleCommand = async (command: string) => {
 }
 
 .hamburger:hover{
-  background: rgba(124, 58, 237, 0.08);
-  color: #7c3aed;
+  background: rgba(37, 99, 235, 0.08);
+  color: #2563eb;
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__inner){
@@ -385,7 +385,7 @@ const handleCommand = async (command: string) => {
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__inner:last-child){
-  color: #7c3aed;
+  color: #2563eb;
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__separator){
@@ -409,12 +409,12 @@ const handleCommand = async (command: string) => {
 }
 
 .user-info:hover{
-  background: rgba(124, 58, 237, 0.06);
-  border-color: rgba(124, 58, 237, 0.15);
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.15);
 }
 
 .user-avatar{
-  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   color: #fff;
   font-weight: 700;
 }
@@ -429,7 +429,7 @@ const handleCommand = async (command: string) => {
 }
 
 .user-info .el-icon{
-  color: #8b5cf6;
+  color: #3b82f6;
 }
 
 /* Content area */
@@ -454,7 +454,7 @@ const handleCommand = async (command: string) => {
 .layout-footer{
   height: 44px;
   background: rgba(255, 255, 255, 0.6);
-  border-top: 1px solid rgba(124, 58, 237, 0.08);
+  border-top: 1px solid rgba(37, 99, 235, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -474,10 +474,10 @@ const handleCommand = async (command: string) => {
   opacity: 0;
 }
 
-/* Dropdown menu bright theme */
+/* Dropdown menu blue theme */
 :deep(.el-dropdown-menu){
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
 }
@@ -487,7 +487,7 @@ const handleCommand = async (command: string) => {
 }
 
 :deep(.el-dropdown-menu__item:hover){
-  background: rgba(124, 58, 237, 0.06);
-  color: #7c3aed;
+  background: rgba(37, 99, 235, 0.06);
+  color: #2563eb;
 }
 </style>
