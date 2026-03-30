@@ -272,25 +272,30 @@ html, body {
   border-radius: 8px;
 }
 
-/* Dialog custom styles */
-.dialog-body-custom.el-dialog {
+/* Dialog custom styles - 渐变背景弹框 (覆盖默认样式) */
+.el-overlay-dialog.dialog-body-custom .el-dialog,
+.dialog-body-custom .el-dialog {
   border-radius: 10px !important;
   background: linear-gradient(to bottom right, #ecf5ff, #fdf6ec, #d9ecff) !important;
 }
 
+.el-overlay-dialog.dialog-body-custom .el-dialog__header,
 .dialog-body-custom .el-dialog__header {
   border-bottom: 1px solid rgba(124, 58, 237, 0.1);
   padding: 16px 20px;
+  background: transparent !important;
 }
 
+.el-overlay-dialog.dialog-body-custom .el-dialog__body,
 .dialog-body-custom .el-dialog__body {
   padding: 20px 40px 30px 20px;
-  background: transparent;
+  background: transparent !important;
 }
 
+.el-overlay-dialog.dialog-body-custom .el-dialog__footer,
 .dialog-body-custom .el-dialog__footer {
   padding: 10px 20px 20px;
-  background: transparent;
+  background: transparent !important;
 }
 
 /* Element Plus bright theme overrides */
@@ -393,7 +398,7 @@ html, body {
   color: var(--primary-color) !important;
 }
 
-/* Dialog bright theme */
+/* Dialog bright theme - 默认白色背景 */
 .el-dialog{
   background: #ffffff !important;
   border: 1px solid #e2e8f0;
@@ -408,26 +413,6 @@ html, body {
 
 .el-dialog__body{
   color: var(--text-secondary);
-}
-
-/* Dialog custom gradient background */
-.dialog-body-custom.el-dialog{
-  border-radius: 10px;
-  background: linear-gradient(to bottom right, #ecf5ff, #fdf6ec, #d9ecff) !important;
-}
-
-.dialog-body-custom .el-dialog__header{
-  padding: 16px 20px;
-}
-
-.dialog-body-custom .el-dialog__body{
-  padding: 20px 40px 30px 20px;
-  background: transparent;
-}
-
-.dialog-body-custom .el-dialog__footer{
-  padding: 10px 20px 20px;
-  background: transparent;
 }
 
 /* Message Box bright theme */
