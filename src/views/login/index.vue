@@ -55,8 +55,15 @@
           />
         </el-form-item>
 
-        <el-form-item>
+        <el-form-item class="form-options">
           <el-checkbox v-model="rememberMe">记住我</el-checkbox>
+        </el-form-item>
+
+        <el-form-item class="privacy-item">
+          <el-checkbox v-model="agreePrivacy">
+            我已阅读并同意
+            <el-link type="primary" @click.stop="showPrivacyDialog = true">《隐私承诺》</el-link>
+          </el-checkbox>
         </el-form-item>
 
         <el-form-item>
@@ -77,13 +84,47 @@
         <p class="account-hint">admin / admin123</p>
       </div>
     </div>
+
+    <!-- Privacy Dialog -->
+    <el-dialog
+      v-model="showPrivacyDialog"
+      title="隐私承诺"
+      width="520px"
+      :close-on-click-modal="false"
+      class="privacy-dialog"
+    >
+      <div class="privacy-content">
+        <p class="privacy-section-title">一、信息收集</p>
+        <p>我们收集您的账户信息（用户名、密码）仅用于身份验证和系统访问控制。我们不会收集、存储或分享您的任何其他个人信息。</p>
+
+        <p class="privacy-section-title">二、信息使用</p>
+        <p>您的登录信息仅用于以下目的：</p>
+        <ul>
+          <li>验证您的身份并授权访问系统</li>
+          <li>记录系统操作日志用于安全审计</li>
+          <li>保障系统安全运行</li>
+        </ul>
+
+        <p class="privacy-section-title">三、信息安全</p>
+        <p>我们采用行业标准的安全措施保护您的信息，包括但不限于数据加密传输、访问控制、安全审计等技术手段。</p>
+
+        <p class="privacy-section-title">四、信息保留</p>
+        <p>您的账户信息将在您使用系统期间保留。如需注销账户，请联系系统管理员。</p>
+
+        <p class="privacy-section-title">五、承诺声明</p>
+        <p>本系统承诺严格遵守相关法律法规，保护用户隐私安全，不会将您的信息用于任何未经授权的用途。</p>
+      </div>
+      <template #footer>
+        <el-button type="primary" @click="showPrivacyDialog = false">我已知晓</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ElNotification, type FormInstance, type FormRules } from 'element-plus'
+import { ElNotification, ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { Login } from '@/axios/base'
 
 const router = useRouter()
@@ -93,6 +134,8 @@ const loginFormRef = ref<FormInstance>()
 const loading = ref(false)
 const authType = ref<'password' | 'certificate' | 'fingerprint' | 'ukey'>('password')
 const rememberMe = ref(false)
+const agreePrivacy = ref(false)
+const showPrivacyDialog = ref(false)
 
 const loginForm = reactive({
   username: '',
@@ -117,6 +160,11 @@ const authTabs: Array<{ label: string; value: 'password' | 'certificate' | 'fing
 ]
 
 const handleLogin = async () => {
+  if (!agreePrivacy.value) {
+    ElMessage.warning('请先阅读并同意《隐私承诺》')
+    return
+  }
+
   const valid = await loginFormRef.value?.validate().catch(() => false)
   if (!valid) return
 
@@ -331,5 +379,61 @@ const handleLogin = async () => {
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 1px;
+}
+
+/* Privacy checkbox */
+.form-options{
+  margin-bottom: 0;
+}
+
+.privacy-item{
+  margin-bottom: 16px;
+}
+
+.privacy-item :deep(.el-checkbox__label){
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  line-height: 1.5;
+}
+
+.privacy-item :deep(.el-link){
+  font-size: 14px;
+  margin-left: 2px;
+}
+
+/* Privacy Dialog */
+.privacy-content{
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+  line-height: 1.8;
+  color: #475569;
+  font-size: 14px;
+}
+
+.privacy-section-title{
+  font-weight: 600;
+  color: #1e293b;
+  margin: 20px 0 8px;
+  font-size: 15px;
+}
+
+.privacy-section-title:first-child{
+  margin-top: 0;
+}
+
+.privacy-content p{
+  margin: 0;
+  text-indent: 2em;
+}
+
+.privacy-content ul{
+  margin: 8px 0;
+  padding-left: 3em;
+}
+
+.privacy-content li{
+  margin: 4px 0;
 }
 </style>
