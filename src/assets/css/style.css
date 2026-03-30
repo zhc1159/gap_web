@@ -273,11 +273,24 @@ html, body {
 }
 
 /* Dialog custom styles */
-.dialog-body-custom {
-  border-radius: 10px;
-  background: linear-gradient(to bottom right, #ecf5ff, #fdf6ec, #d9ecff);
-  padding-right: 40px;
-  padding-bottom: 30px;
+.dialog-body-custom.el-dialog {
+  border-radius: 10px !important;
+  background: linear-gradient(to bottom right, #ecf5ff, #fdf6ec, #d9ecff) !important;
+}
+
+.dialog-body-custom .el-dialog__header {
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  padding: 16px 20px;
+}
+
+.dialog-body-custom .el-dialog__body {
+  padding: 20px 40px 30px 20px;
+  background: transparent;
+}
+
+.dialog-body-custom .el-dialog__footer {
+  padding: 10px 20px 20px;
+  background: transparent;
 }
 
 /* Element Plus bright theme overrides */
@@ -395,6 +408,26 @@ html, body {
 
 .el-dialog__body{
   color: var(--text-secondary);
+}
+
+/* Dialog custom gradient background */
+.dialog-body-custom.el-dialog{
+  border-radius: 10px;
+  background: linear-gradient(to bottom right, #ecf5ff, #fdf6ec, #d9ecff) !important;
+}
+
+.dialog-body-custom .el-dialog__header{
+  padding: 16px 20px;
+}
+
+.dialog-body-custom .el-dialog__body{
+  padding: 20px 40px 30px 20px;
+  background: transparent;
+}
+
+.dialog-body-custom .el-dialog__footer{
+  padding: 10px 20px 20px;
+  background: transparent;
 }
 
 /* Message Box bright theme */
