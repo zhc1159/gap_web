@@ -247,22 +247,22 @@ html, body {
 
 /* Notification styles - with colored glow effects */
 .notification-success {
-  background-color: #ecf6e6;
+  background-color: #ecf6e6 !important;
   box-shadow: 0px 0px 12px #4fea02;
 }
 
 .notification-error {
-  background-color: #fcecec;
+  background-color: #fcecec !important;
   box-shadow: 0px 0px 12px #ff0000;
 }
 
 .notification-warning {
-  background-color: #f7f3ed;
+  background-color: #f7f3ed !important;
   box-shadow: 0px 0px 12px #f6b63f;
 }
 
 .notification-info {
-  background-color: #e6f4f8;
+  background-color: #e6f4f8 !important;
   box-shadow: 0px 0px 12px #3b82f6;
 }
 
