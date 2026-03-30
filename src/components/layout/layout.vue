@@ -192,7 +192,8 @@ const handleCommand = async (command: string) => {
       ElNotification({
         title: '提示',
         message: '修改密码功能开发中',
-        type: 'info'
+        type: 'info',
+        customClass: 'notification-info'
       })
       break
     case 'logout':

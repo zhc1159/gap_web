@@ -23,7 +23,8 @@ const handleAdd = () => {
   ElNotification({
     title: '提示',
     message: '新增策略功能开发中',
-    type: 'info'
+    type: 'info',
+    customClass: 'notification-info'
   })
 }
 </script>

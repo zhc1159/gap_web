@@ -83,7 +83,8 @@ const handleAdd = () => {
   ElNotification({
     title: '提示',
     message: '新增用户功能开发中',
-    type: 'info'
+    type: 'info',
+    customClass: 'notification-info'
   })
 }
 
@@ -93,7 +94,8 @@ const handleEdit = (row: IUserInfo) => {
   ElNotification({
     title: '提示',
     message: '编辑用户功能开发中',
-    type: 'info'
+    type: 'info',
+    customClass: 'notification-info'
   })
 }
 

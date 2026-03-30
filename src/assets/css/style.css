@@ -261,6 +261,11 @@ html, body {
   box-shadow: 0px 0px 12px #f6b63f;
 }
 
+.notification-info {
+  background-color: #e6f4f8;
+  box-shadow: 0px 0px 12px #3b82f6;
+}
+
 .el-notification{
   background: #ffffff;
   border: 1px solid #e2e8f0;
