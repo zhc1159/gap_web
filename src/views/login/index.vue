@@ -6,13 +6,34 @@
       <div class="bg-glow"></div>
     </div>
 
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+      <el-dropdown trigger="click" @command="handleLanguageChange">
+        <div class="lang-btn">
+          <el-icon><Globe /></el-icon>
+          <span>{{ currentLangLabel }}</span>
+          <el-icon><ArrowDown /></el-icon>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="zh-CN" :class="{ 'is-active': currentLocale === 'zh-CN' }">
+              <span class="lang-flag">🇨🇳</span> 简体中文
+            </el-dropdown-item>
+            <el-dropdown-item command="en-US" :class="{ 'is-active': currentLocale === 'en-US' }">
+              <span class="lang-flag">🇺🇸</span> English
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
+
     <div class="login-card">
       <div class="login-header">
         <div class="login-logo">
           <el-icon :size="42"><Lock /></el-icon>
         </div>
-        <h1 class="login-title">GAP安全隔离网闸</h1>
-        <p class="login-subtitle">Security Isolation Gateway</p>
+        <h1 class="login-title">{{ $t('login.title') }}</h1>
+        <p class="login-subtitle">{{ $t('login.subtitle') }}</p>
       </div>
 
       <div class="login-tabs">
@@ -23,7 +44,7 @@
           @click="authType = tab.value"
         >
           <el-icon><component :is="tab.icon" /></el-icon>
-          <span>{{ tab.label }}</span>
+          <span>{{ $t(tab.labelKey) }}</span>
         </div>
       </div>
 
@@ -37,7 +58,7 @@
         <el-form-item prop="username">
           <el-input
             v-model="loginForm.username"
-            placeholder="请输入用户名"
+            :placeholder="$t('login.usernamePlaceholder')"
             prefix-icon="User"
             size="large"
           />
@@ -47,7 +68,7 @@
           <el-input
             v-model="loginForm.password"
             type="password"
-            placeholder="请输入密码"
+            :placeholder="$t('login.passwordPlaceholder')"
             prefix-icon="Lock"
             size="large"
             show-password
@@ -56,13 +77,13 @@
         </el-form-item>
 
         <el-form-item class="form-options">
-          <el-checkbox v-model="rememberMe">记住我</el-checkbox>
+          <el-checkbox v-model="rememberMe">{{ $t('login.rememberMe') }}</el-checkbox>
         </el-form-item>
 
         <el-form-item class="privacy-item">
           <el-checkbox v-model="agreePrivacy">
-            我已阅读并同意
-            <el-link type="primary" @click.stop="showPrivacyDialog = true">《隐私承诺》</el-link>
+            {{ $t('login.privacyAgreement') }}
+            <el-link type="primary" @click.stop="showPrivacyDialog = true">{{ $t('login.privacyPolicy') }}</el-link>
           </el-checkbox>
         </el-form-item>
 
@@ -74,59 +95,62 @@
             class="login-button"
             @click="handleLogin"
           >
-            登 录
+            {{ $t('login.login') }}
           </el-button>
         </el-form-item>
       </el-form>
 
       <div class="login-footer">
-        <p>首次登录请使用管理员账号</p>
-        <p class="account-hint">admin / admin123</p>
+        <p>{{ $t('login.firstLoginHint') }}</p>
+        <p class="account-hint">{{ $t('login.adminAccount') }}</p>
       </div>
     </div>
 
     <!-- Privacy Dialog -->
     <el-dialog
       v-model="showPrivacyDialog"
-      title="隐私承诺"
+      :title="$t('privacy.title')"
       width="520px"
       :close-on-click-modal="false"
       class="dialog-body-custom"
     >
       <div class="privacy-content">
-        <p class="privacy-section-title">一、信息收集</p>
-        <p>我们收集您的账户信息（用户名、密码）仅用于身份验证和系统访问控制。我们不会收集、存储或分享您的任何其他个人信息。</p>
+        <p class="privacy-section-title">{{ $t('privacy.section1Title') }}</p>
+        <p>{{ $t('privacy.section1Content') }}</p>
 
-        <p class="privacy-section-title">二、信息使用</p>
-        <p>您的登录信息仅用于以下目的：</p>
+        <p class="privacy-section-title">{{ $t('privacy.section2Title') }}</p>
+        <p>{{ $t('privacy.section2Content') }}</p>
         <ul>
-          <li>验证您的身份并授权访问系统</li>
-          <li>记录系统操作日志用于安全审计</li>
-          <li>保障系统安全运行</li>
+          <li>{{ $t('privacy.section2Item1') }}</li>
+          <li>{{ $t('privacy.section2Item2') }}</li>
+          <li>{{ $t('privacy.section2Item3') }}</li>
         </ul>
 
-        <p class="privacy-section-title">三、信息安全</p>
-        <p>我们采用行业标准的安全措施保护您的信息，包括但不限于数据加密传输、访问控制、安全审计等技术手段。</p>
+        <p class="privacy-section-title">{{ $t('privacy.section3Title') }}</p>
+        <p>{{ $t('privacy.section3Content') }}</p>
 
-        <p class="privacy-section-title">四、信息保留</p>
-        <p>您的账户信息将在您使用系统期间保留。如需注销账户，请联系系统管理员。</p>
+        <p class="privacy-section-title">{{ $t('privacy.section4Title') }}</p>
+        <p>{{ $t('privacy.section4Content') }}</p>
 
-        <p class="privacy-section-title">五、承诺声明</p>
-        <p>本系统承诺严格遵守相关法律法规，保护用户隐私安全，不会将您的信息用于任何未经授权的用途。</p>
+        <p class="privacy-section-title">{{ $t('privacy.section5Title') }}</p>
+        <p>{{ $t('privacy.section5Content') }}</p>
       </div>
       <template #footer>
-        <el-button type="primary" @click="showPrivacyDialog = false">我已知晓</el-button>
+        <el-button type="primary" @click="showPrivacyDialog = false">{{ $t('privacy.confirm') }}</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElNotification, ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 import { Login } from '@/axios/base'
+import { setLocale, getLocale } from '@/locales'
 
+const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
@@ -136,6 +160,17 @@ const authType = ref<'password' | 'certificate' | 'fingerprint' | 'ukey'>('passw
 const rememberMe = ref(false)
 const agreePrivacy = ref(false)
 const showPrivacyDialog = ref(false)
+const currentLocale = ref(getLocale())
+
+const currentLangLabel = computed(() => {
+  return currentLocale.value === 'zh-CN' ? '中文' : 'EN'
+})
+
+const handleLanguageChange = (lang: string) => {
+  setLocale(lang)
+  currentLocale.value = lang
+  window.location.reload()
+}
 
 const loginForm = reactive({
   username: '',
@@ -144,24 +179,24 @@ const loginForm = reactive({
 
 const loginRules: FormRules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, message: '用户名至少3个字符', trigger: 'blur' }
+    { required: true, message: t('login.usernamePlaceholder'), trigger: 'blur' },
+    { min: 3, message: t('login.usernameMinLength'), trigger: 'blur' }
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码至少6个字符', trigger: 'blur' }
+    { required: true, message: t('login.passwordPlaceholder'), trigger: 'blur' },
+    { min: 6, message: t('login.passwordMinLength'), trigger: 'blur' }
   ]
 }
 
-const authTabs: Array<{ label: string; value: 'password' | 'certificate' | 'fingerprint' | 'ukey'; icon: string }> = [
-  { label: '密码登录', value: 'password', icon: 'Key' },
-  { label: '证书登录', value: 'certificate', icon: 'Postcard' },
-  { label: '指纹登录', value: 'fingerprint', icon: 'Pointer' }
+const authTabs: Array<{ labelKey: string; value: 'password' | 'certificate' | 'fingerprint' | 'ukey'; icon: string }> = [
+  { labelKey: 'login.passwordLogin', value: 'password', icon: 'Key' },
+  { labelKey: 'login.certificateLogin', value: 'certificate', icon: 'Postcard' },
+  { labelKey: 'login.fingerprintLogin', value: 'fingerprint', icon: 'Pointer' }
 ]
 
 const handleLogin = async () => {
   if (!agreePrivacy.value) {
-    ElMessage.warning('请先阅读并同意《隐私承诺》')
+    ElMessage.warning(t('login.pleaseAgreePrivacy'))
     return
   }
 
@@ -184,8 +219,8 @@ const handleLogin = async () => {
     sessionStorage.setItem('roleList', JSON.stringify(res.data.roleList))
 
     ElNotification({
-      title: '成功',
-      message: '登录成功',
+      title: t('common.success'),
+      message: t('login.loginSuccess'),
       type: 'success',
       customClass: 'notification-success'
     })
@@ -210,6 +245,44 @@ const handleLogin = async () => {
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #ecfeff 100%);
+}
+
+/* Language Switcher */
+.lang-switcher{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.lang-btn{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.lang-btn:hover{
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(37, 99, 235, 0.2);
+  color: #2563eb;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.15);
+}
+
+.lang-btn .el-icon:last-child{
+  font-size: 12px;
+  margin-left: 2px;
+}
+
+.lang-flag{
+  margin-right: 8px;
 }
 
 /* Bright background effects */

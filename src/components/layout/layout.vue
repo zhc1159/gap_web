@@ -6,7 +6,7 @@
         <div class="sidebar-logo">
           <el-icon :size="28"><Lock /></el-icon>
         </div>
-        <span v-show="!isCollapse" class="sidebar-title">GAP管理系统</span>
+        <span v-show="!isCollapse" class="sidebar-title">GAP {{ $t('common.system') }}</span>
       </div>
       <el-menu
         :default-active="activeMenu"
@@ -24,7 +24,7 @@
           <el-sub-menu v-if="item.children && item.children.length" :index="item.path">
             <template #title>
               <el-icon><component :is="item.icon" /></el-icon>
-              <span>{{ item.meta?.title }}</span>
+              <span>{{ $t(item.meta?.titleKey || '') }}</span>
             </template>
             <el-menu-item
               v-for="child in item.children"
@@ -32,13 +32,13 @@
               :index="item.path + '/' + child.path"
             >
               <el-icon><component :is="child.icon" /></el-icon>
-              <span>{{ child.meta?.title }}</span>
+              <span>{{ $t(child.meta?.titleKey || '') }}</span>
             </el-menu-item>
           </el-sub-menu>
           <!-- No children -->
           <el-menu-item v-else :index="item.path">
             <el-icon><component :is="item.icon" /></el-icon>
-            <span>{{ item.meta?.title }}</span>
+            <span>{{ $t(item.meta?.titleKey || '') }}</span>
           </el-menu-item>
         </template>
       </el-menu>
@@ -61,6 +61,26 @@
           </el-breadcrumb>
         </div>
         <div class="header-right">
+          <!-- Language Switcher -->
+          <el-dropdown trigger="click" @command="handleLanguageChange" class="lang-switcher">
+            <div class="lang-btn">
+              <el-icon><Globe /></el-icon>
+              <span>{{ currentLangLabel }}</span>
+              <el-icon><ArrowDown /></el-icon>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="zh-CN" :class="{ 'is-active': currentLocale === 'zh-CN' }">
+                  <span class="lang-flag">🇨🇳</span> 简体中文
+                </el-dropdown-item>
+                <el-dropdown-item command="en-US" :class="{ 'is-active': currentLocale === 'en-US' }">
+                  <span class="lang-flag">🇺🇸</span> English
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+
+          <!-- User Dropdown -->
           <el-dropdown trigger="click" @command="handleCommand">
             <div class="user-info">
               <el-avatar :size="32" class="user-avatar">{{ nickName?.charAt(0) }}</el-avatar>
@@ -70,13 +90,13 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="profile">
-                  <el-icon><User /></el-icon>个人中心
+                  <el-icon><User /></el-icon>{{ $t('navbar.profile') }}
                 </el-dropdown-item>
                 <el-dropdown-item command="password">
-                  <el-icon><Key /></el-icon>修改密码
+                  <el-icon><Key /></el-icon>{{ $t('navbar.changePassword') }}
                 </el-dropdown-item>
                 <el-dropdown-item divided command="logout">
-                  <el-icon><SwitchButton /></el-icon>退出登录
+                  <el-icon><SwitchButton /></el-icon>{{ $t('navbar.logout') }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -97,7 +117,7 @@
 
       <!-- Footer -->
       <div class="layout-footer">
-        <span>GAP安全隔离网闸 &copy; {{ new Date().getFullYear() }}</span>
+        <span>GAP {{ $t('login.title') }} &copy; {{ new Date().getFullYear() }}</span>
       </div>
     </div>
   </div>
@@ -107,52 +127,67 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessageBox, ElNotification } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 import { Logout } from '@/axios/base'
+import { setLocale, getLocale } from '@/locales'
 
+const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
 const isCollapse = ref(false)
 const nickName = ref(sessionStorage.getItem('nick_name') || '')
+const currentLocale = ref(getLocale())
+
+// Language options
+const currentLangLabel = computed(() => {
+  return currentLocale.value === 'zh-CN' ? '中文' : 'EN'
+})
+
+const handleLanguageChange = (lang: string) => {
+  setLocale(lang)
+  currentLocale.value = lang
+  window.location.reload()
+}
 
 // Menu list based on user permissions
 const menuList = ref([
   {
     path: '/system',
-    meta: { title: '系统' },
+    meta: { titleKey: 'menu.system' },
     icon: 'Setting',
     children: [
-      { path: 'user', meta: { title: '用户管理' }, icon: 'User' },
-      { path: 'role', meta: { title: '角色管理' }, icon: 'Avatar' },
-      { path: 'menu', meta: { title: '菜单管理' }, icon: 'Grid' },
-      { path: 'log', meta: { title: '日志管理' }, icon: 'Document' }
+      { path: 'user', meta: { titleKey: 'menu.userManage' }, icon: 'User' },
+      { path: 'role', meta: { titleKey: 'menu.roleManage' }, icon: 'Avatar' },
+      { path: 'menu', meta: { titleKey: 'menu.menuManage' }, icon: 'Grid' },
+      { path: 'log', meta: { titleKey: 'menu.logManage' }, icon: 'Document' }
     ]
   },
   {
     path: '/policy',
-    meta: { title: '策略' },
+    meta: { titleKey: 'menu.policy' },
     icon: 'Lock',
     children: [
-      { path: 'firewall', meta: { title: '防火墙策略' }, icon: 'Key' },
-      { path: 'audit', meta: { title: '审计策略' }, icon: 'View' }
+      { path: 'firewall', meta: { titleKey: 'menu.firewallPolicy' }, icon: 'Key' },
+      { path: 'audit', meta: { titleKey: 'menu.auditPolicy' }, icon: 'View' }
     ]
   },
   {
     path: '/audit',
-    meta: { title: '审计' },
+    meta: { titleKey: 'menu.audit' },
     icon: 'Tickets',
     children: [
-      { path: 'operation', meta: { title: '操作日志' }, icon: 'List' },
-      { path: 'security', meta: { title: '安全日志' }, icon: 'Warning' }
+      { path: 'operation', meta: { titleKey: 'menu.operationLog' }, icon: 'List' },
+      { path: 'security', meta: { titleKey: 'menu.securityLog' }, icon: 'Warning' }
     ]
   },
   {
     path: '/monitor',
-    meta: { title: '监控' },
+    meta: { titleKey: 'menu.monitor' },
     icon: 'Monitor',
     children: [
-      { path: 'dashboard', meta: { title: '实时监控' }, icon: 'Odometer' },
-      { path: 'traffic', meta: { title: '流量统计' }, icon: 'TrendCharts' }
+      { path: 'dashboard', meta: { titleKey: 'menu.realtimeMonitor' }, icon: 'Odometer' },
+      { path: 'traffic', meta: { titleKey: 'menu.trafficStats' }, icon: 'TrendCharts' }
     ]
   }
 ])
@@ -166,9 +201,9 @@ const breadcrumbs = computed(() => {
   const matched = route.matched
 
   matched.forEach((item) => {
-    if (item.meta?.title) {
+    if (item.meta?.titleKey) {
       items.push({
-        title: item.meta.title as string,
+        title: t(item.meta.titleKey as string),
         path: item.path
       })
     }
@@ -190,8 +225,8 @@ const handleCommand = async (command: string) => {
       break
     case 'password':
       ElNotification({
-        title: '提示',
-        message: '修改密码功能开发中',
+        title: t('common.tip'),
+        message: t('navbar.developing'),
         type: 'info',
         customClass: 'notification-info'
       })
@@ -199,11 +234,11 @@ const handleCommand = async (command: string) => {
     case 'logout':
       try {
         await ElMessageBox.confirm(
-          '确定要退出登录吗?',
-          '提示',
+          t('navbar.logoutConfirm'),
+          t('common.tip'),
           {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
+            confirmButtonText: t('common.confirm'),
+            cancelButtonText: t('common.cancel'),
             type: 'warning'
           }
         )
@@ -211,8 +246,8 @@ const handleCommand = async (command: string) => {
         sessionStorage.clear()
         router.push('/login')
         ElNotification({
-          title: '成功',
-          message: '已退出登录',
+          title: t('common.success'),
+          message: t('navbar.logoutSuccess'),
           type: 'success',
           customClass: 'notification-success'
         })
@@ -395,6 +430,39 @@ const handleCommand = async (command: string) => {
 .header-right{
   display: flex;
   align-items: center;
+  gap: 16px;
+}
+
+/* Language Switcher */
+.lang-switcher{
+  margin-right: 8px;
+}
+
+.lang-btn{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  color: #64748b;
+  border: 1px solid transparent;
+}
+
+.lang-btn:hover{
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.15);
+  color: #2563eb;
+}
+
+.lang-btn .el-icon:last-child{
+  font-size: 12px;
+  margin-left: 2px;
+}
+
+.lang-flag{
+  margin-right: 8px;
 }
 
 .user-info{
