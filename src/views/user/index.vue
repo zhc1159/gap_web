@@ -12,18 +12,18 @@
 
       <div class="page-table">
         <el-table :data="tableData" v-loading="loading" stripe>
-          <el-table-column prop="nickName" :label="$t('user.nickname')" width="150" />
-          <el-table-column prop="email" :label="$t('user.email')" width="200" />
-          <el-table-column prop="phone" :label="$t('user.phone')" width="150" />
-          <el-table-column prop="status" :label="$t('user.status')" width="100">
+          <el-table-column prop="nickName" :label="$t('user.nickname')" min-width="120" />
+          <el-table-column prop="email" :label="$t('user.email')" min-width="180" />
+          <el-table-column prop="phone" :label="$t('user.phone')" min-width="130" />
+          <el-table-column prop="status" :label="$t('user.status')" min-width="100">
             <template #default="{ row }">
               <el-tag :type="row.status === 'active' ? 'success' : 'danger'">
                 {{ row.status === 'active' ? $t('user.active') : $t('user.inactive') }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" :label="$t('user.createTime')" width="180" />
-          <el-table-column :label="$t('common.edit')" fixed="right" width="200">
+          <el-table-column prop="createTime" :label="$t('user.createTime')" min-width="160" />
+          <el-table-column :label="$t('common.edit')" fixed="right" width="220">
             <template #default="{ row }">
               <el-button link type="primary" @click="handleEdit(row)">{{ $t('common.edit') }}</el-button>
               <el-button link type="primary" @click="handleResetPassword(row)">{{ $t('user.resetPassword') }}</el-button>
