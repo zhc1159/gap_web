@@ -272,6 +272,14 @@ html, body {
   border-radius: 8px;
 }
 
+/* Dialog custom styles */
+.dialog-body-custom {
+  border-radius: 10px;
+  background: linear-gradient(to bottom right, #ecf5ff, #fdf6ec, #d9ecff);
+  padding-right: 40px;
+  padding-bottom: 30px;
+}
+
 /* Element Plus bright theme overrides */
 
 /* Button */

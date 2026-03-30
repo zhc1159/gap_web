@@ -91,7 +91,7 @@
       title="隐私承诺"
       width="520px"
       :close-on-click-modal="false"
-      class="privacy-dialog"
+      class="dialog-body-custom"
     >
       <div class="privacy-content">
         <p class="privacy-section-title">一、信息收集</p>
