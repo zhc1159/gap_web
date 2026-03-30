@@ -105,6 +105,40 @@ export default {
   firewall: {
     title: '防火墙策略',
     addPolicy: '新增策略',
-    addDeveloping: '新增策略功能开发中'
+    addDeveloping: '新增策略功能开发中',
+    emptyDesc: '防火墙策略管理模块'
+  },
+  role: {
+    title: '角色管理',
+    emptyDesc: '角色管理模块'
+  },
+  menuManage: {
+    title: '菜单管理',
+    emptyDesc: '菜单管理模块'
+  },
+  logManage: {
+    title: '日志管理',
+    emptyDesc: '日志管理模块'
+  },
+  operation: {
+    title: '操作日志',
+    emptyDesc: '操作日志模块'
+  },
+  security: {
+    title: '安全日志',
+    emptyDesc: '安全日志模块'
+  },
+  dashboard: {
+    title: '实时监控',
+    emptyDesc: '实时监控模块'
+  },
+  traffic: {
+    title: '流量统计',
+    emptyDesc: '流量统计模块'
+  },
+  error404: {
+    title: '页面未找到',
+    description: '您访问的页面不存在',
+    backHome: '返回首页'
   }
 }

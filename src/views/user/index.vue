@@ -2,32 +2,32 @@
   <div class="page-container">
     <div class="page-card">
       <div class="page-util">
-        <div class="page-title-1">用户管理</div>
+        <div class="page-title-1">{{ $t('user.title') }}</div>
         <div class="page-button">
           <el-button type="primary" @click="handleAdd">
-            <el-icon><Plus /></el-icon>新增用户
+            <el-icon><Plus /></el-icon>{{ $t('user.addUser') }}
           </el-button>
         </div>
       </div>
 
       <div class="page-table">
         <el-table :data="tableData" v-loading="loading" stripe>
-          <el-table-column prop="nickName" label="昵称" width="150" />
-          <el-table-column prop="email" label="邮箱" width="200" />
-          <el-table-column prop="phone" label="电话" width="150" />
-          <el-table-column prop="status" label="状态" width="100">
+          <el-table-column prop="nickName" :label="$t('user.nickname')" width="150" />
+          <el-table-column prop="email" :label="$t('user.email')" width="200" />
+          <el-table-column prop="phone" :label="$t('user.phone')" width="150" />
+          <el-table-column prop="status" :label="$t('user.status')" width="100">
             <template #default="{ row }">
               <el-tag :type="row.status === 'active' ? 'success' : 'danger'">
-                {{ row.status === 'active' ? '启用' : '禁用' }}
+                {{ row.status === 'active' ? $t('user.active') : $t('user.inactive') }}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="180" />
-          <el-table-column label="操作" fixed="right" width="200">
+          <el-table-column prop="createTime" :label="$t('user.createTime')" width="180" />
+          <el-table-column :label="$t('common.edit')" fixed="right" width="200">
             <template #default="{ row }">
-              <el-button link type="primary" @click="handleEdit(row)">编辑</el-button>
-              <el-button link type="primary" @click="handleResetPassword(row)">重置密码</el-button>
-              <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
+              <el-button link type="primary" @click="handleEdit(row)">{{ $t('common.edit') }}</el-button>
+              <el-button link type="primary" @click="handleResetPassword(row)">{{ $t('user.resetPassword') }}</el-button>
+              <el-button link type="danger" @click="handleDelete(row)">{{ $t('common.delete') }}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -51,7 +51,10 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
+import { useI18n } from 'vue-i18n'
 import { GetUserList, DeleteUser, ResetPassword, type IUserInfo } from '@/axios/base'
+
+const { t } = useI18n()
 
 const loading = ref(false)
 const tableData = ref<IUserInfo[]>([])
@@ -79,21 +82,19 @@ const loadData = async () => {
 }
 
 const handleAdd = () => {
-  // TODO: Open add dialog
   ElNotification({
-    title: '提示',
-    message: '新增用户功能开发中',
+    title: t('common.tip'),
+    message: t('user.addDeveloping'),
     type: 'info',
     customClass: 'notification-info'
   })
 }
 
 const handleEdit = (row: IUserInfo) => {
-  // TODO: Open edit dialog
   console.log('Edit:', row)
   ElNotification({
-    title: '提示',
-    message: '编辑用户功能开发中',
+    title: t('common.tip'),
+    message: t('user.editDeveloping'),
     type: 'info',
     customClass: 'notification-info'
   })
@@ -102,14 +103,14 @@ const handleEdit = (row: IUserInfo) => {
 const handleResetPassword = async (row: IUserInfo) => {
   try {
     await ElMessageBox.confirm(
-      `确定要重置用户 "${row.nickName}" 的密码吗?`,
-      '提示',
+      t('user.resetPasswordConfirm', { name: row.nickName }),
+      t('common.tip'),
       { type: 'warning' }
     )
     await ResetPassword(row.id, '123456')
     ElNotification({
-      title: '成功',
-      message: '密码已重置为: 123456',
+      title: t('common.success'),
+      message: t('user.resetPasswordSuccess'),
       type: 'success',
       customClass: 'notification-success'
     })
@@ -121,14 +122,14 @@ const handleResetPassword = async (row: IUserInfo) => {
 const handleDelete = async (row: IUserInfo) => {
   try {
     await ElMessageBox.confirm(
-      `确定要删除用户 "${row.nickName}" 吗?`,
-      '警告',
+      t('user.deleteConfirm', { name: row.nickName }),
+      t('common.warning'),
       { type: 'warning' }
     )
     await DeleteUser(row.id)
     ElNotification({
-      title: '成功',
-      message: '删除成功',
+      title: t('common.success'),
+      message: t('user.deleteSuccess'),
       type: 'success',
       customClass: 'notification-success'
     })

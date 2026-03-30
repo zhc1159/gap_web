@@ -2,10 +2,10 @@
   <div class="page-container">
     <div class="page-card">
       <div class="page-util">
-        <div class="page-title-1">安全日志</div>
+        <div class="page-title-1">{{ $t('security.title') }}</div>
       </div>
       <div class="page-table">
-        <el-empty description="安全日志模块" />
+        <el-empty :description="$t('security.emptyDesc')" />
       </div>
     </div>
   </div>

@@ -2,10 +2,10 @@
   <div class="page-container">
     <div class="page-card">
       <div class="page-util">
-        <div class="page-title-1">操作日志</div>
+        <div class="page-title-1">{{ $t('operation.title') }}</div>
       </div>
       <div class="page-table">
-        <el-empty description="操作日志模块" />
+        <el-empty :description="$t('operation.emptyDesc')" />
       </div>
     </div>
   </div>

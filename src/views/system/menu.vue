@@ -2,10 +2,10 @@
   <div class="page-container">
     <div class="page-card">
       <div class="page-util">
-        <div class="page-title-1">菜单管理</div>
+        <div class="page-title-1">{{ $t('menuManage.title') }}</div>
       </div>
       <div class="page-table">
-        <el-empty description="菜单管理模块" />
+        <el-empty :description="$t('menuManage.emptyDesc')" />
       </div>
     </div>
   </div>

@@ -105,6 +105,40 @@ export default {
   firewall: {
     title: 'Firewall Policy',
     addPolicy: 'Add Policy',
-    addDeveloping: 'Add policy feature is under development'
+    addDeveloping: 'Add policy feature is under development',
+    emptyDesc: 'Firewall Policy Management'
+  },
+  role: {
+    title: 'Role Management',
+    emptyDesc: 'Role Management Module'
+  },
+  menuManage: {
+    title: 'Menu Management',
+    emptyDesc: 'Menu Management Module'
+  },
+  logManage: {
+    title: 'Log Management',
+    emptyDesc: 'Log Management Module'
+  },
+  operation: {
+    title: 'Operation Log',
+    emptyDesc: 'Operation Log Module'
+  },
+  security: {
+    title: 'Security Log',
+    emptyDesc: 'Security Log Module'
+  },
+  dashboard: {
+    title: 'Real-time Monitor',
+    emptyDesc: 'Real-time Monitor Module'
+  },
+  traffic: {
+    title: 'Traffic Statistics',
+    emptyDesc: 'Traffic Statistics Module'
+  },
+  error404: {
+    title: 'Page Not Found',
+    description: 'The page you visited does not exist',
+    backHome: 'Back to Home'
   }
 }
