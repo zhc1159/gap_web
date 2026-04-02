@@ -239,7 +239,22 @@ export default {
 
   // 状态监视
   supervise: {
-    sysInfo: { title: '主机信息', emptyDesc: '主机信息模块' },
+    sysInfo: {
+      title: '主机信息',
+      emptyDesc: '主机信息模块',
+      innerNet: '内网设备',
+      outerNet: '外网设备',
+      cpuUsage: 'CPU 使用率',
+      memUsage: '内存使用率',
+      systemInfo: '系统信息',
+      cpuInfo: 'CPU 信息',
+      memInfo: '内存信息',
+      runTime: '运行时间',
+      licenseStatus: '授权状态',
+      diskUsage: '硬盘使用',
+      total: '总计',
+      networkSpeed: '网口速率'
+    },
     gapIneth: { title: '接口流量', emptyDesc: '接口流量模块' },
     gapProtocol: { title: '应用流量', emptyDesc: '应用流量模块' },
     gapUser: { title: '用户流量', emptyDesc: '用户流量模块' },

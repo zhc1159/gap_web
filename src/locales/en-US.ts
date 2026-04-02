@@ -226,7 +226,22 @@ export default {
   },
 
   supervise: {
-    sysInfo: { title: 'Host Information', emptyDesc: 'Host Information Module' },
+    sysInfo: {
+      title: 'Host Information',
+      emptyDesc: 'Host Information Module',
+      innerNet: 'Inner Network',
+      outerNet: 'Outer Network',
+      cpuUsage: 'CPU Usage',
+      memUsage: 'Memory Usage',
+      systemInfo: 'System Info',
+      cpuInfo: 'CPU Info',
+      memInfo: 'Memory Info',
+      runTime: 'Run Time',
+      licenseStatus: 'License Status',
+      diskUsage: 'Disk Usage',
+      total: 'Total',
+      networkSpeed: 'Network Speed'
+    },
     gapIneth: { title: 'Interface Traffic', emptyDesc: 'Interface Traffic Module' },
     gapProtocol: { title: 'Application Traffic', emptyDesc: 'Application Traffic Module' },
     gapUser: { title: 'User Traffic', emptyDesc: 'User Traffic Module' },
