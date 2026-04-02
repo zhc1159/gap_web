@@ -334,7 +334,26 @@ export default {
       trafficDistribution: '流量分布',
       topServers: 'Top 5 服务器'
     },
-    gapFileSync: { title: '文件同步流量', emptyDesc: '文件同步流量模块' }
+    gapFileSync: {
+      title: '文件同步流量',
+      emptyDesc: '文件同步流量模块',
+      directionOutbound: '发送',
+      directionInbound: '接收',
+      directionSync: '同步',
+      totalSuccess: '成功总数',
+      totalBytes: '传输总量',
+      strategyCount: '策略数量',
+      avgSuccess: '平均成功',
+      successChart: '文件同步成功数统计',
+      strategyList: '策略列表',
+      strategyName: '策略名称',
+      direction: '方向',
+      startTime: '开始时间',
+      successCount: '成功数',
+      failedCount: '失败数',
+      fileSize: '文件大小',
+      progress: '完成进度'
+    }
   },
 
   // 系统配置

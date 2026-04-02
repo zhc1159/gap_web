@@ -321,7 +321,26 @@ export default {
       trafficDistribution: 'Traffic Distribution',
       topServers: 'Top 5 Servers'
     },
-    gapFileSync: { title: 'File Sync Traffic', emptyDesc: 'File Sync Traffic Module' }
+    gapFileSync: {
+      title: 'File Sync Traffic',
+      emptyDesc: 'File Sync Traffic Module',
+      directionOutbound: 'Outbound',
+      directionInbound: 'Inbound',
+      directionSync: 'Sync',
+      totalSuccess: 'Total Success',
+      totalBytes: 'Total Bytes',
+      strategyCount: 'Strategy Count',
+      avgSuccess: 'Avg Success',
+      successChart: 'File Sync Success Statistics',
+      strategyList: 'Strategy List',
+      strategyName: 'Strategy Name',
+      direction: 'Direction',
+      startTime: 'Start Time',
+      successCount: 'Success',
+      failedCount: 'Failed',
+      fileSize: 'File Size',
+      progress: 'Progress'
+    }
   },
 
   systemManage: {
