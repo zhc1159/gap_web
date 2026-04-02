@@ -260,7 +260,26 @@ export default {
       totalTraffic: 'Total Traffic',
       currentRate: 'Current Rate'
     },
-    gapProtocol: { title: 'Application Traffic', emptyDesc: 'Application Traffic Module' },
+    gapProtocol: {
+      title: 'Application Traffic',
+      emptyDesc: 'Application Traffic Module',
+      innerNet: 'Inner Network',
+      outerNet: 'Outer Network',
+      timeRange: 'Time Range',
+      '10min': '10 Minutes',
+      '1hour': '1 Hour',
+      '1day': '1 Day',
+      '1week': '1 Week',
+      '1month': '1 Month',
+      trafficTrend: 'Traffic Trend',
+      appName: 'Application',
+      sendTraffic: 'Send Traffic',
+      receiveTraffic: 'Receive Traffic',
+      totalTraffic: 'Total Traffic',
+      inRate: 'In Rate',
+      outRate: 'Out Rate',
+      protocolDistribution: 'Protocol Distribution'
+    },
     gapUser: { title: 'User Traffic', emptyDesc: 'User Traffic Module' },
     gapDip: { title: 'Server Traffic', emptyDesc: 'Server Traffic Module' },
     gapFileSync: { title: 'File Sync Traffic', emptyDesc: 'File Sync Traffic Module' }
