@@ -314,7 +314,26 @@ export default {
       trafficRank: '流量排行',
       topUsers: 'Top 5 用户'
     },
-    gapDip: { title: '服务器流量', emptyDesc: '服务器流量模块' },
+    gapDip: {
+      title: '服务器流量',
+      emptyDesc: '服务器流量模块',
+      innerNet: '内网设备',
+      outerNet: '外网设备',
+      timeRange: '时间范围',
+      '10min': '10分钟',
+      '1hour': '1小时',
+      '1day': '1天',
+      '1week': '1周',
+      '1month': '1月',
+      trafficTrend: '流量趋势',
+      serverIp: '服务器IP',
+      sendTraffic: '发送流量',
+      receiveTraffic: '接收流量',
+      totalTraffic: '总流量',
+      newSessions: '新建会话',
+      trafficDistribution: '流量分布',
+      topServers: 'Top 5 服务器'
+    },
     gapFileSync: { title: '文件同步流量', emptyDesc: '文件同步流量模块' }
   },
 

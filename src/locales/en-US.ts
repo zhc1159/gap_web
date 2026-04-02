@@ -301,7 +301,26 @@ export default {
       trafficRank: 'Traffic Rank',
       topUsers: 'Top 5 Users'
     },
-    gapDip: { title: 'Server Traffic', emptyDesc: 'Server Traffic Module' },
+    gapDip: {
+      title: 'Server Traffic',
+      emptyDesc: 'Server Traffic Module',
+      innerNet: 'Inner Network',
+      outerNet: 'Outer Network',
+      timeRange: 'Time Range',
+      '10min': '10 Minutes',
+      '1hour': '1 Hour',
+      '1day': '1 Day',
+      '1week': '1 Week',
+      '1month': '1 Month',
+      trafficTrend: 'Traffic Trend',
+      serverIp: 'Server IP',
+      sendTraffic: 'Send Traffic',
+      receiveTraffic: 'Receive Traffic',
+      totalTraffic: 'Total Traffic',
+      newSessions: 'New Sessions',
+      trafficDistribution: 'Traffic Distribution',
+      topServers: 'Top 5 Servers'
+    },
     gapFileSync: { title: 'File Sync Traffic', emptyDesc: 'File Sync Traffic Module' }
   },
 
