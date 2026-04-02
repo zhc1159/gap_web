@@ -43,8 +43,8 @@
               <el-icon class="card-icon"><Platform /></el-icon>
               <span>{{ $t('supervise.gapDip.serverIp') }}</span>
             </div>
-            <el-table :data="innerServerData" size="small" stripe max-height="260">
-              <el-table-column prop="serverIp" :label="$t('supervise.gapDip.serverIp')" width="140">
+            <el-table :data="innerServerData" size="small" stripe max-height="260" style="width: 100%">
+              <el-table-column prop="serverIp" :label="$t('supervise.gapDip.serverIp')" min-width="130">
                 <template #default="{ row }">
                   <div class="ip-cell">
                     <span class="status-dot" :class="row.status"></span>
@@ -52,24 +52,24 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.sendTraffic')" width="100">
+              <el-table-column :label="$t('supervise.gapDip.sendTraffic')" min-width="90">
                 <template #default="{ row }">
                   <span class="traffic-value send">{{ formatBytes(row.txBytes) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.receiveTraffic')" width="100">
+              <el-table-column :label="$t('supervise.gapDip.receiveTraffic')" min-width="90">
                 <template #default="{ row }">
                   <span class="traffic-value receive">{{ formatBytes(row.rxBytes) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.totalTraffic')" width="100">
+              <el-table-column :label="$t('supervise.gapDip.totalTraffic')" min-width="90">
                 <template #default="{ row }">
                   <span class="traffic-value total">{{ formatBytes(row.totalBytes) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.newSessions')" width="90">
+              <el-table-column :label="$t('supervise.gapDip.newSessions')" min-width="80">
                 <template #default="{ row }">
-                  <el-tag size="small" :type="row.sessions > 5000 ? 'danger' : row.sessions > 2000 ? 'warning' : ''">
+                  <el-tag size="small" :type="row.newSessions > 5000 ? 'danger' : row.newSessions > 2000 ? 'warning' : ''">
                     {{ formatNumber(row.newSessions) }}
                   </el-tag>
                 </template>
@@ -123,8 +123,8 @@
               <el-icon class="card-icon"><Platform /></el-icon>
               <span>{{ $t('supervise.gapDip.serverIp') }}</span>
             </div>
-            <el-table :data="outerServerData" size="small" stripe max-height="260">
-              <el-table-column prop="serverIp" :label="$t('supervise.gapDip.serverIp')" width="140">
+            <el-table :data="outerServerData" size="small" stripe max-height="260" style="width: 100%">
+              <el-table-column prop="serverIp" :label="$t('supervise.gapDip.serverIp')" min-width="130">
                 <template #default="{ row }">
                   <div class="ip-cell">
                     <span class="status-dot" :class="row.status"></span>
@@ -132,24 +132,24 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.sendTraffic')" width="100">
+              <el-table-column :label="$t('supervise.gapDip.sendTraffic')" min-width="90">
                 <template #default="{ row }">
                   <span class="traffic-value send">{{ formatBytes(row.txBytes) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.receiveTraffic')" width="100">
+              <el-table-column :label="$t('supervise.gapDip.receiveTraffic')" min-width="90">
                 <template #default="{ row }">
                   <span class="traffic-value receive">{{ formatBytes(row.rxBytes) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.totalTraffic')" width="100">
+              <el-table-column :label="$t('supervise.gapDip.totalTraffic')" min-width="90">
                 <template #default="{ row }">
                   <span class="traffic-value total">{{ formatBytes(row.totalBytes) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column :label="$t('supervise.gapDip.newSessions')" width="90">
+              <el-table-column :label="$t('supervise.gapDip.newSessions')" min-width="80">
                 <template #default="{ row }">
-                  <el-tag size="small" :type="row.sessions > 5000 ? 'danger' : row.sessions > 2000 ? 'warning' : ''">
+                  <el-tag size="small" :type="row.newSessions > 5000 ? 'danger' : row.newSessions > 2000 ? 'warning' : ''">
                     {{ formatNumber(row.newSessions) }}
                   </el-tag>
                 </template>
