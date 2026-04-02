@@ -280,7 +280,27 @@ export default {
       outRate: 'Out Rate',
       protocolDistribution: 'Protocol Distribution'
     },
-    gapUser: { title: 'User Traffic', emptyDesc: 'User Traffic Module' },
+    gapUser: {
+      title: 'User Traffic',
+      emptyDesc: 'User Traffic Module',
+      innerNet: 'Inner Network',
+      outerNet: 'Outer Network',
+      timeRange: 'Time Range',
+      '10min': '10 Minutes',
+      '1hour': '1 Hour',
+      '1day': '1 Day',
+      '1week': '1 Week',
+      '1month': '1 Month',
+      trafficTrend: 'User Traffic Trend',
+      user: 'User',
+      sendTraffic: 'Send Traffic',
+      receiveTraffic: 'Receive Traffic',
+      totalTraffic: 'Total Traffic',
+      inRate: 'In Rate',
+      outRate: 'Out Rate',
+      trafficRank: 'Traffic Rank',
+      topUsers: 'Top 5 Users'
+    },
     gapDip: { title: 'Server Traffic', emptyDesc: 'Server Traffic Module' },
     gapFileSync: { title: 'File Sync Traffic', emptyDesc: 'File Sync Traffic Module' }
   },
