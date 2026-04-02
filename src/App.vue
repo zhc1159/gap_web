@@ -1,9 +1,19 @@
 <template>
-  <router-view />
+  <el-config-provider :locale="elementLocale">
+    <router-view />
+  </el-config-provider>
 </template>
 
 <script setup lang="ts">
-// Root component - just renders the router view
+import { computed } from 'vue'
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import en from 'element-plus/es/locale/lang/en'
+import { getLocale } from './locales'
+
+const elementLocale = computed(() => {
+  return getLocale() === 'zh-CN' ? zhCn : en
+})
 </script>
 
 <style>
