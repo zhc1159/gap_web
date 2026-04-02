@@ -23,7 +23,7 @@
           <!-- Has children -->
           <el-sub-menu v-if="item.children && item.children.length" :index="item.path">
             <template #title>
-              <el-icon><component :is="item.icon" /></el-icon>
+              <el-icon><component :is="getIcon(item.icon)" /></el-icon>
               <span>{{ $t(item.meta?.titleKey || '') }}</span>
             </template>
             <el-menu-item
@@ -31,13 +31,13 @@
               :key="child.path"
               :index="item.path + '/' + child.path"
             >
-              <el-icon><component :is="child.icon" /></el-icon>
+              <el-icon><component :is="getIcon(child.icon)" /></el-icon>
               <span>{{ $t(child.meta?.titleKey || '') }}</span>
             </el-menu-item>
           </el-sub-menu>
           <!-- No children -->
           <el-menu-item v-else :index="item.path">
-            <el-icon><component :is="item.icon" /></el-icon>
+            <el-icon><component :is="getIcon(item.icon)" /></el-icon>
             <span>{{ $t(item.meta?.titleKey || '') }}</span>
           </el-menu-item>
         </template>
@@ -130,6 +130,8 @@ import { ElMessageBox, ElNotification } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Logout } from '@/axios/base'
 import { setLocale, getLocale } from '@/locales'
+import * as Icons from '@element-plus/icons-vue'
+import { markRaw } from 'vue'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -138,6 +140,12 @@ const route = useRoute()
 const isCollapse = ref(false)
 const nickName = ref(sessionStorage.getItem('nick_name') || '')
 const currentLocale = ref(getLocale())
+
+// Icon mapping
+const getIcon = (iconName: string) => {
+  const icon = (Icons as Record<string, unknown>)[iconName]
+  return icon ? markRaw(icon) : null
+}
 
 // Language options
 const currentLangLabel = computed(() => {
@@ -152,42 +160,214 @@ const handleLanguageChange = (lang: string) => {
 
 // Menu list based on user permissions
 const menuList = ref([
+  // 状态监视
   {
-    path: '/system',
-    meta: { titleKey: 'menu.system' },
+    path: '/supervise',
+    meta: { titleKey: 'menu.supervise' },
+    icon: 'Monitor',
+    children: [
+      { path: 'sysInfo', meta: { titleKey: 'supervise.sysInfo.title' }, icon: 'InfoFilled' },
+      { path: 'gapIneth', meta: { titleKey: 'supervise.gapIneth.title' }, icon: 'Connection' },
+      { path: 'gapProtocol', meta: { titleKey: 'supervise.gapProtocol.title' }, icon: 'Link' },
+      { path: 'gapUser', meta: { titleKey: 'supervise.gapUser.title' }, icon: 'User' },
+      { path: 'gapDip', meta: { titleKey: 'supervise.gapDip.title' }, icon: 'Cpu' },
+      { path: 'gapFileSync', meta: { titleKey: 'supervise.gapFileSync.title' }, icon: 'Files' }
+    ]
+  },
+  // 系统配置
+  {
+    path: '/systemManage',
+    meta: { titleKey: 'menu.systemManage' },
     icon: 'Setting',
     children: [
-      { path: 'user', meta: { titleKey: 'menu.userManage' }, icon: 'User' },
-      { path: 'role', meta: { titleKey: 'menu.roleManage' }, icon: 'Avatar' },
-      { path: 'menu', meta: { titleKey: 'menu.menuManage' }, icon: 'Grid' },
-      { path: 'log', meta: { titleKey: 'menu.logManage' }, icon: 'Document' }
+      { path: 'lanShow', meta: { titleKey: 'systemManage.lanShow.title' }, icon: 'Connection' },
+      { path: 'sysTime', meta: { titleKey: 'systemManage.sysTime.title' }, icon: 'Clock' },
+      { path: 'gapMode', meta: { titleKey: 'systemManage.gapMode.title' }, icon: 'Switch' },
+      { path: 'vlanShow', meta: { titleKey: 'systemManage.vlanShow.title' }, icon: 'Grid' },
+      { path: 'routeShow', meta: { titleKey: 'systemManage.routeShow.title' }, icon: 'Guide' },
+      { path: 'softwareConf', meta: { titleKey: 'systemManage.softwareConf.title' }, icon: 'Key' },
+      { path: 'funcManager', meta: { titleKey: 'systemManage.funcManager.title' }, icon: 'SetUp' },
+      { path: 'antiDos', meta: { titleKey: 'systemManage.antiDos.title' }, icon: 'Warning' },
+      { path: 'defenseSet', meta: { titleKey: 'systemManage.defenseSet.title' }, icon: 'Lock' },
+      { path: 'defenseLog', meta: { titleKey: 'systemManage.defenseLog.title' }, icon: 'Document' },
+      { path: 'defenseUpdate', meta: { titleKey: 'systemManage.defenseUpdate.title' }, icon: 'Upload' },
+      { path: 'hotstandby', meta: { titleKey: 'systemManage.hotstandby.title' }, icon: 'CopyDocument' },
+      { path: 'loadbalanceShow', meta: { titleKey: 'systemManage.loadbalanceShow.title' }, icon: 'Connection' },
+      { path: 'lvsShow', meta: { titleKey: 'systemManage.lvsShow.title' }, icon: 'Sort' },
+      { path: 'linkPoly', meta: { titleKey: 'systemManage.linkPoly.title' }, icon: 'Link' }
     ]
   },
+  // 用户管理
   {
-    path: '/policy',
-    meta: { titleKey: 'menu.policy' },
+    path: '/userManage',
+    meta: { titleKey: 'menu.userManage' },
+    icon: 'User',
+    children: [
+      { path: 'super_opcUser', meta: { titleKey: 'userManage.super_opcUser.title' }, icon: 'UserFilled' },
+      { path: 'authFun', meta: { titleKey: 'userManage.authFun.title' }, icon: 'Key' }
+    ]
+  },
+  // 系统维护
+  {
+    path: '/systemMaintenance',
+    meta: { titleKey: 'menu.systemMaintenance' },
+    icon: 'Tools',
+    children: [
+      { path: 'licenseShow', meta: { titleKey: 'systemMaintenance.licenseShow.title' }, icon: 'Ticket' },
+      { path: 'loadProfileShow', meta: { titleKey: 'systemMaintenance.loadProfileShow.title' }, icon: 'FolderOpened' },
+      { path: 'ProfileBackup', meta: { titleKey: 'systemMaintenance.profileBackup.title' }, icon: 'Files' },
+      { path: 'sysUpdate', meta: { titleKey: 'systemMaintenance.sysUpdate.title' }, icon: 'Promotion' },
+      { path: 'antiVirusUpdate', meta: { titleKey: 'systemMaintenance.antiVirusUpdate.title' }, icon: 'Upload' },
+      { path: 'diagTool', meta: { titleKey: 'systemMaintenance.diagTool.title' }, icon: 'Search' },
+      { path: 'oNAndOff', meta: { titleKey: 'systemMaintenance.onOff.title' }, icon: 'SwitchButton' }
+    ]
+  },
+  // 权限管理
+  {
+    path: '/authorityManage',
+    meta: { titleKey: 'menu.authorityManage' },
     icon: 'Lock',
     children: [
-      { path: 'firewall', meta: { titleKey: 'menu.firewallPolicy' }, icon: 'Key' },
-      { path: 'audit', meta: { titleKey: 'menu.auditPolicy' }, icon: 'View' }
+      { path: 'showUser', meta: { titleKey: 'authorityManage.showUser.title' }, icon: 'User' },
+      { path: 'userIpShow', meta: { titleKey: 'authorityManage.userIpShow.title' }, icon: 'Location' },
+      { path: 'Otp', meta: { titleKey: 'authorityManage.otp.title' }, icon: 'Key' },
+      { path: 'secureShow', meta: { titleKey: 'authorityManage.secureShow.title' }, icon: 'Lock' }
     ]
   },
+  // 对象管理
+  {
+    path: '/objectManage',
+    meta: { titleKey: 'menu.objectManage' },
+    icon: 'Collection',
+    children: [
+      { path: 'ipGroup', meta: { titleKey: 'objectManage.ipGroup.title' }, icon: 'Location' },
+      { path: 'timeGroup', meta: { titleKey: 'objectManage.timeGroup.title' }, icon: 'Timer' }
+    ]
+  },
+  // 通用代理
+  {
+    path: '/securityPolicy',
+    meta: { titleKey: 'menu.securityPolicy' },
+    icon: 'Connection',
+    children: [
+      { path: 'general_accessControl', meta: { titleKey: 'securityPolicy.general_accessControl.title' }, icon: 'List' },
+      { path: 's_ftp', meta: { titleKey: 'securityPolicy.s_ftp.title' }, icon: 'Upload' },
+      { path: 's_http', meta: { titleKey: 'securityPolicy.s_http.title' }, icon: 'Link' },
+      { path: 's_email', meta: { titleKey: 'securityPolicy.s_email.title' }, icon: 'Message' },
+      { path: 's_telnet', meta: { titleKey: 'securityPolicy.s_telnet.title' }, icon: 'Monitor' },
+      { path: 's_WebService', meta: { titleKey: 'securityPolicy.s_WebService.title' }, icon: 'Connection' },
+      { path: 's_httpProxy', meta: { titleKey: 'securityPolicy.s_httpProxy.title' }, icon: 'Link' }
+    ]
+  },
+  // 数据库安全
+  {
+    path: '/databaseSafe',
+    meta: { titleKey: 'menu.databaseSafe' },
+    icon: 'Coin',
+    children: [
+      { path: 'database_accessControl', meta: { titleKey: 'databaseSafe.database_accessControl.title' }, icon: 'List' },
+      { path: 's_db_sybase', meta: { titleKey: 'databaseSafe.s_db_sybase.title' }, icon: 'Coin' },
+      { path: 's_db_dameng', meta: { titleKey: 'databaseSafe.s_db_dameng.title' }, icon: 'Coin' },
+      { path: 's_db_oracle', meta: { titleKey: 'databaseSafe.s_db_oracle.title' }, icon: 'Coin' }
+    ]
+  },
+  // 文件传输
+  {
+    path: '/fileSafe',
+    meta: { titleKey: 'menu.fileSafe' },
+    icon: 'Folder',
+    children: [
+      { path: 'file_accessControl', meta: { titleKey: 'fileSafe.file_accessControl.title' }, icon: 'List' },
+      { path: 's_stfp', meta: { titleKey: 'fileSafe.s_stfp.title' }, icon: 'Upload' },
+      { path: 'file_approval', meta: { titleKey: 'fileSafe.file_approval.title' }, icon: 'Clock' },
+      { path: 'file_approval_success', meta: { titleKey: 'fileSafe.file_approval_success.title' }, icon: 'CircleCheck' },
+      { path: 'file_approval_failed', meta: { titleKey: 'fileSafe.file_approval_failed.title' }, icon: 'CircleClose' }
+    ]
+  },
+  // 视频代理
+  {
+    path: '/videoSafe',
+    meta: { titleKey: 'menu.videoSafe' },
+    icon: 'VideoCamera',
+    children: [
+      { path: 'video_accessControl', meta: { titleKey: 'videoSafe.video_accessControl.title' }, icon: 'List' },
+      { path: 'sipFilter', meta: { titleKey: 'videoSafe.sipFilter.title' }, icon: 'Filter' },
+      { path: 'rtspFilter', meta: { titleKey: 'videoSafe.rtspFilter.title' }, icon: 'Filter' },
+      { path: 'rtspOption', meta: { titleKey: 'videoSafe.rtspOption.title' }, icon: 'Setting' }
+    ]
+  },
+  // 工控代理
+  {
+    path: '/opc',
+    meta: { titleKey: 'menu.opc' },
+    icon: 'Cpu',
+    children: [
+      { path: 'opc_accessControl', meta: { titleKey: 'opc.opc_accessControl.title' }, icon: 'List' },
+      { path: 'modbus', meta: { titleKey: 'opc.modbus.title' }, icon: 'Connection' },
+      { path: 'opcShow', meta: { titleKey: 'opc.opcShow.title' }, icon: 'Connection' },
+      { path: 'iec104', meta: { titleKey: 'opc.iec104.title' }, icon: 'Connection' },
+      { path: 'dnp3', meta: { titleKey: 'opc.dnp3.title' }, icon: 'Connection' },
+      { path: 'bacnet', meta: { titleKey: 'opc.bacnet.title' }, icon: 'Connection' },
+      { path: 's7', meta: { titleKey: 'opc.s7.title' }, icon: 'Connection' },
+      { path: 'trdp', meta: { titleKey: 'opc.trdp.title' }, icon: 'Connection' },
+      { path: 'opcdaOption', meta: { titleKey: 'opc.opcdaOption.title' }, icon: 'Setting' },
+      { path: 'coap', meta: { titleKey: 'opc.coap.title' }, icon: 'Connection' },
+      { path: 'cip', meta: { titleKey: 'opc.cip.title' }, icon: 'Connection' },
+      { path: 'mms', meta: { titleKey: 'opc.mms.title' }, icon: 'Connection' },
+      { path: 'fins', meta: { titleKey: 'opc.fins.title' }, icon: 'Connection' },
+      { path: 'hartip', meta: { titleKey: 'opc.hartip.title' }, icon: 'Connection' },
+      { path: 's_onebit', meta: { titleKey: 'opc.s_onebit.title' }, icon: 'Minus' }
+    ]
+  },
+  // 地址转换
+  {
+    path: '/addressTranslation',
+    meta: { titleKey: 'menu.addressTranslation' },
+    icon: 'Sort',
+    children: [
+      { path: 'SourceNat', meta: { titleKey: 'addressTranslation.sourceNat.title' }, icon: 'Top' },
+      { path: 'DestNat', meta: { titleKey: 'addressTranslation.destNat.title' }, icon: 'Bottom' }
+    ]
+  },
+  // 数据同步
+  {
+    path: '/rulesManage',
+    meta: { titleKey: 'menu.rulesManage' },
+    icon: 'Refresh',
+    children: [
+      { path: 'filePathShow', meta: { titleKey: 'rulesManage.filePathShow.title' }, icon: 'Folder' },
+      { path: 'databaseShow', meta: { titleKey: 'rulesManage.databaseShow.title' }, icon: 'Coin' }
+    ]
+  },
+  // 安全规则
+  {
+    path: '/transparentRule',
+    meta: { titleKey: 'menu.transparentRule' },
+    icon: 'Document',
+    children: [
+      { path: 'rules', meta: { titleKey: 'transparentRule.rules.title' }, icon: 'List' },
+      { path: 'ip', meta: { titleKey: 'transparentRule.ip.title' }, icon: 'Location' },
+      { path: 'port', meta: { titleKey: 'transparentRule.port.title' }, icon: 'Grid' },
+      { path: 'time', meta: { titleKey: 'transparentRule.time.title' }, icon: 'Timer' }
+    ]
+  },
+  // 日志审计
   {
     path: '/audit',
     meta: { titleKey: 'menu.audit' },
     icon: 'Tickets',
     children: [
-      { path: 'operation', meta: { titleKey: 'menu.operationLog' }, icon: 'List' },
-      { path: 'security', meta: { titleKey: 'menu.securityLog' }, icon: 'Warning' }
-    ]
-  },
-  {
-    path: '/monitor',
-    meta: { titleKey: 'menu.monitor' },
-    icon: 'Monitor',
-    children: [
-      { path: 'dashboard', meta: { titleKey: 'menu.realtimeMonitor' }, icon: 'Odometer' },
-      { path: 'traffic', meta: { titleKey: 'menu.trafficStats' }, icon: 'TrendCharts' }
+      { path: 'logConfig', meta: { titleKey: 'audit.logConfig.title' }, icon: 'Setting' },
+      { path: 'gapLog', meta: { titleKey: 'audit.gapLog.title' }, icon: 'Document' },
+      { path: 'logs', meta: { titleKey: 'audit.logs.title' }, icon: 'Document' },
+      { path: 'fileSynLog', meta: { titleKey: 'audit.fileSynLog.title' }, icon: 'DocumentCopy' },
+      { path: 'ferryloginLog', meta: { titleKey: 'audit.ferryloginLog.title' }, icon: 'User' },
+      { path: 'ferrySendLog', meta: { titleKey: 'audit.ferrySendLog.title' }, icon: 'Upload' },
+      { path: 'ferryReceiveLog', meta: { titleKey: 'audit.ferryReceiveLog.title' }, icon: 'Download' },
+      { path: 'strategyLog', meta: { titleKey: 'audit.strategyLog.title' }, icon: 'List' },
+      { path: 'sessionLog', meta: { titleKey: 'audit.sessionLog.title' }, icon: 'ChatLineSquare' },
+      { path: 'atkLog', meta: { titleKey: 'audit.atkLog.title' }, icon: 'Warning' },
+      { path: 'ifcfgStatusLog', meta: { titleKey: 'audit.ifcfgStatusLog.title' }, icon: 'Connection' }
     ]
   }
 ])

@@ -53,7 +53,7 @@ export default {
     section2Item2: '记录系统操作日志用于安全审计',
     section2Item3: '保障系统安全运行',
     section3Title: '三、信息安全',
-    section3Content: '我们采用行业标准的安全措施保护您的信息，包括但不限于数据加密传输、访问控制、安全审计等技术手段。',
+    section3Content: '我们采用行业标准的安全措施保护您的信息,包括但不限于数据加密传输、访问控制、安全审计等技术手段。',
     section4Title: '四、信息保留',
     section4Content: '您的账户信息将在您使用系统期间保留。如需注销账户，请联系系统管理员。',
     section5Title: '五、承诺声明',
@@ -76,12 +76,25 @@ export default {
     policy: '策略',
     firewallPolicy: '防火墙策略',
     auditPolicy: '审计策略',
-    audit: '审计',
+    audit: '日志审计',
     operationLog: '操作日志',
     securityLog: '安全日志',
     monitor: '监控',
     realtimeMonitor: '实时监控',
-    trafficStats: '流量统计'
+    trafficStats: '流量统计',
+    authorityManage: '权限管理',
+    objectManage: '对象管理',
+    securityPolicy: '通用代理',
+    databaseSafe: '数据库安全',
+    fileSafe: '文件传输',
+    videoSafe: '视频代理',
+    opc: '工控代理',
+    addressTranslation: '地址转换',
+    rulesManage: '数据同步',
+    transparentRule: '安全规则',
+    supervise: '状态监视',
+    systemManage: '系统配置',
+    systemMaintenance: '系统维护'
   },
   user: {
     title: '用户管理',
@@ -102,43 +115,165 @@ export default {
     addDeveloping: '新增用户功能开发中',
     editDeveloping: '编辑用户功能开发中'
   },
-  firewall: {
-    title: '防火墙策略',
-    addPolicy: '新增策略',
-    addDeveloping: '新增策略功能开发中',
-    emptyDesc: '防火墙策略管理模块'
+  firewall: { title: '防火墙策略', addPolicy: '新增策略', addDeveloping: '新增策略功能开发中', emptyDesc: '防火墙策略管理模块' },
+  role: { title: '角色管理', emptyDesc: '角色管理模块' },
+  menuManage: { title: '菜单管理', emptyDesc: '菜单管理模块' },
+  logManage: { title: '日志管理', emptyDesc: '日志管理模块' },
+  operation: { title: '操作日志', emptyDesc: '操作日志模块' },
+  security: { title: '安全日志', emptyDesc: '安全日志模块' },
+  dashboard: { title: '实时监控', emptyDesc: '实时监控模块' },
+  traffic: { title: '流量统计', emptyDesc: '流量统计模块' },
+  error404: { title: '页面未找到', description: '您访问的页面不存在', backHome: '返回首页' },
+
+  // 日志审计
+  audit: {
+    gapLog: { title: 'web日志', emptyDesc: 'web日志模块' },
+    fileSynLog: { title: '文件同步日志', emptyDesc: '文件同步日志模块' },
+    ferryloginLog: { title: '登录日志', emptyDesc: '登录日志模块' },
+    ferrySendLog: { title: '发送日志', emptyDesc: '发送日志模块' },
+    ferryReceiveLog: { title: '接收日志', emptyDesc: '接收日志模块' },
+    strategyLog: { title: '策略日志', emptyDesc: '策略日志模块' },
+    sessionLog: { title: '会话日志', emptyDesc: '会话日志模块' },
+    atkLog: { title: '抗攻击日志', emptyDesc: '抗攻击日志模块' },
+    ifcfgStatusLog: { title: '网口状态日志', emptyDesc: '网口状态日志模块' },
+    logConfig: { title: '日志配置', emptyDesc: '日志配置模块' },
+    logs: { title: '拦截日志', emptyDesc: '拦截日志模块' },
+    operation: { title: '操作日志', emptyDesc: '操作日志模块' },
+    security: { title: '安全日志', emptyDesc: '安全日志模块' }
   },
-  role: {
-    title: '角色管理',
-    emptyDesc: '角色管理模块'
+
+  // 权限管理
+  authorityManage: {
+    showUser: { title: '管理员', emptyDesc: '管理员模块' },
+    userIpShow: { title: '管理机', emptyDesc: '管理机模块' },
+    otp: { title: '动态口令', emptyDesc: '动态口令模块' },
+    secureShow: { title: '安全选项', emptyDesc: '安全选项模块' }
   },
-  menuManage: {
-    title: '菜单管理',
-    emptyDesc: '菜单管理模块'
+
+  // 用户管理
+  userManage: {
+    super_opcUser: { title: '普通用户', emptyDesc: '普通用户模块' },
+    authFun: { title: '认证功能模块管理', emptyDesc: '认证功能模块管理' }
   },
-  logManage: {
-    title: '日志管理',
-    emptyDesc: '日志管理模块'
+
+  // 对象管理
+  objectManage: {
+    ipGroup: { title: 'IP组', emptyDesc: 'IP组模块' },
+    timeGroup: { title: '时间组', emptyDesc: '时间组模块' }
   },
-  operation: {
-    title: '操作日志',
-    emptyDesc: '操作日志模块'
+
+  // 通用代理
+  securityPolicy: {
+    general_accessControl: { title: '代理规则', emptyDesc: '代理规则模块' },
+    s_ftp: { title: 'FTP安全', emptyDesc: 'FTP安全模块' },
+    s_http: { title: 'HTTP安全', emptyDesc: 'HTTP安全模块' },
+    s_email: { title: '邮件安全', emptyDesc: '邮件安全模块' },
+    s_telnet: { title: 'Telnet安全', emptyDesc: 'Telnet安全模块' },
+    s_WebService: { title: 'WebService安全', emptyDesc: 'WebService安全模块' },
+    s_httpProxy: { title: 'Web代理安全', emptyDesc: 'Web代理安全模块' }
   },
-  security: {
-    title: '安全日志',
-    emptyDesc: '安全日志模块'
+
+  // 数据库安全
+  databaseSafe: {
+    database_accessControl: { title: '代理规则', emptyDesc: '代理规则模块' },
+    s_db_sybase: { title: 'SYBASE安全', emptyDesc: 'SYBASE安全模块' },
+    s_db_dameng: { title: 'DAMENG安全', emptyDesc: 'DAMENG安全模块' },
+    s_db_oracle: { title: 'ORACLE安全', emptyDesc: 'ORACLE安全模块' }
   },
-  dashboard: {
-    title: '实时监控',
-    emptyDesc: '实时监控模块'
+
+  // 文件传输
+  fileSafe: {
+    file_accessControl: { title: '代理规则', emptyDesc: '代理规则模块' },
+    s_stfp: { title: 'STFP安全', emptyDesc: 'STFP安全模块' },
+    file_approval: { title: '等待审核', emptyDesc: '等待审核模块' },
+    file_approval_success: { title: '审核已通过', emptyDesc: '审核已通过模块' },
+    file_approval_failed: { title: '审核未通过', emptyDesc: '审核未通过模块' }
   },
-  traffic: {
-    title: '流量统计',
-    emptyDesc: '流量统计模块'
+
+  // 视频代理
+  videoSafe: {
+    video_accessControl: { title: '代理规则', emptyDesc: '代理规则模块' },
+    sipFilter: { title: 'SIP安全', emptyDesc: 'SIP安全模块' },
+    rtspFilter: { title: 'RTSP安全', emptyDesc: 'RTSP安全模块' },
+    rtspOption: { title: 'RTSP高级选项', emptyDesc: 'RTSP高级选项模块' }
   },
-  error404: {
-    title: '页面未找到',
-    description: '您访问的页面不存在',
-    backHome: '返回首页'
+
+  // 工控代理
+  opc: {
+    opc_accessControl: { title: '代理规则', emptyDesc: '代理规则模块' },
+    modbus: { title: 'MODBUS安全', emptyDesc: 'MODBUS安全模块' },
+    opcShow: { title: 'OPC安全', emptyDesc: 'OPC安全模块' },
+    iec104: { title: 'IEC104', emptyDesc: 'IEC104模块' },
+    dnp3: { title: 'DNP3安全', emptyDesc: 'DNP3安全模块' },
+    bacnet: { title: 'BACNET安全', emptyDesc: 'BACNET安全模块' },
+    s7: { title: 'S7安全', emptyDesc: 'S7安全模块' },
+    trdp: { title: 'TRDP安全', emptyDesc: 'TRDP安全模块' },
+    opcdaOption: { title: 'OPCDA高级选项', emptyDesc: 'OPCDA高级选项模块' },
+    coap: { title: 'COAP安全', emptyDesc: 'COAP安全模块' },
+    cip: { title: 'CIP和ENIP安全', emptyDesc: 'CIP和ENIP安全模块' },
+    mms: { title: 'MMS安全', emptyDesc: 'MMS安全模块' },
+    fins: { title: 'FINS安全', emptyDesc: 'FINS安全模块' },
+    hartip: { title: 'HARTIP安全', emptyDesc: 'HARTIP安全模块' },
+    s_onebit: { title: '1Bit安全', emptyDesc: '1Bit安全模块' }
+  },
+
+  // 地址转换
+  addressTranslation: {
+    sourceNat: { title: '源地址转换', emptyDesc: '源地址转换模块' },
+    destNat: { title: '目的地址转换', emptyDesc: '目的地址转换模块' }
+  },
+
+  // 数据同步
+  rulesManage: {
+    filePathShow: { title: '传输路径', emptyDesc: '传输路径模块' },
+    databaseShow: { title: '数据库配置', emptyDesc: '数据库配置模块' }
+  },
+
+  // 安全规则
+  transparentRule: {
+    rules: { title: '规则管理', emptyDesc: '规则管理模块' },
+    ip: { title: 'IP组', emptyDesc: 'IP组模块' },
+    port: { title: '端口组', emptyDesc: '端口组模块' },
+    time: { title: '时间组', emptyDesc: '时间组模块' }
+  },
+
+  // 状态监视
+  supervise: {
+    sysInfo: { title: '主机信息', emptyDesc: '主机信息模块' },
+    gapIneth: { title: '接口流量', emptyDesc: '接口流量模块' },
+    gapProtocol: { title: '应用流量', emptyDesc: '应用流量模块' },
+    gapUser: { title: '用户流量', emptyDesc: '用户流量模块' },
+    gapDip: { title: '服务器流量', emptyDesc: '服务器流量模块' },
+    gapFileSync: { title: '文件同步流量', emptyDesc: '文件同步流量模块' }
+  },
+
+  // 系统配置
+  systemManage: {
+    lanShow: { title: '网络接口', emptyDesc: '网络接口模块' },
+    sysTime: { title: '系统时间', emptyDesc: '系统时间模块' },
+    gapMode: { title: '模式切换', emptyDesc: '模式切换模块' },
+    vlanShow: { title: '虚网配置', emptyDesc: '虚网配置模块' },
+    routeShow: { title: '路由配置', emptyDesc: '路由配置模块' },
+    softwareConf: { title: 'SSH管理', emptyDesc: 'SSH管理模块' },
+    funcManager: { title: 'SNMP', emptyDesc: 'SNMP模块' },
+    antiDos: { title: '抗攻击', emptyDesc: '抗攻击模块' },
+    defenseSet: { title: '引擎设置', emptyDesc: '引擎设置模块' },
+    defenseLog: { title: '告警日志', emptyDesc: '告警日志模块' },
+    defenseUpdate: { title: '特征库升级', emptyDesc: '特征库升级模块' },
+    hotstandby: { title: '双机热备', emptyDesc: '双机热备模块' },
+    loadbalanceShow: { title: '集群部署', emptyDesc: '集群部署模块' },
+    lvsShow: { title: '负载均衡', emptyDesc: '负载均衡模块' },
+    linkPoly: { title: '链路聚合', emptyDesc: '链路聚合模块' }
+  },
+
+  // 系统维护
+  systemMaintenance: {
+    licenseShow: { title: '软件授权', emptyDesc: '软件授权模块' },
+    loadProfileShow: { title: '历史存档', emptyDesc: '历史存档模块' },
+    profileBackup: { title: '配置备份', emptyDesc: '配置备份模块' },
+    sysUpdate: { title: '系统升级', emptyDesc: '系统升级模块' },
+    antiVirusUpdate: { title: '病毒库升级', emptyDesc: '病毒库升级模块' },
+    diagTool: { title: '诊断工具', emptyDesc: '诊断工具模块' },
+    onOff: { title: '系统开关机', emptyDesc: '系统开关机模块' }
   }
 }
