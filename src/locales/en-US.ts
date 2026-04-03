@@ -545,6 +545,22 @@ export default {
       timeoutRange: 'Timeout must be between 10-30',
       portRange: 'Port must be between 1-65535'
     },
-    onOff: { title: 'System Power', emptyDesc: 'System Power Module' }
+    onOff: {
+      title: 'System Power',
+      emptyDesc: 'System Power Module',
+      systemStatus: 'System Status',
+      running: 'Running',
+      stopped: 'Stopped',
+      warningTitle: 'Operation Warning',
+      warningContent: 'Rebooting or shutting down the system will interrupt all running services. Please ensure all important data has been saved and notify relevant users.',
+      reboot: 'Reboot System',
+      shutdown: 'Shutdown System',
+      rebootHint: 'Reboot will temporarily interrupt all services',
+      shutdownHint: 'Shutdown will completely stop the system',
+      rebootConfirm: 'Are you sure to reboot the system? This will interrupt all running services.',
+      shutdownConfirm: 'Are you sure to shutdown the system? This action cannot be undone and will completely stop the system.',
+      rebootSuccess: 'System is rebooting...',
+      shutdownSuccess: 'System is shutting down...'
+    }
   }
 }

@@ -565,6 +565,22 @@ export default {
       timeoutRange: '超时时间必须在10-30之间',
       portRange: '端口号必须在1-65535之间'
     },
-    onOff: { title: '系统开关机', emptyDesc: '系统开关机模块' }
+    onOff: {
+      title: '系统开关机',
+      emptyDesc: '系统开关机模块',
+      systemStatus: '系统状态',
+      running: '运行中',
+      stopped: '已停止',
+      warningTitle: '操作警告',
+      warningContent: '重启或关闭系统将中断所有正在运行的服务，请确保已保存所有重要数据并通知相关用户。',
+      reboot: '重启系统',
+      shutdown: '关闭系统',
+      rebootHint: '重启将暂时中断所有服务',
+      shutdownHint: '关机将完全停止系统运行',
+      rebootConfirm: '确定要重启系统吗？此操作将中断所有正在运行的服务。',
+      shutdownConfirm: '确定要关闭系统吗？此操作不可撤销，系统将完全停止运行。',
+      rebootSuccess: '系统正在重启...',
+      shutdownSuccess: '系统正在关闭...'
+    }
   }
 }
