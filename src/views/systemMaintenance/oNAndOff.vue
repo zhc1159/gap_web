@@ -13,6 +13,20 @@
     <!-- 主内容区 -->
     <div class="content-wrapper">
       <div class="card power-card">
+        <!-- 提示信息 -->
+        <div class="warning-section">
+          <el-alert
+            :title="$t('systemMaintenance.onOff.warningTitle')"
+            type="warning"
+            :closable="false"
+            show-icon
+          >
+            <template #default>
+              {{ $t('systemMaintenance.onOff.warningContent') }}
+            </template>
+          </el-alert>
+        </div>
+
         <!-- 系统状态显示 -->
         <div class="status-section">
           <div class="status-icon-wrapper">
@@ -30,20 +44,6 @@
               </el-tag>
             </div>
           </div>
-        </div>
-
-        <!-- 提示信息 -->
-        <div class="warning-section">
-          <el-alert
-            :title="$t('systemMaintenance.onOff.warningTitle')"
-            type="warning"
-            :closable="false"
-            show-icon
-          >
-            <template #default>
-              {{ $t('systemMaintenance.onOff.warningContent') }}
-            </template>
-          </el-alert>
         </div>
 
         <!-- 操作按钮区 -->
