@@ -9,11 +9,11 @@
         <span class="header-title">{{ $t('systemMaintenance.loadProfileShow.title') }}</span>
       </div>
       <div class="header-actions">
-        <el-button type="primary" @click="openDialog('add')">
+        <el-button class="btn-add" @click="openDialog('add')">
           <el-icon><Plus /></el-icon>
           {{ $t('systemMaintenance.loadProfileShow.addProfile') }}
         </el-button>
-        <el-button type="success" @click="openDialog('upload')">
+        <el-button class="btn-upload" @click="openDialog('upload')">
           <el-icon><Upload /></el-icon>
           {{ $t('systemMaintenance.loadProfileShow.uploadProfile') }}
         </el-button>
@@ -528,6 +528,41 @@ onMounted(() => {
 .header-actions {
   display: flex;
   gap: 12px;
+}
+
+.header-actions .btn-add,
+.header-actions .btn-upload {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.header-actions .btn-add {
+  background: rgba(255, 255, 255, 0.95);
+  color: #409EFF;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-actions .btn-add:hover {
+  background: white;
+  color: #409EFF;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.header-actions .btn-upload {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+}
+
+.header-actions .btn-upload:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
 }
 
 /* 统计卡片 */
