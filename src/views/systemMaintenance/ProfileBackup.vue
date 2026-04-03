@@ -231,6 +231,9 @@ const rules: FormRules = {
   ],
   uploadPath: [
     { required: true, message: 'Please enter upload path', trigger: 'blur' }
+  ],
+  interval: [
+    { required: true, message: 'Please enter backup interval', trigger: 'blur' }
   ]
 }
 
@@ -346,8 +349,8 @@ onMounted(() => {
 }
 
 .backup-switch {
-  --el-switch-on-color: #67C23A;
-  --el-switch-off-color: rgba(255, 255, 255, 0.3);
+  --el-switch-on-color: #9C27B0;
+  --el-switch-off-color: rgba(0, 0, 0, 0.3);
 }
 
 /* 内容区域 */
@@ -614,14 +617,14 @@ onMounted(() => {
 }
 
 .btn-backup {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.35);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);
 }
 
 .btn-backup:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.45);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.45);
 }
 
 /* 响应式 */
