@@ -342,9 +342,11 @@ onMounted(() => {
 
 /* 内容区域 */
 .content-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* 卡片 */
@@ -448,7 +450,7 @@ onMounted(() => {
 /* 状态网格 */
 .status-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 
@@ -514,7 +516,6 @@ onMounted(() => {
 
 /* 操作按钮 */
 .action-bar {
-  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
   gap: 16px;
@@ -568,16 +569,6 @@ onMounted(() => {
 }
 
 /* 响应式 */
-@media (max-width: 1200px) {
-  .content-wrapper {
-    grid-template-columns: 1fr;
-  }
-
-  .action-bar {
-    grid-column: 1;
-  }
-}
-
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;
@@ -586,7 +577,7 @@ onMounted(() => {
   }
 
   .status-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .action-bar {
