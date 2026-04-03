@@ -552,15 +552,15 @@ onMounted(() => {
 }
 
 .header-actions .btn-upload {
-  background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.35);
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
 }
 
 .header-actions .btn-upload:hover {
-  background: linear-gradient(135deg, #5dade2 0%, #27ae60 100%);
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.45);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
 }
 
 /* 统计卡片 */
