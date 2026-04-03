@@ -527,42 +527,45 @@ onMounted(() => {
 
 .header-actions {
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 
-.header-actions .btn-add,
-.header-actions .btn-upload {
-  padding: 10px 20px;
-  border-radius: 8px;
+.header-actions .el-button {
+  padding: 12px 24px;
+  border-radius: 10px;
   font-weight: 500;
-  border: none;
+  font-size: 14px;
   transition: all 0.3s ease;
-  color: white;
+  border: none;
 }
 
 .header-actions .btn-add {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
   color: #409EFF;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 .header-actions .btn-add:hover {
-  background: white;
-  color: #409EFF;
+  background: linear-gradient(135deg, #ffffff 0%, #e6f4ff 100%);
+  color: #337ecc;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(64, 158, 255, 0.25);
 }
 
 .header-actions .btn-upload {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
   color: white;
+  backdrop-filter: blur(4px);
 }
 
 .header-actions .btn-upload:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.8);
+  color: white;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* 统计卡片 */
