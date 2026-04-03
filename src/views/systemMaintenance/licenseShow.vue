@@ -95,6 +95,42 @@
               <div class="info-item-value">{{ lastUpdate }}</div>
             </div>
           </div>
+          <div class="info-item">
+            <div class="info-item-icon">
+              <el-icon><Key /></el-icon>
+            </div>
+            <div class="info-item-content">
+              <div class="info-item-label">{{ $t('systemMaintenance.licenseShow.serialNumber') }}</div>
+              <div class="info-item-value serial-number">{{ serialNumber }}</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-icon">
+              <el-icon><Connection /></el-icon>
+            </div>
+            <div class="info-item-content">
+              <div class="info-item-label">{{ $t('systemMaintenance.licenseShow.maxConnections') }}</div>
+              <div class="info-item-value">{{ maxConnections }}</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-icon">
+              <el-icon><Platform /></el-icon>
+            </div>
+            <div class="info-item-content">
+              <div class="info-item-label">{{ $t('systemMaintenance.licenseShow.version') }}</div>
+              <div class="info-item-value">{{ version }}</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-icon">
+              <el-icon><OfficeBuilding /></el-icon>
+            </div>
+            <div class="info-item-content">
+              <div class="info-item-label">{{ $t('systemMaintenance.licenseShow.manufacturer') }}</div>
+              <div class="info-item-value">{{ manufacturer }}</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -198,7 +234,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { ElNotification } from 'element-plus'
 import {
   Key, CircleCheck, View, Document, Monitor, Cpu, Calendar, Timer,
-  Upload, UploadFilled, Position, Delete, Link, DocumentCopy
+  Upload, UploadFilled, Position, Delete, Link, DocumentCopy, Connection, Platform, OfficeBuilding
 } from '@element-plus/icons-vue'
 
 // 上传组件引用
@@ -214,6 +250,10 @@ const deviceName = ref('GAP-Security-Gateway-01')
 const cpuCores = ref('8 Cores')
 const activationDate = ref('2024-04-03')
 const lastUpdate = ref('2026-04-01 14:30:25')
+const serialNumber = ref('GAP-2024-XXXX-XXXX-XXXX')
+const maxConnections = ref('10000')
+const version = ref('v3.2.1 Enterprise')
+const manufacturer = ref('GAP Security Inc.')
 const deviceCode = ref('')
 
 // 上传相关
