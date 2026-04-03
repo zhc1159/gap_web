@@ -540,32 +540,27 @@ onMounted(() => {
 }
 
 .header-actions .btn-add {
-  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-  color: #409EFF;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: linear-gradient(135deg, #F56C6C 0%, #E6A23C 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(245, 108, 108, 0.35);
 }
 
 .header-actions .btn-add:hover {
-  background: linear-gradient(135deg, #ffffff 0%, #e6f4ff 100%);
-  color: #337ecc;
+  background: linear-gradient(135deg, #F56C6C 0%, #E6A23C 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(64, 158, 255, 0.25);
+  box-shadow: 0 6px 20px rgba(245, 108, 108, 0.45);
 }
 
 .header-actions .btn-upload {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  background: linear-gradient(135deg, #67C23A 0%, #409EFF 100%);
   color: white;
-  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 15px rgba(64, 158, 255, 0.35);
 }
 
 .header-actions .btn-upload:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.8);
-  color: white;
+  background: linear-gradient(135deg, #67C23A 0%, #409EFF 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(64, 158, 255, 0.45);
 }
 
 /* 统计卡片 */
