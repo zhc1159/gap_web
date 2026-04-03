@@ -540,15 +540,15 @@ onMounted(() => {
 }
 
 .header-actions .btn-add {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
 .header-actions .btn-add:hover {
-  background: linear-gradient(135deg, #f5a8fc 0%, #f7707e 100%);
+  background: linear-gradient(135deg, #7c91f4 0%, #8b5fc7 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 }
 
 .header-actions .btn-upload {
