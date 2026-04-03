@@ -573,6 +573,7 @@ export default {
       stopped: '已停止',
       warningTitle: '操作警告',
       warningContent: '重启或关闭系统将中断所有正在运行的服务，请确保已保存所有重要数据并通知相关用户。',
+      operations: '操作选项',
       reboot: '重启系统',
       shutdown: '关闭系统',
       rebootHint: '重启将暂时中断所有服务',

@@ -27,56 +27,58 @@
           </el-alert>
         </div>
 
-        <!-- 系统状态显示 -->
-        <div class="status-section">
-          <div class="status-icon-wrapper">
-            <div class="status-icon" :class="{ running: true }">
+        <!-- 内容区域：左右布局 -->
+        <div class="main-content">
+          <!-- 左侧：系统状态 -->
+          <div class="status-panel">
+            <div class="panel-header">
               <el-icon><Monitor /></el-icon>
+              <span>{{ $t('systemMaintenance.onOff.systemStatus') }}</span>
             </div>
-            <div class="status-pulse"></div>
+            <div class="status-body">
+              <div class="status-icon-wrapper">
+                <div class="status-icon running">
+                  <el-icon><CircleCheck /></el-icon>
+                </div>
+              </div>
+              <div class="status-text">
+                <div class="status-label">{{ $t('systemMaintenance.onOff.running') }}</div>
+                <div class="status-desc">GAP Security Gateway</div>
+              </div>
+            </div>
           </div>
-          <div class="status-info">
-            <div class="status-title">{{ $t('systemMaintenance.onOff.systemStatus') }}</div>
-            <div class="status-value">
-              <el-tag type="success" size="large" effect="dark">
-                <el-icon><CircleCheck /></el-icon>
-                {{ $t('systemMaintenance.onOff.running') }}
-              </el-tag>
+
+          <!-- 右侧：操作按钮 -->
+          <div class="action-panel">
+            <div class="panel-header">
+              <el-icon><Operation /></el-icon>
+              <span>{{ $t('systemMaintenance.onOff.operations') }}</span>
             </div>
-          </div>
-        </div>
-
-        <!-- 操作按钮区 -->
-        <div class="action-section">
-          <div class="action-buttons">
-            <div class="button-wrapper">
-              <el-button
-                type="warning"
-                size="large"
-                class="btn-reboot"
-                :loading="rebooting"
-                @click="handleReboot"
-              >
-                <el-icon><RefreshRight /></el-icon>
-                {{ $t('systemMaintenance.onOff.reboot') }}
-              </el-button>
-              <div class="button-hint">{{ $t('systemMaintenance.onOff.rebootHint') }}</div>
-            </div>
-
-            <div class="button-divider"></div>
-
-            <div class="button-wrapper">
-              <el-button
-                type="danger"
-                size="large"
-                class="btn-shutdown"
-                :loading="shuttingDown"
-                @click="handleShutdown"
-              >
-                <el-icon><SwitchButton /></el-icon>
-                {{ $t('systemMaintenance.onOff.shutdown') }}
-              </el-button>
-              <div class="button-hint">{{ $t('systemMaintenance.onOff.shutdownHint') }}</div>
+            <div class="action-body">
+              <div class="action-item">
+                <el-button
+                  type="warning"
+                  class="btn-reboot"
+                  :loading="rebooting"
+                  @click="handleReboot"
+                >
+                  <el-icon><RefreshRight /></el-icon>
+                  {{ $t('systemMaintenance.onOff.reboot') }}
+                </el-button>
+                <span class="action-hint">{{ $t('systemMaintenance.onOff.rebootHint') }}</span>
+              </div>
+              <div class="action-item">
+                <el-button
+                  type="danger"
+                  class="btn-shutdown"
+                  :loading="shuttingDown"
+                  @click="handleShutdown"
+                >
+                  <el-icon><SwitchButton /></el-icon>
+                  {{ $t('systemMaintenance.onOff.shutdown') }}
+                </el-button>
+                <span class="action-hint">{{ $t('systemMaintenance.onOff.shutdownHint') }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -89,7 +91,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElMessageBox, ElNotification } from 'element-plus'
-import { SwitchButton, Monitor, CircleCheck, RefreshRight } from '@element-plus/icons-vue'
+import { SwitchButton, Monitor, CircleCheck, RefreshRight, Operation } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 
@@ -170,11 +172,11 @@ const handleShutdown = async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding: 14px 20px;
   background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
-  border-radius: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 20px rgba(64, 158, 255, 0.2);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
 }
 
 .header-left {
@@ -184,170 +186,150 @@ const handleShutdown = async () => {
 }
 
 .header-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 14px;
-  font-size: 20px;
+  margin-right: 12px;
+  font-size: 18px;
 }
 
 .header-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
 }
 
 /* 内容区域 */
 .content-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
   flex: 1;
 }
 
 /* 电源卡片 */
 .power-card {
-  width: 100%;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 状态区域 */
-.status-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 0;
-  margin-bottom: 30px;
-}
-
-.status-icon-wrapper {
-  position: relative;
-  margin-right: 30px;
-}
-
-.status-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(103, 194, 58, 0.15) 0%, rgba(103, 194, 58, 0.05) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  color: #67C23A;
-  position: relative;
-  z-index: 1;
-}
-
-.status-icon.running {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(103, 194, 58, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 0 15px rgba(103, 194, 58, 0);
-  }
-}
-
-.status-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 2px solid rgba(103, 194, 58, 0.3);
-  animation: pulse-ring 2s ease-out infinite;
-}
-
-@keyframes pulse-ring {
-  0% {
-    transform: translate(-50%, -50%) scale(0.8);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0;
-  }
-}
-
-.status-info {
-  text-align: left;
-}
-
-.status-title {
-  font-size: 14px;
-  color: #909399;
-  margin-bottom: 10px;
-}
-
-.status-value .el-tag {
-  padding: 8px 20px;
-  font-size: 16px;
-  font-weight: 500;
+  padding: 20px;
 }
 
 /* 警告区域 */
 .warning-section {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .warning-section :deep(.el-alert) {
-  border-radius: 12px;
+  border-radius: 8px;
   background: linear-gradient(135deg, rgba(230, 162, 60, 0.1) 0%, rgba(230, 162, 60, 0.05) 100%);
   border: 1px solid rgba(230, 162, 60, 0.2);
 }
 
-/* 操作区域 */
-.action-section {
-  padding: 30px 0 10px;
-  flex: 1;
+/* 主内容区：左右布局 */
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* 面板通用样式 */
+.status-panel,
+.action-panel {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(64, 158, 255, 0.08);
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  border-bottom: 1px solid rgba(64, 158, 255, 0.08);
+}
+
+/* 状态面板 */
+.status-body {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  gap: 20px;
+}
+
+.status-icon-wrapper {
+  flex-shrink: 0;
+}
+
+.status-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 28px;
 }
 
-.action-buttons {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 60px;
+.status-icon.running {
+  background: linear-gradient(135deg, rgba(103, 194, 58, 0.2) 0%, rgba(103, 194, 58, 0.1) 100%);
+  color: #67C23A;
+  animation: pulse 2s ease-in-out infinite;
 }
 
-.button-wrapper {
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(103, 194, 58, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(103, 194, 58, 0.2);
+  }
+}
+
+.status-text {
+  flex: 1;
+}
+
+.status-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #67C23A;
+  margin-bottom: 4px;
+}
+
+.status-desc {
+  font-size: 13px;
+  color: #909399;
+}
+
+/* 操作面板 */
+.action-body {
   display: flex;
   flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+}
+
+.action-item {
+  display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.button-divider {
-  width: 1px;
-  height: 80px;
-  background: linear-gradient(180deg, transparent 0%, rgba(64, 158, 255, 0.2) 50%, transparent 100%);
-}
-
-/* 按钮样式 */
 .btn-reboot,
 .btn-shutdown {
-  min-width: 200px;
-  height: 70px;
-  font-size: 18px;
+  flex-shrink: 0;
+  min-width: 140px;
+  height: 44px;
+  font-size: 14px;
   font-weight: 600;
-  border-radius: 16px;
+  border-radius: 10px;
   border: none;
   transition: all 0.3s ease;
 }
@@ -355,65 +337,49 @@ const handleShutdown = async () => {
 .btn-reboot {
   background: linear-gradient(135deg, #E6A23C 0%, #F56C6C 100%);
   color: white;
-  box-shadow: 0 6px 20px rgba(230, 162, 60, 0.4);
+  box-shadow: 0 4px 12px rgba(230, 162, 60, 0.3);
 }
 
 .btn-reboot:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(230, 162, 60, 0.5);
-}
-
-.btn-reboot:active {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(230, 162, 60, 0.4);
 }
 
 .btn-shutdown {
   background: linear-gradient(135deg, #F56C6C 0%, #C45656 100%);
   color: white;
-  box-shadow: 0 6px 20px rgba(245, 108, 108, 0.4);
+  box-shadow: 0 4px 12px rgba(245, 108, 108, 0.3);
 }
 
 .btn-shutdown:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(245, 108, 108, 0.5);
-}
-
-.btn-shutdown:active {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 108, 108, 0.4);
 }
 
-.button-hint {
+.action-hint {
   font-size: 12px;
   color: #909399;
-  text-align: center;
-  max-width: 200px;
 }
 
 /* 响应式 */
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
+  .power-page {
+    padding: 12px;
+  }
+
   .power-card {
-    padding: 24px;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .button-divider {
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(64, 158, 255, 0.2) 50%, transparent 100%);
+    padding: 16px;
   }
 
   .btn-reboot,
   .btn-shutdown {
     width: 100%;
-    max-width: 280px;
-  }
-
-  .button-hint {
-    max-width: 280px;
   }
 }
 </style>

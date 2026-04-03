@@ -553,6 +553,7 @@ export default {
       stopped: 'Stopped',
       warningTitle: 'Operation Warning',
       warningContent: 'Rebooting or shutting down the system will interrupt all running services. Please ensure all important data has been saved and notify relevant users.',
+      operations: 'Operations',
       reboot: 'Reboot System',
       shutdown: 'Shutdown System',
       rebootHint: 'Reboot will temporarily interrupt all services',
