@@ -22,134 +22,139 @@
 
     <!-- 主内容区 -->
     <div class="content-wrapper">
-      <!-- 备份设置卡片 -->
-      <div class="card config-card">
-        <div class="card-header">
-          <el-icon class="card-icon"><Timer /></el-icon>
-          <span>{{ $t('systemMaintenance.profileBackup.backupSettings') }}</span>
-        </div>
-        <div class="card-content">
-          <div class="setting-row">
-            <div class="setting-label">
-              <el-icon><Clock /></el-icon>
-              <span>{{ $t('systemMaintenance.profileBackup.interval') }}</span>
+      <!-- 左侧：备份设置 + 备份状态 -->
+      <div class="left-column">
+        <!-- 备份设置卡片 -->
+        <div class="card config-card">
+          <div class="card-header">
+            <el-icon class="card-icon"><Timer /></el-icon>
+            <span>{{ $t('systemMaintenance.profileBackup.backupSettings') }}</span>
+          </div>
+          <div class="card-content">
+            <div class="setting-row">
+              <div class="setting-label">
+                <el-icon><Clock /></el-icon>
+                <span>{{ $t('systemMaintenance.profileBackup.interval') }}</span>
+              </div>
+              <div class="setting-control">
+                <el-input-number
+                  v-model="config.interval"
+                  :min="5"
+                  :max="600"
+                  :step="5"
+                  :disabled="!config.autoBackup"
+                />
+                <span class="unit">{{ $t('systemMaintenance.profileBackup.minutes') }}</span>
+              </div>
             </div>
-            <div class="setting-control">
-              <el-input-number
-                v-model="config.interval"
-                :min="5"
-                :max="600"
-                :step="5"
-                :disabled="!config.autoBackup"
-              />
-              <span class="unit">{{ $t('systemMaintenance.profileBackup.minutes') }}</span>
+            <div class="setting-hint">
+              <el-icon><InfoFilled /></el-icon>
+              <span>{{ $t('systemMaintenance.profileBackup.intervalHint') }}</span>
             </div>
           </div>
-          <div class="setting-hint">
-            <el-icon><InfoFilled /></el-icon>
-            <span>{{ $t('systemMaintenance.profileBackup.intervalHint') }}</span>
+        </div>
+
+        <!-- 备份状态卡片 -->
+        <div class="card status-card">
+          <div class="card-header">
+            <el-icon class="card-icon"><DataAnalysis /></el-icon>
+            <span>{{ $t('systemMaintenance.profileBackup.backupStatus') }}</span>
+          </div>
+          <div class="card-content">
+            <div class="status-grid">
+              <div class="status-item">
+                <div class="status-icon success">
+                  <el-icon><CircleCheck /></el-icon>
+                </div>
+                <div class="status-info">
+                  <div class="status-value">{{ lastBackupTime }}</div>
+                  <div class="status-label">{{ $t('systemMaintenance.profileBackup.lastBackup') }}</div>
+                </div>
+              </div>
+              <div class="status-item">
+                <div class="status-icon primary">
+                  <el-icon><Files /></el-icon>
+                </div>
+                <div class="status-info">
+                  <div class="status-value">{{ totalBackups }}</div>
+                  <div class="status-label">{{ $t('systemMaintenance.profileBackup.totalBackups') }}</div>
+                </div>
+              </div>
+              <div class="status-item">
+                <div class="status-icon warning">
+                  <el-icon><Coin /></el-icon>
+                </div>
+                <div class="status-info">
+                  <div class="status-value">{{ totalSize }}</div>
+                  <div class="status-label">{{ $t('systemMaintenance.profileBackup.totalSize') }}</div>
+                </div>
+              </div>
+              <div class="status-item">
+                <div class="status-icon" :class="config.autoBackup ? 'success' : 'info'">
+                  <el-icon><RefreshRight /></el-icon>
+                </div>
+                <div class="status-info">
+                  <div class="status-value">{{ config.autoBackup ? $t('common.enabled') : $t('common.disabled') }}</div>
+                  <div class="status-label">{{ $t('systemMaintenance.profileBackup.autoBackupStatus') }}</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- FTP配置卡片 -->
-      <div class="card ftp-card">
-        <div class="card-header">
-          <el-icon class="card-icon"><Connection /></el-icon>
-          <span>{{ $t('systemMaintenance.profileBackup.ftpConfig') }}</span>
-        </div>
-        <div class="card-content">
-          <el-form
-            :model="config"
-            :rules="rules"
-            label-width="150px"
-            class="config-form"
-            :label-position="'left'"
-          >
-            <el-form-item :label="$t('systemMaintenance.profileBackup.ftpIp')" prop="ftpIp">
-              <el-input
-                v-model="config.ftpIp"
-                placeholder="192.168.1.100"
-                :prefix-icon="Monitor"
-              />
-            </el-form-item>
+      <!-- 右侧：FTP服务器配置 -->
+      <div class="right-column">
+        <div class="card ftp-card">
+          <div class="card-header">
+            <el-icon class="card-icon"><Connection /></el-icon>
+            <span>{{ $t('systemMaintenance.profileBackup.ftpConfig') }}</span>
+          </div>
+          <div class="card-content">
+            <el-form
+              :model="config"
+              :rules="rules"
+              label-width="120px"
+              class="config-form"
+              :label-position="'left'"
+            >
+              <el-form-item :label="$t('systemMaintenance.profileBackup.ftpIp')" prop="ftpIp">
+                <el-input
+                  v-model="config.ftpIp"
+                  placeholder="192.168.1.100"
+                  :prefix-icon="Monitor"
+                />
+              </el-form-item>
 
-            <el-form-item :label="$t('systemMaintenance.profileBackup.ftpPort')" prop="ftpPort">
-              <el-input-number v-model="config.ftpPort" :min="1" :max="65535" />
-            </el-form-item>
+              <el-form-item :label="$t('systemMaintenance.profileBackup.ftpPort')" prop="ftpPort">
+                <el-input-number v-model="config.ftpPort" :min="1" :max="65535" />
+              </el-form-item>
 
-            <el-form-item :label="$t('systemMaintenance.profileBackup.ftpUser')" prop="ftpUser">
-              <el-input v-model="config.ftpUser" :prefix-icon="User" />
-            </el-form-item>
+              <el-form-item :label="$t('systemMaintenance.profileBackup.ftpUser')" prop="ftpUser">
+                <el-input v-model="config.ftpUser" :prefix-icon="User" />
+              </el-form-item>
 
-            <el-form-item :label="$t('systemMaintenance.profileBackup.ftpPassword')" prop="ftpPassword">
-              <el-input
-                v-model="config.ftpPassword"
-                :type="showPassword ? 'text' : 'password'"
-                :prefix-icon="Lock"
-              >
-                <template #suffix>
-                  <el-button link @click="showPassword = !showPassword">
-                    <el-icon>
-                      <View v-if="!showPassword" />
-                      <Hide v-else />
-                    </el-icon>
-                  </el-button>
-                </template>
-              </el-input>
-            </el-form-item>
+              <el-form-item :label="$t('systemMaintenance.profileBackup.ftpPassword')" prop="ftpPassword">
+                <el-input
+                  v-model="config.ftpPassword"
+                  :type="showPassword ? 'text' : 'password'"
+                  :prefix-icon="Lock"
+                >
+                  <template #suffix>
+                    <el-button link @click="showPassword = !showPassword">
+                      <el-icon>
+                        <View v-if="!showPassword" />
+                        <Hide v-else />
+                      </el-icon>
+                    </el-button>
+                  </template>
+                </el-input>
+              </el-form-item>
 
-            <el-form-item :label="$t('systemMaintenance.profileBackup.uploadPath')" prop="uploadPath">
-              <el-input v-model="config.uploadPath" placeholder="/backup" :prefix-icon="FolderOpened" />
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-
-      <!-- 备份状态卡片 -->
-      <div class="card status-card">
-        <div class="card-header">
-          <el-icon class="card-icon"><DataAnalysis /></el-icon>
-          <span>{{ $t('systemMaintenance.profileBackup.backupStatus') }}</span>
-        </div>
-        <div class="card-content">
-          <div class="status-grid">
-            <div class="status-item">
-              <div class="status-icon success">
-                <el-icon><CircleCheck /></el-icon>
-              </div>
-              <div class="status-info">
-                <div class="status-value">{{ lastBackupTime }}</div>
-                <div class="status-label">{{ $t('systemMaintenance.profileBackup.lastBackup') }}</div>
-              </div>
-            </div>
-            <div class="status-item">
-              <div class="status-icon primary">
-                <el-icon><Files /></el-icon>
-              </div>
-              <div class="status-info">
-                <div class="status-value">{{ totalBackups }}</div>
-                <div class="status-label">{{ $t('systemMaintenance.profileBackup.totalBackups') }}</div>
-              </div>
-            </div>
-            <div class="status-item">
-              <div class="status-icon warning">
-                <el-icon><Coin /></el-icon>
-              </div>
-              <div class="status-info">
-                <div class="status-value">{{ totalSize }}</div>
-                <div class="status-label">{{ $t('systemMaintenance.profileBackup.totalSize') }}</div>
-              </div>
-            </div>
-            <div class="status-item">
-              <div class="status-icon" :class="config.autoBackup ? 'success' : 'info'">
-                <el-icon><RefreshRight /></el-icon>
-              </div>
-              <div class="status-info">
-                <div class="status-value">{{ config.autoBackup ? $t('common.enabled') : $t('common.disabled') }}</div>
-                <div class="status-label">{{ $t('systemMaintenance.profileBackup.autoBackupStatus') }}</div>
-              </div>
-            </div>
+              <el-form-item :label="$t('systemMaintenance.profileBackup.uploadPath')" prop="uploadPath">
+                <el-input v-model="config.uploadPath" placeholder="/backup" :prefix-icon="FolderOpened" />
+              </el-form-item>
+            </el-form>
           </div>
         </div>
       </div>
@@ -342,11 +347,20 @@ onMounted(() => {
 
 /* 内容区域 */
 .content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.left-column {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  max-width: 900px;
-  margin: 0 auto;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
 }
 
 /* 卡片 */
@@ -569,6 +583,12 @@ onMounted(() => {
 }
 
 /* 响应式 */
+@media (max-width: 1200px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;
