@@ -170,8 +170,8 @@ const fileList = ref([
 
 const manualUpdateText = computed(() => {
   return canManualUpdate.value
-    ? 'Manual Update'
-    : 'Recently updated, please wait...'
+    ? '手动升级'
+    : '最近已经升级，请稍后...'
 })
 
 const formatProgress = (percentage: number) => `${percentage}%`
