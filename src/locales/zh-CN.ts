@@ -472,7 +472,10 @@ export default {
       connectionSuccess: 'FTP连接成功',
       backupSuccess: '备份完成',
       enabled: '已启用',
-      disabled: '已禁用'
+      disabled: '已禁用',
+      connected: '已连接',
+      disconnected: '未连接',
+      ftpStatus: 'FTP状态'
     },
     sysUpdate: { title: '系统升级', emptyDesc: '系统升级模块' },
     antiVirusUpdate: { title: '病毒库升级', emptyDesc: '病毒库升级模块' },

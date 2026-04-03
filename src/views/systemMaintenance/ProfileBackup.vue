@@ -22,38 +22,8 @@
 
     <!-- 主内容区 -->
     <div class="content-wrapper">
-      <!-- 左侧：备份设置 + 备份状态 -->
+      <!-- 左侧：备份状态 -->
       <div class="left-column">
-        <!-- 备份设置卡片 -->
-        <div class="card config-card">
-          <div class="card-header">
-            <el-icon class="card-icon"><Timer /></el-icon>
-            <span>{{ $t('systemMaintenance.profileBackup.backupSettings') }}</span>
-          </div>
-          <div class="card-content">
-            <div class="setting-row">
-              <div class="setting-label">
-                <el-icon><Clock /></el-icon>
-                <span>{{ $t('systemMaintenance.profileBackup.interval') }}</span>
-              </div>
-              <div class="setting-control">
-                <el-input-number
-                  v-model="config.interval"
-                  :min="5"
-                  :max="600"
-                  :step="5"
-                  :disabled="!config.autoBackup"
-                />
-                <span class="unit">{{ $t('systemMaintenance.profileBackup.minutes') }}</span>
-              </div>
-            </div>
-            <div class="setting-hint">
-              <el-icon><InfoFilled /></el-icon>
-              <span>{{ $t('systemMaintenance.profileBackup.intervalHint') }}</span>
-            </div>
-          </div>
-        </div>
-
         <!-- 备份状态卡片 -->
         <div class="card status-card">
           <div class="card-header">
@@ -98,6 +68,29 @@
                   <div class="status-label">{{ $t('systemMaintenance.profileBackup.autoBackupStatus') }}</div>
                 </div>
               </div>
+              <div class="status-item">
+                <div class="status-icon primary">
+                  <el-icon><Clock /></el-icon>
+                </div>
+                <div class="status-info">
+                  <div class="status-value">{{ config.interval }} {{ $t('systemMaintenance.profileBackup.minutes') }}</div>
+                  <div class="status-label">{{ $t('systemMaintenance.profileBackup.interval') }}</div>
+                </div>
+              </div>
+              <div class="status-item">
+                <div class="status-icon" :class="ftpStatus === 'connected' ? 'success' : 'danger'">
+                  <el-icon><Connection /></el-icon>
+                </div>
+                <div class="status-info">
+                  <div class="status-value">{{ ftpStatus === 'connected' ? $t('systemMaintenance.profileBackup.connected') : $t('systemMaintenance.profileBackup.disconnected') }}</div>
+                  <div class="status-label">{{ $t('systemMaintenance.profileBackup.ftpStatus') }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="status-description">
+              <el-icon><InfoFilled /></el-icon>
+              <span>{{ $t('systemMaintenance.profileBackup.intervalHint') }}</span>
             </div>
           </div>
         </div>
@@ -154,6 +147,16 @@
               <el-form-item :label="$t('systemMaintenance.profileBackup.uploadPath')" prop="uploadPath">
                 <el-input v-model="config.uploadPath" placeholder="/backup" :prefix-icon="FolderOpened" />
               </el-form-item>
+
+              <el-form-item :label="$t('systemMaintenance.profileBackup.interval')" prop="interval">
+                <el-input-number
+                  v-model="config.interval"
+                  :min="5"
+                  :max="600"
+                  :step="5"
+                  :disabled="!config.autoBackup"
+                />
+              </el-form-item>
             </el-form>
           </div>
         </div>
@@ -182,9 +185,9 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElNotification } from 'element-plus'
 import {
-  Setting, Timer, Clock, InfoFilled, Connection, Monitor, User, Lock,
+  Setting, Connection, Monitor, User, Lock,
   View, Hide, FolderOpened, DataAnalysis, CircleCheck, Files, Coin,
-  RefreshRight, Check, Download
+  RefreshRight, Check, Download, Clock, InfoFilled
 } from '@element-plus/icons-vue'
 import type { FormRules } from 'element-plus'
 
@@ -205,6 +208,7 @@ const saving = ref(false)
 const lastBackupTime = ref('2026-04-03 08:00:00')
 const totalBackups = ref('12')
 const totalSize = ref('256 MB')
+const ftpStatus = ref<'connected' | 'disconnected'>('disconnected')
 
 // 表单验证规则
 const rules: FormRules = {
@@ -377,6 +381,9 @@ onMounted(() => {
   border: 1px solid rgba(64, 158, 255, 0.08);
   overflow: hidden;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card:hover {
@@ -392,6 +399,7 @@ onMounted(() => {
   font-weight: 500;
   color: #303133;
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
+  flex-shrink: 0;
 }
 
 .card-icon {
@@ -409,6 +417,9 @@ onMounted(() => {
 
 .card-content {
   padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 设置行 */
@@ -470,14 +481,16 @@ onMounted(() => {
 /* 状态网格 */
 .status-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  flex: 1;
+  align-content: start;
 }
 
 .status-item {
   display: flex;
   align-items: center;
-  padding: 16px;
+  padding: 18px;
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);
   border-radius: 10px;
   transition: all 0.3s ease;
@@ -516,6 +529,28 @@ onMounted(() => {
 .status-icon.info {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.15) 0%, rgba(144, 147, 153, 0.05) 100%);
   color: #909399;
+}
+
+.status-icon.danger {
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.15) 0%, rgba(245, 108, 108, 0.05) 100%);
+  color: #F56C6C;
+}
+
+.status-description {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
+  border-radius: 8px;
+  font-size: 13px;
+  color: #909399;
+}
+
+.status-description .el-icon {
+  color: #409EFF;
+  font-size: 16px;
 }
 
 .status-info {

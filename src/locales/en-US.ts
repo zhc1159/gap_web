@@ -455,7 +455,10 @@ export default {
       testConnection: 'Test Connection',
       backupNow: 'Backup Now',
       connectionSuccess: 'FTP connection successful',
-      backupSuccess: 'Backup completed'
+      backupSuccess: 'Backup completed',
+      connected: 'Connected',
+      disconnected: 'Disconnected',
+      ftpStatus: 'FTP Status'
     },
     sysUpdate: { title: 'System Upgrade', emptyDesc: 'System Upgrade Module' },
     antiVirusUpdate: { title: 'Virus Database Upgrade', emptyDesc: 'Virus Database Upgrade Module' },
