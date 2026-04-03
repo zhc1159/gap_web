@@ -21,7 +21,11 @@ export default {
     pleaseSelect: '请选择',
     pleaseInput: '请输入',
     copy: '复制',
-    clear: '清空'
+    clear: '清空',
+    on: '开',
+    off: '关',
+    enabled: '已启用',
+    disabled: '已禁用'
   },
   login: {
     title: 'GAP安全隔离网闸',
@@ -466,7 +470,9 @@ export default {
       testConnection: '测试连接',
       backupNow: '立即备份',
       connectionSuccess: 'FTP连接成功',
-      backupSuccess: '备份完成'
+      backupSuccess: '备份完成',
+      enabled: '已启用',
+      disabled: '已禁用'
     },
     sysUpdate: { title: '系统升级', emptyDesc: '系统升级模块' },
     antiVirusUpdate: { title: '病毒库升级', emptyDesc: '病毒库升级模块' },

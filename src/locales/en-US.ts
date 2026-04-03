@@ -21,7 +21,11 @@ export default {
     pleaseSelect: 'Please select',
     pleaseInput: 'Please input',
     copy: 'Copy',
-    clear: 'Clear'
+    clear: 'Clear',
+    on: 'On',
+    off: 'Off',
+    enabled: 'Enabled',
+    disabled: 'Disabled'
   },
   login: {
     title: 'GAP Security Gateway',
