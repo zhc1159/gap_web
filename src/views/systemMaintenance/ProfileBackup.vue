@@ -349,7 +349,9 @@ onMounted(() => {
 .content-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
   gap: 20px;
+  align-items: stretch;
 }
 
 .left-column {
@@ -361,6 +363,10 @@ onMounted(() => {
 .right-column {
   display: flex;
   flex-direction: column;
+}
+
+.action-bar {
+  grid-column: 1 / -1;
 }
 
 /* 卡片 */
