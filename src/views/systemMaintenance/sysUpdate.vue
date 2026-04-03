@@ -25,27 +25,12 @@
               :before-upload="beforeUpload"
               :http-request="handleUpload"
               accept=".deepnet"
-              class="upload-wrapper"
             >
-              <el-input
-                v-model="fileName"
-                :placeholder="$t('systemMaintenance.sysUpdate.filePlaceholder')"
-                readonly
-                class="file-input"
-              >
-                <template #suffix>
-                  <el-button type="primary" class="upload-btn">
-                    <el-icon><FolderOpened /></el-icon>
-                    {{ $t('systemMaintenance.sysUpdate.browse') }}
-                  </el-button>
-                </template>
-              </el-input>
+              <el-button type="primary" class="btn-upload">
+                <el-icon><Upload /></el-icon>
+                {{ $t('systemMaintenance.sysUpdate.upload') }}
+              </el-button>
             </el-upload>
-
-            <el-button type="primary" class="btn-upload" @click="triggerUpload">
-              <el-icon><Upload /></el-icon>
-              {{ $t('systemMaintenance.sysUpdate.upload') }}
-            </el-button>
 
             <el-button type="warning" class="btn-rollback-init" @click="handleRollbackInit">
               <el-icon><RefreshLeft /></el-icon>
@@ -173,12 +158,11 @@
 import { ref, onMounted } from 'vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import {
-  Upload, FolderOpened, RefreshLeft, InfoFilled, Box, Monitor,
+  Upload, RefreshLeft, InfoFilled, Box, Monitor,
   Cpu, Document, Clock, View
 } from '@element-plus/icons-vue'
 
 // 状态
-const fileName = ref('')
 const uploading = ref(false)
 const uploadProgress = ref(0)
 const currentVersion = ref({
@@ -208,21 +192,10 @@ const beforeUpload = (file: File) => {
     })
     return false
   }
-  fileName.value = file.name
   return true
 }
 
 const handleUpload = async () => {
-  if (!fileName.value) {
-    ElNotification({
-      title: 'Warning',
-      message: 'Please select a file first',
-      type: 'warning',
-      customClass: 'notification-warning'
-    })
-    return
-  }
-
   uploading.value = true
   uploadProgress.value = 0
 
@@ -238,16 +211,8 @@ const handleUpload = async () => {
         type: 'success',
         customClass: 'notification-success'
       })
-      fileName.value = ''
     }
   }, 200)
-}
-
-const triggerUpload = () => {
-  const uploadEl = document.querySelector('.upload-wrapper input[type="file"]') as HTMLInputElement
-  if (uploadEl) {
-    uploadEl.click()
-  }
 }
 
 const handleRollbackInit = async () => {
