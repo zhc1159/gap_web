@@ -540,27 +540,27 @@ onMounted(() => {
 }
 
 .header-actions .btn-add {
-  background: linear-gradient(135deg, #F56C6C 0%, #E6A23C 100%);
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(245, 108, 108, 0.35);
+  box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
 }
 
 .header-actions .btn-add:hover {
-  background: linear-gradient(135deg, #F56C6C 0%, #E6A23C 100%);
+  background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(245, 108, 108, 0.45);
+  box-shadow: 0 6px 20px rgba(155, 89, 182, 0.5);
 }
 
 .header-actions .btn-upload {
-  background: linear-gradient(135deg, #67C23A 0%, #409EFF 100%);
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(64, 158, 255, 0.35);
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
 }
 
 .header-actions .btn-upload:hover {
-  background: linear-gradient(135deg, #67C23A 0%, #409EFF 100%);
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(64, 158, 255, 0.45);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
 }
 
 /* 统计卡片 */
