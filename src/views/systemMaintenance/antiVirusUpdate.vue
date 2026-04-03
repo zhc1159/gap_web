@@ -141,6 +141,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 import { ElNotification, ElMessageBox } from 'element-plus'
 import {
   Upload, Refresh, Cpu, Document, Clock,
@@ -170,8 +173,8 @@ const fileList = ref([
 
 const manualUpdateText = computed(() => {
   return canManualUpdate.value
-    ? 'Manual Update'
-    : 'Recently updated, please wait...'
+    ? t('systemMaintenance.antiVirusUpdate.manualUpdate')
+    : t('systemMaintenance.antiVirusUpdate.updateDisabled')
 })
 
 const formatProgress = (percentage: number) => `${percentage}%`
