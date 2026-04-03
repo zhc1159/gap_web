@@ -516,7 +516,35 @@ export default {
       uploadFailed: 'Virus database update failed',
       manualUpdateConfirm: 'Are you sure to update virus database manually?'
     },
-    diagTool: { title: 'Diagnostic Tool', emptyDesc: 'Diagnostic Tool Module' },
+    diagTool: {
+      title: 'Diagnostic Tool',
+      emptyDesc: 'Diagnostic Tool Module',
+      ping: 'Ping Test',
+      traceroute: 'Trace Route',
+      arp: 'ARP Table',
+      tcpdump: 'Packet Capture',
+      tcping: 'TCP Port Test',
+      networkInterface: 'Network Interface',
+      ipAddress: 'IP Address/Domain',
+      port: 'Port',
+      protocol: 'Protocol',
+      packetCount: 'Packet Count',
+      timeout: 'Timeout',
+      start: 'Start Test',
+      stop: 'Stop',
+      running: 'Diagnosing...',
+      result: 'Diagnostic Result',
+      noResult: 'No diagnostic results',
+      stopped: 'Stopped',
+      allIntranet: 'All Intranet',
+      allExtranet: 'All Extranet',
+      internal: 'Internal',
+      external: 'External',
+      ipRequired: 'Please enter IP address or domain',
+      packetRange: 'Packet count must be between 1-50',
+      timeoutRange: 'Timeout must be between 10-30',
+      portRange: 'Port must be between 1-65535'
+    },
     onOff: { title: 'System Power', emptyDesc: 'System Power Module' }
   }
 }

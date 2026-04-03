@@ -536,7 +536,35 @@ export default {
       uploadFailed: '病毒库升级失败',
       manualUpdateConfirm: '确定手动升级病毒库吗？'
     },
-    diagTool: { title: '诊断工具', emptyDesc: '诊断工具模块' },
+    diagTool: {
+      title: '诊断工具',
+      emptyDesc: '诊断工具模块',
+      ping: 'Ping测试',
+      traceroute: '路由追踪',
+      arp: 'ARP表',
+      tcpdump: '抓包工具',
+      tcping: 'TCP端口测试',
+      networkInterface: '网络接口',
+      ipAddress: 'IP地址/域名',
+      port: '端口',
+      protocol: '协议',
+      packetCount: '数据包数量',
+      timeout: '超时时间',
+      start: '开始测试',
+      stop: '终止',
+      running: '诊断中...',
+      result: '诊断结果',
+      noResult: '暂无诊断结果',
+      stopped: '已终止',
+      allIntranet: '所有内网',
+      allExtranet: '所有外网',
+      internal: '内网',
+      external: '外网',
+      ipRequired: '请输入IP地址或域名',
+      packetRange: '数据包数量必须在1-50之间',
+      timeoutRange: '超时时间必须在10-30之间',
+      portRange: '端口号必须在1-65535之间'
+    },
     onOff: { title: '系统开关机', emptyDesc: '系统开关机模块' }
   }
 }
