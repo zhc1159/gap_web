@@ -492,7 +492,30 @@ export default {
       deleteSuccess: 'Delete successful',
       deleteFailed: 'Delete failed'
     },
-    antiVirusUpdate: { title: 'Virus Database Upgrade', emptyDesc: 'Virus Database Upgrade Module' },
+    antiVirusUpdate: {
+      title: 'Virus Database Upgrade',
+      emptyDesc: 'Virus Database Upgrade Module',
+      uploadArea: 'Upload Virus Database',
+      uploadFile: 'Upload File',
+      autoUpdate: 'Auto Update',
+      manualUpdate: 'Manual Update',
+      engineInfo: 'Engine Information',
+      engineName: 'Engine Name',
+      engineVersion: 'Engine Version',
+      lastUpdate: 'Last Update',
+      dbStatus: 'Database Status',
+      upToDate: 'Up to Date',
+      fileList: 'Update File List',
+      index: 'No.',
+      fileName: 'File Name',
+      version: 'Version',
+      updateTime: 'Update Time',
+      uploading: 'Uploading...',
+      verifying: 'Verifying virus database...',
+      uploadSuccess: 'Virus database updated successfully',
+      uploadFailed: 'Virus database update failed',
+      manualUpdateConfirm: 'Are you sure to update virus database manually?'
+    },
     diagTool: { title: 'Diagnostic Tool', emptyDesc: 'Diagnostic Tool Module' },
     onOff: { title: 'System Power', emptyDesc: 'System Power Module' }
   }

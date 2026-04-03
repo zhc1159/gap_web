@@ -107,10 +107,10 @@
             <span>{{ $t('systemMaintenance.sysUpdate.historyVersions') }}</span>
           </div>
           <div class="card-content">
-            <el-table :data="historyVersions" style="width: 100%">
-              <el-table-column prop="index" :label="$t('systemMaintenance.sysUpdate.index')" width="70" />
-              <el-table-column prop="version" :label="$t('systemMaintenance.sysUpdate.version')" width="100" />
-              <el-table-column :label="$t('systemMaintenance.sysUpdate.changelog')" width="90">
+            <el-table :data="historyVersions" style="width: 100%" class="history-table">
+              <el-table-column prop="index" :label="$t('systemMaintenance.sysUpdate.index')" min-width="60" />
+              <el-table-column prop="version" :label="$t('systemMaintenance.sysUpdate.version')" min-width="120" />
+              <el-table-column :label="$t('systemMaintenance.sysUpdate.changelog')" min-width="100">
                 <template #default="{ row }">
                   <el-button size="small" type="primary" link @click="showChangelog(row)">
                     <el-icon><View /></el-icon>
@@ -118,8 +118,8 @@
                   </el-button>
                 </template>
               </el-table-column>
-              <el-table-column prop="updateTime" :label="$t('systemMaintenance.sysUpdate.updateTime')" width="140" />
-              <el-table-column :label="$t('systemMaintenance.sysUpdate.actions')">
+              <el-table-column prop="updateTime" :label="$t('systemMaintenance.sysUpdate.updateTime')" min-width="160" />
+              <el-table-column :label="$t('systemMaintenance.sysUpdate.actions')" min-width="200">
                 <template #default="{ row }">
                   <template v-if="row.isCurrent">
                     <el-tag type="success" size="small">
@@ -525,6 +525,50 @@ onMounted(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+/* 表格样式 */
+.history-table {
+  width: 100%;
+}
+
+.history-card :deep(.el-table) {
+  --el-table-header-bg-color: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.history-card :deep(.el-table th.el-table__cell) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.06) 0%, rgba(103, 194, 58, 0.06) 100%);
+  font-weight: 600;
+  color: #303133;
+  padding: 18px 16px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.history-card :deep(.el-table td.el-table__cell) {
+  padding: 20px 16px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.history-card :deep(.el-table .el-table__row) {
+  transition: all 0.3s ease;
+}
+
+.history-card :deep(.el-table .el-table__row:hover > td) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.06) 0%, rgba(103, 194, 58, 0.06) 100%) !important;
+}
+
+.history-card :deep(.el-table .cell) {
+  padding: 0 12px;
+  line-height: 1.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 /* 对话框 */
