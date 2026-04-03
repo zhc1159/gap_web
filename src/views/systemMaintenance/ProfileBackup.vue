@@ -9,7 +9,7 @@
         <span class="header-title">{{ $t('systemMaintenance.profileBackup.title') }}</span>
       </div>
       <div class="header-status">
-        <span class="status-label">{{ $t('systemMaintenance.profileBackup.autoBackup') }}</span>
+        <span class="header-status-label">{{ $t('systemMaintenance.profileBackup.autoBackup') }}</span>
         <el-switch
           v-model="config.autoBackup"
           :active-text="$t('common.on')"
@@ -339,9 +339,10 @@ onMounted(() => {
   gap: 12px;
 }
 
-.status-label {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+.header-status .header-status-label {
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 500;
 }
 
 .backup-switch {
