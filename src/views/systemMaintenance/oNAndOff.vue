@@ -161,6 +161,8 @@ const handleShutdown = async () => {
   padding: 20px;
   background: linear-gradient(180deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);
   min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
 }
 
 /* 页面头部 */
@@ -202,18 +204,20 @@ const handleShutdown = async () => {
 .content-wrapper {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
+  flex: 1;
 }
 
 /* 电源卡片 */
 .power-card {
   width: 100%;
-  max-width: 800px;
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
   padding: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 状态区域 */
@@ -310,6 +314,10 @@ const handleShutdown = async () => {
 /* 操作区域 */
 .action-section {
   padding: 30px 0 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .action-buttons {
