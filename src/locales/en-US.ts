@@ -19,7 +19,9 @@ export default {
     warning: 'Warning',
     all: 'All',
     pleaseSelect: 'Please select',
-    pleaseInput: 'Please input'
+    pleaseInput: 'Please input',
+    copy: 'Copy',
+    clear: 'Clear'
   },
   login: {
     title: 'GAP Security Gateway',
@@ -362,7 +364,33 @@ export default {
   },
 
   systemMaintenance: {
-    licenseShow: { title: 'Software License', emptyDesc: 'Software License Module' },
+    licenseShow: {
+      title: 'Software License',
+      emptyDesc: 'Software License Module',
+      status: 'License Status',
+      days: 'Days',
+      expiryDate: 'Expiry Date',
+      licenseType: 'License Type',
+      authorizedModules: 'Authorized Modules',
+      licenseInfo: 'License Information',
+      deviceName: 'Device Name',
+      cpuCores: 'CPU Cores',
+      activationDate: 'Activation Date',
+      lastUpdate: 'Last Update',
+      uploadLicense: 'Upload License',
+      dragFile: 'Drag license file here',
+      clickUpload: 'or click to upload',
+      supportFormats: 'Supported formats',
+      uploading: 'Uploading',
+      startUpload: 'Start Upload',
+      uploadSuccess: 'License uploaded successfully',
+      uploadFailed: 'License upload failed',
+      copySuccess: 'Copied successfully',
+      viewDeviceCode: 'View Device Code',
+      deviceCode: 'Device Code',
+      deviceCodeHint: 'Please copy the device code below to generate license',
+      copyCode: 'Copy Code'
+    },
     loadProfileShow: { title: 'History Archive', emptyDesc: 'History Archive Module' },
     profileBackup: { title: 'Configuration Backup', emptyDesc: 'Configuration Backup Module' },
     sysUpdate: { title: 'System Upgrade', emptyDesc: 'System Upgrade Module' },

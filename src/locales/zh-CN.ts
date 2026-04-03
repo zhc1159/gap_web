@@ -19,7 +19,9 @@ export default {
     warning: '警告',
     all: '全部',
     pleaseSelect: '请选择',
-    pleaseInput: '请输入'
+    pleaseInput: '请输入',
+    copy: '复制',
+    clear: '清空'
   },
   login: {
     title: 'GAP安全隔离网闸',
@@ -377,7 +379,33 @@ export default {
 
   // 系统维护
   systemMaintenance: {
-    licenseShow: { title: '软件授权', emptyDesc: '软件授权模块' },
+    licenseShow: {
+      title: '软件授权',
+      emptyDesc: '软件授权模块',
+      status: '授权状态',
+      days: '天',
+      expiryDate: '到期日期',
+      licenseType: '授权类型',
+      authorizedModules: '已授权模块',
+      viewDeviceCode: '查看设备码',
+      deviceCode: '设备码',
+      deviceCodeHint: '请将以下设备码发送给供应商以获取授权文件',
+      copyCode: '复制设备码',
+      licenseInfo: '授权信息',
+      deviceName: '设备名称',
+      cpuCores: 'CPU核心',
+      activationDate: '激活日期',
+      lastUpdate: '最后更新',
+      uploadLicense: '上传授权文件',
+      dragFile: '将授权文件拖到这里，或',
+      clickUpload: '点击上传',
+      supportFormats: '支持格式',
+      uploading: '正在上传',
+      startUpload: '开始上传',
+      uploadSuccess: '授权文件上传成功',
+      uploadFailed: '授权文件上传失败',
+      copySuccess: '复制成功'
+    },
     loadProfileShow: { title: '历史存档', emptyDesc: '历史存档模块' },
     profileBackup: { title: '配置备份', emptyDesc: '配置备份模块' },
     sysUpdate: { title: '系统升级', emptyDesc: '系统升级模块' },
