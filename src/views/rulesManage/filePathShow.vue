@@ -251,8 +251,7 @@
               <el-input-number v-model="formData.scanInterval" :min="1" style="width: 150px" />
               <el-select v-model="formData.scanIntervalUnit" style="width: 100px; margin-left: 8px">
                 <el-option :label="$t('rulesManage.filePathShow.seconds')" value="SECONDS" />
-                <el-option :label="$t('rulesManage.filePathShow.minutes')" value="MINUTES" />
-                <el-option :label="$t('rulesManage.filePathShow.hours')" value="HOURS" />
+                <el-option :label="$t('rulesManage.filePathShow.days')" value="DAYS" />
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('rulesManage.filePathShow.fileLanding')">
@@ -384,7 +383,7 @@ interface TransferPath {
   externalPath: string
   externalEncoding: 'UTF8' | 'GBK'
   scanInterval: number
-  scanIntervalUnit: 'SECONDS' | 'MINUTES' | 'HOURS'
+  scanIntervalUnit: 'SECONDS' | 'DAYS'
   fileLanding: boolean
   sameFileMode: 'OVERWRITE' | 'SKIP'
   deleteAfterSync: boolean
@@ -465,8 +464,8 @@ const mockData = ref<TransferPath[]>([
     externalPassword: '******',
     externalPath: '/backup/files',
     externalEncoding: 'UTF8',
-    scanInterval: 5,
-    scanIntervalUnit: 'MINUTES',
+    scanInterval: 1,
+    scanIntervalUnit: 'DAYS',
     fileLanding: true,
     sameFileMode: 'SKIP',
     deleteAfterSync: true,
@@ -500,7 +499,7 @@ const mockData = ref<TransferPath[]>([
     externalPath: '\\\\extshare\\sync',
     externalEncoding: 'UTF8',
     scanInterval: 1,
-    scanIntervalUnit: 'HOURS',
+    scanIntervalUnit: 'DAYS',
     fileLanding: false,
     sameFileMode: 'OVERWRITE',
     deleteAfterSync: false,
