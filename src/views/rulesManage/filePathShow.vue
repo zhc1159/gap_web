@@ -277,6 +277,18 @@
               <el-switch v-model="formData.deleteEmptyDir" />
               <span class="form-hint">{{ formData.deleteEmptyDir ? $t('common.enabled') : $t('common.disabled') }}</span>
             </el-form-item>
+            <el-form-item :label="$t('rulesManage.filePathShow.syncMode')">
+              <el-radio-group v-model="formData.syncMode">
+                <el-radio value="NORMAL">{{ $t('rulesManage.filePathShow.normalMode') }}</el-radio>
+                <el-radio value="PRECISION">{{ $t('rulesManage.filePathShow.precisionMode') }}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('rulesManage.filePathShow.tempPrefix')">
+              <el-input v-model="formData.tempPrefix" :placeholder="$t('rulesManage.filePathShow.tempPrefixPlaceholder')" style="width: 300px" />
+            </el-form-item>
+            <el-form-item :label="$t('rulesManage.filePathShow.tempSuffix')">
+              <el-input v-model="formData.tempSuffix" :placeholder="$t('rulesManage.filePathShow.tempSuffixPlaceholder')" style="width: 300px" />
+            </el-form-item>
           </el-form>
         </div>
 
@@ -378,12 +390,13 @@ interface TransferPath {
   deleteAfterSync: boolean
   virusScan: boolean
   deleteEmptyDir: boolean
+  syncMode: 'NORMAL' | 'PRECISION'
+  tempPrefix: string
+  tempSuffix: string
   filterMode: FilterMode
   fileTypes: string[]
   keywordFilterEnabled: boolean
   keywords: string[]
-  tempPrefix: string
-  tempSuffix: string
 }
 
 // 状态
@@ -425,12 +438,13 @@ const mockData = ref<TransferPath[]>([
     deleteAfterSync: false,
     virusScan: true,
     deleteEmptyDir: false,
+    syncMode: 'NORMAL',
+    tempPrefix: '',
+    tempSuffix: '.tmp',
     filterMode: 'WHITELIST',
     fileTypes: ['.txt', '.pdf', '.doc'],
     keywordFilterEnabled: false,
-    keywords: [],
-    tempPrefix: '',
-    tempSuffix: '.tmp'
+    keywords: []
   },
   {
     id: '2',
@@ -458,12 +472,13 @@ const mockData = ref<TransferPath[]>([
     deleteAfterSync: true,
     virusScan: true,
     deleteEmptyDir: true,
+    syncMode: 'PRECISION',
+    tempPrefix: 'tmp_',
+    tempSuffix: '',
     filterMode: 'BLACKLIST',
     fileTypes: ['.exe', '.bat', '.sh'],
     keywordFilterEnabled: true,
-    keywords: ['virus', 'malware'],
-    tempPrefix: 'tmp_',
-    tempSuffix: ''
+    keywords: ['virus', 'malware']
   },
   {
     id: '3',
@@ -491,12 +506,13 @@ const mockData = ref<TransferPath[]>([
     deleteAfterSync: false,
     virusScan: false,
     deleteEmptyDir: false,
+    syncMode: 'NORMAL',
+    tempPrefix: '',
+    tempSuffix: '',
     filterMode: 'DISABLED',
     fileTypes: [],
     keywordFilterEnabled: false,
-    keywords: [],
-    tempPrefix: '',
-    tempSuffix: ''
+    keywords: []
   }
 ])
 
@@ -534,12 +550,13 @@ const formData = reactive<TransferPath>({
   deleteAfterSync: false,
   virusScan: false,
   deleteEmptyDir: false,
+  syncMode: 'NORMAL',
+  tempPrefix: '',
+  tempSuffix: '.tmp',
   filterMode: 'DISABLED',
   fileTypes: [],
   keywordFilterEnabled: false,
-  keywords: [],
-  tempPrefix: '',
-  tempSuffix: '.tmp'
+  keywords: []
 })
 
 const formRules: FormRules = {
@@ -587,12 +604,13 @@ const resetForm = () => {
     deleteAfterSync: false,
     virusScan: false,
     deleteEmptyDir: false,
+    syncMode: 'NORMAL',
+    tempPrefix: '',
+    tempSuffix: '.tmp',
     filterMode: 'DISABLED',
     fileTypes: [],
     keywordFilterEnabled: false,
-    keywords: [],
-    tempPrefix: '',
-    tempSuffix: '.tmp'
+    keywords: []
   })
 }
 
