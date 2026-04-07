@@ -264,7 +264,48 @@ export default {
 
   objectManage: {
     ipGroup: { title: 'IP Group', emptyDesc: 'IP Group Module' },
-    timeGroup: { title: 'Time Group', emptyDesc: 'Time Group Module' }
+    timeGroup: {
+      title: 'Time Group',
+      emptyDesc: 'Time Group Module',
+      add: 'Add Time Group',
+      addDialog: 'Add Time Group',
+      editDialog: 'Edit Time Group',
+      groupName: 'Group Name',
+      groupNamePlaceholder: 'Please enter group name',
+      groupNameHint: 'Consists of letters or numbers, up to 32 characters',
+      groupNameRequired: 'Please enter group name',
+      groupNameMaxLength: 'Group name cannot exceed 32 characters',
+      timeConfig: 'Time Configuration',
+      configItem: 'Config Item',
+      addConfig: 'Add Configuration',
+      timeType: 'Time Type',
+      period: 'Period',
+      piece: 'Piece',
+      startTime: 'Start Time',
+      endTime: 'End Time',
+      selectStartTime: 'Please select start time',
+      selectEndTime: 'Please select end time',
+      timeRange: 'Time Range',
+      weekday: 'Weekday',
+      weekdays: {
+        monday: 'Mon',
+        tuesday: 'Tue',
+        wednesday: 'Wed',
+        thursday: 'Thu',
+        friday: 'Fri',
+        saturday: 'Sat',
+        sunday: 'Sun'
+      },
+      details: 'Details',
+      actions: 'Actions',
+      edit: 'Edit',
+      delete: 'Delete',
+      to: 'to',
+      addSuccess: 'Added successfully',
+      editSuccess: 'Updated successfully',
+      deleteSuccess: 'Deleted successfully',
+      deleteConfirm: 'Are you sure to delete time group "{name}"?'
+    }
   },
 
   securityPolicy: {

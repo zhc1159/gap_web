@@ -268,7 +268,48 @@ export default {
   // 对象管理
   objectManage: {
     ipGroup: { title: 'IP组', emptyDesc: 'IP组模块' },
-    timeGroup: { title: '时间组', emptyDesc: '时间组模块' }
+    timeGroup: {
+      title: '时间组',
+      emptyDesc: '时间组模块',
+      add: '添加时间组',
+      addDialog: '添加时间组',
+      editDialog: '修改时间组',
+      groupName: '时间组名',
+      groupNamePlaceholder: '请输入时间组名',
+      groupNameHint: '由字母或数字构成，长度不超过32字符',
+      groupNameRequired: '请输入时间组名',
+      groupNameMaxLength: '时间组名不能超过32个字符',
+      timeConfig: '时间配置',
+      configItem: '配置项',
+      addConfig: '添加配置',
+      timeType: '时间类型',
+      period: '段时间',
+      piece: '片时间',
+      startTime: '开始时间',
+      endTime: '结束时间',
+      selectStartTime: '请选择开始时间',
+      selectEndTime: '请选择结束时间',
+      timeRange: '时间范围',
+      weekday: '星期',
+      weekdays: {
+        monday: '星期一',
+        tuesday: '星期二',
+        wednesday: '星期三',
+        thursday: '星期四',
+        friday: '星期五',
+        saturday: '星期六',
+        sunday: '星期日'
+      },
+      details: '详情',
+      actions: '操作',
+      edit: '编辑',
+      delete: '删除',
+      to: '至',
+      addSuccess: '添加成功',
+      editSuccess: '修改成功',
+      deleteSuccess: '删除成功',
+      deleteConfirm: '确定要删除时间组 "{name}" 吗？'
+    }
   },
 
   // 通用代理
