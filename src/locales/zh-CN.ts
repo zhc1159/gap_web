@@ -190,7 +190,26 @@ export default {
       issueCertSuccess: '证书签发成功',
       downloadCertSuccess: '证书下载成功'
     },
-    userIpShow: { title: '管理机', emptyDesc: '管理机模块' },
+    userIpShow: {
+      title: '管理机',
+      emptyDesc: '管理机模块',
+      add: '添加',
+      edit: '编辑',
+      ipAddress: '主机地址',
+      username: '用户名',
+      actions: '操作',
+      delete: '删除',
+      allAddress: '* (所有地址)',
+      specificAddress: '指定地址',
+      ipType: 'IP类型',
+      ipPlaceholder: '请输入IP地址',
+      usernameRequired: '请选择用户',
+      ipTypeRequired: '请选择IP类型',
+      ipRequired: '请输入IP地址',
+      saveSuccess: '保存成功',
+      deleteConfirm: '确定要删除IP地址 "{ip}" 的配置吗？',
+      deleteSuccess: '删除成功'
+    },
     otp: { title: '动态口令', emptyDesc: '动态口令模块' },
     secureShow: { title: '安全选项', emptyDesc: '安全选项模块' }
   },

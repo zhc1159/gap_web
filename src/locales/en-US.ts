@@ -188,7 +188,26 @@ export default {
       issueCertSuccess: 'Certificate issued successfully',
       downloadCertSuccess: 'Certificate downloaded successfully'
     },
-    userIpShow: { title: 'Management Host', emptyDesc: 'Management Host Module' },
+    userIpShow: {
+      title: 'Management Host',
+      emptyDesc: 'Management Host Module',
+      add: 'Add',
+      edit: 'Edit',
+      ipAddress: 'Host Address',
+      username: 'Username',
+      actions: 'Actions',
+      delete: 'Delete',
+      allAddress: '* (All Addresses)',
+      specificAddress: 'Specific Address',
+      ipType: 'IP Type',
+      ipPlaceholder: 'Enter IP address',
+      usernameRequired: 'Please select a user',
+      ipTypeRequired: 'Please select IP type',
+      ipRequired: 'Please enter IP address',
+      saveSuccess: 'Saved successfully',
+      deleteConfirm: 'Are you sure to delete the configuration for IP address "{ip}"?',
+      deleteSuccess: 'Deleted successfully'
+    },
     otp: { title: 'Dynamic Password', emptyDesc: 'Dynamic Password Module' },
     secureShow: { title: 'Security Options', emptyDesc: 'Security Options Module' }
   },
