@@ -699,7 +699,31 @@ export default {
       enableSuccess: 'Enabled successfully',
       disableSuccess: 'Disabled successfully'
     },
-    s_db_oracle: { title: 'ORACLE Security', emptyDesc: 'ORACLE Security Module' }
+    s_db_oracle: {
+      title: 'ORACLE Security',
+      emptyDesc: 'ORACLE Security Module',
+      describe: 'Configure Oracle database security filtering policies, supporting SQL command whitelist/blacklist filtering',
+      addPolicy: 'Add Policy',
+      status: 'Status',
+      userGroup: 'User Group',
+      filterMode: 'Filter Mode',
+      whitelist: 'Whitelist',
+      blacklist: 'Blacklist',
+      sqlCommands: 'SQL Commands',
+      actions: 'Actions',
+      edit: 'Edit',
+      delete: 'Delete',
+      addDialog: 'Add ORACLE Security Policy',
+      editDialog: 'Edit ORACLE Security Policy',
+      policySwitch: 'Policy Switch',
+      sqlCommandsFilter: 'SQL Commands Filter',
+      deleteConfirm: 'Are you sure to delete policy for user group "{name}"?',
+      deleteSuccess: 'Deleted successfully',
+      addSuccess: 'Added successfully',
+      editSuccess: 'Updated successfully',
+      enableSuccess: 'Enabled successfully',
+      disableSuccess: 'Disabled successfully'
+    }
   },
 
   fileSafe: {

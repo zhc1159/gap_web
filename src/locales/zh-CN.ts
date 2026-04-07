@@ -705,7 +705,31 @@ export default {
       enableSuccess: '启用成功',
       disableSuccess: '禁用成功'
     },
-    s_db_oracle: { title: 'ORACLE安全', emptyDesc: 'ORACLE安全模块' }
+    s_db_oracle: {
+      title: 'ORACLE安全',
+      emptyDesc: 'ORACLE安全模块',
+      describe: '配置Oracle数据库的安全过滤策略，支持SQL命令白名单/黑名单过滤',
+      addPolicy: '添加策略',
+      status: '状态',
+      userGroup: '用户组',
+      filterMode: '过滤模式',
+      whitelist: '白名单',
+      blacklist: '黑名单',
+      sqlCommands: 'SQL命令',
+      actions: '操作',
+      edit: '编辑',
+      delete: '删除',
+      addDialog: '添加ORACLE安全策略',
+      editDialog: '编辑ORACLE安全策略',
+      policySwitch: '规则开关',
+      sqlCommandsFilter: 'SQL命令过滤',
+      deleteConfirm: '确定要删除用户组 "{name}" 的策略吗？',
+      deleteSuccess: '删除成功',
+      addSuccess: '添加成功',
+      editSuccess: '修改成功',
+      enableSuccess: '启用成功',
+      disableSuccess: '禁用成功'
+    }
   },
 
   // 文件传输
