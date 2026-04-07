@@ -257,12 +257,12 @@
               </el-radio-group>
             </el-form-item>
 
-            <el-form-item :label="$t('securityPolicy.s_http.urlLengthCheck')">
+            <el-form-item :label="$t('securityPolicy.s_http.urlLengthCheckSwitch')">
               <el-switch v-model="formData.urlLengthCheck" />
             </el-form-item>
 
             <el-form-item v-if="formData.urlLengthCheck" :label="$t('securityPolicy.s_http.urlMaxLength')">
-              <el-input-number v-model="formData.urlMaxLength" :min="1" :max="8192" style="width: 150px" />
+              <el-input-number v-model="formData.urlMaxLength" :min="0" :max="1024" style="width: 150px" />
               <span class="unit-text">{{ $t('securityPolicy.s_http.characters') }}</span>
             </el-form-item>
 
