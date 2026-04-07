@@ -96,36 +96,38 @@
         </el-form-item>
 
         <el-form-item :label="$t('transparentRule.ip.ipAddress')" prop="ipRange">
-          <!-- IP标签显示区域 -->
-          <div class="ip-tags-container">
-            <el-tag
-              v-for="(ip, index) in ipTags"
-              :key="index"
-              closable
-              :type="ip.valid ? 'success' : 'danger'"
-              size="small"
-              @close="handleRemoveIp(index)"
-              class="ip-tag"
-            >
-              {{ ip.value }}
-              <el-icon v-if="!ip.valid" class="invalid-icon"><Warning /></el-icon>
-            </el-tag>
-            <span v-if="ipTags.length === 0" class="empty-hint">{{ $t('transparentRule.ip.noIpHint') }}</span>
-          </div>
+          <div class="ip-input-wrapper">
+            <!-- IP标签显示区域 -->
+            <div class="ip-tags-container">
+              <el-tag
+                v-for="(ip, index) in ipTags"
+                :key="index"
+                closable
+                :type="ip.valid ? 'success' : 'danger'"
+                size="small"
+                @close="handleRemoveIp(index)"
+                class="ip-tag"
+              >
+                {{ ip.value }}
+                <el-icon v-if="!ip.valid" class="invalid-icon"><Warning /></el-icon>
+              </el-tag>
+              <span v-if="ipTags.length === 0" class="empty-hint">{{ $t('transparentRule.ip.noIpHint') }}</span>
+            </div>
 
-          <!-- IP输入框 -->
-          <div class="ip-input-row">
-            <el-input
-              v-model="currentIp"
-              :placeholder="$t('transparentRule.ip.ipInputPlaceholder')"
-              @keyup.enter="handleAddIp"
-              class="ip-input"
-            />
-            <el-button type="primary" :icon="Plus" @click="handleAddIp" :disabled="!currentIp" />
-          </div>
+            <!-- IP输入框 -->
+            <div class="ip-input-row">
+              <el-input
+                v-model="currentIp"
+                :placeholder="$t('transparentRule.ip.ipInputPlaceholder')"
+                @keyup.enter="handleAddIp"
+                class="ip-input"
+              />
+              <el-button type="primary" :icon="Plus" @click="handleAddIp" :disabled="!currentIp" />
+            </div>
 
-          <div class="ip-hint">
-            {{ $t('transparentRule.ip.ipFormatHint') }}
+            <div class="ip-hint">
+              {{ $t('transparentRule.ip.ipFormatHint') }}
+            </div>
           </div>
         </el-form-item>
       </el-form>
@@ -596,6 +598,12 @@ onMounted(() => {
 .empty-hint {
   color: #c0c4cc;
   font-size: 13px;
+}
+
+/* IP输入区域包装器 - 与IP组名称输入框宽度一致 */
+.ip-input-wrapper {
+  width: 100%;
+  max-width: 100%;
 }
 
 /* IP输入行 */
