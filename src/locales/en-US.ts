@@ -845,7 +845,25 @@ export default {
       downloadSuccess: 'File downloaded successfully',
       downloadSizeLimit: 'File size exceeds 200MB, download is not supported'
     },
-    file_approval_success: { title: 'Approved', emptyDesc: 'Approved Module' },
+    file_approval_success: {
+      title: 'Approved',
+      emptyDesc: 'Approved Module',
+      describe: 'View records of approved files, including interception reason, audit time and transfer details',
+      intranet: 'Intranet',
+      extranet: 'Extranet',
+      filename: 'Filename',
+      interceptionType: 'Interception Type',
+      keyword: 'Keyword',
+      status: 'Status',
+      passed: 'Passed',
+      sender: 'Sender',
+      receiver: 'Receiver',
+      fileSize: 'File Size',
+      auditTime: 'Audit Time',
+      typeVirus: 'Virus',
+      typeFileType: 'File Type',
+      typeKeyword: 'Keyword'
+    },
     file_approval_failed: { title: 'Rejected', emptyDesc: 'Rejected Module' }
   },
 

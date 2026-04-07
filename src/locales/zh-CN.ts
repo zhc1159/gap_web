@@ -852,7 +852,25 @@ export default {
       downloadSuccess: '文件下载成功',
       downloadSizeLimit: '文件大小超过200MB，暂不支持下载'
     },
-    file_approval_success: { title: '审核已通过', emptyDesc: '审核已通过模块' },
+    file_approval_success: {
+      title: '审核已通过',
+      emptyDesc: '审核已通过模块',
+      describe: '查看已通过审核的文件记录，包含拦截原因、审核时间和发送接收信息',
+      intranet: '内网',
+      extranet: '外网',
+      filename: '文件名',
+      interceptionType: '拦截类型',
+      keyword: '命中关键字',
+      status: '状态',
+      passed: '已通过',
+      sender: '发送人',
+      receiver: '接收人',
+      fileSize: '文件大小',
+      auditTime: '审核时间',
+      typeVirus: '病毒',
+      typeFileType: '文件类型',
+      typeKeyword: '关键字'
+    },
     file_approval_failed: { title: '审核未通过', emptyDesc: '审核未通过模块' }
   },
 
