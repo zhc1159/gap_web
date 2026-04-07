@@ -133,6 +133,26 @@ export default {
 
   // 日志审计
   audit: {
+    logs: {
+      title: 'Web日志',
+      emptyDesc: 'Web日志模块',
+      describe: '展示系统Web访问日志记录，包括时间、级别、来源等详细信息',
+      dateRange: '日期范围',
+      time: '时间',
+      level: '级别',
+      source: '来源',
+      module: '模块',
+      message: '消息',
+      actions: '操作',
+      viewDetail: '详情',
+      detailTitle: '日志详情',
+      details: '详细信息',
+      clearLog: '清空日志',
+      clearLogConfirm: '确定要清空所有日志吗？此操作不可恢复。',
+      clearSuccess: '清空成功',
+      exportAllOnly: '日志只支持全量导出',
+      exportSuccess: '导出成功'
+    },
     gapLog: { title: 'web日志', emptyDesc: 'web日志模块' },
     fileSynLog: { title: '文件同步日志', emptyDesc: '文件同步日志模块' },
     ferryloginLog: { title: '登录日志', emptyDesc: '登录日志模块' },
@@ -176,7 +196,6 @@ export default {
       percentHint: '日志保留百分比（20-80）%',
       saveSuccess: '保存配置成功'
     },
-    logs: { title: '拦截日志', emptyDesc: '拦截日志模块' },
     operation: { title: '操作日志', emptyDesc: '操作日志模块' },
     security: { title: '安全日志', emptyDesc: '安全日志模块' }
   },

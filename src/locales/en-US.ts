@@ -132,6 +132,26 @@ export default {
   error404: { title: 'Page Not Found', description: 'The page you visited does not exist', backHome: 'Back to Home' },
 
   audit: {
+    logs: {
+      title: 'Web Logs',
+      emptyDesc: 'Web Logs Module',
+      describe: 'Display system web access log records, including time, level, source and other details',
+      dateRange: 'Date Range',
+      time: 'Time',
+      level: 'Level',
+      source: 'Source',
+      module: 'Module',
+      message: 'Message',
+      actions: 'Actions',
+      viewDetail: 'Detail',
+      detailTitle: 'Log Detail',
+      details: 'Details',
+      clearLog: 'Clear Log',
+      clearLogConfirm: 'Are you sure to clear all logs? This operation cannot be undone.',
+      clearSuccess: 'Cleared successfully',
+      exportAllOnly: 'Only full export is supported',
+      exportSuccess: 'Export successful'
+    },
     gapLog: { title: 'Web Log', emptyDesc: 'Web Log Module' },
     fileSynLog: { title: 'File Sync Log', emptyDesc: 'File Sync Log Module' },
     ferryloginLog: { title: 'Login Log', emptyDesc: 'Login Log Module' },
@@ -175,7 +195,6 @@ export default {
       percentHint: 'Log retention percentage (20-80)%',
       saveSuccess: 'Configuration saved successfully'
     },
-    logs: { title: 'Intercept Log', emptyDesc: 'Intercept Log Module' },
     operation: { title: 'Operation Log', emptyDesc: 'Operation Log Module' },
     security: { title: 'Security Log', emptyDesc: 'Security Log Module' }
   },
