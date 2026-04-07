@@ -389,7 +389,7 @@ export default {
       editSuccess: 'Updated successfully'
     },
     s_ftp: {
-      title: 'FTP Security Policy',
+      title: 'FTP Security',
       emptyDesc: 'FTP Security Module',
       describe: 'Configure FTP protocol security filtering rules, including user filtering, signal filtering, and file upload/download control',
       addPolicy: 'Add Policy',

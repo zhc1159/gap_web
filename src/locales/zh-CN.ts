@@ -394,7 +394,7 @@ export default {
       editSuccess: '修改成功'
     },
     s_ftp: {
-      title: 'FTP安全策略',
+      title: 'FTP安全',
       emptyDesc: 'FTP安全模块',
       describe: '配置FTP协议的安全过滤规则，包括用户过滤、信令过滤、文件上传下载控制',
       addPolicy: '添加策略',
