@@ -318,15 +318,31 @@
               <span class="form-hint">{{ formData.keywordFilterEnabled ? $t('common.enabled') : $t('common.disabled') }}</span>
             </el-form-item>
             <el-form-item v-if="formData.keywordFilterEnabled" :label="$t('rulesManage.filePathShow.keywords')">
-              <el-select
-                v-model="formData.keywords"
-                multiple
-                filterable
-                allow-create
-                default-first-option
-                style="width: 100%"
-                :placeholder="$t('rulesManage.filePathShow.keywordsPlaceholder')"
-              />
+              <div class="keyword-input-wrapper">
+                <div class="keyword-list">
+                  <el-tag
+                    v-for="keyword in formData.keywords"
+                    :key="keyword"
+                    type="warning"
+                    closable
+                    size="small"
+                    @close="removeKeyword(keyword)"
+                  >
+                    {{ keyword }}
+                  </el-tag>
+                  <span v-if="formData.keywords.length === 0" class="empty-hint">{{ $t('rulesManage.filePathShow.noKeywords') }}</span>
+                </div>
+                <div class="input-row">
+                  <el-input
+                    v-model="newKeyword"
+                    :placeholder="$t('rulesManage.filePathShow.keywordsPlaceholder')"
+                    @keyup.enter="addKeyword"
+                  />
+                  <el-button type="primary" @click="addKeyword">
+                    <el-icon><Plus /></el-icon>
+                  </el-button>
+                </div>
+              </div>
             </el-form-item>
           </el-form>
         </div>
@@ -396,6 +412,7 @@ interface TransferPath {
 const loading = ref(false)
 const submitLoading = ref(false)
 const testLoading = ref(false)
+const newKeyword = ref('')
 const dialogVisible = ref(false)
 const isEdit = ref(false)
 const currentStep = ref(0)
@@ -665,6 +682,19 @@ const handleProtocolChange = (protocol: Protocol) => {
   formData.externalPort = defaultPorts[protocol]
 }
 
+const addKeyword = () => {
+  const keyword = newKeyword.value.trim()
+  if (keyword && !formData.keywords.includes(keyword)) {
+    formData.keywords.push(keyword)
+    newKeyword.value = ''
+  }
+}
+
+const removeKeyword = (keyword: string) => {
+  const index = formData.keywords.indexOf(keyword)
+  if (index > -1) formData.keywords.splice(index, 1)
+}
+
 const testConnection = (_type: 'internal' | 'external') => {
   testLoading.value = true
   setTimeout(() => {
@@ -922,6 +952,37 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   gap: 12px;
+}
+
+/* 关键字输入样式 */
+.keyword-input-wrapper {
+  width: 100%;
+}
+
+.keyword-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  min-height: 32px;
+  padding: 8px;
+  background: rgba(230, 162, 60, 0.02);
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+}
+
+.empty-hint {
+  color: #c0c4cc;
+  font-size: 13px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-row :deep(.el-input) {
+  flex: 1;
 }
 
 /* 响应式 */
