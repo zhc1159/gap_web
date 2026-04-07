@@ -197,28 +197,8 @@
                         :model-value="getPTZConfig(ptz.id)?.allow"
                         active-color="#67c23a"
                         inactive-color="#909399"
-                        @change="(val: boolean) => updatePTZConfig(ptz.id, 'allow', val)"
+                        @change="(val: boolean) => updatePTZConfig(ptz.id, val)"
                       />
-                    </div>
-
-                    <!-- 参数上下限 -->
-                    <div v-if="getPTZConfig(ptz.id)?.allow" class="config-row">
-                      <label>{{ $t('videoSafe.sipFilter.paramRange') }}:</label>
-                      <div class="param-inputs">
-                        <el-input-number
-                          :model-value="getPTZConfig(ptz.id)?.paramMin || 0"
-                          size="small"
-                          controls-position="right"
-                          @change="(val: number) => updatePTZConfig(ptz.id, 'paramMin', val)"
-                        />
-                        <span class="separator">~</span>
-                        <el-input-number
-                          :model-value="getPTZConfig(ptz.id)?.paramMax || 0"
-                          size="small"
-                          controls-position="right"
-                          @change="(val: number) => updatePTZConfig(ptz.id, 'paramMax', val)"
-                        />
-                      </div>
                     </div>
                   </div>
                 </el-collapse-transition>
@@ -283,8 +263,6 @@ const { t } = useI18n()
 interface PTZCommand {
   cmd: string
   allow: boolean
-  paramMax: number
-  paramMin: number
 }
 
 interface SIPFilterRule {
@@ -328,11 +306,12 @@ const sipCommandOptions = ref<SIPCommand[]>([
   { name: 'PRACK', desc: '临时响应确认' }
 ])
 const ptzCommandOptions = ref<PTZCommandOption[]>([
-  { id: 'tilt', desc: '云台上仰俯角' },
-  { id: 'pan', desc: '云台水平旋转' },
-  { id: 'zoom', desc: '镜头变焦' },
-  { id: 'focus', desc: '镜头聚焦' },
-  { id: 'iris', desc: '光圈调节' }
+  { id: 'right', desc: '云台向右' },
+  { id: 'left', desc: '云台向左' },
+  { id: 'down', desc: '云台向下' },
+  { id: 'up', desc: '云台向上' },
+  { id: 'zoom_in', desc: '画面放大' },
+  { id: 'zoom_out', desc: '画面缩小' }
 ])
 const codecOptions = ref<string[]>(['H264', 'H265', 'SVAC', 'MPEG4'])
 
@@ -344,9 +323,9 @@ const mockData = ref<SIPFilterRule[]>([
     ruleWork: true,
     blackCmd: ['CANCEL', 'REGISTER'],
     ptzcmd: [
-      { cmd: 'tilt', allow: true, paramMax: 90, paramMin: -90 },
-      { cmd: 'pan', allow: true, paramMax: 360, paramMin: 0 },
-      { cmd: 'zoom', allow: true, paramMax: 100, paramMin: 1 }
+      { cmd: 'right', allow: true },
+      { cmd: 'left', allow: true },
+      { cmd: 'zoom_in', allow: true }
     ],
     white: 1,
     codec: ['H264', 'H265', 'SVAC']
@@ -357,8 +336,8 @@ const mockData = ref<SIPFilterRule[]>([
     ruleWork: true,
     blackCmd: ['MESSAGE', 'INFO'],
     ptzcmd: [
-      { cmd: 'focus', allow: true, paramMax: 100, paramMin: 0 },
-      { cmd: 'iris', allow: true, paramMax: 100, paramMin: 0 }
+      { cmd: 'up', allow: true },
+      { cmd: 'down', allow: true }
     ],
     white: 0,
     codec: ['H264', 'MPEG4']
@@ -406,9 +385,7 @@ const togglePTZ = (cmdId: string, enabled: boolean) => {
     if (!formData.ptzcmd.some(p => p.cmd === cmdId)) {
       formData.ptzcmd.push({
         cmd: cmdId,
-        allow: true,
-        paramMax: 0,
-        paramMin: 0
+        allow: true
       })
     }
   } else {
@@ -419,10 +396,10 @@ const togglePTZ = (cmdId: string, enabled: boolean) => {
   }
 }
 
-const updatePTZConfig = (cmdId: string, field: 'allow' | 'paramMax' | 'paramMin', value: boolean | number) => {
+const updatePTZConfig = (cmdId: string, value: boolean) => {
   const config = formData.ptzcmd.find(p => p.cmd === cmdId)
   if (config) {
-    (config as any)[field] = value
+    config.allow = value
   }
 }
 
