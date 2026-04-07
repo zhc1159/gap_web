@@ -334,12 +334,6 @@
                 :placeholder="$t('rulesManage.filePathShow.keywordsPlaceholder')"
               />
             </el-form-item>
-            <el-form-item :label="$t('rulesManage.filePathShow.tempPrefix')">
-              <el-input v-model="formData.tempPrefix" :placeholder="$t('rulesManage.filePathShow.tempPrefixPlaceholder')" />
-            </el-form-item>
-            <el-form-item :label="$t('rulesManage.filePathShow.tempSuffix')">
-              <el-input v-model="formData.tempSuffix" :placeholder="$t('rulesManage.filePathShow.tempSuffixPlaceholder')" />
-            </el-form-item>
           </el-form>
         </div>
       </div>
