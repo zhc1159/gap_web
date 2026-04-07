@@ -194,6 +194,16 @@
         <!-- Step 2: 外网端配置 -->
         <div v-show="currentStep === 1" class="step-panel">
           <el-form :model="formData" :rules="formRules" ref="externalFormRef" label-width="120px" class="form-content">
+            <el-form-item :label="$t('rulesManage.filePathShow.protocol')" prop="protocol">
+              <el-select v-model="formData.protocol" :placeholder="$t('common.pleaseSelect')" style="width: 100%" @change="handleProtocolChange">
+                <el-option label="FTP" value="FTP" />
+                <el-option label="FTPS" value="FTPS" />
+                <el-option label="SFTP" value="SFTP" />
+                <el-option label="SAMBA" value="SAMBA" />
+                <el-option label="NFS" value="NFS" />
+                <el-option label="SCP" value="SCP" />
+              </el-select>
+            </el-form-item>
             <el-form-item :label="$t('rulesManage.filePathShow.serverAddr')" prop="externalUrl">
               <el-input v-model="formData.externalUrl" :placeholder="$t('rulesManage.filePathShow.serverAddrPlaceholder')" />
             </el-form-item>
