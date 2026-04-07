@@ -210,7 +210,30 @@ export default {
       deleteConfirm: '确定要删除IP地址 "{ip}" 的配置吗？',
       deleteSuccess: '删除成功'
     },
-    otp: { title: '动态口令', emptyDesc: '动态口令模块' },
+    otp: {
+      title: '动态口令',
+      emptyDesc: '动态口令模块',
+      add: '添加',
+      edit: '编辑',
+      username: '用户名',
+      userType: '用户类型',
+      admin: '管理员',
+      normalUser: '普通用户',
+      qrcode: '口令二维码',
+      viewQrcode: '查看',
+      codeLength: '口令长度',
+      digits: '位',
+      actions: '操作',
+      delete: '删除',
+      usernamePlaceholder: '请输入用户名',
+      usernameRequired: '请输入用户名',
+      codeLengthRequired: '请选择口令长度',
+      saveSuccess: '保存成功',
+      deleteConfirm: '确定要删除用户 "{name}" 的口令配置吗？',
+      deleteSuccess: '删除成功',
+      qrcodeTitle: 'OTP 二维码',
+      qrcodeHint: '请使用认证APP扫描二维码获取动态口令'
+    },
     secureShow: { title: '安全选项', emptyDesc: '安全选项模块' }
   },
 

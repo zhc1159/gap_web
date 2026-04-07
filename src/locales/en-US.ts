@@ -208,7 +208,30 @@ export default {
       deleteConfirm: 'Are you sure to delete the configuration for IP address "{ip}"?',
       deleteSuccess: 'Deleted successfully'
     },
-    otp: { title: 'Dynamic Password', emptyDesc: 'Dynamic Password Module' },
+    otp: {
+      title: 'Dynamic Password',
+      emptyDesc: 'Dynamic Password Module',
+      add: 'Add',
+      edit: 'Edit',
+      username: 'Username',
+      userType: 'User Type',
+      admin: 'Administrator',
+      normalUser: 'Normal User',
+      qrcode: 'QR Code',
+      viewQrcode: 'View',
+      codeLength: 'Code Length',
+      digits: 'Digits',
+      actions: 'Actions',
+      delete: 'Delete',
+      usernamePlaceholder: 'Please enter username',
+      usernameRequired: 'Please enter username',
+      codeLengthRequired: 'Please select code length',
+      saveSuccess: 'Saved successfully',
+      deleteConfirm: 'Are you sure to delete OTP configuration for user "{name}"?',
+      deleteSuccess: 'Deleted successfully',
+      qrcodeTitle: 'OTP QR Code',
+      qrcodeHint: 'Scan the QR code with authenticator app'
+    },
     secureShow: { title: 'Security Options', emptyDesc: 'Security Options Module' }
   },
 
