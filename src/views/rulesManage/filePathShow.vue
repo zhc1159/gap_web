@@ -302,12 +302,6 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item v-if="formData.filterMode !== 'DISABLED'" :label="$t('rulesManage.filePathShow.filterType')">
-              <el-radio-group v-model="formData.filterType">
-                <el-radio value="SUFFIX">{{ $t('rulesManage.filePathShow.filterTypeSuffix') }}</el-radio>
-                <el-radio value="MIME">{{ $t('rulesManage.filePathShow.filterTypeMime') }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item v-if="formData.filterMode !== 'DISABLED'" :label="$t('rulesManage.filePathShow.fileTypes')">
               <el-select v-model="formData.fileTypes" multiple filterable allow-create default-first-option style="width: 100%" :placeholder="$t('rulesManage.filePathShow.fileTypesPlaceholder')">
                 <el-option label=".txt" value=".txt" />
                 <el-option label=".pdf" value=".pdf" />
@@ -362,7 +356,6 @@ const { t } = useI18n()
 type Protocol = 'FTP' | 'FTPS' | 'SFTP' | 'SAMBA' | 'NFS' | 'SCP'
 type Direction = 'INBOUND' | 'OUTBOUND' | 'SYNC'
 type FilterMode = 'DISABLED' | 'BLACKLIST' | 'WHITELIST'
-type FilterType = 'SUFFIX' | 'MIME'
 
 interface TransferPath {
   id: string
@@ -394,7 +387,6 @@ interface TransferPath {
   tempPrefix: string
   tempSuffix: string
   filterMode: FilterMode
-  filterType: FilterType
   fileTypes: string[]
   keywordFilterEnabled: boolean
   keywords: string[]
@@ -442,7 +434,6 @@ const mockData = ref<TransferPath[]>([
     syncMode: 'NORMAL',
     tempPrefix: '',
     tempSuffix: '.tmp',
-    filterType: 'SUFFIX',
     filterMode: 'WHITELIST',
     fileTypes: ['.txt', '.pdf', '.doc'],
     keywordFilterEnabled: false,
@@ -477,7 +468,6 @@ const mockData = ref<TransferPath[]>([
     syncMode: 'PRECISION',
     tempPrefix: 'tmp_',
     tempSuffix: '',
-    filterType: 'SUFFIX',
     filterMode: 'BLACKLIST',
     fileTypes: ['.exe', '.bat', '.sh'],
     keywordFilterEnabled: true,
@@ -512,7 +502,6 @@ const mockData = ref<TransferPath[]>([
     syncMode: 'NORMAL',
     tempPrefix: '',
     tempSuffix: '',
-    filterType: 'SUFFIX',
     filterMode: 'DISABLED',
     fileTypes: [],
     keywordFilterEnabled: false,
@@ -558,7 +547,6 @@ const formData = reactive<TransferPath>({
   tempPrefix: '',
   tempSuffix: '.tmp',
   filterMode: 'DISABLED',
-  filterType: 'SUFFIX',
   fileTypes: [],
   keywordFilterEnabled: false,
   keywords: []
@@ -613,7 +601,6 @@ const resetForm = () => {
     tempPrefix: '',
     tempSuffix: '.tmp',
     filterMode: 'DISABLED',
-    filterType: 'SUFFIX',
     fileTypes: [],
     keywordFilterEnabled: false,
     keywords: []
