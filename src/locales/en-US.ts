@@ -1002,7 +1002,41 @@ export default {
       disableSuccess: 'Disabled successfully',
       codecConfigTitle: 'Video Codec Configuration'
     },
-    rtspOption: { title: 'RTSP Options', emptyDesc: 'RTSP Options Module' }
+    rtspOption: {
+      title: 'RTSP Advanced Options',
+      emptyDesc: 'RTSP Advanced Options Module',
+      describe: 'Configure RTSP proxy server IP addresses and user credentials, support adding and deleting server IPs and users',
+      addServerIP: 'Add Server IP',
+      save: 'Save',
+      serverInfo: 'Server Info',
+      userCount: 'User Count',
+      password: 'Password',
+      actions: 'Actions',
+      addUser: 'Add User',
+      delete: 'Delete',
+      emptyData: 'No server configuration, please add server IP',
+      addServerIPDialog: 'Add Server IP',
+      serverIP: 'Server IP',
+      serverIPPlaceholder: 'Enter IPv4 address, e.g.: 192.168.1.100',
+      serverIPRequired: 'Please enter server IP address',
+      serverIPInvalid: 'Please enter a valid IPv4 address',
+      serverIPExists: 'Server IP already exists',
+      serverNotFound: 'Server not found',
+      addUserDialog: 'Add User Credential - {ip}',
+      username: 'Username',
+      usernamePlaceholder: 'Please enter username',
+      usernameRequired: 'Please enter username',
+      usernameLength: 'Username length must be 1-30 characters',
+      passwordRequired: 'Please enter password',
+      passwordLength: 'Password length must be 1-30 characters',
+      passwordPlaceholder: 'Please enter password',
+      usernameExists: 'Username already exists',
+      addServerIPSuccess: 'Server IP added successfully',
+      deleteServerIPSuccess: 'Server IP deleted successfully',
+      addUserSuccess: 'User added successfully',
+      deleteUserSuccess: 'User deleted successfully',
+      saveSuccess: 'Saved successfully'
+    }
   },
 
   opc: {

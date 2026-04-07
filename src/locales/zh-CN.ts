@@ -1010,7 +1010,41 @@ export default {
       disableSuccess: '禁用成功',
       codecConfigTitle: '视频编码配置'
     },
-    rtspOption: { title: 'RTSP高级选项', emptyDesc: 'RTSP高级选项模块' }
+    rtspOption: {
+      title: 'RTSP高级选项',
+      emptyDesc: 'RTSP高级选项模块',
+      describe: '配置RTSP代理服务器IP地址及用户凭据，支持添加、删除服务器IP和用户',
+      addServerIP: '添加服务器IP',
+      save: '保存配置',
+      serverInfo: '服务器信息',
+      userCount: '用户数量',
+      password: '密码',
+      actions: '操作',
+      addUser: '添加用户',
+      delete: '删除',
+      emptyData: '暂无服务器配置，请添加服务器IP',
+      addServerIPDialog: '添加服务器IP',
+      serverIP: '服务器IP',
+      serverIPPlaceholder: '请输入IPv4地址，如：192.168.1.100',
+      serverIPRequired: '请输入服务器IP地址',
+      serverIPInvalid: '请输入有效的IPv4地址',
+      serverIPExists: '该服务器IP已存在',
+      serverNotFound: '服务器不存在',
+      addUserDialog: '添加用户凭据 - {ip}',
+      username: '用户名',
+      usernamePlaceholder: '请输入用户名',
+      usernameRequired: '请输入用户名',
+      usernameLength: '用户名长度为1-30个字符',
+      passwordRequired: '请输入密码',
+      passwordLength: '密码长度为1-30个字符',
+      passwordPlaceholder: '请输入密码',
+      usernameExists: '该用户名已存在',
+      addServerIPSuccess: '添加服务器IP成功',
+      deleteServerIPSuccess: '删除服务器IP成功',
+      addUserSuccess: '添加用户成功',
+      deleteUserSuccess: '删除用户成功',
+      saveSuccess: '保存成功'
+    }
   },
 
   // 工控代理
