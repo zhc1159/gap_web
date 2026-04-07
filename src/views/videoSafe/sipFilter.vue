@@ -258,37 +258,6 @@
             </el-select>
           </el-form-item>
 
-          <el-divider content-position="left">
-            <el-icon class="divider-icon"><Document /></el-icon>
-            {{ $t('videoSafe.sipFilter.regexConfig') }}
-          </el-divider>
-
-          <!-- 正则表达式规则 -->
-          <el-form-item :label="$t('videoSafe.sipFilter.regexRules')">
-            <div class="regex-table-wrapper">
-              <el-table :data="formData.regStr" size="small" class="regex-table">
-                <el-table-column :label="$t('videoSafe.sipFilter.regexField')" min-width="120">
-                  <template #default="{ row }">
-                    <el-input v-model="row.field" size="small" :placeholder="$t('common.pleaseInput')" />
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('videoSafe.sipFilter.regexRule')" min-width="200">
-                  <template #default="{ row }">
-                    <el-input v-model="row.rule" size="small" :placeholder="$t('common.pleaseInput')" />
-                  </template>
-                </el-table-column>
-                <el-table-column :label="$t('videoSafe.sipFilter.actions')" width="80" align="center">
-                  <template #default="{ $index }">
-                    <el-button type="danger" size="small" :icon="Delete" circle @click="removeRegexRule($index)" />
-                  </template>
-                </el-table-column>
-              </el-table>
-              <el-button type="primary" size="small" class="add-regex-btn" @click="addRegexRule">
-                <el-icon><Plus /></el-icon>
-                {{ $t('videoSafe.sipFilter.addRegex') }}
-              </el-button>
-            </div>
-          </el-form-item>
         </el-form>
       </el-scrollbar>
 
@@ -306,7 +275,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { VideoCameraFilled, Plus, InfoFilled, Edit, Delete, Film, Document } from '@element-plus/icons-vue'
+import { VideoCameraFilled, Plus, InfoFilled, Edit, Delete, Film } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 
@@ -318,12 +287,6 @@ interface PTZCommand {
   paramMin: number
 }
 
-interface RegexRule {
-  id: string
-  field: string
-  rule: string
-}
-
 interface SIPFilterRule {
   id: string
   groupName: string
@@ -332,7 +295,6 @@ interface SIPFilterRule {
   ptzcmd: PTZCommand[]
   white: number
   codec: string[]
-  regStr: RegexRule[]
 }
 
 interface SIPCommand {
@@ -387,8 +349,7 @@ const mockData = ref<SIPFilterRule[]>([
       { cmd: 'zoom', allow: true, paramMax: 100, paramMin: 1 }
     ],
     white: 1,
-    codec: ['H264', 'H265', 'SVAC'],
-    regStr: []
+    codec: ['H264', 'H265', 'SVAC']
   },
   {
     id: '2',
@@ -400,10 +361,7 @@ const mockData = ref<SIPFilterRule[]>([
       { cmd: 'iris', allow: true, paramMax: 100, paramMin: 0 }
     ],
     white: 0,
-    codec: ['H264', 'MPEG4'],
-    regStr: [
-      { id: '1', field: 'From', rule: '.*@trusted\\.com' }
-    ]
+    codec: ['H264', 'MPEG4']
   },
   {
     id: '3',
@@ -412,8 +370,7 @@ const mockData = ref<SIPFilterRule[]>([
     blackCmd: [],
     ptzcmd: [],
     white: 0,
-    codec: [],
-    regStr: []
+    codec: []
   }
 ])
 
@@ -432,8 +389,7 @@ const formData = reactive<SIPFilterRule>({
   blackCmd: [],
   ptzcmd: [],
   white: 0,
-  codec: [],
-  regStr: []
+  codec: []
 })
 
 // 云台控制方法
@@ -470,19 +426,6 @@ const updatePTZConfig = (cmdId: string, field: 'allow' | 'paramMax' | 'paramMin'
   }
 }
 
-// 正则规则方法
-const addRegexRule = () => {
-  formData.regStr.push({
-    id: Date.now().toString(),
-    field: '',
-    rule: ''
-  })
-}
-
-const removeRegexRule = (index: number) => {
-  formData.regStr.splice(index, 1)
-}
-
 // 列表方法
 const fetchList = () => {
   loading.value = true
@@ -510,8 +453,7 @@ const resetForm = () => {
     blackCmd: [],
     ptzcmd: [],
     white: 0,
-    codec: [],
-    regStr: []
+    codec: []
   })
 }
 
@@ -527,8 +469,7 @@ const handleEdit = (row: SIPFilterRule) => {
     ...row,
     blackCmd: [...row.blackCmd],
     ptzcmd: row.ptzcmd.map(p => ({ ...p })),
-    codec: [...row.codec],
-    regStr: row.regStr.map(r => ({ ...r }))
+    codec: [...row.codec]
   })
   formVisible.value = true
 }
