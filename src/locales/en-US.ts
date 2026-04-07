@@ -570,7 +570,37 @@ export default {
     },
     s_telnet: { title: 'Telnet Security', emptyDesc: 'Telnet Security Module' },
     s_WebService: { title: 'WebService Security', emptyDesc: 'WebService Security Module' },
-    s_httpProxy: { title: 'Web Proxy Security', emptyDesc: 'Web Proxy Security Module' }
+    s_httpProxy: {
+      title: 'Web Proxy Security',
+      emptyDesc: 'Web Proxy Security Module',
+      describe: 'Configure Web proxy URL filtering and keyword filtering policies, supporting whitelist and blacklist modes',
+      addPolicy: 'Add Policy',
+      urlRuleEnabled: 'URL Rule Switch',
+      filterPolicy: 'Filter Policy',
+      whitelist: 'Whitelist',
+      blacklist: 'Blacklist',
+      urlList: 'URL Filter List',
+      keywords: 'Keywords',
+      count: 'items',
+      actions: 'Actions',
+      edit: 'Edit',
+      delete: 'Delete',
+      addDialog: 'Add Web Proxy Security Policy',
+      editDialog: 'Edit Web Proxy Security Policy',
+      keywordList: 'Keyword List',
+      noUrls: 'No URLs',
+      noKeywords: 'No keywords',
+      urlPlaceholder: 'Enter URL and press Enter to add',
+      keywordPlaceholder: 'Enter keyword and press Enter',
+      empty: 'None',
+      urlDetailTitle: 'URL List Details',
+      deleteConfirm: 'Are you sure to delete this policy?',
+      deleteSuccess: 'Deleted successfully',
+      addSuccess: 'Added successfully',
+      editSuccess: 'Updated successfully',
+      enableSuccess: 'Enabled successfully',
+      disableSuccess: 'Disabled successfully'
+    }
   },
 
   databaseSafe: {

@@ -575,7 +575,37 @@ export default {
     },
     s_telnet: { title: 'Telnet安全', emptyDesc: 'Telnet安全模块' },
     s_WebService: { title: 'WebService安全', emptyDesc: 'WebService安全模块' },
-    s_httpProxy: { title: 'Web代理安全', emptyDesc: 'Web代理安全模块' }
+    s_httpProxy: {
+      title: 'Web代理安全',
+      emptyDesc: 'Web代理安全模块',
+      describe: '配置Web代理的URL过滤和关键字过滤策略，支持白名单和黑名单模式',
+      addPolicy: '添加策略',
+      urlRuleEnabled: 'URL规则开关',
+      filterPolicy: '过滤策略',
+      whitelist: '白名单',
+      blacklist: '黑名单',
+      urlList: 'URL过滤列表',
+      keywords: '关键字',
+      count: '个',
+      actions: '操作',
+      edit: '编辑',
+      delete: '删除',
+      addDialog: '添加Web代理安全策略',
+      editDialog: '编辑Web代理安全策略',
+      keywordList: '关键字列表',
+      noUrls: '暂无URL',
+      noKeywords: '暂无关键字',
+      urlPlaceholder: '输入URL后按回车添加',
+      keywordPlaceholder: '输入关键字后按回车添加',
+      empty: '无',
+      urlDetailTitle: 'URL列表详情',
+      deleteConfirm: '确定要删除该策略吗？',
+      deleteSuccess: '删除成功',
+      addSuccess: '添加成功',
+      editSuccess: '修改成功',
+      enableSuccess: '启用成功',
+      disableSuccess: '禁用成功'
+    }
   },
 
   // 数据库安全
