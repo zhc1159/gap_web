@@ -377,14 +377,16 @@ const handleServerIPSubmit = async () => {
     ElNotification({
       title: t('common.success'),
       message: t('videoSafe.rtspOption.addServerIPSuccess'),
-      type: 'success'
+      type: 'success',
+      customClass: 'notification-success'
     })
   } catch (error: any) {
     if (error.message) {
       ElNotification({
         title: t('common.failed'),
         message: error.message,
-        type: 'error'
+        type: 'error',
+        customClass: 'notification-error'
       })
     }
   }
@@ -401,7 +403,8 @@ const handleRemoveServer = (ip: string) => {
   ElNotification({
     title: t('common.success'),
     message: t('videoSafe.rtspOption.deleteServerIPSuccess'),
-    type: 'success'
+    type: 'success',
+    customClass: 'notification-success'
   })
 }
 
@@ -425,14 +428,16 @@ const handleUserCredentialSubmit = async () => {
     ElNotification({
       title: t('common.success'),
       message: t('videoSafe.rtspOption.addUserSuccess'),
-      type: 'success'
+      type: 'success',
+      customClass: 'notification-success'
     })
   } catch (error: any) {
     if (error.message) {
       ElNotification({
         title: t('common.failed'),
         message: error.message,
-        type: 'error'
+        type: 'error',
+        customClass: 'notification-error'
       })
     }
   }
@@ -453,7 +458,8 @@ const handleRemoveUser = (ip: string, name: string) => {
   ElNotification({
     title: t('common.success'),
     message: t('videoSafe.rtspOption.deleteUserSuccess'),
-    type: 'success'
+    type: 'success',
+    customClass: 'notification-success'
   })
 }
 
@@ -465,7 +471,8 @@ const handleSave = () => {
     ElNotification({
       title: t('common.success'),
       message: t('videoSafe.rtspOption.saveSuccess'),
-      type: 'success'
+      type: 'success',
+      customClass: 'notification-success'
     })
   }, 1000)
 }
