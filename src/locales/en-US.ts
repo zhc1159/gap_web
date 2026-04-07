@@ -1387,7 +1387,32 @@ export default {
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully'
     },
-    port: { title: 'Port Group', emptyDesc: 'Port Group Module' },
+    port: {
+      title: 'Port Group',
+      emptyDesc: 'Port Group Module',
+      describe: 'Configure and manage transparent transmission port groups, supporting single ports and port ranges',
+      addGroup: 'Add Port Group',
+      groupName: 'Group Name',
+      groupNamePlaceholder: 'Enter group name (letters, numbers, underscore only)',
+      groupNameRequired: 'Please enter group name',
+      groupNamePattern: 'Group name can only contain letters, numbers and underscore',
+      groupNameMaxLength: 'Group name cannot exceed 31 characters',
+      portRange: 'Port Range',
+      portRangeRequired: 'Please enter port number',
+      portInputPlaceholder: 'Enter ports separated by commas, e.g.: 22, 80-88, 443, 8080-8089',
+      portFormatHint: 'Supported formats: single port (e.g. 22), port range (e.g. 8080-8089), multiple ports separated by commas, valid port range: 1-65535',
+      preview: 'Preview:',
+      noValidPort: 'Please enter at least one valid port number',
+      actions: 'Actions',
+      edit: 'Edit',
+      delete: 'Delete',
+      addDialog: 'Add Port Group',
+      editDialog: 'Edit Port Group',
+      deleteConfirm: 'Are you sure to delete port group "{name}"?',
+      deleteSuccess: 'Deleted successfully',
+      addSuccess: 'Added successfully',
+      editSuccess: 'Updated successfully'
+    },
     time: { title: 'Time Group', emptyDesc: 'Time Group Module' }
   },
 

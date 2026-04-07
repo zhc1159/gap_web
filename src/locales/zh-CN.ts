@@ -1399,7 +1399,32 @@ export default {
       addSuccess: '添加成功',
       editSuccess: '修改成功'
     },
-    port: { title: '端口组', emptyDesc: '端口组模块' },
+    port: {
+      title: '端口组',
+      emptyDesc: '端口组模块',
+      describe: '配置和管理透明传输端口分组，支持单个端口和端口范围的分组管理',
+      addGroup: '添加端口组',
+      groupName: '端口组名称',
+      groupNamePlaceholder: '请输入端口组名称（仅支持英文、数字、下划线）',
+      groupNameRequired: '请输入端口组名称',
+      groupNamePattern: '端口组名称仅支持英文、数字、下划线',
+      groupNameMaxLength: '端口组名称不能超过31个字符',
+      portRange: '端口范围',
+      portRangeRequired: '请输入端口号',
+      portInputPlaceholder: '请输入端口号，多个端口用英文逗号分隔，例如：22, 80-88, 443, 8080-8089',
+      portFormatHint: '支持格式：单个端口（如22）、端口范围（如8080-8089），多个端口用逗号分隔，有效端口范围：1-65535',
+      preview: '预览：',
+      noValidPort: '请至少输入一个有效的端口号',
+      actions: '操作',
+      edit: '编辑',
+      delete: '删除',
+      addDialog: '添加端口组',
+      editDialog: '编辑端口组',
+      deleteConfirm: '确定要删除端口组 "{name}" 吗？',
+      deleteSuccess: '删除成功',
+      addSuccess: '添加成功',
+      editSuccess: '修改成功'
+    },
     time: { title: '时间组', emptyDesc: '时间组模块' }
   },
 
