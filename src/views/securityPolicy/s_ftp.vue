@@ -110,216 +110,289 @@
       </div>
     </div>
 
-    <!-- 添加/编辑对话框 -->
+    <!-- 步骤引导对话框 -->
     <el-dialog
       v-model="formVisible"
       :title="formMode === 'add' ? $t('securityPolicy.s_ftp.addDialog') : $t('securityPolicy.s_ftp.editDialog')"
-      width="75%"
-      class="ftp-dialog"
+      width="800px"
+      class="wizard-dialog"
       :close-on-click-modal="false"
     >
-      <div class="config-layout">
-        <!-- 左列：基础配置 -->
-        <div class="config-column">
-          <div class="config-section">
-            <div class="section-title">
-              <el-icon><Setting /></el-icon>
-              {{ $t('securityPolicy.s_ftp.basicConfig') }}
-            </div>
-            <el-form :model="formData" label-width="130px" class="config-form">
-              <el-form-item :label="$t('securityPolicy.s_ftp.policySwitch')">
-                <el-switch v-model="formData.enabled" />
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.userGroup')">
-                <el-select v-model="formData.userGroup" style="width: 100%">
-                  <el-option label="ftp_group_1" value="ftp_group_1" />
-                  <el-option label="ftp_group_2" value="ftp_group_2" />
-                  <el-option label="admin_group" value="admin_group" />
-                  <el-option label="user_group" value="user_group" />
-                </el-select>
-              </el-form-item>
-            </el-form>
-          </div>
+      <!-- 步骤条 -->
+      <div class="wizard-steps">
+        <el-steps :active="currentStep" align-center finish-status="success">
+          <el-step :title="$t('securityPolicy.s_ftp.stepBasic')" :icon="Setting" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepSignal')" :icon="Connection" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepFilter')" :icon="Filter" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepTransfer')" :icon="Upload" />
+        </el-steps>
+      </div>
 
-          <!-- FTP用户 -->
-          <div class="config-section">
-            <div class="section-title">
+      <!-- 步骤内容 -->
+      <div class="wizard-content">
+        <!-- 步骤1: 基础配置 -->
+        <div v-show="currentStep === 0" class="step-panel">
+          <div class="step-header">
+            <el-icon class="step-icon"><Setting /></el-icon>
+            <span class="step-title">{{ $t('securityPolicy.s_ftp.stepBasicTitle') }}</span>
+          </div>
+          <div class="step-desc">{{ $t('securityPolicy.s_ftp.stepBasicDesc') }}</div>
+
+          <el-form :model="formData" label-width="140px" class="step-form">
+            <el-form-item :label="$t('securityPolicy.s_ftp.policySwitch')">
+              <el-switch v-model="formData.enabled" />
+              <span class="form-hint">{{ formData.enabled ? $t('common.enabled') : $t('common.disabled') }}</span>
+            </el-form-item>
+            <el-form-item :label="$t('securityPolicy.s_ftp.userGroup')" required>
+              <el-select v-model="formData.userGroup" style="width: 100%" :placeholder="$t('common.pleaseSelect')">
+                <el-option label="ftp_group_1" value="ftp_group_1" />
+                <el-option label="ftp_group_2" value="ftp_group_2" />
+                <el-option label="admin_group" value="admin_group" />
+                <el-option label="user_group" value="user_group" />
+              </el-select>
+            </el-form-item>
+
+            <el-divider content-position="left">
               <el-icon><User /></el-icon>
               {{ $t('securityPolicy.s_ftp.ftpUser') }}
-            </div>
-            <el-form :model="formData" label-width="130px" class="config-form">
-              <el-form-item :label="$t('securityPolicy.s_ftp.userFilterMode')">
-                <el-radio-group v-model="formData.userFilterMode">
-                  <el-radio value="ALLOW">{{ $t('securityPolicy.s_ftp.allowMode') }}</el-radio>
-                  <el-radio value="DENY">{{ $t('securityPolicy.s_ftp.denyMode') }}</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.userList')">
-                <div class="tag-input-wrapper">
-                  <div class="tag-list">
-                    <el-tag
-                      v-for="user in formData.userList"
-                      :key="user"
-                      closable
-                      size="small"
-                      @close="removeUser(user)"
-                    >
-                      {{ user }}
-                    </el-tag>
-                  </div>
-                  <el-input
-                    v-model="newUser"
-                    :placeholder="$t('securityPolicy.s_ftp.userPlaceholder')"
-                    @keyup.enter="addUser"
-                  />
-                </div>
-              </el-form-item>
-            </el-form>
-          </div>
+            </el-divider>
 
-          <!-- FTP信令 -->
-          <div class="config-section">
-            <div class="section-title">
-              <el-icon><Connection /></el-icon>
-              {{ $t('securityPolicy.s_ftp.ftpSignal') }}
-            </div>
-            <el-form :model="formData" label-width="130px" class="config-form">
-              <el-form-item :label="$t('securityPolicy.s_ftp.blockedSignals')">
-                <el-select v-model="formData.blockedSignals" multiple style="width: 100%">
-                  <el-option label="DELE (删除文件)" value="DELE" />
-                  <el-option label="MKD (创建目录)" value="MKD" />
-                  <el-option label="RMD (删除目录)" value="RMD" />
-                  <el-option label="RNFR (重命名源)" value="RNFR" />
-                  <el-option label="RNTO (重命名目标)" value="RNTO" />
-                  <el-option label="STOR (存储文件)" value="STOR" />
-                  <el-option label="RETR (获取文件)" value="RETR" />
-                </el-select>
-              </el-form-item>
-            </el-form>
-          </div>
+            <el-form-item :label="$t('securityPolicy.s_ftp.userFilterMode')">
+              <el-radio-group v-model="formData.userFilterMode" class="radio-group">
+                <el-radio value="ALLOW">
+                  <el-tag type="success" size="small">{{ $t('securityPolicy.s_ftp.allowMode') }}</el-tag>
+                </el-radio>
+                <el-radio value="DENY">
+                  <el-tag type="danger" size="small">{{ $t('securityPolicy.s_ftp.denyMode') }}</el-tag>
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('securityPolicy.s_ftp.userList')">
+              <div class="tag-input-wrapper">
+                <div class="tag-list">
+                  <el-tag
+                    v-for="user in formData.userList"
+                    :key="user"
+                    closable
+                    size="small"
+                    @close="removeUser(user)"
+                  >
+                    {{ user }}
+                  </el-tag>
+                  <span v-if="formData.userList.length === 0" class="empty-hint">{{ $t('securityPolicy.s_ftp.noUsers') }}</span>
+                </div>
+                <el-input
+                  v-model="newUser"
+                  :placeholder="$t('securityPolicy.s_ftp.userPlaceholder')"
+                  @keyup.enter="addUser"
+                >
+                  <template #append>
+                    <el-button @click="addUser">
+                      <el-icon><Plus /></el-icon>
+                    </el-button>
+                  </template>
+                </el-input>
+              </div>
+            </el-form-item>
+          </el-form>
         </div>
 
-        <!-- 中列：文件过滤 -->
-        <div class="config-column">
-          <div class="config-section">
-            <div class="section-title">
-              <el-icon><Filter /></el-icon>
-              {{ $t('securityPolicy.s_ftp.fileFilter') }}
-            </div>
-            <el-form :model="formData" label-width="130px" class="config-form">
-              <el-form-item :label="$t('securityPolicy.s_ftp.filenameKeywords')">
-                <div class="tag-input-wrapper">
-                  <div class="tag-list">
-                    <el-tag
-                      v-for="keyword in formData.filenameKeywords"
-                      :key="keyword"
-                      type="warning"
-                      closable
-                      size="small"
-                      @close="removeFilenameKeyword(keyword)"
-                    >
-                      {{ keyword }}
-                    </el-tag>
-                  </div>
-                  <el-input
-                    v-model="newFilenameKeyword"
-                    :placeholder="$t('securityPolicy.s_ftp.keywordPlaceholder')"
-                    @keyup.enter="addFilenameKeyword"
-                  />
-                </div>
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.contentKeywords')">
-                <div class="tag-input-wrapper">
-                  <div class="tag-list">
-                    <el-tag
-                      v-for="keyword in formData.contentKeywords"
-                      :key="keyword"
-                      type="danger"
-                      closable
-                      size="small"
-                      @close="removeContentKeyword(keyword)"
-                    >
-                      {{ keyword }}
-                    </el-tag>
-                  </div>
-                  <el-input
-                    v-model="newContentKeyword"
-                    :placeholder="$t('securityPolicy.s_ftp.contentPlaceholder')"
-                    @keyup.enter="addContentKeyword"
-                  />
-                </div>
-              </el-form-item>
-            </el-form>
+        <!-- 步骤2: 信令过滤 -->
+        <div v-show="currentStep === 1" class="step-panel">
+          <div class="step-header">
+            <el-icon class="step-icon"><Connection /></el-icon>
+            <span class="step-title">{{ $t('securityPolicy.s_ftp.stepSignalTitle') }}</span>
           </div>
+          <div class="step-desc">{{ $t('securityPolicy.s_ftp.stepSignalDesc') }}</div>
+
+          <el-form :model="formData" label-width="140px" class="step-form">
+            <el-form-item :label="$t('securityPolicy.s_ftp.blockedSignals')">
+              <el-select v-model="formData.blockedSignals" multiple style="width: 100%" :placeholder="$t('common.pleaseSelect')">
+                <el-option label="DELE - 删除文件" value="DELE" />
+                <el-option label="MKD - 创建目录" value="MKD" />
+                <el-option label="RMD - 删除目录" value="RMD" />
+                <el-option label="RNFR - 重命名源" value="RNFR" />
+                <el-option label="RNTO - 重命名目标" value="RNTO" />
+                <el-option label="STOR - 存储文件" value="STOR" />
+                <el-option label="RETR - 获取文件" value="RETR" />
+                <el-option label="LIST - 列出文件" value="LIST" />
+                <el-option label="NLST - 简要列表" value="NLST" />
+              </el-select>
+            </el-form-item>
+
+            <div class="signal-grid">
+              <div
+                v-for="signal in signalOptions"
+                :key="signal.value"
+                class="signal-card"
+                :class="{ active: formData.blockedSignals.includes(signal.value) }"
+                @click="toggleSignal(signal.value)"
+              >
+                <el-icon class="signal-icon"><WarningFilled v-if="formData.blockedSignals.includes(signal.value)" /><CircleCheck v-else /></el-icon>
+                <div class="signal-info">
+                  <span class="signal-code">{{ signal.value }}</span>
+                  <span class="signal-desc">{{ signal.label }}</span>
+                </div>
+              </div>
+            </div>
+          </el-form>
         </div>
 
-        <!-- 右列：上传下载 -->
-        <div class="config-column">
-          <!-- 上传文件 -->
-          <div class="config-section">
-            <div class="section-title upload-title">
-              <el-icon><Upload /></el-icon>
-              {{ $t('securityPolicy.s_ftp.uploadConfig') }}
-            </div>
-            <el-form :model="formData" label-width="130px" class="config-form">
-              <el-form-item :label="$t('securityPolicy.s_ftp.uploadPermission')">
-                <el-switch v-model="formData.uploadEnabled" />
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.maxSize')">
-                <el-input-number v-model="formData.uploadMaxSize" :min="1" :max="2048" style="width: 120px" />
-                <span class="unit-text">MB</span>
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.blockedTypes')">
-                <el-select v-model="formData.uploadBlockedTypes" multiple style="width: 100%">
-                  <el-option label=".exe (可执行文件)" value=".exe" />
-                  <el-option label=".bat (批处理文件)" value=".bat" />
-                  <el-option label=".cmd (命令脚本)" value=".cmd" />
-                  <el-option label=".sh (Shell脚本)" value=".sh" />
-                  <el-option label=".vbs (VB脚本)" value=".vbs" />
-                  <el-option label=".js (JavaScript)" value=".js" />
-                </el-select>
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.virusScan')">
-                <el-switch v-model="formData.uploadVirusScan" />
-              </el-form-item>
-            </el-form>
+        <!-- 步骤3: 文件过滤 -->
+        <div v-show="currentStep === 2" class="step-panel">
+          <div class="step-header">
+            <el-icon class="step-icon"><Filter /></el-icon>
+            <span class="step-title">{{ $t('securityPolicy.s_ftp.stepFilterTitle') }}</span>
           </div>
+          <div class="step-desc">{{ $t('securityPolicy.s_ftp.stepFilterDesc') }}</div>
 
-          <!-- 下载文件 -->
-          <div class="config-section">
-            <div class="section-title download-title">
-              <el-icon><Download /></el-icon>
-              {{ $t('securityPolicy.s_ftp.downloadConfig') }}
+          <el-form :model="formData" label-width="140px" class="step-form">
+            <el-form-item :label="$t('securityPolicy.s_ftp.filenameKeywords')">
+              <div class="tag-input-wrapper">
+                <div class="tag-list">
+                  <el-tag
+                    v-for="keyword in formData.filenameKeywords"
+                    :key="keyword"
+                    type="warning"
+                    closable
+                    size="small"
+                    @close="removeFilenameKeyword(keyword)"
+                  >
+                    {{ keyword }}
+                  </el-tag>
+                  <span v-if="formData.filenameKeywords.length === 0" class="empty-hint">{{ $t('securityPolicy.s_ftp.noKeywords') }}</span>
+                </div>
+                <el-input
+                  v-model="newFilenameKeyword"
+                  :placeholder="$t('securityPolicy.s_ftp.keywordPlaceholder')"
+                  @keyup.enter="addFilenameKeyword"
+                >
+                  <template #append>
+                    <el-button @click="addFilenameKeyword">
+                      <el-icon><Plus /></el-icon>
+                    </el-button>
+                  </template>
+                </el-input>
+              </div>
+            </el-form-item>
+            <el-form-item :label="$t('securityPolicy.s_ftp.contentKeywords')">
+              <div class="tag-input-wrapper">
+                <div class="tag-list">
+                  <el-tag
+                    v-for="keyword in formData.contentKeywords"
+                    :key="keyword"
+                    type="danger"
+                    closable
+                    size="small"
+                    @close="removeContentKeyword(keyword)"
+                  >
+                    {{ keyword }}
+                  </el-tag>
+                  <span v-if="formData.contentKeywords.length === 0" class="empty-hint">{{ $t('securityPolicy.s_ftp.noKeywords') }}</span>
+                </div>
+                <el-input
+                  v-model="newContentKeyword"
+                  :placeholder="$t('securityPolicy.s_ftp.contentPlaceholder')"
+                  @keyup.enter="addContentKeyword"
+                >
+                  <template #append>
+                    <el-button @click="addContentKeyword">
+                      <el-icon><Plus /></el-icon>
+                    </el-button>
+                  </template>
+                </el-input>
+              </div>
+            </el-form-item>
+          </el-form>
+        </div>
+
+        <!-- 步骤4: 传输控制 -->
+        <div v-show="currentStep === 3" class="step-panel">
+          <div class="step-header">
+            <el-icon class="step-icon"><Upload /></el-icon>
+            <span class="step-title">{{ $t('securityPolicy.s_ftp.stepTransferTitle') }}</span>
+          </div>
+          <div class="step-desc">{{ $t('securityPolicy.s_ftp.stepTransferDesc') }}</div>
+
+          <div class="transfer-grid">
+            <!-- 上传配置 -->
+            <div class="transfer-card upload-card">
+              <div class="transfer-header">
+                <el-icon><Upload /></el-icon>
+                <span>{{ $t('securityPolicy.s_ftp.uploadConfig') }}</span>
+              </div>
+              <el-form :model="formData" label-width="120px" class="transfer-form">
+                <el-form-item :label="$t('securityPolicy.s_ftp.uploadPermission')">
+                  <el-switch v-model="formData.uploadEnabled" />
+                </el-form-item>
+                <el-form-item :label="$t('securityPolicy.s_ftp.maxSize')">
+                  <el-input-number v-model="formData.uploadMaxSize" :min="1" :max="2048" style="width: 100px" />
+                  <span class="unit-text">MB</span>
+                </el-form-item>
+                <el-form-item :label="$t('securityPolicy.s_ftp.blockedTypes')">
+                  <el-select v-model="formData.uploadBlockedTypes" multiple style="width: 100%" size="small">
+                    <el-option label=".exe" value=".exe" />
+                    <el-option label=".bat" value=".bat" />
+                    <el-option label=".cmd" value=".cmd" />
+                    <el-option label=".sh" value=".sh" />
+                    <el-option label=".vbs" value=".vbs" />
+                    <el-option label=".js" value=".js" />
+                  </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('securityPolicy.s_ftp.virusScan')">
+                  <el-switch v-model="formData.uploadVirusScan" />
+                </el-form-item>
+              </el-form>
             </div>
-            <el-form :model="formData" label-width="130px" class="config-form">
-              <el-form-item :label="$t('securityPolicy.s_ftp.downloadPermission')">
-                <el-switch v-model="formData.downloadEnabled" />
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.maxSize')">
-                <el-input-number v-model="formData.downloadMaxSize" :min="1" :max="2048" style="width: 120px" />
-                <span class="unit-text">MB</span>
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.blockedTypes')">
-                <el-select v-model="formData.downloadBlockedTypes" multiple style="width: 100%">
-                  <el-option label=".exe (可执行文件)" value=".exe" />
-                  <el-option label=".bat (批处理文件)" value=".bat" />
-                  <el-option label=".cmd (命令脚本)" value=".cmd" />
-                  <el-option label=".sh (Shell脚本)" value=".sh" />
-                  <el-option label=".vbs (VB脚本)" value=".vbs" />
-                  <el-option label=".js (JavaScript)" value=".js" />
-                </el-select>
-              </el-form-item>
-              <el-form-item :label="$t('securityPolicy.s_ftp.virusScan')">
-                <el-switch v-model="formData.downloadVirusScan" />
-              </el-form-item>
-            </el-form>
+
+            <!-- 下载配置 -->
+            <div class="transfer-card download-card">
+              <div class="transfer-header">
+                <el-icon><Download /></el-icon>
+                <span>{{ $t('securityPolicy.s_ftp.downloadConfig') }}</span>
+              </div>
+              <el-form :model="formData" label-width="120px" class="transfer-form">
+                <el-form-item :label="$t('securityPolicy.s_ftp.downloadPermission')">
+                  <el-switch v-model="formData.downloadEnabled" />
+                </el-form-item>
+                <el-form-item :label="$t('securityPolicy.s_ftp.maxSize')">
+                  <el-input-number v-model="formData.downloadMaxSize" :min="1" :max="2048" style="width: 100px" />
+                  <span class="unit-text">MB</span>
+                </el-form-item>
+                <el-form-item :label="$t('securityPolicy.s_ftp.blockedTypes')">
+                  <el-select v-model="formData.downloadBlockedTypes" multiple style="width: 100%" size="small">
+                    <el-option label=".exe" value=".exe" />
+                    <el-option label=".bat" value=".bat" />
+                    <el-option label=".cmd" value=".cmd" />
+                    <el-option label=".sh" value=".sh" />
+                    <el-option label=".vbs" value=".vbs" />
+                    <el-option label=".js" value=".js" />
+                  </el-select>
+                </el-form-item>
+                <el-form-item :label="$t('securityPolicy.s_ftp.virusScan')">
+                  <el-switch v-model="formData.downloadVirusScan" />
+                </el-form-item>
+              </el-form>
+            </div>
           </div>
         </div>
       </div>
 
       <template #footer>
-        <el-button @click="formVisible = false">{{ $t('common.cancel') }}</el-button>
-        <el-button type="primary" :loading="saving" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
+        <div class="wizard-footer">
+          <el-button v-if="currentStep > 0" @click="prevStep">
+            <el-icon><ArrowLeft /></el-icon>
+            {{ $t('securityPolicy.s_ftp.prevStep') }}
+          </el-button>
+          <el-button v-if="currentStep < 3" type="primary" @click="nextStep">
+            {{ $t('securityPolicy.s_ftp.nextStep') }}
+            <el-icon><ArrowRight /></el-icon>
+          </el-button>
+          <el-button v-if="currentStep === 3" type="success" :loading="saving" @click="handleSubmit">
+            <el-icon><Check /></el-icon>
+            {{ $t('securityPolicy.s_ftp.complete') }}
+          </el-button>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -331,7 +404,8 @@ import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import {
   FolderOpened, Plus, InfoFilled, Edit, Delete, Setting,
-  User, Connection, Filter, Upload, Download
+  User, Connection, Filter, Upload, Download, ArrowLeft, ArrowRight, Check,
+  WarningFilled, CircleCheck
 } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
@@ -356,11 +430,24 @@ interface FtpSecurityConfig {
   downloadVirusScan: boolean
 }
 
+// 信令选项
+const signalOptions = [
+  { value: 'DELE', label: '删除文件' },
+  { value: 'MKD', label: '创建目录' },
+  { value: 'RMD', label: '删除目录' },
+  { value: 'RNFR', label: '重命名源' },
+  { value: 'RNTO', label: '重命名目标' },
+  { value: 'STOR', label: '存储文件' },
+  { value: 'RETR', label: '获取文件' },
+  { value: 'LIST', label: '列出文件' }
+]
+
 // 状态
 const loading = ref(false)
 const saving = ref(false)
 const formVisible = ref(false)
 const formMode = ref<'add' | 'edit'>('add')
+const currentStep = ref(0)
 
 const newUser = ref('')
 const newFilenameKeyword = ref('')
@@ -470,8 +557,7 @@ const handleToggle = (row: FtpSecurityConfig) => {
   })
 }
 
-const handleAdd = () => {
-  formMode.value = 'add'
+const resetForm = () => {
   Object.assign(formData, {
     id: '',
     userGroup: '',
@@ -493,6 +579,12 @@ const handleAdd = () => {
   newUser.value = ''
   newFilenameKeyword.value = ''
   newContentKeyword.value = ''
+  currentStep.value = 0
+}
+
+const handleAdd = () => {
+  formMode.value = 'add'
+  resetForm()
   formVisible.value = true
 }
 
@@ -510,6 +602,7 @@ const handleEdit = (row: FtpSecurityConfig) => {
   newUser.value = ''
   newFilenameKeyword.value = ''
   newContentKeyword.value = ''
+  currentStep.value = 0
   formVisible.value = true
 }
 
@@ -533,6 +626,15 @@ const handleDelete = async (row: FtpSecurityConfig) => {
   }
 }
 
+// 步骤导航
+const prevStep = () => {
+  if (currentStep.value > 0) currentStep.value--
+}
+
+const nextStep = () => {
+  if (currentStep.value < 3) currentStep.value++
+}
+
 const handleSubmit = () => {
   saving.value = true
   setTimeout(() => {
@@ -551,6 +653,16 @@ const handleSubmit = () => {
 const handlePageChange = (page: number) => {
   pagination.page = page
   fetchList()
+}
+
+// 信令切换
+const toggleSignal = (signal: string) => {
+  const index = formData.blockedSignals.indexOf(signal)
+  if (index > -1) {
+    formData.blockedSignals.splice(index, 1)
+  } else {
+    formData.blockedSignals.push(signal)
+  }
 }
 
 // 用户列表操作
@@ -726,70 +838,104 @@ onMounted(() => {
   border-top: 1px solid rgba(64, 158, 255, 0.08);
 }
 
-/* 对话框 */
-.ftp-dialog :deep(.el-dialog__header) {
+/* 步骤引导对话框 */
+.wizard-dialog :deep(.el-dialog__header) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   margin-right: 0;
   padding: 16px 20px;
-}
-
-.ftp-dialog :deep(.el-dialog__body) {
-  padding: 24px;
-  max-height: 65vh;
-  overflow-y: auto;
-}
-
-/* 三列布局 */
-.config-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-}
-
-.config-column {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* 配置区块 */
-.config-section {
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);
-  border-radius: 10px;
-  border: 1px solid rgba(64, 158, 255, 0.08);
-  padding: 16px;
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
   border-bottom: 1px solid rgba(64, 158, 255, 0.1);
 }
 
-.section-title .el-icon {
-  color: #409EFF;
+.wizard-dialog :deep(.el-dialog__body) {
+  padding: 0;
 }
 
-.upload-title .el-icon {
-  color: #67C23A;
+.wizard-dialog :deep(.el-dialog__footer) {
+  border-top: 1px solid rgba(64, 158, 255, 0.1);
+  padding: 16px 20px;
 }
 
-.download-title .el-icon {
-  color: #E6A23C;
+/* 步骤条 */
+.wizard-steps {
+  padding: 24px 40px 16px;
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);
+  border-bottom: 1px solid rgba(64, 158, 255, 0.08);
 }
 
-.config-form :deep(.el-form-item) {
-  margin-bottom: 16px;
+.wizard-steps :deep(.el-step__title) {
+  font-size: 13px;
 }
 
-.config-form :deep(.el-form-item:last-child) {
-  margin-bottom: 0;
+.wizard-steps :deep(.el-step__icon) {
+  width: 32px;
+  height: 32px;
+}
+
+/* 步骤内容 */
+.wizard-content {
+  padding: 24px;
+  min-height: 400px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.step-panel {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.step-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.step-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.step-desc {
+  color: #909399;
+  font-size: 13px;
+  margin-bottom: 24px;
+  padding-left: 42px;
+}
+
+.step-form {
+  padding: 16px 20px;
+  background: rgba(64, 158, 255, 0.02);
+  border-radius: 10px;
+  border: 1px solid rgba(64, 158, 255, 0.06);
+}
+
+.form-hint {
+  margin-left: 12px;
+  color: #909399;
+  font-size: 13px;
+}
+
+/* 单选按钮组 */
+.radio-group :deep(.el-radio) {
+  margin-right: 20px;
 }
 
 /* 标签输入 */
@@ -801,8 +947,121 @@ onMounted(() => {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 8px;
-  min-height: 28px;
+  margin-bottom: 10px;
+  min-height: 32px;
+  padding: 8px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+}
+
+.empty-hint {
+  color: #c0c4cc;
+  font-size: 13px;
+}
+
+/* 信令网格 */
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.signal-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e4e7ed;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.signal-card:hover {
+  border-color: #409EFF;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.15);
+}
+
+.signal-card.active {
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.1) 0%, rgba(230, 162, 60, 0.1) 100%);
+  border-color: #F56C6C;
+}
+
+.signal-icon {
+  font-size: 18px;
+  color: #67C23A;
+}
+
+.signal-card.active .signal-icon {
+  color: #F56C6C;
+}
+
+.signal-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.signal-code {
+  font-weight: 600;
+  font-size: 13px;
+  color: #303133;
+}
+
+.signal-desc {
+  font-size: 11px;
+  color: #909399;
+}
+
+/* 传输配置网格 */
+.transfer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.transfer-card {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(64, 158, 255, 0.1);
+}
+
+.upload-card {
+  background: linear-gradient(135deg, rgba(103, 194, 58, 0.05) 0%, rgba(103, 194, 58, 0.02) 100%);
+}
+
+.download-card {
+  background: linear-gradient(135deg, rgba(230, 162, 60, 0.05) 0%, rgba(230, 162, 60, 0.02) 100%);
+}
+
+.transfer-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(64, 158, 255, 0.1);
+}
+
+.upload-card .transfer-header .el-icon {
+  color: #67C23A;
+}
+
+.download-card .transfer-header .el-icon {
+  color: #E6A23C;
+}
+
+.transfer-form :deep(.el-form-item) {
+  margin-bottom: 12px;
+}
+
+.transfer-form :deep(.el-form-item:last-child) {
+  margin-bottom: 0;
 }
 
 .unit-text {
@@ -811,13 +1070,14 @@ onMounted(() => {
   font-size: 13px;
 }
 
-/* 响应式 */
-@media (max-width: 1200px) {
-  .config-layout {
-    grid-template-columns: 1fr 1fr;
-  }
+/* 底部按钮 */
+.wizard-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
+/* 响应式 */
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;
@@ -825,7 +1085,11 @@ onMounted(() => {
     align-items: flex-start;
   }
 
-  .config-layout {
+  .signal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .transfer-grid {
     grid-template-columns: 1fr;
   }
 
