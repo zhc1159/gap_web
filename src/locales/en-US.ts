@@ -232,7 +232,29 @@ export default {
       qrcodeTitle: 'OTP QR Code',
       qrcodeHint: 'Scan the QR code with authenticator app'
     },
-    secureShow: { title: 'Security Options', emptyDesc: 'Security Options Module' }
+    secureShow: {
+      title: 'Security Options',
+      emptyDesc: 'Security Options Module',
+      numericConfig: 'Numeric Configuration',
+      authSwitches: 'Authentication Switches',
+      retry: 'Login Retry Count',
+      retryHint: 'Times (1-5)',
+      userTimeout: 'Admin Login Timeout',
+      userTimeoutHint: 'Minutes (1-59)',
+      userUnlockTimeout: 'Admin Unlock Time',
+      userUnlockTimeoutHint: 'Minutes (1-59)',
+      userPwdLen: 'Admin Password Length',
+      userPwdLenHint: '(8-16)',
+      userPwdCycle: 'Admin Password Cycle',
+      userPwdCycleHint: 'Days (1-7)',
+      autoActiveInterval: 'Auto Activation Interval',
+      autoActiveIntervalHint: 'Minutes (30-300)',
+      certSwitch: 'Admin Certificate Auth',
+      ukeySwitch: 'Admin UKey Auth',
+      otpSwitch: 'Admin OTP Auth',
+      firsSwitch: 'Admin Fingerprint Auth',
+      saveSuccess: 'Saved successfully'
+    },
   },
 
   userManage: {

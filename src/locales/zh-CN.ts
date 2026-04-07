@@ -234,7 +234,29 @@ export default {
       qrcodeTitle: 'OTP 二维码',
       qrcodeHint: '请使用认证APP扫描二维码获取动态口令'
     },
-    secureShow: { title: '安全选项', emptyDesc: '安全选项模块' }
+    secureShow: {
+      title: '安全选项',
+      emptyDesc: '安全选项模块',
+      numericConfig: '数值配置',
+      authSwitches: '认证开关',
+      retry: '登录重试次数',
+      retryHint: '次 (1-5)',
+      userTimeout: '管理员登录超时时间',
+      userTimeoutHint: '分 (1-59)',
+      userUnlockTimeout: '管理员锁定后解锁时间',
+      userUnlockTimeoutHint: '分 (1-59)',
+      userPwdLen: '管理员密码长度',
+      userPwdLenHint: '(8-16)',
+      userPwdCycle: '管理员密码更换周期',
+      userPwdCycleHint: '天 (1-7)',
+      autoActiveInterval: '账号冻结自动激活间隔',
+      autoActiveIntervalHint: '分 (30-300)',
+      certSwitch: '管理员证书认证',
+      ukeySwitch: '管理员UKey认证',
+      otpSwitch: '管理员动态口令',
+      firsSwitch: '管理员指纹认证',
+      saveSuccess: '保存成功'
+    },
   },
 
   // 用户管理
