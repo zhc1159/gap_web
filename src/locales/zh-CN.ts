@@ -871,7 +871,26 @@ export default {
       typeFileType: '文件类型',
       typeKeyword: '关键字'
     },
-    file_approval_failed: { title: '审核未通过', emptyDesc: '审核未通过模块' }
+    file_approval_failed: {
+      title: '审核未通过',
+      emptyDesc: '审核未通过模块',
+      describe: '查看已拒绝的文件记录，包含拦截原因、拒绝原因和审核时间',
+      intranet: '内网',
+      extranet: '外网',
+      filename: '文件名',
+      interceptionType: '拦截类型',
+      keyword: '命中关键字',
+      status: '状态',
+      rejected: '已拒绝',
+      sender: '发送人',
+      receiver: '接收人',
+      fileSize: '文件大小',
+      rejectReason: '拒绝原因',
+      auditTime: '审核时间',
+      typeVirus: '病毒',
+      typeFileType: '文件类型',
+      typeKeyword: '关键字'
+    }
   },
 
   // 视频代理

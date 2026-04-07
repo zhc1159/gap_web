@@ -864,7 +864,26 @@ export default {
       typeFileType: 'File Type',
       typeKeyword: 'Keyword'
     },
-    file_approval_failed: { title: 'Rejected', emptyDesc: 'Rejected Module' }
+    file_approval_failed: {
+      title: 'Rejected',
+      emptyDesc: 'Rejected Module',
+      describe: 'View rejected file records, including interception reason, reject reason and audit time',
+      intranet: 'Intranet',
+      extranet: 'Extranet',
+      filename: 'Filename',
+      interceptionType: 'Interception Type',
+      keyword: 'Keyword',
+      status: 'Status',
+      rejected: 'Rejected',
+      sender: 'Sender',
+      receiver: 'Receiver',
+      fileSize: 'File Size',
+      rejectReason: 'Reject Reason',
+      auditTime: 'Audit Time',
+      typeVirus: 'Virus',
+      typeFileType: 'File Type',
+      typeKeyword: 'Keyword'
+    }
   },
 
   videoSafe: {
