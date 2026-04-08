@@ -1,73 +1,119 @@
 <template>
-  <div class="page-container">
-    <div class="page-card">
-      <div class="page-describe">{{ $t('opc.s_onebit.describe') }}</div>
-      <div class="page-util">
-        <div class="page-title-1">{{ $t('opc.s_onebit.title') }}</div>
-        <div class="page-button">
-          <el-button type="primary" @click="handleAdd">
-            <el-icon><Plus /></el-icon>
-            {{ $t('opc.s_onebit.addRule') }}
-          </el-button>
+  <div class="page-container onebit-page">
+    <!-- 页面头部 -->
+    <div class="page-header">
+      <div class="header-left">
+        <div class="header-icon">
+          <el-icon><Cpu /></el-icon>
         </div>
+        <span class="header-title">{{ $t('opc.s_onebit.title') }}</span>
       </div>
-      <div class="page-table">
-        <el-table :data="tableData" v-loading="loading" stripe>
-          <el-table-column prop="name" :label="$t('opc.s_onebit.ruleName')" min-width="150" />
-          <el-table-column prop="userGroup" :label="$t('opc.s_onebit.userGroup')" min-width="120" />
-          <el-table-column :label="$t('opc.s_onebit.responseMode')" width="120">
-            <template #default="{ row }">
-              <el-tag type="primary" size="small">
-                {{ getResponseModeText(row.responseMode) }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="responseTimeout" :label="$t('opc.s_onebit.responseTimeout')" width="120" />
-          <el-table-column prop="maxPacketCount" :label="$t('opc.s_onebit.maxPacketCount')" width="120" />
-          <el-table-column :label="$t('opc.s_onebit.enabled')" width="100">
-            <template #default="{ row }">
-              <el-tag :type="row.enabled ? 'success' : 'info'" size="small">
-                {{ row.enabled ? $t('common.enabled') : $t('common.disabled') }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('opc.s_onebit.blockFlag')" width="100">
-            <template #default="{ row }">
-              <el-tag :type="row.blockFlag ? 'danger' : 'info'" size="small">
-                {{ row.blockFlag ? $t('common.on') : $t('common.off') }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('opc.s_onebit.actions')" min-width="280" fixed="right">
-            <template #default="{ row }">
-              <div class="action-btns">
-                <el-button type="primary" size="small" link @click="handleView(row)">
-                  {{ $t('opc.s_onebit.view') }}
-                </el-button>
-                <el-button type="primary" size="small" link @click="handleEdit(row)">
-                  {{ $t('opc.s_onebit.edit') }}
-                </el-button>
-                <el-popconfirm :title="$t('opc.s_onebit.deleteConfirm')" @confirm="handleDelete(row.id)">
-                  <template #reference>
-                    <el-button type="danger" size="small" link>
-                      {{ $t('opc.s_onebit.delete') }}
-                    </el-button>
-                  </template>
-                </el-popconfirm>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="pagination-container">
-          <el-pagination
-            v-model:current-page="currentPage"
-            v-model:page-size="pageSize"
-            :page-sizes="[10, 20, 50, 100]"
-            :total="total"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          />
+      <div class="header-right">
+        <el-button type="primary" class="btn-add" @click="handleAdd">
+          <el-icon><Plus /></el-icon>
+          {{ $t('opc.s_onebit.addRule') }}
+        </el-button>
+      </div>
+    </div>
+
+    <!-- 页面描述 -->
+    <div class="page-describe">
+      <el-icon class="describe-icon"><InfoFilled /></el-icon>
+      <span>{{ $t('opc.s_onebit.describe') }}</span>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="content-wrapper">
+      <div class="card main-card">
+        <div class="card-content">
+          <!-- 数据表格 -->
+          <el-table :data="tableData" v-loading="loading" class="onebit-table">
+            <!-- 规则名称 -->
+            <el-table-column prop="name" :label="$t('opc.s_onebit.ruleName')" min-width="150">
+              <template #default="{ row }">
+                <span class="rule-name">{{ row.name }}</span>
+              </template>
+            </el-table-column>
+
+            <!-- 用户组 -->
+            <el-table-column prop="userGroup" :label="$t('opc.s_onebit.userGroup')" min-width="120">
+              <template #default="{ row }">
+                <el-tag type="primary" size="small" effect="plain">{{ row.userGroup }}</el-tag>
+              </template>
+            </el-table-column>
+
+            <!-- 应答模式 -->
+            <el-table-column :label="$t('opc.s_onebit.responseMode')" width="100">
+              <template #default="{ row }">
+                <el-tag type="primary" size="small">
+                  {{ getResponseModeText(row.responseMode) }}
+                </el-tag>
+              </template>
+            </el-table-column>
+
+            <!-- 应答超时 -->
+            <el-table-column prop="responseTimeout" :label="$t('opc.s_onebit.responseTimeout')" width="120" align="center">
+              <template #default="{ row }">
+                <span class="timeout-value">{{ row.responseTimeout }}s</span>
+              </template>
+            </el-table-column>
+
+            <!-- 最大包数 -->
+            <el-table-column prop="maxPacketCount" :label="$t('opc.s_onebit.maxPacketCount')" width="120" align="center">
+              <template #default="{ row }">
+                <span class="packet-count">{{ row.maxPacketCount }}</span>
+              </template>
+            </el-table-column>
+
+            <!-- 规则开关 -->
+            <el-table-column :label="$t('opc.s_onebit.enabled')" width="100" align="center">
+              <template #default="{ row }">
+                <el-tag :type="row.enabled ? 'success' : 'info'" size="small">
+                  {{ row.enabled ? $t('common.enabled') : $t('common.disabled') }}
+                </el-tag>
+              </template>
+            </el-table-column>
+
+            <!-- 阻断标识 -->
+            <el-table-column :label="$t('opc.s_onebit.blockFlag')" width="100" align="center">
+              <template #default="{ row }">
+                <el-tag :type="row.blockFlag ? 'danger' : 'info'" size="small">
+                  {{ row.blockFlag ? $t('common.on') : $t('common.off') }}
+                </el-tag>
+              </template>
+            </el-table-column>
+
+            <!-- 操作 -->
+            <el-table-column :label="$t('opc.s_onebit.actions')" min-width="200" fixed="right">
+              <template #default="{ row }">
+                <div class="action-btns">
+                  <el-button type="primary" size="small" @click="handleView(row)">
+                    <el-icon><View /></el-icon>
+                    {{ $t('opc.s_onebit.view') }}
+                  </el-button>
+                  <el-button type="warning" size="small" @click="handleEdit(row)">
+                    <el-icon><Edit /></el-icon>
+                    {{ $t('opc.s_onebit.edit') }}
+                  </el-button>
+                  <el-button type="danger" size="small" @click="handleDelete(row)">
+                    <el-icon><Delete /></el-icon>
+                    {{ $t('opc.s_onebit.delete') }}
+                  </el-button>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <!-- 分页 -->
+          <div class="pagination-wrapper">
+            <el-pagination
+              v-model:current-page="currentPage"
+              v-model:page-size="pageSize"
+              :page-sizes="[10, 20, 50]"
+              :total="total"
+              layout="total, sizes, prev, pager, next"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -77,22 +123,27 @@
       v-model="dialogVisible"
       :title="isEdit ? $t('opc.s_onebit.editTitle') : $t('opc.s_onebit.addTitle')"
       width="700px"
+      class="form-dialog"
       :close-on-click-modal="false"
-      class="dialog-body-custom"
     >
-      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="160px" class="form-label">
+      <el-form ref="formRef" :model="formData" :rules="formRules" label-width="160px" class="form-content">
         <el-form-item :label="$t('opc.s_onebit.ruleName')" prop="name">
-          <el-input v-model="formData.name" :placeholder="$t('opc.s_onebit.ruleNamePlaceholder')" />
+          <el-input
+            v-model="formData.name"
+            :placeholder="$t('opc.s_onebit.ruleNamePlaceholder')"
+            maxlength="31"
+            show-word-limit
+          />
         </el-form-item>
 
         <el-form-item :label="$t('opc.s_onebit.userGroup')" prop="userGroup">
-          <el-select v-model="formData.userGroup" class="w-full" :placeholder="$t('opc.s_onebit.userGroupPlaceholder')">
-            <el-option v-for="group in userGroupOptions" :key="group" :label="group" :value="group" />
+          <el-select v-model="formData.userGroup" :placeholder="$t('common.pleaseSelect')" style="width: 100%">
+            <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
           </el-select>
         </el-form-item>
 
         <el-form-item :label="$t('opc.s_onebit.responseMode')" prop="responseMode">
-          <el-select v-model="formData.responseMode" class="w-full">
+          <el-select v-model="formData.responseMode" :placeholder="$t('common.pleaseSelect')" style="width: 100%">
             <el-option :label="$t('opc.s_onebit.responseModeNone')" value="NONE" />
             <el-option :label="$t('opc.s_onebit.responseModeSingle0')" value="SINGLE_0" />
             <el-option :label="$t('opc.s_onebit.responseModeSingle1')" value="SINGLE_1" />
@@ -101,32 +152,29 @@
         </el-form-item>
 
         <el-form-item :label="$t('opc.s_onebit.responseTimeoutLabel')" prop="responseTimeout">
-          <el-input-number v-model="formData.responseTimeout" :min="1" :max="3600" />
+          <el-input-number v-model="formData.responseTimeout" :min="1" :max="3600" style="width: 150px" />
+          <span class="unit-text">{{ $t('opc.s_onebit.seconds') }}</span>
         </el-form-item>
 
         <el-form-item :label="$t('opc.s_onebit.maxPacketCountLabel')" prop="maxPacketCount">
-          <el-input-number v-model="formData.maxPacketCount" :min="1" :max="10000" />
+          <el-input-number v-model="formData.maxPacketCount" :min="1" :max="10000" style="width: 150px" />
         </el-form-item>
 
         <el-form-item :label="$t('opc.s_onebit.enabled')" prop="enabled">
-          <el-radio-group v-model="formData.enabled">
-            <el-radio :value="true">{{ $t('opc.s_onebit.enabledActive') }}</el-radio>
-            <el-radio :value="false">{{ $t('opc.s_onebit.enabledDisabled') }}</el-radio>
-          </el-radio-group>
+          <el-switch v-model="formData.enabled" :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
         </el-form-item>
 
         <el-form-item :label="$t('opc.s_onebit.blockFlag')" prop="blockFlag">
-          <el-radio-group v-model="formData.blockFlag">
-            <el-radio :value="true">{{ $t('common.on') }}</el-radio>
-            <el-radio :value="false">{{ $t('common.off') }}</el-radio>
-          </el-radio-group>
+          <el-switch v-model="formData.blockFlag" :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
-        <el-button type="primary" @click="handleSubmit" :loading="submitLoading">
-          {{ $t('common.confirm') }}
-        </el-button>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
+          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">
+            {{ $t('common.confirm') }}
+          </el-button>
+        </div>
       </template>
     </el-dialog>
 
@@ -134,8 +182,8 @@
     <el-dialog
       v-model="viewDialogVisible"
       :title="$t('opc.s_onebit.viewTitle')"
-      width="700px"
-      class="dialog-body-custom"
+      width="600px"
+      class="view-dialog"
     >
       <el-descriptions :column="2" border>
         <el-descriptions-item :label="$t('opc.s_onebit.ruleName')">{{ viewData.name }}</el-descriptions-item>
@@ -150,7 +198,7 @@
             {{ viewData.enabled ? $t('common.enabled') : $t('common.disabled') }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.s_onebit.blockFlag')">
+        <el-descriptions-item :label="$t('opc.s_onebit.blockFlag')" :span="2">
           <el-tag :type="viewData.blockFlag ? 'danger' : 'info'" size="small">
             {{ viewData.blockFlag ? $t('common.on') : $t('common.off') }}
           </el-tag>
@@ -165,10 +213,10 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { ElNotification } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-import type { FormInstance, FormRules } from 'element-plus'
 import { useI18n } from 'vue-i18n'
+import { ElNotification, ElMessageBox } from 'element-plus'
+import { Cpu, Plus, InfoFilled, View, Edit, Delete } from '@element-plus/icons-vue'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
 
@@ -196,7 +244,15 @@ interface OnebitFormData {
   blockFlag: boolean
 }
 
-// 响应式数据
+// 用户组选项
+const groupOptions = [
+  'opc_group_1',
+  'opc_group_2',
+  'admin_group',
+  'user_group'
+]
+
+// 状态
 const tableData = ref<OnebitRule[]>([])
 const loading = ref(false)
 const dialogVisible = ref(false)
@@ -209,9 +265,6 @@ const formRef = ref<FormInstance>()
 const currentPage = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
-
-// 用户组选项
-const userGroupOptions = ref(['default', 'admin', 'operator', 'guest'])
 
 // 表单数据
 const formData = reactive<OnebitFormData>({
@@ -226,7 +279,7 @@ const formData = reactive<OnebitFormData>({
 })
 
 // 查看数据
-const viewData = reactive<OnebitRule>({
+const viewData = ref<OnebitRule>({
   id: '',
   name: '',
   userGroup: '',
@@ -260,63 +313,66 @@ const getResponseModeText = (mode: ResponseMode) => {
   return texts[mode] || mode
 }
 
-// 获取列表
-const fetchList = async () => {
-  loading.value = true
-  try {
-    // Mock data for demonstration
-    await new Promise(resolve => setTimeout(resolve, 500))
-    tableData.value = [
-      {
-        id: '1',
-        name: 'rule_1bit_001',
-        userGroup: 'default',
-        responseMode: 'DOUBLE',
-        responseTimeout: 30,
-        maxPacketCount: 100,
-        enabled: true,
-        blockFlag: false
-      },
-      {
-        id: '2',
-        name: 'rule_1bit_002',
-        userGroup: 'admin',
-        responseMode: 'SINGLE_0',
-        responseTimeout: 60,
-        maxPacketCount: 50,
-        enabled: true,
-        blockFlag: true
-      },
-      {
-        id: '3',
-        name: 'rule_1bit_003',
-        userGroup: 'operator',
-        responseMode: 'NONE',
-        responseTimeout: 15,
-        maxPacketCount: 200,
-        enabled: false,
-        blockFlag: false
-      }
-    ]
-    total.value = 3
-  } finally {
-    loading.value = false
+// 模拟数据
+const mockData = ref<OnebitRule[]>([
+  {
+    id: '1',
+    name: 'rule_1bit_001',
+    userGroup: 'opc_group_1',
+    responseMode: 'DOUBLE',
+    responseTimeout: 30,
+    maxPacketCount: 100,
+    enabled: true,
+    blockFlag: false
+  },
+  {
+    id: '2',
+    name: 'rule_1bit_002',
+    userGroup: 'admin_group',
+    responseMode: 'SINGLE_0',
+    responseTimeout: 60,
+    maxPacketCount: 50,
+    enabled: true,
+    blockFlag: true
+  },
+  {
+    id: '3',
+    name: 'rule_1bit_003',
+    userGroup: 'user_group',
+    responseMode: 'NONE',
+    responseTimeout: 15,
+    maxPacketCount: 200,
+    enabled: false,
+    blockFlag: false
   }
+])
+
+// 获取列表
+const fetchList = () => {
+  loading.value = true
+  setTimeout(() => {
+    tableData.value = mockData.value
+    total.value = mockData.value.length
+    loading.value = false
+  }, 500)
+}
+
+// 重置表单
+const resetForm = () => {
+  formData.id = undefined
+  formData.name = ''
+  formData.userGroup = ''
+  formData.responseMode = 'NONE'
+  formData.responseTimeout = 30
+  formData.maxPacketCount = 10
+  formData.enabled = true
+  formData.blockFlag = false
 }
 
 // 添加
 const handleAdd = () => {
   isEdit.value = false
-  Object.assign(formData, {
-    id: undefined,
-    name: '',
-    userGroup: '',
-    responseMode: 'NONE',
-    responseTimeout: 30,
-    maxPacketCount: 10,
-    enabled: true,
-    blockFlag: false
-  })
+  resetForm()
   dialogVisible.value = true
 }
 
@@ -329,73 +385,63 @@ const handleEdit = (row: OnebitRule) => {
 
 // 查看
 const handleView = (row: OnebitRule) => {
-  Object.assign(viewData, { ...row })
+  viewData.value = { ...row }
   viewDialogVisible.value = true
 }
 
 // 删除
-const handleDelete = async (id: string) => {
+const handleDelete = async (row: OnebitRule) => {
   try {
-    // Mock delete
-    await new Promise(resolve => setTimeout(resolve, 300))
-    tableData.value = tableData.value.filter(item => item.id !== id)
-    total.value = tableData.value.length
+    await ElMessageBox.confirm(
+      t('opc.s_onebit.deleteConfirm'),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    mockData.value = mockData.value.filter(item => item.id !== row.id)
+    fetchList()
     ElNotification({
       title: t('common.success'),
       message: t('opc.s_onebit.deleteSuccess'),
       type: 'success',
       customClass: 'notification-success'
     })
-  } catch (err) {
-    // Error handling
+  } catch {
+    // 用户取消
   }
 }
 
 // 提交
-const handleSubmit = async () => {
-  const valid = await formRef.value?.validate()
-  if (!valid) return
+const handleSubmit = () => {
+  if (!formRef.value) return
 
-  submitLoading.value = true
-  try {
-    // Mock submit
-    await new Promise(resolve => setTimeout(resolve, 500))
-    if (isEdit.value && formData.id) {
-      const index = tableData.value.findIndex(item => item.id === formData.id)
-      if (index !== -1) {
-        tableData.value[index] = { ...formData } as OnebitRule
-      }
-    } else {
-      const newItem: OnebitRule = {
-        ...formData,
-        id: Date.now().toString()
-      } as OnebitRule
-      tableData.value.push(newItem)
-      total.value = tableData.value.length
+  formRef.value.validate((valid) => {
+    if (valid) {
+      submitLoading.value = true
+      setTimeout(() => {
+        if (isEdit.value && formData.id) {
+          const index = mockData.value.findIndex(item => item.id === formData.id)
+          if (index !== -1) {
+            mockData.value[index] = { ...formData } as OnebitRule
+          }
+        } else {
+          mockData.value.push({
+            ...formData,
+            id: Date.now().toString()
+          } as OnebitRule)
+        }
+
+        submitLoading.value = false
+        dialogVisible.value = false
+        ElNotification({
+          title: t('common.success'),
+          message: isEdit.value ? t('opc.s_onebit.editSuccess') : t('opc.s_onebit.addSuccess'),
+          type: 'success',
+          customClass: 'notification-success'
+        })
+        fetchList()
+      }, 500)
     }
-    ElNotification({
-      title: t('common.success'),
-      message: isEdit.value ? t('opc.s_onebit.editSuccess') : t('opc.s_onebit.addSuccess'),
-      type: 'success',
-      customClass: 'notification-success'
-    })
-    dialogVisible.value = false
-  } catch (err) {
-    // Error handling
-  } finally {
-    submitLoading.value = false
-  }
-}
-
-// 分页
-const handleSizeChange = (val: number) => {
-  pageSize.value = val
-  fetchList()
-}
-
-const handleCurrentChange = (val: number) => {
-  currentPage.value = val
-  fetchList()
+  })
 }
 
 onMounted(() => {
@@ -404,146 +450,196 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.page-container {
+.onebit-page {
   padding: 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-  min-height: calc(100vh - 100px);
+  background: linear-gradient(180deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);
+  min-height: calc(100vh - 60px);
 }
 
-.page-card {
-  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 24px;
-}
-
-.page-describe {
-  font-size: 14px;
-  color: #606266;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #ebeef5;
-  background: linear-gradient(90deg, #409EFF 0%, #67C23A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.page-util {
+/* 页面头部 */
+.page-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
 }
 
-.page-title-1 {
+.header-left {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.header-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 18px;
+}
+
+.header-title {
   font-size: 18px;
   font-weight: 600;
-  color: #303133;
-  position: relative;
-  padding-left: 12px;
 }
 
-.page-title-1::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 20px;
-  background: linear-gradient(180deg, #409EFF 0%, #67C23A 100%);
-  border-radius: 2px;
+.btn-add {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
 }
 
-.page-button {
+.btn-add:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 页面描述 */
+.page-describe {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  color: #606266;
+  font-size: 14px;
 }
 
-.page-button .el-button {
-  background: linear-gradient(135deg, #409EFF 0%, #337ecc 100%);
-  border: none;
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
-  transition: all 0.3s ease;
+.describe-icon {
+  color: #409EFF;
+  font-size: 16px;
 }
 
-.page-button .el-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.4);
+/* 内容区域 */
+.content-wrapper {
+  flex: 1;
 }
 
-.page-table {
-  margin-top: 16px;
+.main-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(64, 158, 255, 0.08);
 }
 
+.card-content {
+  padding: 20px;
+}
+
+/* 表格样式 */
+.onebit-table {
+  width: 100%;
+}
+
+.onebit-table :deep(.el-table th.el-table__cell) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+  font-weight: 600;
+  color: #303133;
+  padding: 14px 12px;
+}
+
+.onebit-table :deep(.el-table td.el-table__cell) {
+  padding: 14px 12px;
+}
+
+.onebit-table :deep(.el-table .el-table__row:hover > td) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%) !important;
+}
+
+/* 规则名称 */
+.rule-name {
+  font-weight: 600;
+  color: #409EFF;
+}
+
+/* 数值样式 */
+.timeout-value,
+.packet-count {
+  color: #67C23A;
+  font-weight: 500;
+}
+
+/* 操作按钮 */
 .action-btns {
   display: flex;
   gap: 6px;
 }
 
-.pagination-container {
-  margin-top: 20px;
+/* 分页 */
+.pagination-wrapper {
   display: flex;
   justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(64, 158, 255, 0.08);
 }
 
-.w-full {
-  width: 100%;
-}
-
-:deep(.el-table) {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-:deep(.el-table th) {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%) !important;
-}
-
-:deep(.el-table--striped .el-table__body tr.el-table__row--striped td) {
-  background: #fafafa;
-}
-
-:deep(.el-tag) {
-  border-radius: 6px;
-}
-
-:deep(.el-dialog) {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-:deep(.el-dialog__header) {
-  background: linear-gradient(135deg, #409EFF 0%, #337ecc 100%);
-  padding: 16px 20px;
+/* 表单对话框 */
+.form-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   margin-right: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(64, 158, 255, 0.1);
 }
 
-:deep(.el-dialog__title) {
-  color: #ffffff;
-  font-weight: 600;
-}
-
-:deep(.el-dialog__headerbtn .el-dialog__close) {
-  color: #ffffff;
-}
-
-:deep(.el-dialog__body) {
+.form-dialog :deep(.el-dialog__body) {
   padding: 24px;
 }
 
-:deep(.el-dialog__footer) {
-  padding: 16px 24px;
-  border-top: 1px solid #ebeef5;
+.form-dialog :deep(.el-dialog__footer) {
+  border-top: 1px solid rgba(64, 158, 255, 0.1);
+  padding: 16px 20px;
 }
 
-:deep(.el-descriptions) {
-  border-radius: 8px;
-  overflow: hidden;
+.form-content {
+  max-width: 100%;
 }
 
-:deep(.el-descriptions__label) {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+.unit-text {
+  margin-left: 8px;
+  color: #909399;
+  font-size: 13px;
+}
+
+/* 查看对话框 */
+.view-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+}
+
+.view-dialog :deep(.el-descriptions) {
+  width: 100%;
+}
+
+.view-dialog :deep(.el-descriptions__label) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+}
+
+/* 底部按钮 */
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .action-btns {
+    flex-direction: column;
+  }
 }
 </style>
