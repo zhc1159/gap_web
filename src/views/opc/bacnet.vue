@@ -193,32 +193,30 @@
       width="600px"
       class="view-dialog"
     >
-      <el-form label-width="120px" class="view-form">
-        <el-form-item :label="$t('opc.bacnet.groupName')">
-          <span>{{ viewData.group_name }}</span>
-        </el-form-item>
-        <el-form-item :label="$t('opc.bacnet.status')">
+      <el-descriptions :column="2" border>
+        <el-descriptions-item :label="$t('opc.bacnet.groupName')">{{ viewData.group_name }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.bacnet.status')">
           <el-tag :type="viewData.rule_work ? 'success' : 'danger'" size="small">
             {{ viewData.rule_work ? $t('opc.bacnet.enabled') : $t('opc.bacnet.disabled') }}
           </el-tag>
-        </el-form-item>
-        <el-form-item :label="$t('opc.bacnet.appTypeBlacklist')">
+        </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.bacnet.appTypeBlacklist')" :span="2">
           <div class="view-tags">
             <el-tag v-for="item in viewData.app_type_blacklist" :key="item" type="info" size="small" class="view-tag">
               {{ getAppTypeLabel(item) }}
             </el-tag>
             <span v-if="!viewData.app_type_blacklist?.length" class="empty-text">-</span>
           </div>
-        </el-form-item>
-        <el-form-item :label="$t('opc.bacnet.svcTypeBlacklist')">
+        </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.bacnet.svcTypeBlacklist')" :span="2">
           <div class="view-tags">
             <el-tag v-for="item in viewData.svc_type_blacklist" :key="item" type="warning" size="small" class="view-tag">
               {{ getSvcTypeLabel(item) }}
             </el-tag>
             <span v-if="!viewData.svc_type_blacklist?.length" class="empty-text">-</span>
           </div>
-        </el-form-item>
-      </el-form>
+        </el-descriptions-item>
+      </el-descriptions>
       <template #footer>
         <el-button type="primary" @click="viewDialogVisible = false">{{ $t('common.confirm') }}</el-button>
       </template>
@@ -605,17 +603,26 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
 }
 
-.view-form {
+.view-dialog :deep(.el-descriptions) {
   width: 100%;
 }
 
-.view-form :deep(.el-form-item) {
-  margin-bottom: 18px;
+.view-dialog :deep(.el-descriptions__body) {
+  width: 100%;
 }
 
-.view-form :deep(.el-form-item__content) {
-  flex: 1;
+.view-dialog :deep(.el-descriptions__table) {
   width: 100%;
+  table-layout: auto;
+}
+
+.view-dialog :deep(.el-descriptions__label) {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.view-dialog :deep(.el-descriptions__cell) {
+  width: auto;
 }
 
 .view-tags {
