@@ -232,10 +232,15 @@ export default {
       external: '外网',
       operation: '操作',
       description: '描述',
+      descPlaceholder: '请输入描述关键词',
       clearLog: '清空日志',
-      clearLogConfirm: '确定要清空所有日志吗？',
+      clearLogConfirm: '确定要清空所有登录日志吗？此操作不可恢复。',
       clearSuccess: '清空成功',
-      exportSuccess: '导出成功'
+      exportSuccess: '导出成功',
+      importHint: '请选择要导入的日志文件',
+      selectedCount: '已选择 {count} 条',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条日志吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     ferrySendLog: {
       title: '发送日志',

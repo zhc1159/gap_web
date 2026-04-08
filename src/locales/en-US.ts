@@ -228,10 +228,15 @@ export default {
       external: 'External',
       operation: 'Operation',
       description: 'Description',
+      descPlaceholder: 'Enter description keyword',
       clearLog: 'Clear Log',
-      clearLogConfirm: 'Are you sure to clear all logs?',
+      clearLogConfirm: 'Are you sure to clear all login logs? This operation cannot be undone.',
       clearSuccess: 'Cleared successfully',
-      exportSuccess: 'Export successful'
+      exportSuccess: 'Export successful',
+      importHint: 'Please select a log file to import',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete the selected {count} log(s)? This operation cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     ferrySendLog: {
       title: 'Send Log',
