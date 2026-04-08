@@ -60,6 +60,7 @@
                   <el-tag v-if="row.black_cmd.length > 5" type="info" size="small" class="cmd-tag">
                     +{{ row.black_cmd.length - 5 }}
                   </el-tag>
+                  <span v-if="!row.black_cmd?.length" class="empty-text">-</span>
                 </div>
               </template>
             </el-table-column>
@@ -154,8 +155,8 @@
             <div class="reg-list">
               <div v-for="(reg, index) in formData.reg_str" :key="index" class="reg-item">
                 <el-select v-model="reg.type" :placeholder="$t('opc.modbus.regTypePlaceholder')" style="width: 120px">
-                  <el-option label="寄存器" value="rw_reg" />
-                  <el-option label="线圈值" value="rw_status" />
+                  <el-option :label="$t('opc.modbus.register')" value="rw_reg" />
+                  <el-option :label="$t('opc.modbus.coil')" value="rw_status" />
                 </el-select>
                 <el-input-number v-model="reg.address" :min="0" :max="65535" :placeholder="$t('opc.modbus.address')" style="width: 120px" />
                 <el-input-number v-model="reg.begin" :min="0" :max="65535" :placeholder="$t('opc.modbus.begin')" style="width: 120px" />
@@ -568,6 +569,10 @@ onMounted(() => {
   font-size: 12px;
 }
 
+.empty-text {
+  color: #c0c4cc;
+}
+
 /* 寄存器数量 */
 .reg-count {
   color: #909399;
@@ -637,9 +642,41 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px;
-  background: rgba(64, 158, 255, 0.02);
+  background: #f8fafc;
   border-radius: 8px;
   border: 1px solid #dcdfe6;
+}
+
+/* 寄存器配置项输入框样式 */
+.reg-item :deep(.el-select .el-input__wrapper) {
+  background-color: #fff;
+}
+
+.reg-item :deep(.el-select .el-input__inner::placeholder) {
+  color: #a8abb2;
+}
+
+.reg-item :deep(.el-input-number) {
+  background-color: #fff;
+}
+
+.reg-item :deep(.el-input-number .el-input__inner::placeholder) {
+  color: #a8abb2;
+}
+
+/* 添加配置项按钮样式 */
+.reg-list :deep(.el-button--primary.is-plain),
+.reg-config-wrapper :deep(.el-button--primary.is-plain) {
+  background-color: #409EFF;
+  border-color: #409EFF;
+  color: #ffffff;
+}
+
+.reg-list :deep(.el-button--primary.is-plain:hover),
+.reg-config-wrapper :deep(.el-button--primary.is-plain:hover) {
+  background-color: #66b1ff;
+  border-color: #66b1ff;
+  color: #ffffff;
 }
 
 /* 查看对话框 */

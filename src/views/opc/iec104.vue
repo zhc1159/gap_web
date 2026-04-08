@@ -632,9 +632,24 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 12px;
-  background: rgba(64, 158, 255, 0.02);
+  background: #f8fafc;
   border-radius: 8px;
   border: 1px solid #dcdfe6;
+}
+
+/* 添加配置项按钮样式 */
+.addr-list :deep(.el-button--primary.is-plain),
+.addr-config-wrapper :deep(.el-button--primary.is-plain) {
+  background-color: #409EFF;
+  border-color: #409EFF;
+  color: #ffffff;
+}
+
+.addr-list :deep(.el-button--primary.is-plain:hover),
+.addr-config-wrapper :deep(.el-button--primary.is-plain:hover) {
+  background-color: #66b1ff;
+  border-color: #66b1ff;
+  color: #ffffff;
 }
 
 /* 查看对话框 */

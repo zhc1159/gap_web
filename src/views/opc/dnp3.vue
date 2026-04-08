@@ -44,44 +44,23 @@
               </template>
             </el-table-column>
 
-            <!-- 功能码黑名单 -->
-            <el-table-column :label="$t('opc.dnp3.funcCodeFilter')" min-width="200">
+            <!-- 信令白名单 -->
+            <el-table-column :label="$t('opc.dnp3.signalWhitelist')" min-width="300">
               <template #default="{ row }">
-                <div class="filter-tags">
+                <div class="signal-tags">
                   <el-tag
-                    v-for="code in row.func_code_filter.slice(0, 3)"
-                    :key="code"
-                    type="info"
+                    v-for="signal in row.signal_whitelist.slice(0, 5)"
+                    :key="signal"
+                    type="success"
                     size="small"
-                    class="filter-tag"
+                    class="signal-tag"
                   >
-                    {{ code }}
+                    {{ getSignalLabel(signal) }}
                   </el-tag>
-                  <el-tag v-if="row.func_code_filter.length > 3" type="info" size="small" class="filter-tag">
-                    +{{ row.func_code_filter.length - 3 }}
+                  <el-tag v-if="row.signal_whitelist.length > 5" type="success" size="small" class="signal-tag">
+                    +{{ row.signal_whitelist.length - 5 }}
                   </el-tag>
-                  <span v-if="!row.func_code_filter?.length" class="empty-text">-</span>
-                </div>
-              </template>
-            </el-table-column>
-
-            <!-- 对象黑名单 -->
-            <el-table-column :label="$t('opc.dnp3.objFilter')" min-width="200">
-              <template #default="{ row }">
-                <div class="filter-tags">
-                  <el-tag
-                    v-for="obj in row.obj_filter.slice(0, 3)"
-                    :key="obj"
-                    type="warning"
-                    size="small"
-                    class="filter-tag"
-                  >
-                    {{ obj }}
-                  </el-tag>
-                  <el-tag v-if="row.obj_filter.length > 3" type="warning" size="small" class="filter-tag">
-                    +{{ row.obj_filter.length - 3 }}
-                  </el-tag>
-                  <span v-if="!row.obj_filter?.length" class="empty-text">-</span>
+                  <span v-if="!row.signal_whitelist?.length" class="empty-text">-</span>
                 </div>
               </template>
             </el-table-column>
@@ -125,7 +104,7 @@
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? $t('opc.dnp3.editDialog') : $t('opc.dnp3.addDialog')"
-      width="650px"
+      width="550px"
       class="form-dialog"
       :close-on-click-modal="false"
     >
@@ -143,42 +122,19 @@
           <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
         </el-form-item>
 
-        <el-form-item :label="$t('opc.dnp3.funcCodeFilter')">
+        <el-form-item :label="$t('opc.dnp3.signalWhitelist')">
           <el-select
-            v-model="formData.func_code_filter"
+            v-model="formData.signal_whitelist"
             multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.dnp3.funcCodePlaceholder')"
+            :placeholder="$t('opc.dnp3.signalPlaceholder')"
             style="width: 100%"
           >
-            <el-option v-for="code in funcCodes" :key="code.value" :label="code.label" :value="code.value" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('opc.dnp3.objFilter')">
-          <el-select
-            v-model="formData.obj_filter"
-            multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.dnp3.objPlaceholder')"
-            style="width: 100%"
-          >
-            <el-option v-for="obj in objectTypes" :key="obj.value" :label="obj.label" :value="obj.value" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('opc.dnp3.iinFilter')">
-          <el-select
-            v-model="formData.iin_filter"
-            multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.dnp3.iinPlaceholder')"
-            style="width: 100%"
-          >
-            <el-option v-for="iin in iinFlags" :key="iin.value" :label="iin.label" :value="iin.value" />
+            <el-option
+              v-for="signal in signalOptions"
+              :key="signal.value"
+              :label="signal.label"
+              :value="signal.value"
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -197,7 +153,7 @@
     <el-dialog
       v-model="viewDialogVisible"
       :title="$t('opc.dnp3.viewDetail')"
-      width="550px"
+      width="500px"
       class="view-dialog"
     >
       <el-descriptions :column="2" border>
@@ -207,28 +163,12 @@
             {{ viewData.rule_work ? $t('opc.dnp3.enabled') : $t('opc.dnp3.disabled') }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.dnp3.funcCodeFilter')" :span="2">
+        <el-descriptions-item :label="$t('opc.dnp3.signalWhitelist')" :span="2">
           <div class="view-tags">
-            <el-tag v-for="code in viewData.func_code_filter" :key="code" type="info" size="small" class="view-tag">
-              {{ code }}
+            <el-tag v-for="signal in viewData.signal_whitelist" :key="signal" type="success" size="small" class="view-tag">
+              {{ getSignalLabel(signal) }}
             </el-tag>
-            <span v-if="!viewData.func_code_filter?.length">-</span>
-          </div>
-        </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.dnp3.objFilter')" :span="2">
-          <div class="view-tags">
-            <el-tag v-for="obj in viewData.obj_filter" :key="obj" type="warning" size="small" class="view-tag">
-              {{ obj }}
-            </el-tag>
-            <span v-if="!viewData.obj_filter?.length">-</span>
-          </div>
-        </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.dnp3.iinFilter')" :span="2">
-          <div class="view-tags">
-            <el-tag v-for="iin in viewData.iin_filter" :key="iin" size="small" class="view-tag">
-              {{ iin }}
-            </el-tag>
-            <span v-if="!viewData.iin_filter?.length">-</span>
+            <span v-if="!viewData.signal_whitelist?.length">-</span>
           </div>
         </el-descriptions-item>
       </el-descriptions>
@@ -253,9 +193,7 @@ interface Dnp3Rule {
   id: string
   group_name: string
   rule_work: boolean
-  func_code_filter: string[]
-  obj_filter: string[]
-  iin_filter: string[]
+  signal_whitelist: number[]
 }
 
 // 状态
@@ -267,23 +205,34 @@ const isEdit = ref(false)
 const formRef = ref<FormInstance>()
 const editingId = ref('')
 
+// 信令白名单选项
+const signalOptions = [
+  { value: 1, label: '1 - 传输功能(读)' },
+  { value: 2, label: '2 - 传输功能(写)' },
+  { value: 5, label: '5 - 控制功能(直接控制)' },
+  { value: 7, label: '7 - 冻结功能(立即冻结)' },
+  { value: 9, label: '9 - 冻结功能(冻结并清除)' }
+]
+
+// 获取信令标签
+const getSignalLabel = (value: number) => {
+  const signal = signalOptions.find(s => s.value === value)
+  return signal ? signal.label : value
+}
+
 // 模拟数据
 const mockData = ref<Dnp3Rule[]>([
   {
     id: '1',
     group_name: 'scada_control',
     rule_work: true,
-    func_code_filter: ['0x04', '0x05', '0x06'],
-    obj_filter: ['12', '20', '21'],
-    iin_filter: ['0x02', '0x04']
+    signal_whitelist: [1, 2, 5]
   },
   {
     id: '2',
     group_name: 'rtu_monitor',
     rule_work: true,
-    func_code_filter: ['0x07', '0x08'],
-    obj_filter: ['30', '40'],
-    iin_filter: []
+    signal_whitelist: [1, 7, 9]
   }
 ])
 
@@ -298,18 +247,14 @@ const pagination = reactive({
 const formData = reactive({
   group_name: '',
   rule_work: true,
-  func_code_filter: [] as string[],
-  obj_filter: [] as string[],
-  iin_filter: [] as string[]
+  signal_whitelist: [] as number[]
 })
 
 const viewData = ref<Dnp3Rule>({
   id: '',
   group_name: '',
   rule_work: false,
-  func_code_filter: [],
-  obj_filter: [],
-  iin_filter: []
+  signal_whitelist: []
 })
 
 const formRules: FormRules = {
@@ -317,47 +262,6 @@ const formRules: FormRules = {
     { required: true, message: t('opc.dnp3.groupNameRequired'), trigger: 'blur' }
   ]
 }
-
-// 功能码选项
-const funcCodes = [
-  { value: '0x00', label: '0x00 - Confirm' },
-  { value: '0x01', label: '0x01 - Read' },
-  { value: '0x02', label: '0x02 - Write' },
-  { value: '0x03', label: '0x03 - Select' },
-  { value: '0x04', label: '0x04 - Operate' },
-  { value: '0x05', label: '0x05 - Direct Operate' },
-  { value: '0x06', label: '0x06 - Direct Operate NR' },
-  { value: '0x07', label: '0x07 - Freeze' },
-  { value: '0x08', label: '0x08 - Freeze Clear' },
-  { value: '0x09', label: '0x09 - Freeze At Time' },
-  { value: '0x0D', label: '0x0D - Cold Restart' },
-  { value: '0x0E', label: '0x0E - Warm Restart' }
-]
-
-// 对象类型选项
-const objectTypes = [
-  { value: '1', label: '1 - Binary Input' },
-  { value: '2', label: '2 - Binary Output' },
-  { value: '10', label: '10 - Binary Event' },
-  { value: '12', label: '12 - Binary Command Event' },
-  { value: '20', label: '20 - Binary Counter' },
-  { value: '21', label: '21 - Frozen Counter' },
-  { value: '30', label: '30 - Analog Input' },
-  { value: '32', label: '32 - Analog Event' },
-  { value: '40', label: '40 - Analog Output' }
-]
-
-// IIN标志选项
-const iinFlags = [
-  { value: '0x01', label: '0x01 - Broadcast' },
-  { value: '0x02', label: '0x02 - Class 1 Events' },
-  { value: '0x04', label: '0x04 - Class 2 Events' },
-  { value: '0x08', label: '0x08 - Class 3 Events' },
-  { value: '0x10', label: '0x10 - Need Time' },
-  { value: '0x20', label: '0x20 - Local Control' },
-  { value: '0x40', label: '0x40 - Device Trouble' },
-  { value: '0x80', label: '0x80 - Device Restart' }
-]
 
 // 列表方法
 const fetchList = () => {
@@ -372,9 +276,7 @@ const fetchList = () => {
 const resetForm = () => {
   formData.group_name = ''
   formData.rule_work = true
-  formData.func_code_filter = []
-  formData.obj_filter = []
-  formData.iin_filter = []
+  formData.signal_whitelist = []
   editingId.value = ''
 }
 
@@ -394,9 +296,7 @@ const handleEdit = (row: Dnp3Rule) => {
   editingId.value = row.id
   formData.group_name = row.group_name
   formData.rule_work = row.rule_work
-  formData.func_code_filter = [...row.func_code_filter]
-  formData.obj_filter = [...row.obj_filter]
-  formData.iin_filter = [...row.iin_filter]
+  formData.signal_whitelist = [...row.signal_whitelist]
   dialogVisible.value = true
 }
 
@@ -434,9 +334,7 @@ const handleSubmit = () => {
               id: editingId.value,
               group_name: formData.group_name,
               rule_work: formData.rule_work,
-              func_code_filter: [...formData.func_code_filter],
-              obj_filter: [...formData.obj_filter],
-              iin_filter: [...formData.iin_filter]
+              signal_whitelist: [...formData.signal_whitelist]
             }
           }
         } else {
@@ -444,9 +342,7 @@ const handleSubmit = () => {
             id: Date.now().toString(),
             group_name: formData.group_name,
             rule_work: formData.rule_work,
-            func_code_filter: [...formData.func_code_filter],
-            obj_filter: [...formData.obj_filter],
-            iin_filter: [...formData.iin_filter]
+            signal_whitelist: [...formData.signal_whitelist]
           })
         }
 
@@ -581,14 +477,14 @@ onMounted(() => {
   color: #409EFF;
 }
 
-/* 过滤标签 */
-.filter-tags {
+/* 信令标签 */
+.signal-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
 }
 
-.filter-tag {
+.signal-tag {
   font-size: 12px;
 }
 
