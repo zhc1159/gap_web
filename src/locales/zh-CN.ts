@@ -379,7 +379,10 @@ export default {
       clearLogConfirm: '确定要清空所有日志吗？此操作不可恢复。',
       clearSuccess: '清空成功',
       exportAllOnly: '日志只支持全量导出',
-      exportSuccess: '导出成功'
+      exportSuccess: '导出成功',
+      selectedCount: '已选择 {count} 条日志',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条日志吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     ifcfgStatusLog: {
       title: '网口状态日志',

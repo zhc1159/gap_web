@@ -375,7 +375,10 @@ export default {
       clearLogConfirm: 'Are you sure to clear all logs? This operation cannot be undone.',
       clearSuccess: 'Cleared successfully',
       exportAllOnly: 'Only full export is supported',
-      exportSuccess: 'Export successful'
+      exportSuccess: 'Export successful',
+      selectedCount: '{count} log(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete the selected {count} log(s)? This operation cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     ifcfgStatusLog: {
       title: 'Interface Status Log',
