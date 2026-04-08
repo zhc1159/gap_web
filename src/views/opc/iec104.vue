@@ -117,12 +117,9 @@
     >
       <el-form :model="formData" :rules="formRules" ref="formRef" label-width="120px" class="form-content">
         <el-form-item :label="$t('opc.iec104.groupName')" prop="groupname">
-          <el-input
-            v-model="formData.groupname"
-            :placeholder="$t('opc.iec104.groupNamePlaceholder')"
-            maxlength="31"
-            show-word-limit
-          />
+          <el-select v-model="formData.groupname" :placeholder="$t('common.pleaseSelect')" style="width: 100%">
+            <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
+          </el-select>
         </el-form-item>
 
         <el-form-item :label="$t('opc.iec104.ruleSwitch')" prop="rule_work">
@@ -245,6 +242,14 @@ interface Iec104Rule {
 }
 
 // 状态
+// 用户组选项
+const groupOptions = [
+  'opc_group_1',
+  'opc_group_2',
+  'admin_group',
+  'user_group'
+]
+
 const loading = ref(false)
 const submitLoading = ref(false)
 const dialogVisible = ref(false)
