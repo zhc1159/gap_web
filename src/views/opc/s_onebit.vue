@@ -153,7 +153,6 @@
 
         <el-form-item :label="$t('opc.s_onebit.responseTimeoutLabel')" prop="responseTimeout">
           <el-input-number v-model="formData.responseTimeout" :min="1" :max="3600" style="width: 150px" />
-          <span class="unit-text">{{ $t('opc.s_onebit.seconds') }}</span>
         </el-form-item>
 
         <el-form-item :label="$t('opc.s_onebit.maxPacketCountLabel')" prop="maxPacketCount">
