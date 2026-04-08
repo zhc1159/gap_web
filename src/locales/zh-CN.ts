@@ -25,7 +25,8 @@ export default {
     on: '开',
     off: '关',
     enabled: '已启用',
-    disabled: '已禁用'
+    disabled: '已禁用',
+    operation: '操作'
   },
   login: {
     title: 'GAP安全隔离网闸',
