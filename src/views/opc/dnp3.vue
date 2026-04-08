@@ -533,6 +533,20 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
 }
 
+.view-dialog :deep(.el-descriptions__table) {
+  width: 100%;
+  table-layout: auto;
+}
+
+.view-dialog :deep(.el-descriptions__label) {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.view-dialog :deep(.el-descriptions__cell) {
+  width: auto;
+}
+
 .view-tags {
   display: flex;
   flex-wrap: wrap;
