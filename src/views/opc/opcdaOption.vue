@@ -28,7 +28,7 @@
               <div v-else class="no-user">{{ $t('opc.opcdaOption.noUser') }}</div>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('opc.opcdaOption.actions')" width="200" fixed="right">
+          <el-table-column :label="$t('opc.opcdaOption.actions')" min-width="280" fixed="right">
             <template #default="{ row }">
               <el-button type="primary" size="small" link @click="showAddUserDialog(row)">
                 {{ $t('opc.opcdaOption.addUser') }}

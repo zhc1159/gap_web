@@ -107,7 +107,7 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('opc.opc_accessControl.actions')" min-width="200" fixed="right">
+            <el-table-column :label="$t('opc.opc_accessControl.actions')" min-width="280" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
                   <el-button type="info" size="small" @click="handleView(row)">

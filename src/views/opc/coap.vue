@@ -81,7 +81,7 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('opc.coap.actions')" width="220" fixed="right">
+            <el-table-column :label="$t('opc.coap.actions')" min-width="280" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
                   <el-button type="primary" size="small" @click="handleView(row)">
