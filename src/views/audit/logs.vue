@@ -1,9 +1,43 @@
 <template>
-  <div class="page-container">
-    <div class="page-card">
-      <div class="page-describe">{{ $t('audit.logs.describe') }}</div>
-      <div class="page-util">
-        <el-form :model="filterForm" inline class="form-label">
+  <div class="page-container intercept-log-page">
+    <!-- 页面头部 -->
+    <div class="page-header">
+      <div class="header-left">
+        <div class="header-icon">
+          <el-icon><WarningFilled /></el-icon>
+        </div>
+        <span class="header-title">{{ $t('audit.logs.title') }}</span>
+      </div>
+      <div class="header-right">
+        <el-dropdown @command="handleAction">
+          <el-button type="primary" class="btn-action">
+            <el-icon><Operation /></el-icon>
+            {{ $t('common.operation') }}
+            <el-icon class="el-icon--right"><ArrowDown /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="clear">
+                <el-icon><Delete /></el-icon>
+                {{ $t('audit.logs.clearLog') }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </div>
+
+    <!-- 页面描述 -->
+    <div class="page-describe">
+      <el-icon class="describe-icon"><InfoFilled /></el-icon>
+      <span>{{ $t('audit.logs.describe') }}</span>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="content-wrapper">
+      <!-- 筛选区域 -->
+      <div class="filter-card">
+        <el-form :model="filterForm" inline class="filter-form">
           <el-form-item :label="$t('audit.logs.dateRange')">
             <el-date-picker
               v-model="filterForm.dateRange"
@@ -13,36 +47,21 @@
               :end-placeholder="$t('common.endDate')"
               :shortcuts="dateShortcuts"
               value-format="YYYY-MM-DD"
+              class="filter-date"
             />
           </el-form-item>
-
           <el-form-item>
-            <div class="page-button">
-              <el-button type="primary" @click="handleSearch">
-                {{ $t('common.search') }}
-              </el-button>
-            </div>
+            <el-button type="primary" @click="handleSearch" :loading="searching">
+              <el-icon><Search /></el-icon>
+              {{ $t('common.search') }}
+            </el-button>
           </el-form-item>
-
-          <el-form-item>
-            <el-dropdown @command="handleAction">
-              <el-button type="info">
-                {{ $t('common.operation') }} <el-icon><ArrowDown /></el-icon>
-              </el-button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item command="clear">
-                    {{ $t('audit.logs.clearLog') }}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </el-form-item>
-
           <el-form-item>
             <el-dropdown @command="handleExport" class="show-msg" placement="top">
               <el-button type="success">
-                {{ $t('common.export') }} <el-icon><ArrowDown /></el-icon>
+                <el-icon><Download /></el-icon>
+                {{ $t('common.export') }}
+                <el-icon class="el-icon--right"><ArrowDown /></el-icon>
               </el-button>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -63,64 +82,72 @@
         </el-form>
       </div>
 
-      <div class="page-table">
-        <el-table :data="tableData" v-loading="loading" stripe>
-          <el-table-column prop="time" :label="$t('audit.logs.time')" width="180" sortable />
-          <el-table-column prop="level" :label="$t('audit.logs.level')" width="100">
-            <template #default="{ row }">
-              <el-tag :type="getLevelType(row.level)" size="small">
-                {{ row.level }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="source" :label="$t('audit.logs.source')" width="150" />
-          <el-table-column prop="module" :label="$t('audit.logs.module')" width="120" />
-          <el-table-column prop="message" :label="$t('audit.logs.message')" show-overflow-tooltip />
-          <el-table-column :label="$t('audit.logs.actions')" width="100" fixed="right">
-            <template #default="{ row }">
-              <el-button type="primary" size="small" link @click="handleViewDetail(row)">
-                {{ $t('audit.logs.viewDetail') }}
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div class="pagination-container">
-          <el-pagination
-            v-model:current-page="pagination.page"
-            v-model:page-size="pagination.pageSize"
-            :page-sizes="[10, 20, 50, 100, 200]"
-            :total="pagination.total"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          />
+      <!-- 表格区域 -->
+      <div class="card main-card">
+        <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('audit.logs.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.delete') }}
+            </el-button>
+          </div>
+
+          <el-table :data="tableData" v-loading="loading" class="log-table" stripe @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="45" />
+            <el-table-column prop="date" :label="$t('audit.logs.time')" min-width="180" sortable>
+              <template #default="{ row }">
+                <div class="time-cell">
+                  <el-icon class="time-icon"><Clock /></el-icon>
+                  <span>{{ formatDate(row.date) }}</span>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="sip" :label="$t('audit.logs.sourceIP')" min-width="150">
+              <template #default="{ row }">
+                <span class="ip-cell">{{ row.sip }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="sport" :label="$t('audit.logs.sourcePort')" width="120" align="center">
+              <template #default="{ row }">
+                <el-tag type="info" size="small">{{ row.sport }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="dip" :label="$t('audit.logs.destIP')" min-width="150">
+              <template #default="{ row }">
+                <span class="ip-cell">{{ row.dip }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="dport" :label="$t('audit.logs.destPort')" width="120" align="center">
+              <template #default="{ row }">
+                <el-tag type="info" size="small">{{ row.dport }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="protocol" :label="$t('audit.logs.protocol')" width="120" align="center">
+              <template #default="{ row }">
+                <el-tag :type="getProtocolTagType(row.protocol)" size="small" effect="dark">
+                  {{ row.protocol }}
+                </el-tag>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <!-- 分页 -->
+          <div class="pagination-wrapper">
+            <el-pagination
+              v-model:current-page="pagination.page"
+              v-model:page-size="pagination.pageSize"
+              :page-sizes="[10, 20, 50, 100]"
+              :total="pagination.total"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- 日志详情对话框 -->
-    <el-dialog
-      v-model="detailDialogVisible"
-      :title="$t('audit.logs.detailTitle')"
-      width="700px"
-      class="dialog-body-custom"
-    >
-      <el-descriptions :column="2" border v-if="currentLog">
-        <el-descriptions-item :label="$t('audit.logs.time')">{{ currentLog.time }}</el-descriptions-item>
-        <el-descriptions-item :label="$t('audit.logs.level')">
-          <el-tag :type="getLevelType(currentLog.level)" size="small">{{ currentLog.level }}</el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item :label="$t('audit.logs.source')">{{ currentLog.source }}</el-descriptions-item>
-        <el-descriptions-item :label="$t('audit.logs.module')">{{ currentLog.module }}</el-descriptions-item>
-        <el-descriptions-item :label="$t('audit.logs.message')" :span="2">{{ currentLog.message }}</el-descriptions-item>
-        <el-descriptions-item :label="$t('audit.logs.details')" :span="2">
-          <pre class="log-details">{{ currentLog.details || '-' }}</pre>
-        </el-descriptions-item>
-      </el-descriptions>
-      <template #footer>
-        <el-button type="primary" @click="detailDialogVisible = false">{{ $t('common.confirm') }}</el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
@@ -128,18 +155,28 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { ArrowDown, InfoFilled } from '@element-plus/icons-vue'
+import {
+  WarningFilled,
+  Operation,
+  ArrowDown,
+  Delete,
+  InfoFilled,
+  Search,
+  Download,
+  Clock
+} from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 
-interface LogItem {
+// 接口定义
+interface InterceptLogItem {
   id: string
-  time: string
-  level: string
-  source: string
-  module: string
-  message: string
-  details?: string
+  date: string
+  sip: string
+  sport: number
+  dip: string
+  dport: number
+  protocol: string
 }
 
 // 筛选表单
@@ -148,28 +185,25 @@ const filterForm = reactive({
 })
 
 // 表格数据
-const tableData = ref<LogItem[]>([])
+const tableData = ref<InterceptLogItem[]>([])
 const loading = ref(false)
+const searching = ref(false)
+const selectedRows = ref<InterceptLogItem[]>([])
 
 // 分页
 const pagination = reactive({
   page: 1,
-  pageSize: 20,
+  pageSize: 10,
   total: 0
 })
-
-// 详情对话框
-const detailDialogVisible = ref(false)
-const currentLog = ref<LogItem | null>(null)
 
 // 日期快捷选项
 const dateShortcuts = [
   {
     text: t('common.today'),
     value: () => {
-      const end = new Date()
-      const start = new Date()
-      return [start, end]
+      const today = new Date()
+      return [today, today]
     }
   },
   {
@@ -192,70 +226,39 @@ const dateShortcuts = [
   }
 ]
 
-// 获取级别类型
-const getLevelType = (level: string) => {
-  const typeMap: Record<string, string> = {
-    DEBUG: 'info',
-    INFO: '',
-    WARNING: 'warning',
-    ERROR: 'danger',
-    CRITICAL: 'danger'
-  }
-  return typeMap[level] || ''
+// 格式化日期
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return '-'
+  return dateStr
 }
 
-// 获取数据
+// 协议标签类型
+const getProtocolTagType = (protocol: string) => {
+  const typeMap: Record<string, string> = {
+    TCP: 'primary',
+    UDP: 'success',
+    ICMP: 'warning',
+    IGMP: 'info'
+  }
+  return typeMap[protocol] || 'info'
+}
+
+// 获取数据（Mock）
 const fetchData = async () => {
   loading.value = true
   try {
-    // Mock data for demonstration
     await new Promise(resolve => setTimeout(resolve, 500))
     tableData.value = [
-      {
-        id: '1',
-        time: '2026-04-07 10:30:15',
-        level: 'INFO',
-        source: '192.168.1.100',
-        module: 'HTTP',
-        message: 'HTTP request processed successfully',
-        details: 'Request: GET /api/users, Status: 200, Time: 45ms'
-      },
-      {
-        id: '2',
-        time: '2026-04-07 10:28:42',
-        level: 'WARNING',
-        source: '192.168.1.101',
-        module: 'AUTH',
-        message: 'Authentication attempt with invalid credentials',
-        details: 'Username: admin, IP: 192.168.1.101, Attempts: 3'
-      },
-      {
-        id: '3',
-        time: '2026-04-07 10:25:33',
-        level: 'ERROR',
-        source: '192.168.1.102',
-        module: 'DATABASE',
-        message: 'Database connection failed',
-        details: 'Connection timeout after 30 seconds'
-      },
-      {
-        id: '4',
-        time: '2026-04-07 10:20:18',
-        level: 'INFO',
-        source: '192.168.1.103',
-        module: 'FILE',
-        message: 'File sync completed',
-        details: 'Files synced: 15, Total size: 2.3MB'
-      },
-      {
-        id: '5',
-        time: '2026-04-07 10:15:05',
-        level: 'DEBUG',
-        source: '192.168.1.104',
-        module: 'SYSTEM',
-        message: 'System health check passed',
-        details: 'CPU: 45%, Memory: 62%, Disk: 38%'
-      }
+      { id: '1', date: '2026-04-08 10:30:15', sip: '192.168.1.100', sport: 45120, dip: '10.0.0.50', dport: 80, protocol: 'TCP' },
+      { id: '2', date: '2026-04-08 10:28:42', sip: '192.168.1.101', sport: 52340, dip: '172.16.0.10', dport: 443, protocol: 'TCP' },
+      { id: '3', date: '2026-04-08 10:25:33', sip: '10.0.0.200', sport: 0, dip: '192.168.1.1', dport: 0, protocol: 'ICMP' },
+      { id: '4', date: '2026-04-08 10:20:18', sip: '192.168.1.102', sport: 38910, dip: '10.0.0.60', dport: 3306, protocol: 'TCP' },
+      { id: '5', date: '2026-04-08 10:15:05', sip: '192.168.1.103', sport: 62100, dip: '172.16.0.20', dport: 53, protocol: 'UDP' },
+      { id: '6', date: '2026-04-08 10:10:22', sip: '10.0.0.201', sport: 0, dip: '192.168.1.2', dport: 0, protocol: 'IGMP' },
+      { id: '7', date: '2026-04-08 10:05:11', sip: '192.168.1.104', sport: 44230, dip: '10.0.0.70', dport: 8080, protocol: 'TCP' },
+      { id: '8', date: '2026-04-08 10:00:08', sip: '192.168.1.105', sport: 51200, dip: '172.16.0.30', dport: 22, protocol: 'TCP' },
+      { id: '9', date: '2026-04-08 09:55:44', sip: '192.168.1.106', sport: 60120, dip: '10.0.0.80', dport: 161, protocol: 'UDP' },
+      { id: '10', date: '2026-04-08 09:50:30', sip: '10.0.0.202', sport: 0, dip: '192.168.1.3', dport: 0, protocol: 'ICMP' }
     ]
     pagination.total = 100
   } finally {
@@ -264,9 +267,14 @@ const fetchData = async () => {
 }
 
 // 查询
-const handleSearch = () => {
+const handleSearch = async () => {
+  searching.value = true
   pagination.page = 1
-  fetchData()
+  try {
+    await fetchData()
+  } finally {
+    searching.value = false
+  }
 }
 
 // 操作
@@ -282,7 +290,6 @@ const handleAction = async (command: string) => {
           type: 'warning'
         }
       )
-      // Mock clear
       tableData.value = []
       pagination.total = 0
       ElNotification({
@@ -292,31 +299,47 @@ const handleAction = async (command: string) => {
         customClass: 'notification-success'
       })
     } catch {
-      // Cancelled
+      // cancelled
     }
   }
 }
 
 // 导出
 const handleExport = async (type: string) => {
+  await new Promise(resolve => setTimeout(resolve, 300))
+  ElNotification({
+    title: t('common.info'),
+    message: t('audit.logs.exportSuccess') + ` (${type})`,
+    type: 'success',
+    customClass: 'notification-success'
+  })
+}
+
+// 选择变化
+const handleSelectionChange = (rows: InterceptLogItem[]) => {
+  selectedRows.value = rows
+}
+
+// 批量删除
+const handleBatchDelete = async () => {
   try {
-    // Mock export
-    await new Promise(resolve => setTimeout(resolve, 300))
+    await ElMessageBox.confirm(
+      t('audit.logs.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(row => row.id)
+    tableData.value = tableData.value.filter(row => !ids.includes(row.id))
+    pagination.total -= ids.length
     ElNotification({
       title: t('common.success'),
-      message: t('audit.logs.exportSuccess') + ` (${type})`,
+      message: t('audit.logs.batchDeleteSuccess'),
       type: 'success',
       customClass: 'notification-success'
     })
-  } catch (error) {
-    console.error(error)
+  } catch {
+    // cancelled
   }
-}
-
-// 查看详情
-const handleViewDetail = (row: LogItem) => {
-  currentLog.value = row
-  detailDialogVisible.value = true
 }
 
 // 分页
@@ -336,44 +359,102 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.page-container {
+.intercept-log-page {
   padding: 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-  min-height: calc(100vh - 100px);
+  background: linear-gradient(180deg, rgba(103, 194, 58, 0.02) 0%, rgba(64, 158, 255, 0.02) 100%);
+  min-height: calc(100vh - 60px);
 }
 
-.page-card {
-  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+/* 页面头部 */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #67C23A 0%, #409EFF 100%);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 24px;
-}
-
-.page-describe {
-  font-size: 14px;
-  color: #606266;
   margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #ebeef5;
-  background: linear-gradient(90deg, #409EFF 0%, #67C23A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  box-shadow: 0 4px 16px rgba(103, 194, 58, 0.2);
 }
 
-.page-util {
-  margin-bottom: 20px;
+.header-left {
+  display: flex;
+  align-items: center;
+  color: white;
 }
 
-.page-button .el-button--primary {
-  background: linear-gradient(135deg, #409EFF 0%, #337ecc 100%);
-  border: none;
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+.header-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 18px;
 }
 
-.page-button .el-button--primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.4);
+.header-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.btn-action {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+.btn-action:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 页面描述 */
+.page-describe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(103, 194, 58, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  color: #606266;
+  font-size: 14px;
+}
+
+.describe-icon {
+  color: #67C23A;
+  font-size: 16px;
+}
+
+/* 内容区域 */
+.content-wrapper {
+  flex: 1;
+}
+
+/* 筛选卡片 */
+.filter-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(103, 194, 58, 0.08);
+}
+
+.filter-form :deep(.el-form-item) {
+  margin-bottom: 0;
+  margin-right: 16px;
+}
+
+.filter-form :deep(.el-form-item__label) {
+  color: #606266;
+  font-size: 13px;
+}
+
+.filter-date {
+  width: 260px;
 }
 
 .info-icon {
@@ -387,72 +468,90 @@ onMounted(() => {
   color: #409EFF;
 }
 
-.page-table {
-  margin-top: 16px;
+/* 主卡片 */
+.main-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(103, 194, 58, 0.08);
 }
 
-.pagination-container {
-  margin-top: 20px;
+.card-content {
+  padding: 20px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
+}
+
+/* 表格样式 */
+.log-table {
+  width: 100%;
+}
+
+.log-table :deep(.el-table th.el-table__cell) {
+  background: linear-gradient(135deg, rgba(103, 194, 58, 0.05) 0%, rgba(64, 158, 255, 0.05) 100%);
+  font-weight: 600;
+  color: #303133;
+  padding: 14px 12px;
+}
+
+.log-table :deep(.el-table td.el-table__cell) {
+  padding: 14px 12px;
+}
+
+.log-table :deep(.el-table .el-table__row:hover > td) {
+  background: linear-gradient(135deg, rgba(103, 194, 58, 0.03) 0%, rgba(64, 158, 255, 0.03) 100%) !important;
+}
+
+/* 单元格样式 */
+.time-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.time-icon {
+  color: #909399;
+  font-size: 14px;
+}
+
+.ip-cell {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #606266;
+}
+
+/* 分页 */
+.pagination-wrapper {
   display: flex;
   justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(103, 194, 58, 0.08);
 }
 
-.log-details {
-  max-height: 200px;
-  overflow: auto;
-  background: #f5f7fa;
-  padding: 12px;
-  border-radius: 6px;
-  color: #606266;
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-  margin: 0;
-  white-space: pre-wrap;
-}
+/* 响应式 */
+@media (max-width: 1200px) {
+  .filter-form {
+    flex-wrap: wrap;
+  }
 
-:deep(.el-table) {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-:deep(.el-table th) {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%) !important;
-}
-
-:deep(.el-table--striped .el-table__body tr.el-table__row--striped td) {
-  background: #fafafa;
-}
-
-:deep(.el-dialog) {
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-:deep(.el-dialog__header) {
-  background: linear-gradient(135deg, #409EFF 0%, #337ecc 100%);
-  padding: 16px 20px;
-  margin-right: 0;
-}
-
-:deep(.el-dialog__title) {
-  color: #ffffff;
-  font-weight: 600;
-}
-
-:deep(.el-dialog__headerbtn .el-dialog__close) {
-  color: #ffffff;
-}
-
-:deep(.el-dialog__body) {
-  padding: 24px;
-}
-
-:deep(.el-dialog__footer) {
-  padding: 16px 24px;
-  border-top: 1px solid #ebeef5;
-}
-
-:deep(.el-descriptions__label) {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+  .filter-form :deep(.el-form-item) {
+    margin-bottom: 12px;
+  }
 }
 </style>

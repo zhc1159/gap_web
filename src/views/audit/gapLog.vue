@@ -118,7 +118,15 @@
       <!-- 表格区域 -->
       <div class="card main-card">
         <div class="card-content">
-          <el-table :data="tableData" v-loading="loading" class="log-table" stripe>
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('audit.gapLog.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.delete') }}
+            </el-button>
+          </div>
+          <el-table :data="tableData" v-loading="loading" class="log-table" stripe @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="45" />
             <el-table-column prop="date" :label="$t('audit.gapLog.time')" width="180" sortable>
               <template #default="{ row }">
                 <div class="time-cell">
@@ -238,6 +246,34 @@ const userList = ref<Array<{ label: string; value: string }>>([
 // 表格数据
 const tableData = ref<GapLogItem[]>([])
 const loading = ref(false)
+const selectedRows = ref<GapLogItem[]>([])
+
+// 选择变化
+const handleSelectionChange = (rows: GapLogItem[]) => {
+  selectedRows.value = rows
+}
+
+// 批量删除
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('audit.gapLog.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(row => row.id)
+    tableData.value = tableData.value.filter(row => !ids.includes(row.id))
+    pagination.total -= ids.length
+    ElNotification({
+      title: t('common.success'),
+      message: t('audit.gapLog.batchDeleteSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
+  } catch {
+    // cancelled
+  }
+}
 
 // 分页
 const pagination = reactive({
@@ -519,7 +555,22 @@ onMounted(() => {
   width: 260px;
 }
 
-/* 主卡片 */
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
+}
 .main-card {
   background: white;
   border-radius: 12px;

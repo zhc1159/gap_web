@@ -144,22 +144,24 @@ export default {
     logs: {
       title: '拦截日志',
       emptyDesc: '拦截日志模块',
-      describe: '展示系统拦截日志记录，包括时间、级别、来源等详细信息',
+      describe: '展示系统拦截日志记录，包括时间、源地址、目的地址、协议等详细信息',
       dateRange: '日期范围',
       time: '时间',
-      level: '级别',
       source: '来源',
-      module: '模块',
-      message: '消息',
+      sourceIP: '源地址',
+      sourcePort: '源端口',
+      destIP: '目的地址',
+      destPort: '目的端口',
+      protocol: '协议',
       actions: '操作',
-      viewDetail: '详情',
-      detailTitle: '日志详情',
-      details: '详细信息',
       clearLog: '清空日志',
-      clearLogConfirm: '确定要清空所有日志吗？此操作不可恢复。',
+      clearLogConfirm: '确定要清空所有拦截日志吗？此操作不可恢复。',
       clearSuccess: '清空成功',
       exportAllOnly: '日志只支持全量导出',
-      exportSuccess: '导出成功'
+      exportSuccess: '导出成功',
+      selectedCount: '已选择 {count} 条',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条日志吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     gapLog: {
       title: 'Web日志',
@@ -182,7 +184,10 @@ export default {
       clearSuccess: '清空成功',
       importLog: '导入日志',
       importHint: '请选择要导入的日志文件',
-      exportSuccess: '导出成功'
+      exportSuccess: '导出成功',
+      selectedCount: '已选择 {count} 条',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条日志吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     fileSynLog: {
       title: '文件同步日志',
