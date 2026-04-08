@@ -395,9 +395,12 @@ export default {
       down: 'Down',
       description: 'Description',
       clearLog: 'Clear Log',
-      clearLogConfirm: 'Are you sure to clear all logs?',
+      clearLogConfirm: 'Are you sure to clear all logs? This action cannot be undone.',
       clearSuccess: 'Cleared successfully',
-      exportSuccess: 'Export successful'
+      exportSuccess: 'Export successful',
+      selectedCount: '{count} log(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete the selected {count} log(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     logConfig: {
       title: 'Log Configuration',

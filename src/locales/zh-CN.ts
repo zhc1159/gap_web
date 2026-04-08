@@ -399,9 +399,12 @@ export default {
       down: '禁用',
       description: '描述',
       clearLog: '清空日志',
-      clearLogConfirm: '确定要清空所有日志吗？',
+      clearLogConfirm: '确定要清空所有日志吗？此操作不可恢复。',
       clearSuccess: '清空成功',
-      exportSuccess: '导出成功'
+      exportSuccess: '导出成功',
+      selectedCount: '已选择 {count} 条日志',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条日志吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     logConfig: {
       title: '日志配置',
