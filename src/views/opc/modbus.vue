@@ -72,7 +72,7 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('opc.modbus.actions')" width="200" fixed="right">
+            <el-table-column :label="$t('opc.modbus.actions')" width="220" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
                   <el-button type="primary" size="small" @click="handleView(row)">

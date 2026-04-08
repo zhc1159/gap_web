@@ -38,7 +38,7 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('opc.s_onebit.actions')" width="200" align="center">
+          <el-table-column :label="$t('opc.s_onebit.actions')" width="220" align="center">
             <template #default="{ row }">
               <el-button type="primary" size="small" link @click="handleView(row)">
                 {{ $t('opc.s_onebit.view') }}
