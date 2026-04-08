@@ -157,6 +157,7 @@ export default {
       emptyDesc: 'Web Log Module',
       describe: 'Display system web operation logs, record various operations performed by users through the web interface',
       user: 'User',
+      userLabel: 'User',
       result: 'Result',
       description: 'Description',
       descPlaceholder: 'Enter description keyword',
@@ -170,7 +171,8 @@ export default {
       clearLog: 'Clear Log',
       clearLogConfirm: 'Are you sure to clear all logs? This operation cannot be undone.',
       clearSuccess: 'Cleared successfully',
-      exportAllOnly: 'Only full export is supported',
+      importLog: 'Import Log',
+      importHint: 'Please select a log file to import',
       exportSuccess: 'Export successful'
     },
     fileSynLog: {

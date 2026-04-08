@@ -158,6 +158,7 @@ export default {
       emptyDesc: 'web日志模块',
       describe: '展示系统Web操作日志，记录用户通过Web界面进行的各种操作，包括源IP、用户、操作结果和失败原因',
       user: '用户',
+      userLabel: '用户',
       result: '结果',
       description: '描述',
       descPlaceholder: '请输入描述关键词',
@@ -171,7 +172,8 @@ export default {
       clearLog: '清空日志',
       clearLogConfirm: '确定要清空所有日志吗？此操作不可恢复。',
       clearSuccess: '清空成功',
-      exportAllOnly: '日志只支持全量导出',
+      importLog: '导入日志',
+      importHint: '请选择要导入的日志文件',
       exportSuccess: '导出成功'
     },
     fileSynLog: {
