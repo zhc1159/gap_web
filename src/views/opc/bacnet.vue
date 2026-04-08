@@ -44,34 +44,45 @@
               </template>
             </el-table-column>
 
-            <!-- 信令黑名单 -->
-            <el-table-column :label="$t('opc.bacnet.blackCmd')" min-width="250">
+            <!-- 应用类型黑名单 -->
+            <el-table-column :label="$t('opc.bacnet.appTypeBlacklist')" min-width="200">
               <template #default="{ row }">
-                <div class="signal-tags">
+                <div class="filter-tags">
                   <el-tag
-                    v-for="cmd in row.black_cmd.slice(0, 3)"
-                    :key="cmd"
+                    v-for="item in row.app_type_blacklist.slice(0, 3)"
+                    :key="item"
                     type="info"
                     size="small"
-                    class="signal-tag"
+                    class="filter-tag"
                   >
-                    {{ cmd }}
+                    {{ getAppTypeLabel(item) }}
                   </el-tag>
-                  <el-tag v-if="row.black_cmd.length > 3" type="info" size="small" class="signal-tag">
-                    +{{ row.black_cmd.length - 3 }}
+                  <el-tag v-if="row.app_type_blacklist.length > 3" type="info" size="small" class="filter-tag">
+                    +{{ row.app_type_blacklist.length - 3 }}
                   </el-tag>
-                  <span v-if="!row.black_cmd?.length" class="empty-text">-</span>
+                  <span v-if="!row.app_type_blacklist?.length" class="empty-text">-</span>
                 </div>
               </template>
             </el-table-column>
 
-            <!-- 寄存器控制 -->
-            <el-table-column :label="$t('opc.bacnet.regControl')" min-width="150">
+            <!-- 服务类型黑名单 -->
+            <el-table-column :label="$t('opc.bacnet.svcTypeBlacklist')" min-width="250">
               <template #default="{ row }">
-                <el-tag v-if="row.reg_str?.length" type="warning" size="small">
-                  {{ row.reg_str.length }} {{ $t('opc.bacnet.regCount') }}
-                </el-tag>
-                <span v-else class="empty-text">-</span>
+                <div class="filter-tags">
+                  <el-tag
+                    v-for="item in row.svc_type_blacklist.slice(0, 3)"
+                    :key="item"
+                    type="warning"
+                    size="small"
+                    class="filter-tag"
+                  >
+                    {{ getSvcTypeLabel(item) }}
+                  </el-tag>
+                  <el-tag v-if="row.svc_type_blacklist.length > 3" type="warning" size="small" class="filter-tag">
+                    +{{ row.svc_type_blacklist.length - 3 }}
+                  </el-tag>
+                  <span v-if="!row.svc_type_blacklist?.length" class="empty-text">-</span>
+                </div>
               </template>
             </el-table-column>
 
@@ -114,7 +125,7 @@
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? $t('opc.bacnet.editDialog') : $t('opc.bacnet.addDialog')"
-      width="650px"
+      width="550px"
       class="form-dialog"
       :close-on-click-modal="false"
     >
@@ -132,37 +143,36 @@
           <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
         </el-form-item>
 
-        <el-form-item :label="$t('opc.bacnet.blackCmd')">
+        <el-form-item :label="$t('opc.bacnet.appTypeBlacklist')">
           <el-select
-            v-model="formData.black_cmd"
+            v-model="formData.app_type_blacklist"
             multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.bacnet.blackCmdPlaceholder')"
+            :placeholder="$t('opc.bacnet.appTypePlaceholder')"
             style="width: 100%"
           >
-            <el-option v-for="cmd in signalOptions" :key="cmd.value" :label="cmd.label" :value="cmd.value" />
+            <el-option
+              v-for="item in appTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
 
-        <el-form-item :label="$t('opc.bacnet.regControl')">
-          <div class="reg-control-wrapper">
-            <el-button type="primary" size="small" @click="addRegConfig">
-              <el-icon><Plus /></el-icon>
-              {{ $t('opc.bacnet.addReg') }}
-            </el-button>
-            <div v-if="formData.reg_str.length" class="reg-list">
-              <div v-for="(reg, index) in formData.reg_str" :key="index" class="reg-item">
-                <span class="reg-info">
-                  {{ $t('opc.bacnet.address') }}: {{ reg.address }} |
-                  {{ $t('opc.bacnet.range') }}: {{ reg.begin }} - {{ reg.end }}
-                </span>
-                <el-button type="danger" size="small" link @click="removeRegConfig(index)">
-                  <el-icon><Delete /></el-icon>
-                </el-button>
-              </div>
-            </div>
-          </div>
+        <el-form-item :label="$t('opc.bacnet.svcTypeBlacklist')">
+          <el-select
+            v-model="formData.svc_type_blacklist"
+            multiple
+            :placeholder="$t('opc.bacnet.svcTypePlaceholder')"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="item in svcTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
 
@@ -176,61 +186,39 @@
       </template>
     </el-dialog>
 
-    <!-- 寄存器配置对话框 -->
-    <el-dialog
-      v-model="regDialogVisible"
-      :title="$t('opc.bacnet.regConfig')"
-      width="400px"
-      class="reg-dialog"
-    >
-      <el-form :model="regForm" label-width="80px">
-        <el-form-item :label="$t('opc.bacnet.address')">
-          <el-input-number v-model="regForm.address" :min="0" :max="255" style="width: 100%" />
-        </el-form-item>
-        <el-form-item :label="$t('opc.bacnet.begin')">
-          <el-input-number v-model="regForm.begin" :min="0" :max="65535" style="width: 100%" />
-        </el-form-item>
-        <el-form-item :label="$t('opc.bacnet.end')">
-          <el-input-number v-model="regForm.end" :min="0" :max="65535" style="width: 100%" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="regDialogVisible = false">{{ $t('common.cancel') }}</el-button>
-        <el-button type="primary" @click="confirmRegConfig">{{ $t('common.confirm') }}</el-button>
-      </template>
-    </el-dialog>
-
     <!-- 查看详情对话框 -->
     <el-dialog
       v-model="viewDialogVisible"
       :title="$t('opc.bacnet.viewDetail')"
-      width="550px"
+      width="600px"
       class="view-dialog"
     >
-      <el-descriptions :column="2" border>
-        <el-descriptions-item :label="$t('opc.bacnet.groupName')">{{ viewData.group_name }}</el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.bacnet.status')">
+      <el-form label-width="120px" class="view-form">
+        <el-form-item :label="$t('opc.bacnet.groupName')">
+          <span>{{ viewData.group_name }}</span>
+        </el-form-item>
+        <el-form-item :label="$t('opc.bacnet.status')">
           <el-tag :type="viewData.rule_work ? 'success' : 'danger'" size="small">
             {{ viewData.rule_work ? $t('opc.bacnet.enabled') : $t('opc.bacnet.disabled') }}
           </el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.bacnet.blackCmd')" :span="2">
+        </el-form-item>
+        <el-form-item :label="$t('opc.bacnet.appTypeBlacklist')">
           <div class="view-tags">
-            <el-tag v-for="cmd in viewData.black_cmd" :key="cmd" type="info" size="small" class="view-tag">
-              {{ cmd }}
+            <el-tag v-for="item in viewData.app_type_blacklist" :key="item" type="info" size="small" class="view-tag">
+              {{ getAppTypeLabel(item) }}
             </el-tag>
-            <span v-if="!viewData.black_cmd?.length">-</span>
+            <span v-if="!viewData.app_type_blacklist?.length" class="empty-text">-</span>
           </div>
-        </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.bacnet.regControl')" :span="2">
-          <div v-if="viewData.reg_str?.length" class="view-reg-list">
-            <div v-for="(reg, index) in viewData.reg_str" :key="index" class="view-reg-item">
-              {{ $t('opc.bacnet.address') }}: {{ reg.address }} | {{ $t('opc.bacnet.range') }}: {{ reg.begin }} - {{ reg.end }}
-            </div>
+        </el-form-item>
+        <el-form-item :label="$t('opc.bacnet.svcTypeBlacklist')">
+          <div class="view-tags">
+            <el-tag v-for="item in viewData.svc_type_blacklist" :key="item" type="warning" size="small" class="view-tag">
+              {{ getSvcTypeLabel(item) }}
+            </el-tag>
+            <span v-if="!viewData.svc_type_blacklist?.length" class="empty-text">-</span>
           </div>
-          <span v-else>-</span>
-        </el-descriptions-item>
-      </el-descriptions>
+        </el-form-item>
+      </el-form>
       <template #footer>
         <el-button type="primary" @click="viewDialogVisible = false">{{ $t('common.confirm') }}</el-button>
       </template>
@@ -248,18 +236,12 @@ import type { FormInstance, FormRules } from 'element-plus'
 const { t } = useI18n()
 
 // 类型定义
-interface RegisterConfig {
-  address: number
-  begin: number
-  end: number
-}
-
 interface BacnetRule {
   id: string
   group_name: string
   rule_work: boolean
-  black_cmd: string[]
-  reg_str: RegisterConfig[]
+  app_type_blacklist: number[]
+  svc_type_blacklist: number[]
 }
 
 // 状态
@@ -267,10 +249,33 @@ const loading = ref(false)
 const submitLoading = ref(false)
 const dialogVisible = ref(false)
 const viewDialogVisible = ref(false)
-const regDialogVisible = ref(false)
 const isEdit = ref(false)
 const formRef = ref<FormInstance>()
 const editingId = ref('')
+
+// 应用类型选项
+const appTypeOptions = [
+  { value: 0, label: '0 - 需确认的请求 Confirmed-Req' }
+]
+
+// 服务类型选项
+const svcTypeOptions = [
+  { value: 12, label: '12 - 读对象值 ReadProperty' },
+  { value: 14, label: '14 - 读多个对象属性 ReadPropertyMultiple' },
+  { value: 15, label: '15 - 写对象值 WriteProperty' }
+]
+
+// 获取应用类型标签
+const getAppTypeLabel = (value: number) => {
+  const item = appTypeOptions.find(o => o.value === value)
+  return item ? item.label : value
+}
+
+// 获取服务类型标签
+const getSvcTypeLabel = (value: number) => {
+  const item = svcTypeOptions.find(o => o.value === value)
+  return item ? item.label : value
+}
 
 // 模拟数据
 const mockData = ref<BacnetRule[]>([
@@ -278,25 +283,22 @@ const mockData = ref<BacnetRule[]>([
     id: '1',
     group_name: 'hvac_control',
     rule_work: true,
-    black_cmd: ['Who-Is', 'I-Am', 'Who-Has'],
-    reg_str: [
-      { address: 0, begin: 0, end: 100 },
-      { address: 1, begin: 50, end: 200 }
-    ]
+    app_type_blacklist: [0],
+    svc_type_blacklist: [12, 14, 15]
   },
   {
     id: '2',
     group_name: 'lighting_system',
     rule_work: true,
-    black_cmd: ['WriteProperty', 'ReadProperty'],
-    reg_str: []
+    app_type_blacklist: [0],
+    svc_type_blacklist: [15]
   },
   {
     id: '3',
     group_name: 'fire_alarm',
     rule_work: false,
-    black_cmd: ['SubscribeCOV', 'ConfirmedEventNotification'],
-    reg_str: [{ address: 10, begin: 0, end: 255 }]
+    app_type_blacklist: [],
+    svc_type_blacklist: [12, 14]
   }
 ])
 
@@ -311,22 +313,16 @@ const pagination = reactive({
 const formData = reactive({
   group_name: '',
   rule_work: true,
-  black_cmd: [] as string[],
-  reg_str: [] as RegisterConfig[]
-})
-
-const regForm = reactive({
-  address: 0,
-  begin: 0,
-  end: 0
+  app_type_blacklist: [] as number[],
+  svc_type_blacklist: [] as number[]
 })
 
 const viewData = ref<BacnetRule>({
   id: '',
   group_name: '',
   rule_work: false,
-  black_cmd: [],
-  reg_str: []
+  app_type_blacklist: [],
+  svc_type_blacklist: []
 })
 
 const formRules: FormRules = {
@@ -334,22 +330,6 @@ const formRules: FormRules = {
     { required: true, message: t('opc.bacnet.groupNameRequired'), trigger: 'blur' }
   ]
 }
-
-// BACnet信令选项
-const signalOptions = [
-  { value: 'Who-Is', label: 'Who-Is' },
-  { value: 'I-Am', label: 'I-Am' },
-  { value: 'Who-Has', label: 'Who-Has' },
-  { value: 'I-Have', label: 'I-Have' },
-  { value: 'ReadProperty', label: 'ReadProperty' },
-  { value: 'WriteProperty', label: 'WriteProperty' },
-  { value: 'ReadPropertyMultiple', label: 'ReadPropertyMultiple' },
-  { value: 'WritePropertyMultiple', label: 'WritePropertyMultiple' },
-  { value: 'SubscribeCOV', label: 'SubscribeCOV' },
-  { value: 'ConfirmedEventNotification', label: 'ConfirmedEventNotification' },
-  { value: 'UnconfirmedEventNotification', label: 'UnconfirmedEventNotification' },
-  { value: 'DeviceCommunicationControl', label: 'DeviceCommunicationControl' }
-]
 
 // 列表方法
 const fetchList = () => {
@@ -364,8 +344,8 @@ const fetchList = () => {
 const resetForm = () => {
   formData.group_name = ''
   formData.rule_work = true
-  formData.black_cmd = []
-  formData.reg_str = []
+  formData.app_type_blacklist = []
+  formData.svc_type_blacklist = []
   editingId.value = ''
 }
 
@@ -385,8 +365,8 @@ const handleEdit = (row: BacnetRule) => {
   editingId.value = row.id
   formData.group_name = row.group_name
   formData.rule_work = row.rule_work
-  formData.black_cmd = [...row.black_cmd]
-  formData.reg_str = [...row.reg_str]
+  formData.app_type_blacklist = [...row.app_type_blacklist]
+  formData.svc_type_blacklist = [...row.svc_type_blacklist]
   dialogVisible.value = true
 }
 
@@ -410,26 +390,6 @@ const handleDelete = async (row: BacnetRule) => {
   }
 }
 
-const addRegConfig = () => {
-  regForm.address = 0
-  regForm.begin = 0
-  regForm.end = 0
-  regDialogVisible.value = true
-}
-
-const confirmRegConfig = () => {
-  formData.reg_str.push({
-    address: regForm.address,
-    begin: regForm.begin,
-    end: regForm.end
-  })
-  regDialogVisible.value = false
-}
-
-const removeRegConfig = (index: number) => {
-  formData.reg_str.splice(index, 1)
-}
-
 const handleSubmit = () => {
   if (!formRef.value) return
 
@@ -444,8 +404,8 @@ const handleSubmit = () => {
               id: editingId.value,
               group_name: formData.group_name,
               rule_work: formData.rule_work,
-              black_cmd: [...formData.black_cmd],
-              reg_str: [...formData.reg_str]
+              app_type_blacklist: [...formData.app_type_blacklist],
+              svc_type_blacklist: [...formData.svc_type_blacklist]
             }
           }
         } else {
@@ -453,8 +413,8 @@ const handleSubmit = () => {
             id: Date.now().toString(),
             group_name: formData.group_name,
             rule_work: formData.rule_work,
-            black_cmd: [...formData.black_cmd],
-            reg_str: [...formData.reg_str]
+            app_type_blacklist: [...formData.app_type_blacklist],
+            svc_type_blacklist: [...formData.svc_type_blacklist]
           })
         }
 
@@ -589,14 +549,14 @@ onMounted(() => {
   color: #409EFF;
 }
 
-/* 信令标签 */
-.signal-tags {
+/* 过滤标签 */
+.filter-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
 }
 
-.signal-tag {
+.filter-tag {
   font-size: 12px;
 }
 
@@ -640,59 +600,33 @@ onMounted(() => {
   max-width: 100%;
 }
 
-/* 寄存器控制 */
-.reg-control-wrapper {
-  width: 100%;
-}
-
-.reg-list {
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.reg-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
-  border-radius: 6px;
-  border: 1px solid rgba(64, 158, 255, 0.1);
-}
-
-.reg-info {
-  font-size: 13px;
-  color: #606266;
-}
-
 /* 查看对话框 */
 .view-dialog :deep(.el-dialog__header) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+}
+
+.view-form {
+  width: 100%;
+}
+
+.view-form :deep(.el-form-item) {
+  margin-bottom: 18px;
+}
+
+.view-form :deep(.el-form-item__content) {
+  flex: 1;
+  width: 100%;
 }
 
 .view-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  width: 100%;
 }
 
 .view-tag {
   font-size: 12px;
-}
-
-.view-reg-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.view-reg-item {
-  padding: 6px 10px;
-  background: rgba(64, 158, 255, 0.05);
-  border-radius: 4px;
-  font-size: 13px;
 }
 
 /* 底部按钮 */
