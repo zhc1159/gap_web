@@ -30,16 +30,18 @@
           </el-table-column>
           <el-table-column :label="$t('opc.opcdaOption.actions')" min-width="280" fixed="right">
             <template #default="{ row }">
-              <el-button type="primary" size="small" link @click="showAddUserDialog(row)">
-                {{ $t('opc.opcdaOption.addUser') }}
-              </el-button>
-              <el-popconfirm :title="$t('opc.opcdaOption.removeServerConfirm')" @confirm="removeServer(row)">
-                <template #reference>
-                  <el-button type="danger" size="small" link>
-                    {{ $t('opc.opcdaOption.removeServer') }}
-                  </el-button>
-                </template>
-              </el-popconfirm>
+              <div class="action-btns">
+                <el-button type="primary" size="small" link @click="showAddUserDialog(row)">
+                  {{ $t('opc.opcdaOption.addUser') }}
+                </el-button>
+                <el-popconfirm :title="$t('opc.opcdaOption.removeServerConfirm')" @confirm="removeServer(row)">
+                  <template #reference>
+                    <el-button type="danger" size="small" link>
+                      {{ $t('opc.opcdaOption.removeServer') }}
+                    </el-button>
+                  </template>
+                </el-popconfirm>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -394,6 +396,11 @@ onMounted(() => {
 
 .page-table {
   margin-top: 16px;
+}
+
+.action-btns {
+  display: flex;
+  gap: 6px;
 }
 
 .user-list {

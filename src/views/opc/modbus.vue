@@ -577,7 +577,7 @@ onMounted(() => {
 /* 操作按钮 */
 .action-btns {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 /* 分页 */

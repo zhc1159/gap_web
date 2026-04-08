@@ -38,21 +38,23 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('opc.s_onebit.actions')" min-width="280" align="center">
+          <el-table-column :label="$t('opc.s_onebit.actions')" min-width="280" fixed="right">
             <template #default="{ row }">
-              <el-button type="primary" size="small" link @click="handleView(row)">
-                {{ $t('opc.s_onebit.view') }}
-              </el-button>
-              <el-button type="primary" size="small" link @click="handleEdit(row)">
-                {{ $t('opc.s_onebit.edit') }}
-              </el-button>
-              <el-popconfirm :title="$t('opc.s_onebit.deleteConfirm')" @confirm="handleDelete(row.id)">
-                <template #reference>
-                  <el-button type="danger" size="small" link>
-                    {{ $t('opc.s_onebit.delete') }}
-                  </el-button>
-                </template>
-              </el-popconfirm>
+              <div class="action-btns">
+                <el-button type="primary" size="small" link @click="handleView(row)">
+                  {{ $t('opc.s_onebit.view') }}
+                </el-button>
+                <el-button type="primary" size="small" link @click="handleEdit(row)">
+                  {{ $t('opc.s_onebit.edit') }}
+                </el-button>
+                <el-popconfirm :title="$t('opc.s_onebit.deleteConfirm')" @confirm="handleDelete(row.id)">
+                  <template #reference>
+                    <el-button type="danger" size="small" link>
+                      {{ $t('opc.s_onebit.delete') }}
+                    </el-button>
+                  </template>
+                </el-popconfirm>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -473,6 +475,11 @@ onMounted(() => {
 
 .page-table {
   margin-top: 16px;
+}
+
+.action-btns {
+  display: flex;
+  gap: 6px;
 }
 
 .pagination-container {
