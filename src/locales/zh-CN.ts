@@ -26,7 +26,14 @@ export default {
     off: '关',
     enabled: '已启用',
     disabled: '已禁用',
-    operation: '操作'
+    operation: '操作',
+    to: '至',
+    startDate: '开始日期',
+    endDate: '结束日期',
+    today: '今天',
+    last7Days: '最近7天',
+    last30Days: '最近30天',
+    info: '提示'
   },
   login: {
     title: 'GAP安全隔离网闸',
