@@ -1542,7 +1542,9 @@ export default {
       deleteConfirm: 'Are you sure to delete rule "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      noKeywords: 'No keywords',
+      noCmdIds: 'No command IDs'
     },
     opcdaOption: {
       title: 'OPCDA Options',

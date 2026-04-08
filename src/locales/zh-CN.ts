@@ -1551,7 +1551,9 @@ export default {
       deleteConfirm: '确定要删除规则 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      noKeywords: '暂无关键字',
+      noCmdIds: '暂无命令ID'
     },
     opcdaOption: {
       title: 'OPCDA高级选项',

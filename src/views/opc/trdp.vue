@@ -144,29 +144,61 @@
         </el-form-item>
 
         <el-form-item :label="$t('opc.trdp.keywords')">
-          <el-select
-            v-model="formData.keywords"
-            multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.trdp.keywordsPlaceholder')"
-            style="width: 100%"
-          >
-            <el-option v-for="kw in keywordOptions" :key="kw" :label="kw" :value="kw" />
-          </el-select>
+          <div class="tag-input-wrapper">
+            <div class="tag-list">
+              <el-tag
+                v-for="keyword in formData.keywords"
+                :key="keyword"
+                type="info"
+                closable
+                size="small"
+                @close="removeKeyword(keyword)"
+              >
+                {{ keyword }}
+              </el-tag>
+              <span v-if="formData.keywords.length === 0" class="empty-hint">{{ $t('opc.trdp.noKeywords') }}</span>
+            </div>
+            <el-input
+              v-model="newKeyword"
+              :placeholder="$t('opc.trdp.keywordsPlaceholder')"
+              @keyup.enter="addKeyword"
+            >
+              <template #append>
+                <el-button @click="addKeyword">
+                  <el-icon><Plus /></el-icon>
+                </el-button>
+              </template>
+            </el-input>
+          </div>
         </el-form-item>
 
         <el-form-item :label="$t('opc.trdp.comids')">
-          <el-select
-            v-model="formData.comids"
-            multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.trdp.comidsPlaceholder')"
-            style="width: 100%"
-          >
-            <el-option v-for="cmd in cmdOptions" :key="cmd" :label="cmd.toString()" :value="cmd" />
-          </el-select>
+          <div class="tag-input-wrapper">
+            <div class="tag-list">
+              <el-tag
+                v-for="cmdId in formData.comids"
+                :key="cmdId"
+                type="warning"
+                closable
+                size="small"
+                @close="removeCmdId(cmdId)"
+              >
+                {{ cmdId }}
+              </el-tag>
+              <span v-if="formData.comids.length === 0" class="empty-hint">{{ $t('opc.trdp.noCmdIds') }}</span>
+            </div>
+            <el-input
+              v-model="newCmdId"
+              :placeholder="$t('opc.trdp.comidsPlaceholder')"
+              @keyup.enter="addCmdId"
+            >
+              <template #append>
+                <el-button @click="addCmdId">
+                  <el-icon><Plus /></el-icon>
+                </el-button>
+              </template>
+            </el-input>
+          </div>
         </el-form-item>
       </el-form>
 
@@ -244,6 +276,8 @@ const viewDialogVisible = ref(false)
 const isEdit = ref(false)
 const formRef = ref<FormInstance>()
 const editingId = ref('')
+const newKeyword = ref('')
+const newCmdId = ref('')
 
 // 模拟数据
 const mockData = ref<TrdpRule[]>([
@@ -299,19 +333,36 @@ const formRules: FormRules = {
   ]
 }
 
-// 预设关键字选项
-const keywordOptions = [
-  'emergency', 'brake', 'override', 'fault', 'error',
-  'warning', 'critical', 'shutdown', 'restart', 'config',
-  'sensitive', 'private', 'protected', 'admin', 'root'
-]
+// 关键字操作
+const addKeyword = () => {
+  const keyword = newKeyword.value.trim()
+  if (keyword && !formData.keywords.includes(keyword)) {
+    formData.keywords.push(keyword)
+    newKeyword.value = ''
+  }
+}
 
-// 预设命令ID选项
-const cmdOptions = [
-  1001, 1002, 1003, 1004, 1005,
-  2001, 2002, 2003, 2004, 2005,
-  3001, 3002, 3003, 3004, 3005
-]
+const removeKeyword = (keyword: string) => {
+  const index = formData.keywords.indexOf(keyword)
+  if (index > -1) formData.keywords.splice(index, 1)
+}
+
+// 命令ID操作
+const addCmdId = () => {
+  const cmdStr = newCmdId.value.trim()
+  if (cmdStr) {
+    const cmdNum = parseInt(cmdStr, 10)
+    if (!isNaN(cmdNum) && !formData.comids.includes(cmdNum)) {
+      formData.comids.push(cmdNum)
+      newCmdId.value = ''
+    }
+  }
+}
+
+const removeCmdId = (cmdId: number) => {
+  const index = formData.comids.indexOf(cmdId)
+  if (index > -1) formData.comids.splice(index, 1)
+}
 
 // 列表方法
 const fetchList = () => {
@@ -329,6 +380,8 @@ const resetForm = () => {
   formData.keywords = []
   formData.comids = []
   editingId.value = ''
+  newKeyword.value = ''
+  newCmdId.value = ''
 }
 
 const handleAdd = () => {
@@ -552,6 +605,28 @@ onMounted(() => {
 .action-btns {
   display: flex;
   gap: 6px;
+}
+
+/* 标签输入 */
+.tag-input-wrapper {
+  width: 100%;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 32px;
+  padding: 8px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  margin-bottom: 10px;
+}
+
+.empty-hint {
+  color: #c0c4cc;
+  font-size: 13px;
 }
 
 /* 分页 */
