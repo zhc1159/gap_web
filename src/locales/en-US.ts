@@ -204,9 +204,13 @@ export default {
       operation: 'Operation',
       description: 'Description',
       clearLog: 'Clear Log',
-      clearLogConfirm: 'Are you sure to clear all logs? This operation cannot be undone.',
+      clearLogConfirm: 'Are you sure to clear all file sync logs? This operation cannot be undone.',
       clearSuccess: 'Cleared successfully',
-      exportSuccess: 'Export successful'
+      exportSuccess: 'Export successful',
+      importHint: 'Please select a log file to import',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete the selected {count} log(s)? This operation cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     ferryloginLog: {
       title: 'Login Log',
