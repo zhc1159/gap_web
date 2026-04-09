@@ -270,14 +270,24 @@ function stopClock() {
 // NTP同步
 async function handleNtpSync() {
   if (!ntpServer.value) {
-    ElNotification({ title: t('common.warning'), message: t('systemManage.sysTime.msg.ntpServerRequired'), type: 'warning' })
+    ElNotification({
+      title: t('common.warning'),
+      message: t('systemManage.sysTime.msg.ntpServerRequired'),
+      type: 'warning',
+      customClass: 'notification-warning'
+    })
     return
   }
   syncing.value = true
   try {
     await new Promise(resolve => setTimeout(resolve, 1500))
     lastSyncTime.value = displayTime.value
-    ElNotification({ title: t('common.success'), message: t('systemManage.sysTime.msg.syncSuccess'), type: 'success' })
+    ElNotification({
+      title: t('common.success'),
+      message: t('systemManage.sysTime.msg.syncSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
   } finally {
     syncing.value = false
   }
@@ -286,17 +296,32 @@ async function handleNtpSync() {
 // 应用设置
 async function handleApply() {
   if (selectedMode.value === 0 && (!manualDate.value || !manualTime.value)) {
-    ElNotification({ title: t('common.warning'), message: t('systemManage.sysTime.msg.manualRequired'), type: 'warning' })
+    ElNotification({
+      title: t('common.warning'),
+      message: t('systemManage.sysTime.msg.manualRequired'),
+      type: 'warning',
+      customClass: 'notification-warning'
+    })
     return
   }
   if (selectedMode.value === 2 && !ntpServer.value) {
-    ElNotification({ title: t('common.warning'), message: t('systemManage.sysTime.msg.ntpServerRequired'), type: 'warning' })
+    ElNotification({
+      title: t('common.warning'),
+      message: t('systemManage.sysTime.msg.ntpServerRequired'),
+      type: 'warning',
+      customClass: 'notification-warning'
+    })
     return
   }
   submitting.value = true
   try {
     await new Promise(resolve => setTimeout(resolve, 800))
-    ElNotification({ title: t('common.success'), message: t('systemManage.sysTime.msg.saveSuccess'), type: 'success' })
+    ElNotification({
+      title: t('common.success'),
+      message: t('systemManage.sysTime.msg.saveSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
   } finally {
     submitting.value = false
   }

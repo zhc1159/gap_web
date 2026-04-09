@@ -256,11 +256,11 @@ const modeBannerClass = computed(() => {
 async function handleSave() {
   if (currentMode.value === 2) {
     if (innerInterfaces.value.length === 0) {
-      ElNotification({ title: t('common.warning'), message: t('systemManage.gapMode.messages.selectInnerRequired'), type: 'warning' })
+      ElNotification({ title: t('common.warning'), message: t('systemManage.gapMode.messages.selectInnerRequired'), type: 'warning', customClass: 'notification-warning' })
       return
     }
     if (outerInterfaces.value.length === 0) {
-      ElNotification({ title: t('common.warning'), message: t('systemManage.gapMode.messages.selectOuterRequired'), type: 'warning' })
+      ElNotification({ title: t('common.warning'), message: t('systemManage.gapMode.messages.selectOuterRequired'), type: 'warning', customClass: 'notification-warning' })
       return
     }
   }
@@ -272,7 +272,7 @@ async function handleSave() {
     )
     saving.value = true
     await new Promise(resolve => setTimeout(resolve, 1000))
-    ElNotification({ title: t('common.success'), message: t('systemManage.gapMode.messages.saveSuccess'), type: 'success' })
+    ElNotification({ title: t('common.success'), message: t('systemManage.gapMode.messages.saveSuccess'), type: 'success', customClass: 'notification-success' })
   } catch {
     // cancelled
   } finally {

@@ -205,7 +205,7 @@ async function handleSshSwitchChange(value: boolean) {
 async function handleApply() {
   const port = Number(sshPort.value)
   if (!port || port < 1 || port > 65535 || !Number.isInteger(port)) {
-    ElNotification({ title: t('common.warning'), message: t('systemManage.softwareConf.validation.portRange'), type: 'warning' })
+    ElNotification({ title: t('common.warning'), message: t('systemManage.softwareConf.validation.portRange'), type: 'warning', customClass: 'notification-warning' })
     return
   }
 
@@ -221,7 +221,7 @@ async function handleApply() {
     }
   }
 
-  ElNotification({ title: t('common.success'), message: t('systemManage.softwareConf.msg.saveSuccess'), type: 'success' })
+  ElNotification({ title: t('common.success'), message: t('systemManage.softwareConf.msg.saveSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
 onMounted(() => {

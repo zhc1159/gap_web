@@ -296,7 +296,7 @@ async function handleSubmit() {
     }
   }
   dialogVisible.value = false
-  ElNotification({ title: t('common.success'), message: t('systemManage.vlanShow.msg.submitSuccess'), type: 'success' })
+  ElNotification({ title: t('common.success'), message: t('systemManage.vlanShow.msg.submitSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
 // 删除
@@ -305,7 +305,7 @@ async function handleDelete(row: VlanEntry, _tab: string) {
     await ElMessageBox.confirm(t('systemManage.vlanShow.confirm.delete'), t('common.confirm'), { type: 'warning' })
     const list = getCurrentList()
     list.value = list.value.filter(v => v.id !== row.id)
-    ElNotification({ title: t('common.success'), message: t('systemManage.vlanShow.msg.deleteSuccess'), type: 'success' })
+    ElNotification({ title: t('common.success'), message: t('systemManage.vlanShow.msg.deleteSuccess'), type: 'success', customClass: 'notification-success' })
   } catch {
     // cancelled
   }

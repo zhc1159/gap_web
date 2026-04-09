@@ -148,7 +148,8 @@ function handleInnerChange(value: boolean) {
   ElNotification({
     title: t('common.success'),
     message: value ? t('systemManage.funcManager.msg.innerOn') : t('systemManage.funcManager.msg.innerOff'),
-    type: 'success'
+    type: 'success',
+    customClass: 'notification-success'
   })
 }
 
@@ -156,7 +157,8 @@ function handleOuterChange(value: boolean) {
   ElNotification({
     title: t('common.success'),
     message: value ? t('systemManage.funcManager.msg.outerOn') : t('systemManage.funcManager.msg.outerOff'),
-    type: 'success'
+    type: 'success',
+    customClass: 'notification-success'
   })
 }
 

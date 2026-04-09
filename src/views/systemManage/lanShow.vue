@@ -439,7 +439,7 @@ async function handleToggleStatus(row: InterfaceInfo) {
     )
     row.upState = action === 'up' ? '1' : '0'
     row.runState = action === 'up' ? '1' : '0'
-    ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success' })
+    ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success', customClass: 'notification-success' })
   } catch {
     // cancelled
   }
@@ -460,7 +460,7 @@ async function handleSaveDns() {
     outerDns.value = dnsForm.dnsAddr
   }
   showDnsModal.value = false
-  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success' })
+  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
 // 打开接口编辑
@@ -493,7 +493,7 @@ async function handleSaveInterface() {
     }
   }
   showInterfaceModal.value = false
-  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success' })
+  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
 // 编辑虚拟IP
@@ -510,7 +510,7 @@ function handleEditVirtualIP(vip: VirtualIP) {
 // 保存IPv4
 async function handleSaveIpv4() {
   showIpv4Modal.value = false
-  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success' })
+  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
 // 编辑IPv6
@@ -529,7 +529,7 @@ function handleEditIPv6(ethName: string, ip6: IPv6Addr) {
 // 保存IPv6
 async function handleSaveIpv6() {
   showIpv6Modal.value = false
-  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success' })
+  ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.saveSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
 // 删除IPv6
@@ -541,7 +541,7 @@ async function handleDeleteIPv6(row: InterfaceInfo, ip6: IPv6Addr) {
       { type: 'warning' }
     )
     row.ipv6Addrs = row.ipv6Addrs.filter(a => a !== ip6)
-    ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.deleteSuccess'), type: 'success' })
+    ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.deleteSuccess'), type: 'success', customClass: 'notification-success' })
   } catch {
     // cancelled
   }
@@ -562,7 +562,7 @@ async function handleDeleteVirtualIP(vip: VirtualIP) {
     outerInterfaces.value.forEach(i => {
       i.virtualIps = i.virtualIps.filter(v => v !== vip)
     })
-    ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.deleteSuccess'), type: 'success' })
+    ElNotification({ title: t('common.success'), message: t('systemManage.lanShow.messages.deleteSuccess'), type: 'success', customClass: 'notification-success' })
   } catch {
     // cancelled
   }
