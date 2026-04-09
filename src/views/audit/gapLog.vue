@@ -127,7 +127,7 @@
           </div>
           <el-table :data="tableData" v-loading="loading" class="log-table" stripe @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="45" />
-            <el-table-column prop="date" :label="$t('audit.gapLog.time')" width="180" sortable>
+            <el-table-column prop="date" :label="$t('audit.gapLog.time')" width="220" sortable>
               <template #default="{ row }">
                 <div class="time-cell">
                   <el-icon class="time-icon"><Clock /></el-icon>
