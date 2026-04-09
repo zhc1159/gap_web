@@ -2845,7 +2845,81 @@ export default {
       addSuccess: 'Added successfully',
       editSuccess: 'Modified successfully'
     },
-    lvsShow: { title: 'Load Balance', emptyDesc: 'Load Balance Module' },
+    lvsShow: {
+      title: 'Load Balance',
+      describe: 'Manage LVS load balancing rules, configure floating IP, ports, scheduling algorithms and real servers, with independent inner and outer network settings',
+      innerTab: 'Inner Network LVS',
+      outerTab: 'Outer Network LVS',
+      table: {
+        index: '#',
+        floatIp: 'Float IP',
+        floatPort: 'Float Port',
+        protocol: 'Protocol',
+        algorithm: 'Algorithm',
+        realServers: 'Real Servers',
+        detail: 'Detail',
+        actions: 'Actions'
+      },
+      btn: {
+        add: 'Add Rule',
+        edit: 'Edit',
+        delete: 'Delete',
+        detail: 'Detail',
+        addRow: 'Add Real Server'
+      },
+      form: {
+        zone: 'Network Zone',
+        zonePlaceholder: 'Select network zone',
+        floatIp: 'Float IP',
+        floatIpPlaceholder: 'Enter float IP address',
+        floatPort: 'Float Port',
+        floatPortPlaceholder: 'Enter port number (1-65535)',
+        protocol: 'Protocol',
+        protocolPlaceholder: 'Select protocol',
+        algorithm: 'Algorithm',
+        algorithmPlaceholder: 'Select algorithm',
+        realIp: 'Real IP',
+        realIpPlaceholder: 'Enter real server IP',
+        realPort: 'Real Port',
+        realPortPlaceholder: 'Enter port number'
+      },
+      dialogAddTitle: 'Add LVS Rule',
+      dialogEditTitle: 'Edit LVS Rule',
+      algorithm: {
+        rr: 'Round Robin (RR)',
+        wrr: 'Weighted RR (WRR)',
+        lc: 'Least Connection (LC)',
+        wlc: 'Weighted LC (WLC)',
+        sh: 'Source Hash (SH)',
+        dh: 'Destination Hash (DH)'
+      },
+      detail: {
+        title: 'Real Server Details',
+        realIp: 'Real IP',
+        realPort: 'Real Port'
+      },
+      confirm: {
+        delete: 'Are you sure you want to delete this LVS rule? This action cannot be undone.'
+      },
+      msg: {
+        deleteSuccess: 'Deleted successfully',
+        addSuccess: 'Added successfully',
+        editSuccess: 'Modified successfully'
+      },
+      validation: {
+        zoneRequired: 'Network zone is required',
+        floatIpRequired: 'Float IP is required',
+        floatIpInvalid: 'Invalid IP address',
+        floatPortRequired: 'Float port is required',
+        floatPortRange: 'Port number must be 1-65535',
+        protocolRequired: 'Protocol is required',
+        algorithmRequired: 'Algorithm is required',
+        realIpRequired: 'Real server IP is required',
+        realIpInvalid: 'Invalid IP address',
+        realPortRequired: 'Real server port is required',
+        realPortRange: 'Port number must be 1-65535'
+      }
+    },
     linkPoly: { title: 'Link Aggregation', emptyDesc: 'Link Aggregation Module' }
   },
 

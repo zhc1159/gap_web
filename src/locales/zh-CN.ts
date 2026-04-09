@@ -2862,7 +2862,81 @@ export default {
       addSuccess: '添加成功',
       editSuccess: '修改成功'
     },
-    lvsShow: { title: '负载均衡', emptyDesc: '负载均衡模块' },
+    lvsShow: {
+      title: '负载均衡',
+      describe: '管理 LVS 负载均衡规则，配置浮动 IP、端口、调度算法及真实服务器，支持内网和外网独立配置',
+      innerTab: '内网负载均衡',
+      outerTab: '外网负载均衡',
+      table: {
+        index: '序号',
+        floatIp: '浮动IP',
+        floatPort: '浮动端口',
+        protocol: '协议类型',
+        algorithm: '调度算法',
+        realServers: '真实服务器',
+        detail: '详情',
+        actions: '操作'
+      },
+      btn: {
+        add: '新增规则',
+        edit: '编辑',
+        delete: '删除',
+        detail: '详情',
+        addRow: '添加真实服务器'
+      },
+      form: {
+        zone: '所属网络',
+        zonePlaceholder: '请选择所属网络',
+        floatIp: '浮动IP',
+        floatIpPlaceholder: '请输入浮动IP地址',
+        floatPort: '浮动端口',
+        floatPortPlaceholder: '请输入端口号 (1-65535)',
+        protocol: '协议类型',
+        protocolPlaceholder: '请选择协议类型',
+        algorithm: '调度算法',
+        algorithmPlaceholder: '请选择调度算法',
+        realIp: '真实IP',
+        realIpPlaceholder: '请输入真实服务器IP',
+        realPort: '真实端口',
+        realPortPlaceholder: '请输入端口号'
+      },
+      dialogAddTitle: '新增LVS规则',
+      dialogEditTitle: '编辑LVS规则',
+      algorithm: {
+        rr: '轮询 (RR)',
+        wrr: '加权轮询 (WRR)',
+        lc: '最少连接 (LC)',
+        wlc: '加权最少连接 (WLC)',
+        sh: '源地址哈希 (SH)',
+        dh: '目的地址哈希 (DH)'
+      },
+      detail: {
+        title: '真实服务器详情',
+        realIp: '真实IP',
+        realPort: '真实端口'
+      },
+      confirm: {
+        delete: '确定要删除该LVS规则吗？删除后不可恢复。'
+      },
+      msg: {
+        deleteSuccess: '删除成功',
+        addSuccess: '添加成功',
+        editSuccess: '修改成功'
+      },
+      validation: {
+        zoneRequired: '请选择所属网络',
+        floatIpRequired: '请输入浮动IP',
+        floatIpInvalid: '请输入有效的IP地址',
+        floatPortRequired: '请输入浮动端口',
+        floatPortRange: '端口号范围为1-65535',
+        protocolRequired: '请选择协议类型',
+        algorithmRequired: '请选择调度算法',
+        realIpRequired: '请输入真实服务器IP',
+        realIpInvalid: '请输入有效的IP地址',
+        realPortRequired: '请输入真实服务器端口',
+        realPortRange: '端口号范围为1-65535'
+      }
+    },
     linkPoly: { title: '链路聚合', emptyDesc: '链路聚合模块' }
   },
 
