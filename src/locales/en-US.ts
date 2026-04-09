@@ -2569,7 +2569,36 @@ export default {
         interfaceRequired: 'Please select a network interface'
       }
     },
-    softwareConf: { title: 'SSH Management', emptyDesc: 'SSH Management Module' },
+    softwareConf: {
+      title: 'SSH Management',
+      describe: 'Manage backend service port configuration, including SSH remote management',
+      ssh: {
+        switch: 'SSH Enable (Remote Management)',
+        switchDesc: 'Enable or disable SSH remote management port',
+        port: 'SSH Service Port',
+        portPlaceholder: 'Please use port above 1000',
+        portHelp: 'It is recommended to use ports above 1000, avoid system reserved ports'
+      },
+      status: {
+        on: 'ON',
+        off: 'OFF'
+      },
+      btn: {
+        apply: 'Apply Configuration'
+      },
+      msg: {
+        saveSuccess: 'Configuration saved',
+        saveFail: 'Save failed'
+      },
+      validation: {
+        portRequired: 'Please enter SSH port number',
+        portRange: 'Port number must be between 1-65535',
+        portWarning: 'It is recommended to use ports above 1000'
+      },
+      warning: {
+        sshDisable: 'Disabling SSH will prevent remote management access. Proceed with caution!'
+      }
+    },
     funcManager: { title: 'SNMP', emptyDesc: 'SNMP Module' },
     antiDos: { title: 'Anti-Attack', emptyDesc: 'Anti-Attack Module' },
     defenseSet: { title: 'Engine Settings', emptyDesc: 'Engine Settings Module' },

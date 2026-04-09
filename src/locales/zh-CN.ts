@@ -2586,7 +2586,36 @@ export default {
         interfaceRequired: '请选择网络接口'
       }
     },
-    softwareConf: { title: 'SSH管理', emptyDesc: 'SSH管理模块' },
+    softwareConf: {
+      title: 'SSH管理',
+      describe: '管理后台服务端口配置，包括 SSH 远程管理端口',
+      ssh: {
+        switch: '后台管理端口开关 (SSH)',
+        switchDesc: '启用或禁用 SSH 远程管理端口',
+        port: 'SSH 服务端口',
+        portPlaceholder: '请使用 1000 以上的端口',
+        portHelp: '建议使用 1000 以上的端口，避免使用系统保留端口'
+      },
+      status: {
+        on: '开',
+        off: '关'
+      },
+      btn: {
+        apply: '应用配置'
+      },
+      msg: {
+        saveSuccess: '配置已保存',
+        saveFail: '保存失败'
+      },
+      validation: {
+        portRequired: '请输入 SSH 端口号',
+        portRange: '端口号范围为 1-65535',
+        portWarning: '建议使用 1000 以上的端口'
+      },
+      warning: {
+        sshDisable: '关闭 SSH 后将无法通过远程管理访问设备，请谨慎操作！'
+      }
+    },
     funcManager: { title: 'SNMP', emptyDesc: 'SNMP模块' },
     antiDos: { title: '抗攻击', emptyDesc: '抗攻击模块' },
     defenseSet: { title: '引擎设置', emptyDesc: '引擎设置模块' },
