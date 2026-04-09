@@ -104,26 +104,32 @@
       <!-- 步骤条 -->
       <div class="bs-stepper">
         <div class="bs-stepper-header">
-          <div
-            v-for="(step, index) in steps"
-            :key="index"
-            class="step"
-            :class="{ active: currentStep === index + 1, done: currentStep > index + 1 }"
-            @click="goToStep(index + 1)"
-          >
+          <div class="step" :class="{ active: currentStep === 1, done: currentStep > 1 }" @click="goToStep(1)">
             <button type="button" class="step-trigger">
-              <span class="bs-stepper-circle">{{ index + 1 }}</span>
-              <span class="bs-stepper-label">{{ step.label }}</span>
+              <span class="bs-stepper-circle">1</span>
+              <span class="bs-stepper-label">{{ steps[0].label }}</span>
             </button>
           </div>
           <div class="line" :class="{ active: currentStep >= 2 }"></div>
+          <div class="step" :class="{ active: currentStep === 2, done: currentStep > 2 }" @click="goToStep(2)">
+            <button type="button" class="step-trigger">
+              <span class="bs-stepper-circle">2</span>
+              <span class="bs-stepper-label">{{ steps[1].label }}</span>
+            </button>
+          </div>
           <div class="line" :class="{ active: currentStep >= 3 }"></div>
+          <div class="step" :class="{ active: currentStep === 3 }" @click="goToStep(3)">
+            <button type="button" class="step-trigger">
+              <span class="bs-stepper-circle">3</span>
+              <span class="bs-stepper-label">{{ steps[2].label }}</span>
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Step 1: 基础设置 -->
       <div v-show="currentStep === 1" class="step-content">
-        <el-form :model="formData" :rules="formRules" ref="formRef" label-width="140px" class="step-form">
+        <el-form :model="formData" :rules="formRules" ref="formRef" label-width="160px" class="step-form">
           <el-form-item :label="$t('opc.s7.ruleSwitch')">
             <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
           </el-form-item>
