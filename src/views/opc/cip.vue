@@ -23,79 +23,98 @@
     </div>
 
     <!-- 主内容区 -->
-    <div class="content-wrapper">
-      <div class="card main-card">
-        <div class="card-content">
-          <!-- 数据表格 -->
-          <el-table :data="tableData" v-loading="loading" class="cip-table">
-            <!-- 用户组 -->
-            <el-table-column prop="group_name" :label="$t('opc.cip.groupName')" min-width="150">
-              <template #default="{ row }">
-                <span class="group-name">{{ row.group_name }}</span>
-              </template>
-            </el-table-column>
+    <div class="main-card">
+      <div class="card-content">
+        <el-table :data="tableData" v-loading="loading" class="cip-table">
+          <!-- 用户组 -->
+          <el-table-column prop="group_name" :label="$t('opc.cip.groupName')" min-width="130">
+            <template #default="{ row }">
+              <span class="group-name">{{ row.group_name }}</span>
+            </template>
+          </el-table-column>
 
-            <!-- 状态 -->
-            <el-table-column :label="$t('opc.cip.status')" width="100" align="center">
-              <template #default="{ row }">
-                <el-tag :type="row.rule_work ? 'success' : 'danger'" size="small">
-                  {{ row.rule_work ? $t('opc.cip.enabled') : $t('opc.cip.disabled') }}
+          <!-- 状态 -->
+          <el-table-column :label="$t('opc.cip.status')" width="100" align="center">
+            <template #default="{ row }">
+              <el-switch v-model="row.rule_work" @change="handleToggleStatus(row)" inline-prompt :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
+            </template>
+          </el-table-column>
+
+          <!-- 协议模式 -->
+          <el-table-column :label="$t('opc.cip.protocolMode')" width="130" align="center">
+            <template #default="{ row }">
+              <el-tag :type="row.is_cip === 0 ? 'primary' : 'success'" size="small">
+                {{ row.is_cip === 0 ? 'CIP' : 'ENIP' }}
+              </el-tag>
+            </template>
+          </el-table-column>
+
+          <!-- 封装层过滤 -->
+          <el-table-column :label="$t('opc.cip.encapFilter')" min-width="200">
+            <template #default="{ row }">
+              <el-tag :type="getFilterTypeTagType(row.encap_filter_type)" size="small">
+                {{ getFilterTypeLabel(row.encap_filter_type) }}
+              </el-tag>
+              <div v-if="row.encap_commands?.length" class="cmd-list">
+                <el-tag v-for="cmd in row.encap_commands.slice(0, 3)" :key="cmd" type="info" size="small" class="cmd-tag">
+                  {{ getEncapCommandLabel(cmd) }}
                 </el-tag>
-              </template>
-            </el-table-column>
+                <el-tag v-if="row.encap_commands.length > 3" type="info" size="small" class="cmd-tag">
+                  +{{ row.encap_commands.length - 3 }}
+                </el-tag>
+              </div>
+            </template>
+          </el-table-column>
 
-            <!-- 服务黑名单 -->
-            <el-table-column :label="$t('opc.cip.serviceBlacklist')" min-width="300">
-              <template #default="{ row }">
-                <div class="service-tags">
-                  <el-tag
-                    v-for="service in row.black_cmd.slice(0, 4)"
-                    :key="service"
-                    type="danger"
-                    size="small"
-                    class="service-tag"
-                  >
-                    {{ service }}
+          <!-- CIP层过滤 -->
+          <el-table-column :label="$t('opc.cip.cipFilter')" min-width="200">
+            <template #default="{ row }">
+              <template v-if="row.is_cip === 0">
+                <el-tag :type="getFilterTypeTagType(row.cip_filter_type)" size="small">
+                  {{ getFilterTypeLabel(row.cip_filter_type) }}
+                </el-tag>
+                <div v-if="row.cip_commands?.length" class="cmd-list">
+                  <el-tag v-for="cmd in row.cip_commands.slice(0, 3)" :key="cmd" type="info" size="small" class="cmd-tag">
+                    {{ getCipCommandLabel(cmd) }}
                   </el-tag>
-                  <el-tag v-if="row.black_cmd.length > 4" type="danger" size="small" class="service-tag">
-                    +{{ row.black_cmd.length - 4 }}
+                  <el-tag v-if="row.cip_commands.length > 3" type="info" size="small" class="cmd-tag">
+                    +{{ row.cip_commands.length - 3 }}
                   </el-tag>
-                  <span v-if="!row.black_cmd?.length" class="empty-text">-</span>
                 </div>
               </template>
-            </el-table-column>
+              <span v-else class="empty-text">-</span>
+            </template>
+          </el-table-column>
 
-            <!-- 操作 -->
-            <el-table-column :label="$t('opc.cip.actions')" min-width="280" fixed="right">
-              <template #default="{ row }">
-                <div class="action-btns">
-                  <el-button type="primary" size="small" @click="handleView(row)">
-                    <el-icon><View /></el-icon>
-                    {{ $t('opc.cip.view') }}
-                  </el-button>
-                  <el-button type="warning" size="small" @click="handleEdit(row)">
-                    <el-icon><Edit /></el-icon>
-                    {{ $t('opc.cip.edit') }}
-                  </el-button>
-                  <el-button type="danger" size="small" @click="handleDelete(row)">
-                    <el-icon><Delete /></el-icon>
-                    {{ $t('opc.cip.delete') }}
-                  </el-button>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
+          <!-- 操作 -->
+          <el-table-column :label="$t('opc.cip.actions')" min-width="200" fixed="right">
+            <template #default="{ row }">
+              <div class="action-btns">
+                <el-button type="primary" size="small" @click="handleView(row)">
+                  <el-icon><View /></el-icon>
+                  {{ $t('opc.cip.view') }}
+                </el-button>
+                <el-button type="warning" size="small" @click="handleEdit(row)">
+                  <el-icon><Edit /></el-icon>
+                  {{ $t('opc.cip.edit') }}
+                </el-button>
+                <el-button type="danger" size="small" @click="handleDelete(row)">
+                  <el-icon><Delete /></el-icon>
+                  {{ $t('opc.cip.delete') }}
+                </el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
 
-          <!-- 分页 -->
-          <div class="pagination-wrapper">
-            <el-pagination
-              v-model:current-page="pagination.page"
-              v-model:page-size="pagination.pageSize"
-              :total="pagination.total"
-              layout="total, sizes, prev, pager, next"
-              :page-sizes="[10, 20, 50]"
-            />
-          </div>
+        <div class="pagination-wrapper">
+          <el-pagination
+            v-model:current-page="pagination.page"
+            v-model:page-size="pagination.pageSize"
+            :total="pagination.total"
+            layout="total, sizes, prev, pager, next"
+            :page-sizes="[10, 20, 50]"
+          />
         </div>
       </div>
     </div>
@@ -104,41 +123,75 @@
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? $t('opc.cip.editDialog') : $t('opc.cip.addDialog')"
-      width="550px"
+      width="640px"
       class="form-dialog"
       :close-on-click-modal="false"
     >
-      <el-form :model="formData" :rules="formRules" ref="formRef" label-width="130px" class="form-content">
+      <el-form :model="formData" :rules="formRules" ref="formRef" label-width="140px" class="form-content">
+        <!-- 规则开关 -->
+        <el-form-item :label="$t('opc.cip.ruleSwitch')">
+          <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
+        </el-form-item>
+
+        <!-- 用户组 -->
         <el-form-item :label="$t('opc.cip.groupName')" prop="group_name">
-          <el-select v-model="formData.group_name" :placeholder="$t('common.pleaseSelect')" style="width: 100%">
+          <el-select v-model="formData.group_name" :placeholder="$t('opc.cip.groupNamePlaceholder')" style="width: 100%" :disabled="isEdit">
             <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
           </el-select>
         </el-form-item>
 
-        <el-form-item :label="$t('opc.cip.ruleSwitch')" prop="rule_work">
-          <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
-        </el-form-item>
-
-        <el-form-item :label="$t('opc.cip.serviceBlacklist')">
-          <el-select
-            v-model="formData.black_cmd"
-            multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.cip.serviceBlacklistPlaceholder')"
-            style="width: 100%"
-          >
-            <el-option v-for="service in serviceOptions" :key="service" :label="service" :value="service" />
+        <!-- 协议模式 -->
+        <el-form-item :label="$t('opc.cip.protocolMode')" prop="is_cip">
+          <el-select v-model="formData.is_cip" style="width: 100%" :disabled="isEdit" @change="handleIsCipChange">
+            <el-option :label="$t('opc.cip.isCip.CIP')" :value="0" />
+            <el-option :label="$t('opc.cip.isCip.ENIP')" :value="1" />
           </el-select>
         </el-form-item>
+
+        <el-divider>{{ $t('opc.cip.encapSection') }}</el-divider>
+
+        <!-- 封装层过滤类型 -->
+        <el-form-item :label="$t('opc.cip.encapFilterType')">
+          <el-select v-model="formData.encap_filter_type" style="width: 100%">
+            <el-option :label="$t('opc.cip.filterType.noLimit')" :value="0" />
+            <el-option :label="$t('opc.cip.filterType.whitelist')" :value="1" />
+            <el-option :label="$t('opc.cip.filterType.blacklist')" :value="2" />
+          </el-select>
+        </el-form-item>
+
+        <!-- 封装层命令 -->
+        <el-form-item v-if="formData.encap_filter_type !== 0" :label="$t('opc.cip.encapCommands')" prop="encap_commands">
+          <el-select v-model="formData.encap_commands" multiple :placeholder="$t('opc.cip.encapCommandsPlaceholder')" style="width: 100%">
+            <el-option v-for="item in encapCommandOptions" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+
+        <!-- CIP层（仅CIP模式） -->
+        <template v-if="formData.is_cip === 0">
+          <el-divider>{{ $t('opc.cip.cipSection') }}</el-divider>
+
+          <!-- CIP层过滤类型 -->
+          <el-form-item :label="$t('opc.cip.cipFilterType')">
+            <el-select v-model="formData.cip_filter_type" style="width: 100%">
+              <el-option :label="$t('opc.cip.filterType.noLimit')" :value="0" />
+              <el-option :label="$t('opc.cip.filterType.whitelist')" :value="1" />
+              <el-option :label="$t('opc.cip.filterType.blacklist')" :value="2" />
+            </el-select>
+          </el-form-item>
+
+          <!-- CIP层命令 -->
+          <el-form-item v-if="formData.cip_filter_type !== 0" :label="$t('opc.cip.cipCommands')" prop="cip_commands">
+            <el-select v-model="formData.cip_commands" multiple :placeholder="$t('opc.cip.cipCommandsPlaceholder')" style="width: 100%">
+              <el-option v-for="item in cipCommandOptions" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+          </el-form-item>
+        </template>
       </el-form>
 
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
-          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">
-            {{ $t('common.confirm') }}
-          </el-button>
+          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -147,7 +200,7 @@
     <el-dialog
       v-model="viewDialogVisible"
       :title="$t('opc.cip.viewDetail')"
-      width="500px"
+      width="650px"
       class="view-dialog"
     >
       <el-descriptions :column="2" border>
@@ -157,14 +210,39 @@
             {{ viewData.rule_work ? $t('opc.cip.enabled') : $t('opc.cip.disabled') }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.cip.serviceBlacklist')" :span="2">
-          <div class="view-tags">
-            <el-tag v-for="service in viewData.black_cmd" :key="service" type="danger" size="small" class="view-tag">
-              {{ service }}
-            </el-tag>
-            <span v-if="!viewData.black_cmd?.length">-</span>
-          </div>
+        <el-descriptions-item :label="$t('opc.cip.protocolMode')">
+          <el-tag :type="viewData.is_cip === 0 ? 'primary' : 'success'" size="small">
+            {{ viewData.is_cip === 0 ? 'CIP' : 'ENIP' }}
+          </el-tag>
         </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.cip.encapFilterType')">
+          <el-tag :type="getFilterTypeTagType(viewData.encap_filter_type)" size="small">
+            {{ getFilterTypeLabel(viewData.encap_filter_type) }}
+          </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.cip.encapCommands')" :span="2">
+          <div class="view-tags" v-if="viewData.encap_commands?.length">
+            <el-tag v-for="cmd in viewData.encap_commands" :key="cmd" type="info" size="small" class="view-tag">
+              {{ getEncapCommandLabel(cmd) }}
+            </el-tag>
+          </div>
+          <span v-else>-</span>
+        </el-descriptions-item>
+        <template v-if="viewData.is_cip === 0">
+          <el-descriptions-item :label="$t('opc.cip.cipFilterType')">
+            <el-tag :type="getFilterTypeTagType(viewData.cip_filter_type)" size="small">
+              {{ getFilterTypeLabel(viewData.cip_filter_type) }}
+            </el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :label="$t('opc.cip.cipCommandsLabel')">
+            <div class="view-tags" v-if="viewData.cip_commands?.length">
+              <el-tag v-for="cmd in viewData.cip_commands" :key="'c'+cmd" type="info" size="small" class="view-tag">
+                {{ getCipCommandLabel(cmd) }}
+              </el-tag>
+            </div>
+            <span v-else>-</span>
+          </el-descriptions-item>
+        </template>
       </el-descriptions>
       <template #footer>
         <el-button type="primary" @click="viewDialogVisible = false">{{ $t('common.confirm') }}</el-button>
@@ -174,7 +252,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import { Connection, Plus, InfoFilled, View, Edit, Delete } from '@element-plus/icons-vue'
@@ -182,23 +260,87 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
 
-// 类型定义
+// ==================== 类型 ====================
 interface CipRule {
   id: string
   group_name: string
   rule_work: boolean
-  black_cmd: string[]
+  is_cip: number
+  encap_filter_type: number
+  encap_commands: number[]
+  cip_filter_type: number
+  cip_commands: number[]
 }
 
-// 状态
-// 用户组选项
-const groupOptions = [
-  'opc_group_1',
-  'opc_group_2',
-  'admin_group',
-  'user_group'
+// ==================== 选项 ====================
+const groupOptions = ['opc_group_1', 'opc_group_2', 'admin_group', 'user_group']
+
+const encapCommandOptions = [
+  { value: 0, label: 'NOP' },
+  { value: 1, label: 'ListIdentity' },
+  { value: 2, label: 'ListInterfaces' },
+  { value: 3, label: 'RegisterSession' },
+  { value: 4, label: 'ListServices' },
+  { value: 5, label: 'UnregisterSession' },
+  { value: 6, label: 'SendRRData' },
+  { value: 7, label: 'SendUnitData' }
 ]
 
+const cipCommandOptions = [
+  { value: 0,  label: 'Nop' },
+  { value: 1,  label: 'ForwardOpen' },
+  { value: 2,  label: 'ForwardClose' },
+  { value: 3,  label: 'UnconnectedSend' },
+  { value: 4,  label: 'GetAttributeAll' },
+  { value: 5,  label: 'SetAttributeAll' },
+  { value: 6,  label: 'GetAttributeList' },
+  { value: 7,  label: 'SetAttributeList' },
+  { value: 8,  label: 'Reset' },
+  { value: 9,  label: 'Start' },
+  { value: 10, label: 'MultipleServicePacket' },
+  { value: 11, label: 'Stop' },
+  { value: 12, label: 'Create' },
+  { value: 13, label: 'Delete' },
+  { value: 14, label: 'ApplyAttributes' },
+  { value: 15, label: 'GetAttributeSingle' },
+  { value: 16, label: 'SetAttributeSingle' },
+  { value: 17, label: 'FindNextObjectInstance' },
+  { value: 18, label: 'ReadTag' },
+  { value: 19, label: 'WriteTag' }
+]
+
+// ==================== 辅助 ====================
+const getFilterTypeLabel = (type: number) => {
+  const map: Record<number, string> = {
+    0: t('opc.cip.filterType.noLimit'),
+    1: t('opc.cip.filterType.whitelist'),
+    2: t('opc.cip.filterType.blacklist')
+  }
+  return map[type] || '-'
+}
+const getFilterTypeTagType = (type: number) => {
+  const map: Record<number, string> = { 0: 'info', 1: 'success', 2: 'danger' }
+  return map[type] || 'info'
+}
+const getEncapCommandLabel = (cmd: number) => {
+  const map: Record<number, string> = {
+    0: 'NOP', 1: 'ListIdentity', 2: 'ListInterfaces', 3: 'RegisterSession',
+    4: 'ListServices', 5: 'UnregisterSession', 6: 'SendRRData', 7: 'SendUnitData'
+  }
+  return map[cmd] || String(cmd)
+}
+const getCipCommandLabel = (cmd: number) => {
+  const map: Record<number, string> = {
+    0: 'Nop', 1: 'ForwardOpen', 2: 'ForwardClose', 3: 'UnconnectedSend',
+    4: 'GetAttributeAll', 5: 'SetAttributeAll', 6: 'GetAttributeList', 7: 'SetAttributeList',
+    8: 'Reset', 9: 'Start', 10: 'MultipleServicePacket', 11: 'Stop',
+    12: 'Create', 13: 'Delete', 14: 'ApplyAttributes', 15: 'GetAttributeSingle',
+    16: 'SetAttributeSingle', 17: 'FindNextObjectInstance', 18: 'ReadTag', 19: 'WriteTag'
+  }
+  return map[cmd] || String(cmd)
+}
+
+// ==================== 状态 ====================
 const loading = ref(false)
 const submitLoading = ref(false)
 const dialogVisible = ref(false)
@@ -207,77 +349,98 @@ const isEdit = ref(false)
 const formRef = ref<FormInstance>()
 const editingId = ref('')
 
-// 模拟数据
+// ==================== 模拟数据 ====================
 const mockData = ref<CipRule[]>([
   {
-    id: '1',
-    group_name: 'plc_control',
-    rule_work: true,
-    black_cmd: ['Reset', 'Clear', 'Program']
+    id: '1', group_name: 'plc_control', rule_work: true, is_cip: 0,
+    encap_filter_type: 2, encap_commands: [0, 3, 6],
+    cip_filter_type: 1, cip_commands: [1, 15, 18]
   },
   {
-    id: '2',
-    group_name: 'hmi_interface',
-    rule_work: true,
-    black_cmd: ['FirmwareUpdate', 'Configuration', 'Reset']
+    id: '2', group_name: 'hmi_interface', rule_work: true, is_cip: 0,
+    encap_filter_type: 1, encap_commands: [1, 4, 7],
+    cip_filter_type: 2, cip_commands: [8, 13, 16, 19]
   },
   {
-    id: '3',
-    group_name: 'data_collection',
-    rule_work: false,
-    black_cmd: []
+    id: '3', group_name: 'data_collection', rule_work: false, is_cip: 1,
+    encap_filter_type: 0, encap_commands: [],
+    cip_filter_type: 0, cip_commands: []
+  },
+  {
+    id: '4', group_name: 'scada_system', rule_work: true, is_cip: 0,
+    encap_filter_type: 2, encap_commands: [0, 5, 6, 7],
+    cip_filter_type: 1, cip_commands: [4, 6, 15]
   }
 ])
 
 const tableData = ref<CipRule[]>([])
+const pagination = reactive({ page: 1, pageSize: 10, total: 0 })
 
-const pagination = reactive({
-  page: 1,
-  pageSize: 10,
-  total: 0
-})
-
+// ==================== 表单 ====================
 const formData = reactive({
   group_name: '',
   rule_work: true,
-  black_cmd: [] as string[]
+  is_cip: 0,
+  encap_filter_type: 0,
+  encap_commands: [] as number[],
+  cip_filter_type: 0,
+  cip_commands: [] as number[]
 })
 
 const viewData = ref<CipRule>({
-  id: '',
-  group_name: '',
-  rule_work: false,
-  black_cmd: []
+  id: '', group_name: '', rule_work: false, is_cip: 0,
+  encap_filter_type: 0, encap_commands: [],
+  cip_filter_type: 0, cip_commands: []
 })
 
 const formRules: FormRules = {
-  group_name: [
-    { required: true, message: t('opc.cip.groupNameRequired'), trigger: 'blur' }
-  ]
+  group_name: [{ required: true, message: t('opc.cip.groupNameRequired'), trigger: 'change' }],
+  encap_commands: [{
+    validator: (_rule: any, value: number[], callback: Function) => {
+      if (formData.encap_filter_type !== 0 && (!value || value.length === 0)) {
+        callback(new Error(t('opc.cip.commandsRequired')))
+      } else {
+        callback()
+      }
+    }
+  }],
+  cip_commands: [{
+    validator: (_rule: any, value: number[], callback: Function) => {
+      if (formData.is_cip === 0 && formData.cip_filter_type !== 0 && (!value || value.length === 0)) {
+        callback(new Error(t('opc.cip.commandsRequired')))
+      } else {
+        callback()
+      }
+    }
+  }]
 }
 
-// 预设服务选项
-const serviceOptions = [
-  'Reset', 'Clear', 'Program', 'FirmwareUpdate', 'Configuration',
-  'GetAttributeAll', 'SetAttributeAll', 'FindNextObjectInstance',
-  'CreateObject', 'DeleteObject', 'ApplyAttributes', 'GetAttributeList',
-  'SetAttributeList', 'ForwardOpen', 'ForwardClose', 'UnconnectedSend'
-]
-
-// 列表方法
+// ==================== 数据加载 ====================
 const fetchList = () => {
   loading.value = true
   setTimeout(() => {
     tableData.value = mockData.value
     pagination.total = mockData.value.length
     loading.value = false
-  }, 500)
+  }, 300)
+}
+
+// ==================== 操作 ====================
+const handleIsCipChange = (value: number) => {
+  if (value === 1) {
+    formData.cip_filter_type = 0
+    formData.cip_commands = []
+  }
 }
 
 const resetForm = () => {
   formData.group_name = ''
   formData.rule_work = true
-  formData.black_cmd = []
+  formData.is_cip = 0
+  formData.encap_filter_type = 0
+  formData.encap_commands = []
+  formData.cip_filter_type = 0
+  formData.cip_commands = []
   editingId.value = ''
 }
 
@@ -297,7 +460,11 @@ const handleEdit = (row: CipRule) => {
   editingId.value = row.id
   formData.group_name = row.group_name
   formData.rule_work = row.rule_work
-  formData.black_cmd = [...row.black_cmd]
+  formData.is_cip = row.is_cip
+  formData.encap_filter_type = row.encap_filter_type
+  formData.encap_commands = [...row.encap_commands]
+  formData.cip_filter_type = row.cip_filter_type
+  formData.cip_commands = [...row.cip_commands]
   dialogVisible.value = true
 }
 
@@ -310,60 +477,56 @@ const handleDelete = async (row: CipRule) => {
     )
     mockData.value = mockData.value.filter(item => item.id !== row.id)
     fetchList()
-    ElNotification({
-      title: t('common.success'),
-      message: t('opc.cip.deleteSuccess'),
-      type: 'success',
-      customClass: 'notification-success'
-    })
-  } catch {
-    // 用户取消
-  }
+    ElNotification({ title: t('common.success'), message: t('opc.cip.deleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
+}
+
+const handleToggleStatus = (_row: CipRule) => {
+  ElNotification({ title: t('common.success'), message: t('opc.cip.editSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
 const handleSubmit = () => {
   if (!formRef.value) return
-
   formRef.value.validate((valid) => {
-    if (valid) {
-      submitLoading.value = true
-      setTimeout(() => {
-        if (isEdit.value) {
-          const index = mockData.value.findIndex(item => item.id === editingId.value)
-          if (index !== -1) {
-            mockData.value[index] = {
-              id: editingId.value,
-              group_name: formData.group_name,
-              rule_work: formData.rule_work,
-              black_cmd: [...formData.black_cmd]
-            }
-          }
-        } else {
-          mockData.value.push({
-            id: Date.now().toString(),
+    if (!valid) return
+    submitLoading.value = true
+    setTimeout(() => {
+      if (isEdit.value) {
+        const index = mockData.value.findIndex(item => item.id === editingId.value)
+        if (index !== -1) {
+          mockData.value[index] = {
+            id: editingId.value,
             group_name: formData.group_name,
             rule_work: formData.rule_work,
-            black_cmd: [...formData.black_cmd]
-          })
+            is_cip: formData.is_cip,
+            encap_filter_type: formData.encap_filter_type,
+            encap_commands: [...formData.encap_commands],
+            cip_filter_type: formData.cip_filter_type,
+            cip_commands: [...formData.cip_commands]
+          }
         }
-
-        submitLoading.value = false
-        dialogVisible.value = false
-        ElNotification({
-          title: t('common.success'),
-          message: isEdit.value ? t('opc.cip.editSuccess') : t('opc.cip.addSuccess'),
-          type: 'success',
-          customClass: 'notification-success'
+      } else {
+        mockData.value.push({
+          id: Date.now().toString(),
+          group_name: formData.group_name,
+          rule_work: formData.rule_work,
+          is_cip: formData.is_cip,
+          encap_filter_type: formData.encap_filter_type,
+          encap_commands: [...formData.encap_commands],
+          cip_filter_type: formData.cip_filter_type,
+          cip_commands: [...formData.cip_commands]
         })
-        fetchList()
-      }, 1000)
-    }
+      }
+      submitLoading.value = false
+      dialogVisible.value = false
+      ElNotification({ title: t('common.success'), message: isEdit.value ? t('opc.cip.editSuccess') : t('opc.cip.addSuccess'), type: 'success', customClass: 'notification-success' })
+      fetchList()
+    }, 500)
   })
 }
 
-onMounted(() => {
-  fetchList()
-})
+// ==================== 初始化 ====================
+fetchList()
 </script>
 
 <style scoped>
@@ -373,7 +536,7 @@ onMounted(() => {
   min-height: calc(100vh - 60px);
 }
 
-/* 页面头部 */
+/* ========== 页面头部 ========== */
 .page-header {
   display: flex;
   align-items: center;
@@ -418,7 +581,7 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* 页面描述 */
+/* ========== 页面描述 ========== */
 .page-describe {
   display: flex;
   align-items: center;
@@ -436,27 +599,19 @@ onMounted(() => {
   font-size: 16px;
 }
 
-/* 内容区域 */
-.content-wrapper {
-  flex: 1;
-}
-
+/* ========== 主卡片 ========== */
 .main-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
 }
 
 .card-content {
-  padding: 20px;
+  padding: 24px 28px;
 }
 
-/* 表格样式 */
-.cip-table {
-  width: 100%;
-}
-
+/* ========== 表格 ========== */
 .cip-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   font-weight: 600;
@@ -472,34 +627,32 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%) !important;
 }
 
-/* 组名称 */
 .group-name {
   font-weight: 600;
   color: #409EFF;
 }
 
-/* 标签 */
-.service-tags {
+.cmd-list {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  margin-top: 4px;
 }
 
-.service-tag {
-  font-size: 12px;
+.cmd-tag {
+  font-size: 11px;
 }
 
 .empty-text {
   color: #c0c4cc;
 }
 
-/* 操作按钮 */
 .action-btns {
   display: flex;
   gap: 6px;
 }
 
-/* 分页 */
+/* ========== 分页 ========== */
 .pagination-wrapper {
   display: flex;
   justify-content: flex-end;
@@ -508,7 +661,7 @@ onMounted(() => {
   border-top: 1px solid rgba(64, 158, 255, 0.08);
 }
 
-/* 表单对话框 */
+/* ========== 对话框 ========== */
 .form-dialog :deep(.el-dialog__header) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   margin-right: 0;
@@ -518,6 +671,8 @@ onMounted(() => {
 
 .form-dialog :deep(.el-dialog__body) {
   padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
 .form-dialog :deep(.el-dialog__footer) {
@@ -525,11 +680,17 @@ onMounted(() => {
   padding: 16px 20px;
 }
 
+.form-dialog :deep(.el-divider__text) {
+  font-size: 14px;
+  font-weight: 600;
+  color: #409EFF;
+}
+
 .form-content {
   max-width: 100%;
 }
 
-/* 查看对话框 */
+/* ========== 查看对话框 ========== */
 .view-dialog :deep(.el-dialog__header) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
 }
@@ -544,23 +705,10 @@ onMounted(() => {
   font-size: 12px;
 }
 
-/* 底部按钮 */
+/* ========== 底部按钮 ========== */
 .dialog-footer {
   display: flex;
   justify-content: center;
   gap: 12px;
-}
-
-/* 响应式 */
-@media (max-width: 768px) {
-  .page-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .action-btns {
-    flex-direction: column;
-  }
 }
 </style>
