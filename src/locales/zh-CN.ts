@@ -952,7 +952,12 @@ export default {
       editSuccess: '修改成功',
       emptyContent: '内容不能为空',
       duplicateContent: '内容已存在，请勿重复添加',
-      ipv4Format: 'IPv4格式错误'
+      ipv4Format: 'IPv4格式错误',
+      stepBasic: '基础设置',
+      stepHead: 'HEAD检查',
+      stepSoap: 'SOAP检查',
+      prevStep: '上一步',
+      nextStep: '下一步'
     },
     s_httpProxy: {
       title: 'Web代理安全',

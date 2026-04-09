@@ -944,7 +944,12 @@ export default {
       editSuccess: 'Updated successfully',
       emptyContent: 'Content cannot be empty',
       duplicateContent: 'Content already exists',
-      ipv4Format: 'Invalid IPv4 format'
+      ipv4Format: 'Invalid IPv4 format',
+      stepBasic: 'Basic Settings',
+      stepHead: 'HEAD Inspection',
+      stepSoap: 'SOAP Inspection',
+      prevStep: 'Previous',
+      nextStep: 'Next'
     },
     s_httpProxy: {
       title: 'Web Proxy Security',
