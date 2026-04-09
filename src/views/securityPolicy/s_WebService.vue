@@ -163,12 +163,11 @@
             <el-form-item>
               <template #label>
                 <span>{{ $t('securityPolicy.s_WebService.whitelistIpLabel') }}</span>
-                <span class="field-hint">{{ $t('securityPolicy.s_WebService.whitelistIpHint') }}</span>
               </template>
               <div class="tag-input-wrapper">
                 <div class="tag-list-box">
                   <el-tag v-for="ip in formData.head.whitelistIp" :key="ip" type="success" closable size="small" @close="removeIp(ip)">{{ ip }}</el-tag>
-                  <span v-if="!formData.head.whitelistIp.length" class="empty-hint">{{ $t('securityPolicy.s_WebService.noIp') }}</span>
+                  <span v-if="!formData.head.whitelistIp.length" class="empty-hint">{{ $t('securityPolicy.s_WebService.whitelistIpHint') }}</span>
                 </div>
                 <div class="input-row">
                   <el-input v-model="newIp" :placeholder="$t('securityPolicy.s_WebService.ipPlaceholder')" @keyup.enter="addIp" />

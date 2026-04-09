@@ -605,7 +605,10 @@ export default {
       addSuccess: '添加成功',
       editSuccess: '修改成功',
       activateSuccess: '激活成功',
-      deactivateSuccess: '禁用成功'
+      deactivateSuccess: '禁用成功',
+      authModule: '认证功能模块',
+      authModuleOn: '认证功能模块已开启',
+      authModuleOff: '认证功能模块已关闭'
     },
     authFun: { title: '认证功能模块管理', emptyDesc: '认证功能模块管理' }
   },

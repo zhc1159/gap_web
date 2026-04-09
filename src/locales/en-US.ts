@@ -599,7 +599,10 @@ export default {
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully',
       activateSuccess: 'Activated successfully',
-      deactivateSuccess: 'Deactivated successfully'
+      deactivateSuccess: 'Deactivated successfully',
+      authModule: 'Auth Module',
+      authModuleOn: 'Auth module enabled',
+      authModuleOff: 'Auth module disabled'
     },
     authFun: { title: 'Auth Function Management', emptyDesc: 'Auth Function Management Module' }
   },

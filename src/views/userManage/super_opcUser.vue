@@ -9,6 +9,8 @@
         <span class="header-title">{{ $t('userManage.super_opcUser.title') }}</span>
       </div>
       <div class="header-right">
+        <span class="header-switch-label">{{ $t('userManage.super_opcUser.authModule') }}</span>
+        <el-switch v-model="authModuleEnabled" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt class="header-switch" @change="handleAuthModuleChange" />
         <el-button type="primary" class="btn-add" @click="handleAdd">
           <el-icon><Plus /></el-icon>
           {{ $t('userManage.super_opcUser.addUser') }}
@@ -210,6 +212,7 @@ const groupOptions = [
 // ==================== 状态 ====================
 const loading = ref(false)
 const submitLoading = ref(false)
+const authModuleEnabled = ref(true)
 const dialogVisible = ref(false)
 const isEdit = ref(false)
 const formRef = ref<FormInstance>()
@@ -303,6 +306,10 @@ const handleDelete = async (row: OpcUser) => {
   } catch { /* cancel */ }
 }
 
+const handleAuthModuleChange = (val: boolean) => {
+  ElNotification({ title: t('common.success'), message: val ? t('userManage.super_opcUser.authModuleOn') : t('userManage.super_opcUser.authModuleOff'), type: 'success', customClass: 'notification-success' })
+}
+
 const handleToggleStatus = (row: OpcUser) => {
   row.isActive = !row.isActive
   ElNotification({ title: t('common.success'), message: row.isActive ? t('userManage.super_opcUser.activateSuccess') : t('userManage.super_opcUser.deactivateSuccess'), type: 'success', customClass: 'notification-success' })
@@ -355,6 +362,10 @@ fetchList()
   box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
 }
 .header-left { display: flex; align-items: center; color: white; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-switch-label { color: white; font-size: 14px; white-space: nowrap; }
+.header-switch :deep(.el-switch__core) { border-color: rgba(0,0,0,0.25); background: #909399; }
+.header-switch.is-checked :deep(.el-switch__core) { border-color: #e6a23c; background: #e6a23c; }
 .header-icon {
   width: 36px; height: 36px; background: rgba(255, 255, 255, 0.2);
   border-radius: 10px; display: flex; align-items: center; justify-content: center;
