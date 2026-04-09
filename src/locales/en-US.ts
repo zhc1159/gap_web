@@ -2920,7 +2920,37 @@ export default {
         realPortRange: 'Port number must be 1-65535'
       }
     },
-    linkPoly: { title: 'Link Aggregation', emptyDesc: 'Link Aggregation Module' }
+    linkPoly: {
+      title: 'Link Aggregation',
+      describe: 'Configure inner/outer link aggregation, bind multiple interfaces for bandwidth aggregation or redundancy',
+      innerSwitch: 'Inner Switch',
+      outerSwitch: 'Outer Switch',
+      innerConfig: 'Inner Link Aggregation',
+      outerConfig: 'Outer Link Aggregation',
+      modeType: 'Bond Mode',
+      mode: {
+        '0': 'Balance-RR',
+        '1': 'Active-Backup',
+        '2': 'Balance-XOR',
+        '3': 'Broadcast',
+        '4': '802.3ad (LACP)'
+      },
+      bondInterface1: 'Interface 1',
+      bondInterface1Placeholder: 'Select interface 1',
+      bondInterface2: 'Interface 2',
+      bondInterface2Placeholder: 'Select interface 2',
+      interfaceAddr: 'Address/Mask',
+      interfaceAddrPlaceholder: 'e.g. 192.168.1.1/24',
+      diversionMode: 'Distribution Mode',
+      diversion: {
+        layer2: 'Layer2 only (MAC)',
+        'layer2+3': 'Layer2+3 (MAC+IP)',
+        'layer3+4': 'Layer3+4 (IP+Port)'
+      },
+      save: 'Apply',
+      saveSuccess: 'Saved successfully',
+      interfaceSame: 'Interface 1 and 2 must be different'
+    }
   },
 
   systemMaintenance: {

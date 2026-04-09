@@ -2937,7 +2937,37 @@ export default {
         realPortRange: '端口号范围为1-65535'
       }
     },
-    linkPoly: { title: '链路聚合', emptyDesc: '链路聚合模块' }
+    linkPoly: {
+      title: '链路聚合',
+      describe: '配置内外端链路聚合，将多个网络接口绑定实现带宽聚合或冗余',
+      innerSwitch: '内端开关',
+      outerSwitch: '外端开关',
+      innerConfig: '内端链路聚合配置',
+      outerConfig: '外端链路聚合配置',
+      modeType: '模式类型',
+      mode: {
+        '0': '平衡轮询',
+        '1': '主备模式',
+        '2': '异或平衡',
+        '3': '广播模式',
+        '4': '802.3ad (LACP)'
+      },
+      bondInterface1: '绑定接口一',
+      bondInterface1Placeholder: '请选择绑定接口一',
+      bondInterface2: '绑定接口二',
+      bondInterface2Placeholder: '请选择绑定接口二',
+      interfaceAddr: '接口地址/掩码',
+      interfaceAddrPlaceholder: '例: 192.168.1.1/24',
+      diversionMode: '分发模式',
+      diversion: {
+        layer2: '仅基于二层MAC地址',
+        'layer2+3': '基于二层MAC和三层IP',
+        'layer3+4': '基于三层IP和四层端口'
+      },
+      save: '设置',
+      saveSuccess: '保存成功',
+      interfaceSame: '两个绑定接口不能相同'
+    }
   },
 
   // 系统维护

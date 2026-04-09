@@ -366,13 +366,6 @@ function validateIp(_rule: any, value: string, callback: any): void {
   callback()
 }
 
-function validateFloatIp(_rule: any, value: string, callback: any): void {
-  if (!value) { callback(new Error(t('systemManage.lvsShow.validation.floatIpRequired'))); return }
-  const regex = /^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/
-  if (!regex.test(value)) { callback(new Error(t('systemManage.lvsShow.validation.floatIpInvalid'))); return }
-  callback()
-}
-
 const editFormRules = computed<FormRules>(() => ({
   zone: [{ required: true, message: t('systemManage.lvsShow.validation.zoneRequired'), trigger: 'change' }],
   protocol: [{ required: true, message: t('systemManage.lvsShow.validation.protocolRequired'), trigger: 'change' }],
