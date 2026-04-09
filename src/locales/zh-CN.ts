@@ -2944,6 +2944,11 @@ export default {
       outerSwitch: '外端开关',
       innerConfig: '内端链路聚合配置',
       outerConfig: '外端链路聚合配置',
+      switchLabel: '聚合开关',
+      modeConfig: '模式配置',
+      interfaceConfig: '接口配置',
+      addrConfig: '地址配置',
+      lacpConfig: 'LACP 配置',
       modeType: '模式类型',
       mode: {
         '0': '平衡轮询',

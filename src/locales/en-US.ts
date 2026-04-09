@@ -2927,6 +2927,11 @@ export default {
       outerSwitch: 'Outer Switch',
       innerConfig: 'Inner Link Aggregation',
       outerConfig: 'Outer Link Aggregation',
+      switchLabel: 'Aggregation Switch',
+      modeConfig: 'Mode Config',
+      interfaceConfig: 'Interface Config',
+      addrConfig: 'Address Config',
+      lacpConfig: 'LACP Config',
       modeType: 'Bond Mode',
       mode: {
         '0': 'Balance-RR',
