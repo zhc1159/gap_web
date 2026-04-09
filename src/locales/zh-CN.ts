@@ -2694,9 +2694,115 @@ export default {
         engineStop: '引擎已停止'
       }
     },
-    defenseLog: { title: '告警日志', emptyDesc: '告警日志模块' },
-    defenseUpdate: { title: '特征库升级', emptyDesc: '特征库升级模块' },
-    hotstandby: { title: '双机热备', emptyDesc: '双机热备模块' },
+    defenseLog: {
+      title: '告警日志',
+      describe: '查看入侵防御引擎产生的安全告警日志，支持按日期筛选和日志清除',
+      table: {
+        index: '序号',
+        content: '日志内容',
+        timestamp: '时间',
+        level: '级别',
+        empty: '暂无日志数据'
+      },
+      filter: {
+        dateRange: '日期范围',
+        startDate: '开始日期',
+        endDate: '结束日期',
+        toggle: '筛选',
+        clearFilter: '清除筛选'
+      },
+      actions: {
+        clearLog: '清除日志',
+        clearing: '清除中...',
+        refresh: '刷新'
+      },
+      messages: {
+        clearSuccess: '日志已清除',
+        clearFail: '日志清除失败',
+        confirmClear: '确定要清除所有入侵防御日志吗？此操作不可恢复。',
+        confirmClearTitle: '清除日志确认'
+      },
+      levels: {
+        info: '信息',
+        warning: '警告',
+        critical: '严重'
+      }
+    },
+    defenseUpdate: {
+      title: '特征库升级',
+      describe: '上传规则库文件进行入侵防御系统升级，查看历史升级记录',
+      upload: {
+        title: '上传规则文件',
+        dragText: '将 .rules 文件拖到此处，或',
+        clickText: '点击上传',
+        hint: '仅支持 .rules 格式的规则库文件，最大 50MB',
+        progress: '上传进度',
+        success: '上传成功',
+        error: '上传失败',
+        validating: '正在验证文件...',
+        fileTypeError: '仅支持 .rules 文件',
+        fileSizeError: '文件大小不能超过 50MB',
+        confirmUpload: '确定要上传并升级规则库吗？',
+        confirmTitle: '确认升级'
+      },
+      history: {
+        title: '升级历史',
+        index: '序号',
+        library: '规则库',
+        time: '升级时间',
+        status: '状态',
+        empty: '暂无升级记录',
+        success: '成功',
+        failed: '失败',
+        pending: '进行中'
+      },
+      messages: {
+        uploadSuccess: '规则库升级成功',
+        uploadFail: '规则库升级失败'
+      }
+    },
+    hotstandby: {
+      title: '双机热备',
+      describe: '配置双机热备功能，实现设备主备冗余切换，保障业务连续性',
+      innerTab: '内网热备',
+      outerTab: '外网热备',
+      switchLabel: '双机热备开关',
+      localStatus: '本机状态',
+      statusMaster: '主机',
+      statusBackup: '备机',
+      modeConfig: '热备模式配置',
+      mode: '双机热备模式',
+      modeHA0: '主备模式',
+      localRole: '本机角色',
+      roleMaster: '本机作为主机',
+      roleBackup: '本机作为备机',
+      heartbeatConfig: '心跳接口配置',
+      heartbeatInterface: '本机心跳接口',
+      peerAddr: '对应机心跳地址',
+      masterRouteId: '主机虚拟路由ID',
+      backupRouteId: '备机虚拟路由ID',
+      routeIdRange: '(0~255)',
+      businessConfig: '业务接口配置',
+      businessInterface: '业务接口',
+      virtualIp: '虚拟IP',
+      addBusiness: '添加',
+      deleteBusiness: '删除',
+      modalTitle: '应用接口',
+      interfaceType: '接口类型',
+      selectInterface: '请选择接口',
+      virtualInterface: '虚拟接口',
+      virtualInterfacePlaceholder: '例如：eth1:1',
+      virtualIpMask: '虚拟IP',
+      virtualIpMaskPlaceholder: '请输入IP地址/掩码',
+      actions: {
+        save: '保存',
+        submit: '提交'
+      },
+      messages: {
+        saveSuccess: '配置保存成功',
+        addSuccess: '业务接口添加成功'
+      }
+    },
     loadbalanceShow: { title: '集群部署', emptyDesc: '集群部署模块' },
     lvsShow: { title: '负载均衡', emptyDesc: '负载均衡模块' },
     linkPoly: { title: '链路聚合', emptyDesc: '链路聚合模块' }
