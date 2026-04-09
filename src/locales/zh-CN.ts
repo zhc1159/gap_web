@@ -2637,7 +2637,36 @@ export default {
         outerOff: '外网 SNMP 已关闭'
       }
     },
-    antiDos: { title: '抗攻击', emptyDesc: '抗攻击模块' },
+    antiDos: {
+      title: '抗攻击',
+      describe: '配置抗DoS攻击防护和防扫描功能，保护设备免受网络攻击',
+      innerTab: '内网防护',
+      outerTab: '外网防护',
+      antiAttackSwitch: '抗攻击开关',
+      antiScanSwitch: '防扫描开关',
+      attackTable: {
+        type: '攻击类型',
+        threshold: '阈值',
+        times: '次数',
+        status: '状态',
+        enabled: '已启用',
+        disabled: '已禁用',
+        fixed: '固定'
+      },
+      scanTable: {
+        type: '扫描类型',
+        description: '描述',
+        status: '状态'
+      },
+      actions: {
+        save: '保存配置'
+      },
+      messages: {
+        switchOn: '防护已开启',
+        switchOff: '防护已关闭',
+        saveSuccess: '配置保存成功'
+      }
+    },
     defenseSet: { title: '引擎设置', emptyDesc: '引擎设置模块' },
     defenseLog: { title: '告警日志', emptyDesc: '告警日志模块' },
     defenseUpdate: { title: '特征库升级', emptyDesc: '特征库升级模块' },

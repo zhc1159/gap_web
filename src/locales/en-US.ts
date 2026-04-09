@@ -2620,7 +2620,36 @@ export default {
         outerOff: 'Outer SNMP disabled'
       }
     },
-    antiDos: { title: 'Anti-Attack', emptyDesc: 'Anti-Attack Module' },
+    antiDos: {
+      title: 'Anti-Attack',
+      describe: 'Configure Anti-DoS attack protection and anti-scan features to protect against network attacks',
+      innerTab: 'Inner Protection',
+      outerTab: 'Outer Protection',
+      antiAttackSwitch: 'Anti-Attack Switch',
+      antiScanSwitch: 'Anti-Scan Switch',
+      attackTable: {
+        type: 'Attack Type',
+        threshold: 'Threshold',
+        times: 'Times',
+        status: 'Status',
+        enabled: 'Enabled',
+        disabled: 'Disabled',
+        fixed: 'Fixed'
+      },
+      scanTable: {
+        type: 'Scan Type',
+        description: 'Description',
+        status: 'Status'
+      },
+      actions: {
+        save: 'Save Configuration'
+      },
+      messages: {
+        switchOn: 'Protection enabled',
+        switchOff: 'Protection disabled',
+        saveSuccess: 'Configuration saved successfully'
+      }
+    },
     defenseSet: { title: 'Engine Settings', emptyDesc: 'Engine Settings Module' },
     defenseLog: { title: 'Alert Log', emptyDesc: 'Alert Log Module' },
     defenseUpdate: { title: 'Signature Update', emptyDesc: 'Signature Update Module' },
