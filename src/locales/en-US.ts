@@ -2421,7 +2421,49 @@ export default {
         ntpServerInvalid: 'Please enter a valid server address'
       }
     },
-    gapMode: { title: 'Mode Switch', emptyDesc: 'Mode Switch Module' },
+    gapMode: {
+      title: 'Mode Switch',
+      subtitle: 'Gap Working Mode Configuration',
+      modes: {
+        label: 'Working Mode',
+        proxy: 'Proxy Mode',
+        proxyDesc: 'Data forwarded via application-layer proxy with deep inspection',
+        route: 'Route Mode',
+        routeDesc: 'Data forwarded via IP routing for efficient transmission',
+        transparent: 'Transparent Mode',
+        transparentDesc: 'Data bridged transparently for scenarios without protocol conversion'
+      },
+      transparentConfig: {
+        title: 'Transparent Mode Configuration',
+        tunnelId: 'Tunnel ID',
+        tunnelIdPlaceholder: 'Auto-assigned by system',
+        innerInterfaces: 'Inner Interfaces',
+        innerInterfacesPlaceholder: 'Select inner interfaces',
+        outerInterfaces: 'Outer Interfaces',
+        outerInterfacesPlaceholder: 'Select outer interfaces',
+        noInterfaces: 'No available interfaces',
+        statusUp: 'Up',
+        statusDown: 'Down'
+      },
+      actions: {
+        save: 'Save Configuration',
+        saving: 'Saving...'
+      },
+      messages: {
+        loadSuccess: 'Mode configuration loaded',
+        loadFail: 'Failed to load mode configuration',
+        saveSuccess: 'Mode configuration saved successfully',
+        saveFail: 'Failed to save mode configuration',
+        confirmSave: 'Are you sure you want to switch to the selected working mode? Mode switching may cause service interruption.',
+        selectInnerRequired: 'At least one inner interface is required in transparent mode',
+        selectOuterRequired: 'At least one outer interface is required in transparent mode'
+      },
+      badge: {
+        proxy: 'Proxy',
+        route: 'Route',
+        transparent: 'Transparent'
+      }
+    },
     vlanShow: { title: 'VLAN Configuration', emptyDesc: 'VLAN Configuration Module' },
     routeShow: { title: 'Route Configuration', emptyDesc: 'Route Configuration Module' },
     softwareConf: { title: 'SSH Management', emptyDesc: 'SSH Management Module' },

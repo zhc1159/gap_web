@@ -2438,7 +2438,49 @@ export default {
         ntpServerInvalid: '请输入有效的服务器地址'
       }
     },
-    gapMode: { title: '模式切换', emptyDesc: '模式切换模块' },
+    gapMode: {
+      title: '模式切换',
+      subtitle: '网闸工作模式配置',
+      modes: {
+        label: '工作模式',
+        proxy: '代理模式',
+        proxyDesc: '数据通过应用层代理转发，提供深度检测',
+        route: '路由模式',
+        routeDesc: '数据通过 IP 路由转发，适用于高效传输',
+        transparent: '透明模式',
+        transparentDesc: '数据透明桥接传输，适用于无需协议转换的场景'
+      },
+      transparentConfig: {
+        title: '透明模式配置',
+        tunnelId: '隧道 ID',
+        tunnelIdPlaceholder: '系统自动分配',
+        innerInterfaces: '内网接口',
+        innerInterfacesPlaceholder: '请选择内网接口',
+        outerInterfaces: '外网接口',
+        outerInterfacesPlaceholder: '请选择外网接口',
+        noInterfaces: '无可用接口',
+        statusUp: '在线',
+        statusDown: '离线'
+      },
+      actions: {
+        save: '保存配置',
+        saving: '保存中...'
+      },
+      messages: {
+        loadSuccess: '模式配置加载成功',
+        loadFail: '模式配置加载失败',
+        saveSuccess: '模式配置保存成功',
+        saveFail: '模式配置保存失败',
+        confirmSave: '确定要切换到当前选中的工作模式吗？模式切换可能导致服务中断。',
+        selectInnerRequired: '透明模式下至少需要选择一个内网接口',
+        selectOuterRequired: '透明模式下至少需要选择一个外网接口'
+      },
+      badge: {
+        proxy: '代理',
+        route: '路由',
+        transparent: '透明'
+      }
+    },
     vlanShow: { title: '虚网配置', emptyDesc: '虚网配置模块' },
     routeShow: { title: '路由配置', emptyDesc: '路由配置模块' },
     softwareConf: { title: 'SSH管理', emptyDesc: 'SSH管理模块' },
