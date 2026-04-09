@@ -2616,7 +2616,27 @@ export default {
         sshDisable: '关闭 SSH 后将无法通过远程管理访问设备，请谨慎操作！'
       }
     },
-    funcManager: { title: 'SNMP', emptyDesc: 'SNMP模块' },
+    funcManager: {
+      title: 'SNMP',
+      describe: '配置 SNMP 服务状态，允许第三方系统监控设备运行状态',
+      info: '开启 SNMP 后，第三方系统可以通过 SNMP 协议监控设备的 CPU、内存、磁盘以及网络接口等状态信息。',
+      switch: {
+        inner: '内网 SNMP 开关',
+        innerDesc: '开启后内网可通过 SNMP 协议获取设备状态',
+        outer: '外网 SNMP 开关',
+        outerDesc: '开启后外网可通过 SNMP 协议获取设备状态'
+      },
+      status: {
+        on: '开',
+        off: '关'
+      },
+      msg: {
+        innerOn: '内网 SNMP 已开启',
+        innerOff: '内网 SNMP 已关闭',
+        outerOn: '外网 SNMP 已开启',
+        outerOff: '外网 SNMP 已关闭'
+      }
+    },
     antiDos: { title: '抗攻击', emptyDesc: '抗攻击模块' },
     defenseSet: { title: '引擎设置', emptyDesc: '引擎设置模块' },
     defenseLog: { title: '告警日志', emptyDesc: '告警日志模块' },

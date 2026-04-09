@@ -2599,7 +2599,27 @@ export default {
         sshDisable: 'Disabling SSH will prevent remote management access. Proceed with caution!'
       }
     },
-    funcManager: { title: 'SNMP', emptyDesc: 'SNMP Module' },
+    funcManager: {
+      title: 'SNMP',
+      describe: 'Configure SNMP service, allow third-party systems to monitor device status',
+      info: 'After enabling SNMP, third-party systems can monitor CPU, memory, disk, and network interfaces through the SNMP protocol.',
+      switch: {
+        inner: 'Inner SNMP Switch',
+        innerDesc: 'Enable SNMP access from inner network',
+        outer: 'Outer SNMP Switch',
+        outerDesc: 'Enable SNMP access from outer network'
+      },
+      status: {
+        on: 'ON',
+        off: 'OFF'
+      },
+      msg: {
+        innerOn: 'Inner SNMP enabled',
+        innerOff: 'Inner SNMP disabled',
+        outerOn: 'Outer SNMP enabled',
+        outerOff: 'Outer SNMP disabled'
+      }
+    },
     antiDos: { title: 'Anti-Attack', emptyDesc: 'Anti-Attack Module' },
     defenseSet: { title: 'Engine Settings', emptyDesc: 'Engine Settings Module' },
     defenseLog: { title: 'Alert Log', emptyDesc: 'Alert Log Module' },
