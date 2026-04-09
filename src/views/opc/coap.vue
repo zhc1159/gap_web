@@ -41,12 +41,14 @@
           </el-table-column>
 
           <!-- URI过滤 -->
-          <el-table-column :label="$t('opc.coap.uriMode')" min-width="120">
+          <el-table-column :label="$t('opc.coap.uriMode')" min-width="200">
             <template #default="{ row }">
               <el-tag :type="getUriModeTagType(row.filterMsgUriMode)" size="small">
                 {{ getUriModeLabel(row.filterMsgUriMode) }}
               </el-tag>
-              <span v-if="row.filterMsgUri?.length" class="config-count">({{ row.filterMsgUri.length }})</span>
+              <div v-if="row.filterMsgUri?.length" class="uri-list">
+                <el-tag v-for="uri in row.filterMsgUri" :key="uri" size="small" class="uri-tag">{{ uri }}</el-tag>
+              </div>
             </template>
           </el-table-column>
 
@@ -139,14 +141,52 @@
 
         <!-- URI列表 -->
         <el-form-item v-if="formData.filterMsgUriMode !== 0" :label="$t('opc.coap.uriList')">
-          <el-select v-model="formData.filterMsgUri" multiple filterable allow-create default-first-option :placeholder="$t('opc.coap.uriPlaceholder')" style="width: 100%">
-          </el-select>
+          <div class="keyword-input-wrapper">
+            <div class="keyword-list">
+              <el-tag
+                v-for="uri in formData.filterMsgUri"
+                :key="uri"
+                type="primary"
+                closable
+                size="small"
+                @close="removeUri(uri)"
+              >
+                {{ uri }}
+              </el-tag>
+              <span v-if="formData.filterMsgUri.length === 0" class="empty-hint">{{ $t('opc.coap.noData') }}</span>
+            </div>
+            <div class="input-row">
+              <el-input v-model="newUri" :placeholder="$t('opc.coap.uriPlaceholder')" @keyup.enter="addUri" />
+              <el-button type="primary" @click="addUri">
+                <el-icon><Plus /></el-icon>
+              </el-button>
+            </div>
+          </div>
         </el-form-item>
 
         <!-- 响应内容过滤 -->
         <el-form-item :label="$t('opc.coap.contentFilter')">
-          <el-select v-model="formData.filterMsgCont" multiple filterable allow-create default-first-option :placeholder="$t('opc.coap.contentPlaceholder')" style="width: 100%">
-          </el-select>
+          <div class="keyword-input-wrapper">
+            <div class="keyword-list">
+              <el-tag
+                v-for="cont in formData.filterMsgCont"
+                :key="cont"
+                type="warning"
+                closable
+                size="small"
+                @close="removeContent(cont)"
+              >
+                {{ cont }}
+              </el-tag>
+              <span v-if="formData.filterMsgCont.length === 0" class="empty-hint">{{ $t('opc.coap.noData') }}</span>
+            </div>
+            <div class="input-row">
+              <el-input v-model="newContent" :placeholder="$t('opc.coap.contentPlaceholder')" @keyup.enter="addContent" />
+              <el-button type="primary" @click="addContent">
+                <el-icon><Plus /></el-icon>
+              </el-button>
+            </div>
+          </div>
         </el-form-item>
 
         <el-divider>{{ $t('opc.coap.filterSection') }}</el-divider>
@@ -320,6 +360,8 @@ const viewDialogVisible = ref(false)
 const isEdit = ref(false)
 const formRef = ref<FormInstance>()
 const editingId = ref('')
+const newUri = ref('')
+const newContent = ref('')
 
 // ==================== 模拟数据 ====================
 const mockData = ref<CoapRule[]>([
@@ -376,6 +418,27 @@ const fetchList = () => {
 }
 
 // ==================== 操作 ====================
+const addUri = () => {
+  const val = newUri.value.trim()
+  if (val && !formData.filterMsgUri.includes(val)) {
+    formData.filterMsgUri.push(val)
+    newUri.value = ''
+  }
+}
+const removeUri = (uri: string) => {
+  formData.filterMsgUri = formData.filterMsgUri.filter(u => u !== uri)
+}
+const addContent = () => {
+  const val = newContent.value.trim()
+  if (val && !formData.filterMsgCont.includes(val)) {
+    formData.filterMsgCont.push(val)
+    newContent.value = ''
+  }
+}
+const removeContent = (cont: string) => {
+  formData.filterMsgCont = formData.filterMsgCont.filter(c => c !== cont)
+}
+
 const resetForm = () => {
   formData.group_name = ''
   formData.rule_work = true
@@ -585,6 +648,20 @@ fetchList()
   font-size: 12px;
 }
 
+.uri-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.uri-tag {
+  font-size: 11px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .badge-list {
   display: flex;
   flex-wrap: wrap;
@@ -640,6 +717,37 @@ fetchList()
 
 .form-content {
   max-width: 100%;
+}
+
+/* ========== 关键字输入（与SFTP风格一致） ========== */
+.keyword-input-wrapper {
+  width: 100%;
+}
+
+.keyword-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  min-height: 32px;
+  padding: 8px;
+  background: rgba(64, 158, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+}
+
+.empty-hint {
+  color: #c0c4cc;
+  font-size: 13px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-row :deep(.el-input) {
+  flex: 1;
 }
 
 /* ========== 查看对话框 ========== */

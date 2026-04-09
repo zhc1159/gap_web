@@ -155,17 +155,16 @@
               </el-tag>
               <span v-if="formData.keywords.length === 0" class="empty-hint">{{ $t('opc.trdp.noKeywords') }}</span>
             </div>
-            <el-input
-              v-model="newKeyword"
-              :placeholder="$t('opc.trdp.keywordsPlaceholder')"
-              @keyup.enter="addKeyword"
-            >
-              <template #append>
-                <el-button @click="addKeyword">
-                  <el-icon><Plus /></el-icon>
-                </el-button>
-              </template>
-            </el-input>
+            <div class="input-row">
+              <el-input
+                v-model="newKeyword"
+                :placeholder="$t('opc.trdp.keywordsPlaceholder')"
+                @keyup.enter="addKeyword"
+              />
+              <el-button type="primary" @click="addKeyword">
+                <el-icon><Plus /></el-icon>
+              </el-button>
+            </div>
           </div>
         </el-form-item>
 
@@ -184,17 +183,16 @@
               </el-tag>
               <span v-if="formData.comids.length === 0" class="empty-hint">{{ $t('opc.trdp.noCmdIds') }}</span>
             </div>
-            <el-input
-              v-model="newCmdId"
-              :placeholder="$t('opc.trdp.comidsPlaceholder')"
-              @keyup.enter="addCmdId"
-            >
-              <template #append>
-                <el-button @click="addCmdId">
-                  <el-icon><Plus /></el-icon>
-                </el-button>
-              </template>
-            </el-input>
+            <div class="input-row">
+              <el-input
+                v-model="newCmdId"
+                :placeholder="$t('opc.trdp.comidsPlaceholder')"
+                @keyup.enter="addCmdId"
+              />
+              <el-button type="primary" @click="addCmdId">
+                <el-icon><Plus /></el-icon>
+              </el-button>
+            </div>
           </div>
         </el-form-item>
       </el-form>
@@ -262,7 +260,7 @@ interface TrdpRule {
   group_name: string
   rule_work: boolean
   keywords: string[]
-  comids: number[]
+  comids: string[]
 }
 
 // 用户组选项
@@ -291,14 +289,14 @@ const mockData = ref<TrdpRule[]>([
     group_name: 'train_control',
     rule_work: true,
     keywords: ['emergency', 'brake', 'override'],
-    comids: [1001, 1002, 1003]
+    comids: ['1001', '1002', '1003']
   },
   {
     id: '2',
     group_name: 'passenger_info',
     rule_work: true,
     keywords: ['sensitive', 'private'],
-    comids: [2001, 2002]
+    comids: ['2001', '2002']
   },
   {
     id: '3',
@@ -321,7 +319,7 @@ const formData = reactive({
   group_name: '',
   rule_work: true,
   keywords: [] as string[],
-  comids: [] as number[]
+  comids: [] as string[]
 })
 
 const viewData = ref<TrdpRule>({
@@ -354,19 +352,15 @@ const removeKeyword = (keyword: string) => {
 
 // 命令ID操作
 const addCmdId = () => {
-  const cmdStr = newCmdId.value.trim()
-  if (cmdStr) {
-    const cmdNum = parseInt(cmdStr, 10)
-    if (!isNaN(cmdNum) && !formData.comids.includes(cmdNum)) {
-      formData.comids.push(cmdNum)
-      newCmdId.value = ''
-    }
+  const val = newCmdId.value.trim()
+  if (val && !formData.comids.includes(val)) {
+    formData.comids.push(val)
+    newCmdId.value = ''
   }
 }
 
-const removeCmdId = (cmdId: number) => {
-  const index = formData.comids.indexOf(cmdId)
-  if (index > -1) formData.comids.splice(index, 1)
+const removeCmdId = (cmdId: string) => {
+  formData.comids = formData.comids.filter(c => c !== cmdId)
 }
 
 // 列表方法
@@ -632,6 +626,15 @@ onMounted(() => {
 .empty-hint {
   color: #c0c4cc;
   font-size: 13px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input-row :deep(.el-input) {
+  flex: 1;
 }
 
 /* 分页 */
