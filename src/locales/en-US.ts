@@ -2650,7 +2650,33 @@ export default {
         saveSuccess: 'Configuration saved successfully'
       }
     },
-    defenseSet: { title: 'Engine Settings', emptyDesc: 'Engine Settings Module' },
+    defenseSet: {
+      title: 'Engine Settings',
+      describe: 'Configure IPS engine status and listen interface for real-time network security protection',
+      engine: {
+        label: 'IPS Engine',
+        switch: 'Engine Switch',
+        status: 'Status',
+        running: 'Running',
+        stopped: 'Stopped',
+        enable: 'Enable',
+        disable: 'Disable'
+      },
+      interface: {
+        label: 'Listen Interface',
+        placeholder: 'Select listen interface',
+        statusUp: 'Up',
+        statusDown: 'Down'
+      },
+      actions: {
+        save: 'Save Settings'
+      },
+      messages: {
+        saveSuccess: 'Security settings saved successfully',
+        engineStart: 'Engine started',
+        engineStop: 'Engine stopped'
+      }
+    },
     defenseLog: { title: 'Alert Log', emptyDesc: 'Alert Log Module' },
     defenseUpdate: { title: 'Signature Update', emptyDesc: 'Signature Update Module' },
     hotstandby: { title: 'Hot Standby', emptyDesc: 'Hot Standby Module' },

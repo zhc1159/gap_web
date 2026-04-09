@@ -2667,7 +2667,33 @@ export default {
         saveSuccess: '配置保存成功'
       }
     },
-    defenseSet: { title: '引擎设置', emptyDesc: '引擎设置模块' },
+    defenseSet: {
+      title: '引擎设置',
+      describe: '配置入侵防御引擎运行状态和监听接口，实时防护网络安全',
+      engine: {
+        label: '入侵防御引擎',
+        switch: '引擎开关',
+        status: '运行状态',
+        running: '运行中',
+        stopped: '已停止',
+        enable: '启用',
+        disable: '停用'
+      },
+      interface: {
+        label: '监听接口',
+        placeholder: '请选择监听接口',
+        statusUp: '在线',
+        statusDown: '离线'
+      },
+      actions: {
+        save: '保存设置'
+      },
+      messages: {
+        saveSuccess: '安全设置保存成功',
+        engineStart: '引擎已启动',
+        engineStop: '引擎已停止'
+      }
+    },
     defenseLog: { title: '告警日志', emptyDesc: '告警日志模块' },
     defenseUpdate: { title: '特征库升级', emptyDesc: '特征库升级模块' },
     hotstandby: { title: '双机热备', emptyDesc: '双机热备模块' },
