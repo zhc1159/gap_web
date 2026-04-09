@@ -2327,8 +2327,117 @@ export default {
 
   // 系统配置
   systemManage: {
-    lanShow: { title: '网络接口', emptyDesc: '网络接口模块' },
-    sysTime: { title: '系统时间', emptyDesc: '系统时间模块' },
+    lanShow: {
+      title: '网络接口',
+      describe: '配置和管理内外网网络接口，包括IP地址、子网掩码、默认路由、DNS等信息',
+      innerTab: '内网接口',
+      outerTab: '外网接口',
+      interfaceName: '接口名称',
+      remark: '接口备注',
+      status: '状态',
+      macAddress: 'MAC地址',
+      ip: 'IP',
+      virtualIpMask: '虚拟IP/掩码',
+      defaultRouteV4: '默认路由(IPv4)',
+      ipv6AddrMask: 'IPv6地址/掩码长度',
+      defaultRouteV6: '默认路由(IPv6)',
+      actions: '操作',
+      edit: '编辑',
+      expand: '展开',
+      collapse: '收起',
+      editIpv4: '编辑IPv4',
+      editIpv6: '编辑IPv6',
+      delete: '删除',
+      dnsTitle: 'DNS服务器地址(IPv4)',
+      dnsEdit: '编辑',
+      dnsLabel: 'DNS服务器地址',
+      dnsPlaceholder: 'IPv4格式，多个用逗号分隔，最多3个',
+      addVirtualInterface: '添加集群虚拟接口',
+      virtualInterface: '虚拟接口',
+      addVirtualNic: '添加虚拟网卡',
+      virtualNicIpv4: '虚拟网卡IPv4',
+      virtualNicMask: '虚拟网卡IPv4掩码',
+      selectInterface: '接口',
+      statusOff: '已关闭',
+      statusUnconnected: '未连接',
+      statusConnected: '已连接',
+      interfaceEdit: '接口编辑',
+      ipv4Addr: 'IPv4地址',
+      ipv4Mask: 'IPv4掩码',
+      ipv4Gateway: '默认路由(IPv4)',
+      ipv6Addr: 'IPv6地址',
+      ipv6MaskLength: 'IPv6掩码长度',
+      ipv6Gateway: '默认路由(IPv6)',
+      remarkLabel: '接口备注',
+      submit: '提交',
+      cancel: '取消',
+      count: '条',
+      messages: {
+        loadSuccess: '配置加载成功',
+        loadFail: '配置加载失败',
+        saveSuccess: '保存成功',
+        saveFail: '保存失败',
+        deleteSuccess: '删除成功',
+        deleteFail: '删除失败',
+        confirmDelete: '确定要删除吗？'
+      },
+      validation: {
+        ipv4Required: 'IPv4地址不能为空',
+        ipv4Invalid: 'IPv4地址格式不正确',
+        maskRequired: '子网掩码不能为空',
+        ipv6Invalid: 'IPv6地址格式不正确',
+        dnsMax: '最多3个DNS服务器',
+        remarkMax: '备注最多8个字符'
+      }
+    },
+    sysTime: {
+      title: '系统时间',
+      description: '查看和配置系统时间，支持手动设置、本地同步和 NTP 服务器同步',
+      currentTime: {
+        label: '当前系统时间',
+        prefix: '系统时间'
+      },
+      mode: {
+        label: '时间设置方式',
+        manual: '手动设置',
+        manualDesc: '手动输入日期和时间来设置系统时间',
+        localSync: '本地同步',
+        localSyncDesc: '同步本地硬件时钟时间',
+        ntp: 'NTP 设置',
+        ntpDesc: '通过网络时间协议服务器自动同步时间'
+      },
+      form: {
+        date: '设置日期',
+        datePlaceholder: '请选择日期',
+        time: '设置时间',
+        timePlaceholder: '请选择时间',
+        ntpServer: 'NTP 服务器地址',
+        ntpServerPlaceholder: '请输入 NTP 服务器地址，如 ntp.aliyun.com',
+        syncNow: '立即同步',
+        lastSync: '上次同步时间',
+        neverSync: '尚未同步',
+        syncPeer: '同步到对端',
+        syncPeerDesc: '在双机热备模式下，将时间设置同步到对端设备'
+      },
+      btn: {
+        apply: '应用设置'
+      },
+      msg: {
+        saveSuccess: '时间设置已保存',
+        saveFail: '保存失败',
+        syncSuccess: 'NTP 同步成功',
+        syncFail: 'NTP 同步失败',
+        ntpServerRequired: '请先输入 NTP 服务器地址',
+        networkError: '网络错误',
+        manualRequired: '请选择日期和时间'
+      },
+      validation: {
+        dateRequired: '请选择日期',
+        timeRequired: '请选择时间',
+        ntpServerRequired: '请输入 NTP 服务器地址',
+        ntpServerInvalid: '请输入有效的服务器地址'
+      }
+    },
     gapMode: { title: '模式切换', emptyDesc: '模式切换模块' },
     vlanShow: { title: '虚网配置', emptyDesc: '虚网配置模块' },
     routeShow: { title: '路由配置', emptyDesc: '路由配置模块' },
