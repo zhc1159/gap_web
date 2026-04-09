@@ -2464,8 +2464,111 @@ export default {
         transparent: 'Transparent'
       }
     },
-    vlanShow: { title: 'VLAN Configuration', emptyDesc: 'VLAN Configuration Module' },
-    routeShow: { title: 'Route Configuration', emptyDesc: 'Route Configuration Module' },
+    vlanShow: {
+      title: 'VLAN Configuration',
+      describe: 'Configure VLAN virtual networks, manage network addresses, subnet masks, and interfaces',
+      innerTab: 'Inner VLAN',
+      outerTab: 'Outer VLAN',
+      table: {
+        index: '#',
+        networkAddress: 'Network Address',
+        subnetMask: 'Subnet Mask',
+        interface: 'Interface',
+        vlanId: 'VLAN ID',
+        actions: 'Actions'
+      },
+      btn: {
+        add: 'Add VLAN',
+        edit: 'Edit',
+        delete: 'Delete',
+        submit: 'Confirm',
+        cancel: 'Cancel'
+      },
+      form: {
+        zone: 'Zone',
+        zonePlaceholder: 'Select zone',
+        networkAddress: 'Network Address',
+        networkAddressPlaceholder: 'Enter IPv4 network address',
+        subnetMask: 'Subnet Mask',
+        subnetMaskPlaceholder: 'Enter subnet mask, e.g. 255.255.255.0',
+        interface: 'Network Interface',
+        interfacePlaceholder: 'Select network interface',
+        vlanId: 'VLAN ID',
+        vlanIdPlaceholder: 'Enter VLAN ID (1-4094)',
+        vlanIdRange: 'VLAN ID range: 1 - 4094'
+      },
+      dialogAddTitle: 'Add VLAN',
+      dialogEditTitle: 'Edit VLAN',
+      confirm: {
+        delete: 'Are you sure you want to delete this VLAN configuration?'
+      },
+      msg: {
+        submitSuccess: 'Operation successful',
+        submitFail: 'Operation failed',
+        deleteSuccess: 'Deleted successfully',
+        deleteFail: 'Delete failed'
+      },
+      validation: {
+        zoneRequired: 'Please select zone',
+        networkAddressRequired: 'Please enter network address',
+        networkAddressInvalid: 'Please enter a valid IPv4 address',
+        subnetMaskRequired: 'Please enter subnet mask',
+        subnetMaskInvalid: 'Please enter a valid subnet mask',
+        interfaceRequired: 'Please select a network interface',
+        vlanIdRequired: 'Please enter VLAN ID',
+        vlanIdRange: 'VLAN ID must be between 1-4094',
+        vlanIdInteger: 'VLAN ID must be an integer'
+      }
+    },
+    routeShow: {
+      title: 'Route Configuration',
+      describe: 'Configure route tables, manage destination, gateway, and network interfaces',
+      innerTab: 'Inner Network',
+      outerTab: 'Outer Network',
+      table: {
+        index: '#',
+        destination: 'Destination',
+        gateway: 'Gateway',
+        interface: 'Interface',
+        actions: 'Actions'
+      },
+      btn: {
+        add: 'Add Route',
+        edit: 'Edit',
+        delete: 'Delete',
+        submit: 'Confirm',
+        cancel: 'Cancel'
+      },
+      form: {
+        zone: 'Zone',
+        zonePlaceholder: 'Select zone',
+        destination: 'Destination Address',
+        destinationPlaceholder: 'Format: IP or IP/prefix, e.g. 192.168.1.0/24',
+        gateway: 'Gateway Address',
+        gatewayPlaceholder: 'Enter gateway IP address',
+        interface: 'Network Interface',
+        interfacePlaceholder: 'Select network interface'
+      },
+      dialogAddTitle: 'Add Route',
+      dialogEditTitle: 'Edit Route',
+      confirm: {
+        delete: 'Are you sure you want to delete this route entry?'
+      },
+      msg: {
+        submitSuccess: 'Operation successful',
+        submitFail: 'Operation failed',
+        deleteSuccess: 'Deleted successfully',
+        deleteFail: 'Delete failed'
+      },
+      validation: {
+        zoneRequired: 'Please select zone',
+        destinationRequired: 'Please enter destination address',
+        destinationInvalid: 'Invalid format. Enter IP or IP/prefix',
+        gatewayRequired: 'Please enter gateway address',
+        gatewayInvalid: 'Please enter a valid gateway IP address',
+        interfaceRequired: 'Please select a network interface'
+      }
+    },
     softwareConf: { title: 'SSH Management', emptyDesc: 'SSH Management Module' },
     funcManager: { title: 'SNMP', emptyDesc: 'SNMP Module' },
     antiDos: { title: 'Anti-Attack', emptyDesc: 'Anti-Attack Module' },

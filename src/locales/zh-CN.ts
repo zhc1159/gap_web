@@ -2481,8 +2481,111 @@ export default {
         transparent: '透明'
       }
     },
-    vlanShow: { title: '虚网配置', emptyDesc: '虚网配置模块' },
-    routeShow: { title: '路由配置', emptyDesc: '路由配置模块' },
+    vlanShow: {
+      title: '虚网配置',
+      describe: '配置 VLAN 虚拟网络，管理网络地址、子网掩码和接口设备',
+      innerTab: '内网虚网',
+      outerTab: '外网虚网',
+      table: {
+        index: '序号',
+        networkAddress: '网络地址',
+        subnetMask: '子网掩码',
+        interface: '接口设备',
+        vlanId: '虚网号',
+        actions: '操作'
+      },
+      btn: {
+        add: '新增 VLAN',
+        edit: '编辑',
+        delete: '删除',
+        submit: '确定',
+        cancel: '取消'
+      },
+      form: {
+        zone: '所属区域',
+        zonePlaceholder: '请选择所属区域',
+        networkAddress: '网络地址',
+        networkAddressPlaceholder: '请输入 IPv4 网络地址',
+        subnetMask: '子网掩码',
+        subnetMaskPlaceholder: '请输入子网掩码，如 255.255.255.0',
+        interface: '网络接口',
+        interfacePlaceholder: '请选择网络接口',
+        vlanId: '虚网号 (VLAN ID)',
+        vlanIdPlaceholder: '请输入 VLAN ID (1-4094)',
+        vlanIdRange: 'VLAN ID 范围: 1 - 4094'
+      },
+      dialogAddTitle: '新增 VLAN',
+      dialogEditTitle: '编辑 VLAN',
+      confirm: {
+        delete: '确定要删除该 VLAN 配置吗？'
+      },
+      msg: {
+        submitSuccess: '操作成功',
+        submitFail: '操作失败',
+        deleteSuccess: '删除成功',
+        deleteFail: '删除失败'
+      },
+      validation: {
+        zoneRequired: '请选择所属区域',
+        networkAddressRequired: '请输入网络地址',
+        networkAddressInvalid: '请输入有效的 IPv4 地址',
+        subnetMaskRequired: '请输入子网掩码',
+        subnetMaskInvalid: '请输入有效的子网掩码',
+        interfaceRequired: '请选择网络接口',
+        vlanIdRequired: '请输入 VLAN ID',
+        vlanIdRange: 'VLAN ID 范围为 1-4094',
+        vlanIdInteger: 'VLAN ID 必须为整数'
+      }
+    },
+    routeShow: {
+      title: '路由配置',
+      describe: '配置内外网路由表，管理目的地址、网关及网络接口',
+      innerTab: '内网路由',
+      outerTab: '外网路由',
+      table: {
+        index: '序号',
+        destination: '目的地址',
+        gateway: '网关地址',
+        interface: '网络接口',
+        actions: '操作'
+      },
+      btn: {
+        add: '新增路由',
+        edit: '编辑',
+        delete: '删除',
+        submit: '确定',
+        cancel: '取消'
+      },
+      form: {
+        zone: '所属区域',
+        zonePlaceholder: '请选择所属区域',
+        destination: '目的地址',
+        destinationPlaceholder: '格式: IP地址 或 IP/前缀长度，如 192.168.1.0/24',
+        gateway: '网关地址',
+        gatewayPlaceholder: '请输入网关 IP 地址',
+        interface: '网络接口',
+        interfacePlaceholder: '请选择网络接口'
+      },
+      dialogAddTitle: '新增路由',
+      dialogEditTitle: '编辑路由',
+      confirm: {
+        delete: '确定要删除该路由条目吗？'
+      },
+      msg: {
+        submitSuccess: '操作成功',
+        submitFail: '操作失败',
+        deleteSuccess: '删除成功',
+        deleteFail: '删除失败'
+      },
+      validation: {
+        zoneRequired: '请选择所属区域',
+        destinationRequired: '请输入目的地址',
+        destinationInvalid: '格式不正确，请输入 IP 或 IP/前缀',
+        gatewayRequired: '请输入网关地址',
+        gatewayInvalid: '请输入有效的网关 IP 地址',
+        interfaceRequired: '请选择网络接口'
+      }
+    },
     softwareConf: { title: 'SSH管理', emptyDesc: 'SSH管理模块' },
     funcManager: { title: 'SNMP', emptyDesc: 'SNMP模块' },
     antiDos: { title: '抗攻击', emptyDesc: '抗攻击模块' },
