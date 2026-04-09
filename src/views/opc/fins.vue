@@ -23,211 +23,404 @@
     </div>
 
     <!-- 主内容区 -->
-    <div class="content-wrapper">
-      <div class="card main-card">
-        <div class="card-content">
-          <!-- 数据表格 -->
-          <el-table :data="tableData" v-loading="loading" class="fins-table">
-            <!-- 用户组 -->
-            <el-table-column prop="group_name" :label="$t('opc.fins.groupName')" min-width="150">
-              <template #default="{ row }">
-                <span class="group-name">{{ row.group_name }}</span>
-              </template>
-            </el-table-column>
+    <div class="main-card">
+      <div class="card-content">
+        <el-table :data="tableData" v-loading="loading" class="fins-table">
+          <!-- 用户组 -->
+          <el-table-column prop="groupName" :label="$t('opc.fins.groupName')" min-width="130">
+            <template #default="{ row }">
+              <span class="group-name">{{ row.groupName }}</span>
+            </template>
+          </el-table-column>
 
-            <!-- 状态 -->
-            <el-table-column :label="$t('opc.fins.status')" width="100" align="center">
-              <template #default="{ row }">
-                <el-tag :type="row.rule_work ? 'success' : 'danger'" size="small">
-                  {{ row.rule_work ? $t('opc.fins.enabled') : $t('opc.fins.disabled') }}
-                </el-tag>
-              </template>
-            </el-table-column>
+          <!-- 状态 -->
+          <el-table-column :label="$t('opc.fins.status')" width="100" align="center">
+            <template #default="{ row }">
+              <el-switch v-model="row.rule_work" @change="handleToggleStatus(row)" inline-prompt :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
+            </template>
+          </el-table-column>
 
-            <!-- 命令黑名单 -->
-            <el-table-column :label="$t('opc.fins.cmdFilter')" min-width="220">
-              <template #default="{ row }">
-                <div class="cmd-tags">
-                  <el-tag
-                    v-for="cmd in row.cmd_filter.slice(0, 3)"
-                    :key="cmd"
-                    type="danger"
-                    size="small"
-                    class="cmd-tag"
-                  >
-                    {{ cmd }}
-                  </el-tag>
-                  <el-tag v-if="row.cmd_filter.length > 3" type="danger" size="small" class="cmd-tag">
-                    +{{ row.cmd_filter.length - 3 }}
-                  </el-tag>
-                  <span v-if="!row.cmd_filter?.length" class="empty-text">-</span>
-                </div>
-              </template>
-            </el-table-column>
+          <!-- GCT限制 -->
+          <el-table-column prop="gct_limit" :label="$t('opc.fins.gctLimit')" width="100" align="center" />
 
-            <!-- 内存区域过滤 -->
-            <el-table-column :label="$t('opc.fins.memoryFilter')" min-width="150">
-              <template #default="{ row }">
-                <el-button type="primary" size="small" @click="showMemoryConfig(row)">
-                  {{ $t('opc.fins.config') }} ({{ row.memory_filter?.length || 0 }})
+          <!-- 读过滤 -->
+          <el-table-column :label="$t('opc.fins.readFilter')" min-width="130" align="center">
+            <template #default="{ row }">
+              <el-tag :type="getFilterTypeTagType(row.r_filter_type)" size="small">
+                {{ getFilterTypeLabel(row.r_filter_type) }}
+              </el-tag>
+              <span v-if="row.table_r_tabs?.length" class="count-badge">{{ row.table_r_tabs.length }}</span>
+            </template>
+          </el-table-column>
+
+          <!-- 写过滤 -->
+          <el-table-column :label="$t('opc.fins.writeFilter')" min-width="130" align="center">
+            <template #default="{ row }">
+              <el-tag :type="getFilterTypeTagType(row.w_filter_type)" size="small">
+                {{ getFilterTypeLabel(row.w_filter_type) }}
+              </el-tag>
+              <span v-if="row.table_w_tabs?.length" class="count-badge">{{ row.table_w_tabs.length }}</span>
+            </template>
+          </el-table-column>
+
+          <!-- 命令过滤 -->
+          <el-table-column :label="$t('opc.fins.cmdFilter')" min-width="140">
+            <template #default="{ row }">
+              <div class="cmd-tags">
+                <el-tag v-for="cat in getActiveCmdCategories(row.commandFilter)" :key="cat" type="primary" size="small" class="cmd-tag">{{ cat }}</el-tag>
+                <span v-if="getActiveCmdCategories(row.commandFilter).length === 0" class="empty-text">-</span>
+              </div>
+            </template>
+          </el-table-column>
+
+          <!-- 操作 -->
+          <el-table-column :label="$t('opc.fins.actions')" min-width="200" fixed="right">
+            <template #default="{ row }">
+              <div class="action-btns">
+                <el-button type="primary" size="small" @click="handleView(row)">
+                  <el-icon><View /></el-icon>
+                  {{ $t('opc.fins.view') }}
                 </el-button>
-              </template>
-            </el-table-column>
+                <el-button type="warning" size="small" @click="handleEdit(row)">
+                  <el-icon><Edit /></el-icon>
+                  {{ $t('opc.fins.edit') }}
+                </el-button>
+                <el-button type="danger" size="small" @click="handleDelete(row)">
+                  <el-icon><Delete /></el-icon>
+                  {{ $t('opc.fins.delete') }}
+                </el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
 
-            <!-- 操作 -->
-            <el-table-column :label="$t('opc.fins.actions')" min-width="280" fixed="right">
-              <template #default="{ row }">
-                <div class="action-btns">
-                  <el-button type="primary" size="small" @click="handleView(row)">
-                    <el-icon><View /></el-icon>
-                    {{ $t('opc.fins.view') }}
-                  </el-button>
-                  <el-button type="warning" size="small" @click="handleEdit(row)">
-                    <el-icon><Edit /></el-icon>
-                    {{ $t('opc.fins.edit') }}
-                  </el-button>
-                  <el-button type="danger" size="small" @click="handleDelete(row)">
-                    <el-icon><Delete /></el-icon>
-                    {{ $t('opc.fins.delete') }}
-                  </el-button>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-
-          <!-- 分页 -->
-          <div class="pagination-wrapper">
-            <el-pagination
-              v-model:current-page="pagination.page"
-              v-model:page-size="pagination.pageSize"
-              :total="pagination.total"
-              layout="total, sizes, prev, pager, next"
-              :page-sizes="[10, 20, 50]"
-            />
-          </div>
+        <div class="pagination-wrapper">
+          <el-pagination
+            v-model:current-page="pagination.page"
+            v-model:page-size="pagination.pageSize"
+            :total="pagination.total"
+            layout="total, sizes, prev, pager, next"
+            :page-sizes="[10, 20, 50]"
+          />
         </div>
       </div>
     </div>
 
-    <!-- 添加/编辑对话框 -->
+    <!-- 添加/编辑对话框（6步Stepper） -->
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? $t('opc.fins.editDialog') : $t('opc.fins.addDialog')"
-      width="600px"
+      width="720px"
       class="form-dialog"
       :close-on-click-modal="false"
     >
-      <el-form :model="formData" :rules="formRules" ref="formRef" label-width="130px" class="form-content">
-        <el-form-item :label="$t('opc.fins.groupName')" prop="group_name">
-          <el-select v-model="formData.group_name" :placeholder="$t('common.pleaseSelect')" style="width: 100%">
-            <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('opc.fins.ruleSwitch')" prop="rule_work">
-          <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" />
-        </el-form-item>
-
-        <el-form-item :label="$t('opc.fins.cmdFilter')">
-          <el-select
-            v-model="formData.cmd_filter"
-            multiple
-            filterable
-            allow-create
-            :placeholder="$t('opc.fins.cmdFilterPlaceholder')"
-            style="width: 100%"
-          >
-            <el-option v-for="cmd in cmdOptions" :key="cmd" :label="cmd" :value="cmd" />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('opc.fins.memoryFilter')">
-          <div class="memory-config-wrapper">
-            <div v-for="(config, index) in formData.memory_filter" :key="index" class="memory-config-item">
-              <el-select v-model="config.area" :placeholder="$t('opc.fins.areaPlaceholder')" style="width: 100px">
-                <el-option v-for="area in areaOptions" :key="area" :label="area" :value="area" />
-              </el-select>
-              <el-input-number v-model="config.address" :min="0" :max="65535" :placeholder="$t('opc.fins.address')" style="width: 120px" />
-              <el-input-number v-model="config.length" :min="1" :max="65535" :placeholder="$t('opc.fins.length')" style="width: 120px" />
-              <el-button type="danger" size="small" @click="removeMemoryConfig(index)">
-                <el-icon><Delete /></el-icon>
-              </el-button>
-            </div>
-            <el-button type="primary" size="small" @click="addMemoryConfig">
-              <el-icon><Plus /></el-icon>
-              {{ $t('opc.fins.addMemory') }}
-            </el-button>
+      <!-- Stepper -->
+      <div class="bs-stepper">
+        <div class="bs-stepper-header">
+          <div class="step" :class="{ active: currentStep === 1, done: currentStep > 1 }" @click="goToStep(1)">
+            <div class="bs-stepper-circle"><span>1</span></div>
+            <div class="bs-stepper-label">{{ $t('opc.fins.step.basic') }}</div>
           </div>
+          <div class="line" :class="{ active: currentStep >= 2 }"></div>
+          <div class="step" :class="{ active: currentStep === 2, done: currentStep > 2 }" @click="goToStep(2)">
+            <div class="bs-stepper-circle"><span>2</span></div>
+            <div class="bs-stepper-label">{{ $t('opc.fins.step.readFilter') }}</div>
+          </div>
+          <div class="line" :class="{ active: currentStep >= 3 }"></div>
+          <div class="step" :class="{ active: currentStep === 3, done: currentStep > 3 }" @click="goToStep(3)">
+            <div class="bs-stepper-circle"><span>3</span></div>
+            <div class="bs-stepper-label">{{ $t('opc.fins.step.writeFilter') }}</div>
+          </div>
+          <div class="line" :class="{ active: currentStep >= 4 }"></div>
+          <div class="step" :class="{ active: currentStep === 4, done: currentStep > 4 }" @click="goToStep(4)">
+            <div class="bs-stepper-circle"><span>4</span></div>
+            <div class="bs-stepper-label">{{ $t('opc.fins.step.sourceFilter') }}</div>
+          </div>
+          <div class="line" :class="{ active: currentStep >= 5 }"></div>
+          <div class="step" :class="{ active: currentStep === 5, done: currentStep > 5 }" @click="goToStep(5)">
+            <div class="bs-stepper-circle"><span>5</span></div>
+            <div class="bs-stepper-label">{{ $t('opc.fins.step.destFilter') }}</div>
+          </div>
+          <div class="line" :class="{ active: currentStep >= 6 }"></div>
+          <div class="step" :class="{ active: currentStep === 6 }" @click="goToStep(6)">
+            <div class="bs-stepper-circle"><span>6</span></div>
+            <div class="bs-stepper-label">{{ $t('opc.fins.step.commandFilter') }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 1: 基本设置 -->
+      <div v-show="currentStep === 1" class="step-content">
+        <el-form :model="formData" :rules="formRules" ref="formRef" label-width="140px" class="form-content">
+          <el-form-item :label="$t('opc.fins.ruleSwitch')">
+            <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
+          </el-form-item>
+          <el-form-item :label="$t('opc.fins.groupName')" prop="groupName">
+            <el-select v-model="formData.groupName" :placeholder="$t('opc.fins.groupNamePlaceholder')" style="width: 100%" :disabled="isEdit">
+              <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('opc.fins.gctLimit')" prop="gct_limit">
+            <el-input-number v-model="formData.gct_limit" :min="0" controls-position="right" style="width: 100%" />
+            <div class="form-tip">{{ $t('opc.fins.gctLimitTip') }}</div>
+          </el-form-item>
+          <el-form-item :label="$t('opc.fins.norespDisable')">
+            <el-select v-model="formData.noresp_disable" style="width: 100%">
+              <el-option :label="$t('opc.fins.noresp.disable')" :value="0" />
+              <el-option :label="$t('opc.fins.noresp.enable')" :value="1" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <!-- Step 2: 读过滤 -->
+      <div v-show="currentStep === 2" class="step-content">
+        <h4 class="step-title">{{ $t('opc.fins.step.readFilter') }}</h4>
+        <el-form label-width="140px">
+          <el-form-item :label="$t('opc.fins.filterType')">
+            <el-select v-model="formData.r_filter_type" style="width: 100%">
+              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" size="small" @click="openAreaModal('r')" style="margin-left: 140px">
+          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+        </el-button>
+        <div v-if="formData.table_r_tabs.length > 0" class="dynamic-table-section">
+          <el-table :data="formData.table_r_tabs" size="small" border>
+            <el-table-column prop="area" :label="$t('opc.fins.filter.area')" width="100" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.area.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="130" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="130" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+              <template #default="{ $index }">
+                <el-button type="danger" link @click="formData.table_r_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+
+      <!-- Step 3: 写过滤 -->
+      <div v-show="currentStep === 3" class="step-content">
+        <h4 class="step-title">{{ $t('opc.fins.step.writeFilter') }}</h4>
+        <el-form label-width="140px">
+          <el-form-item :label="$t('opc.fins.filterType')">
+            <el-select v-model="formData.w_filter_type" style="width: 100%">
+              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" size="small" @click="openAreaModal('w')" style="margin-left: 140px">
+          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+        </el-button>
+        <div v-if="formData.table_w_tabs.length > 0" class="dynamic-table-section">
+          <el-table :data="formData.table_w_tabs" size="small" border>
+            <el-table-column prop="area" :label="$t('opc.fins.filter.area')" width="100" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.area.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="130" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="130" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+              <template #default="{ $index }">
+                <el-button type="danger" link @click="formData.table_w_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+
+      <!-- Step 4: 源过滤 -->
+      <div v-show="currentStep === 4" class="step-content">
+        <h4 class="step-title">{{ $t('opc.fins.step.sourceFilter') }}</h4>
+        <el-form label-width="140px">
+          <el-form-item :label="$t('opc.fins.filterType')">
+            <el-select v-model="formData.s_filter_type" style="width: 100%">
+              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" size="small" @click="openAddrModal('s')" style="margin-left: 140px">
+          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+        </el-button>
+        <div v-if="formData.table_s_tabs.length > 0" class="dynamic-table-section">
+          <el-table :data="formData.table_s_tabs" size="small" border>
+            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="150" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="150" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+              <template #default="{ $index }">
+                <el-button type="danger" link @click="formData.table_s_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+
+      <!-- Step 5: 目的过滤 -->
+      <div v-show="currentStep === 5" class="step-content">
+        <h4 class="step-title">{{ $t('opc.fins.step.destFilter') }}</h4>
+        <el-form label-width="140px">
+          <el-form-item :label="$t('opc.fins.filterType')">
+            <el-select v-model="formData.d_filter_type" style="width: 100%">
+              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" size="small" @click="openAddrModal('d')" style="margin-left: 140px">
+          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+        </el-button>
+        <div v-if="formData.table_d_tabs.length > 0" class="dynamic-table-section">
+          <el-table :data="formData.table_d_tabs" size="small" border>
+            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="150" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="150" align="center">
+              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+            </el-table-column>
+            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+              <template #default="{ $index }">
+                <el-button type="danger" link @click="formData.table_d_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+
+      <!-- Step 6: 命令过滤 -->
+      <div v-show="currentStep === 6" class="step-content">
+        <h4 class="step-title">{{ $t('opc.fins.step.commandFilter') }}</h4>
+        <el-collapse v-model="activeCategories" class="command-collapse">
+          <el-collapse-item v-for="cat in commandCategories" :key="cat.key" :title="cat.label" :name="cat.key">
+            <el-checkbox-group v-model="formData.commandFilter[cat.key]" class="command-checkbox-group">
+              <el-checkbox v-for="cmd in cat.commands" :key="cmd.value" :value="cmd.value" :label="cmd.value">
+                {{ cmd.label }}
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+
+      <!-- 步骤按钮 -->
+      <div class="step-footer">
+        <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
+        <el-button v-if="currentStep > 1" @click="currentStep--">{{ $t('opc.fins.previous') }}</el-button>
+        <el-button v-if="currentStep < 6" type="primary" @click="currentStep++">{{ $t('opc.fins.next') }}</el-button>
+        <el-button v-if="currentStep === 6" type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('opc.fins.submit') }}</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 添加区域条目弹窗(Step 2/3) -->
+    <el-dialog v-model="areaModalVisible" :title="$t('opc.fins.addFilterEntry')" width="440px" class="form-dialog" append-to-body>
+      <el-form :model="areaForm" :rules="areaRules" ref="areaFormRef" label-width="100px">
+        <el-form-item :label="$t('opc.fins.filter.area')" prop="area">
+          <el-input v-model="areaForm.area" placeholder="00 - FF" maxlength="2">
+            <template #prefix>0x</template>
+          </el-input>
+          <div class="form-tip">{{ $t('opc.fins.filter.areaTip') }}</div>
+        </el-form-item>
+        <el-form-item :label="$t('opc.fins.filter.begin')" prop="begin">
+          <el-input v-model="areaForm.begin" placeholder="000000 - FFFFFF" maxlength="6">
+            <template #prefix>0x</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('opc.fins.filter.end')" prop="end">
+          <el-input v-model="areaForm.end" placeholder="000000 - FFFFFF" maxlength="6">
+            <template #prefix>0x</template>
+          </el-input>
         </el-form-item>
       </el-form>
-
       <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
-          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">
-            {{ $t('common.confirm') }}
-          </el-button>
-        </div>
+        <el-button @click="areaModalVisible = false">{{ $t('common.cancel') }}</el-button>
+        <el-button type="primary" @click="confirmAreaEntry">{{ $t('common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
+
+    <!-- 添加地址条目弹窗(Step 4/5) -->
+    <el-dialog v-model="addrModalVisible" :title="$t('opc.fins.addAddrEntry')" width="440px" class="form-dialog" append-to-body>
+      <el-form :model="addrForm" :rules="addrRules" ref="addrFormRef" label-width="100px">
+        <el-form-item :label="$t('opc.fins.filter.begin')" prop="begin">
+          <el-input v-model="addrForm.begin" placeholder="000000 - FFFFFF" maxlength="6">
+            <template #prefix>0x</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item :label="$t('opc.fins.filter.end')" prop="end">
+          <el-input v-model="addrForm.end" placeholder="000000 - FFFFFF" maxlength="6">
+            <template #prefix>0x</template>
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="addrModalVisible = false">{{ $t('common.cancel') }}</el-button>
+        <el-button type="primary" @click="confirmAddrEntry">{{ $t('common.confirm') }}</el-button>
       </template>
     </el-dialog>
 
     <!-- 查看详情对话框 -->
-    <el-dialog
-      v-model="viewDialogVisible"
-      :title="$t('opc.fins.viewDetail')"
-      width="550px"
-      class="view-dialog"
-    >
+    <el-dialog v-model="viewDialogVisible" :title="$t('opc.fins.viewDetail')" width="700px" class="view-dialog">
       <el-descriptions :column="2" border>
-        <el-descriptions-item :label="$t('opc.fins.groupName')">{{ viewData.group_name }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.fins.groupName')">{{ viewData.groupName }}</el-descriptions-item>
         <el-descriptions-item :label="$t('opc.fins.status')">
           <el-tag :type="viewData.rule_work ? 'success' : 'danger'" size="small">
             {{ viewData.rule_work ? $t('opc.fins.enabled') : $t('opc.fins.disabled') }}
           </el-tag>
         </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.fins.gctLimit')">{{ viewData.gct_limit }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.fins.norespDisable')">
+          {{ viewData.noresp_disable === 0 ? $t('opc.fins.noresp.disable') : $t('opc.fins.noresp.enable') }}
+        </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.fins.readFilter')">
+          <el-tag :type="getFilterTypeTagType(viewData.r_filter_type)" size="small">{{ getFilterTypeLabel(viewData.r_filter_type) }}</el-tag>
+          <span v-if="viewData.table_r_tabs?.length" class="count-badge">{{ viewData.table_r_tabs.length }}</span>
+        </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.fins.writeFilter')">
+          <el-tag :type="getFilterTypeTagType(viewData.w_filter_type)" size="small">{{ getFilterTypeLabel(viewData.w_filter_type) }}</el-tag>
+          <span v-if="viewData.table_w_tabs?.length" class="count-badge">{{ viewData.table_w_tabs.length }}</span>
+        </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.fins.sourceFilter')">
+          <el-tag :type="getFilterTypeTagType(viewData.s_filter_type)" size="small">{{ getFilterTypeLabel(viewData.s_filter_type) }}</el-tag>
+          <span v-if="viewData.table_s_tabs?.length" class="count-badge">{{ viewData.table_s_tabs.length }}</span>
+        </el-descriptions-item>
+        <el-descriptions-item :label="$t('opc.fins.destFilter')">
+          <el-tag :type="getFilterTypeTagType(viewData.d_filter_type)" size="small">{{ getFilterTypeLabel(viewData.d_filter_type) }}</el-tag>
+          <span v-if="viewData.table_d_tabs?.length" class="count-badge">{{ viewData.table_d_tabs.length }}</span>
+        </el-descriptions-item>
         <el-descriptions-item :label="$t('opc.fins.cmdFilter')" :span="2">
           <div class="view-tags">
-            <el-tag v-for="cmd in viewData.cmd_filter" :key="cmd" type="danger" size="small" class="view-tag">
-              {{ cmd }}
-            </el-tag>
-            <span v-if="!viewData.cmd_filter?.length">-</span>
+            <el-tag v-for="cat in getActiveCmdCategories(viewData.commandFilter)" :key="cat" type="primary" size="small" class="view-tag">{{ cat }}</el-tag>
+            <span v-if="getActiveCmdCategories(viewData.commandFilter).length === 0">-</span>
           </div>
-        </el-descriptions-item>
-        <el-descriptions-item :label="$t('opc.fins.memoryFilter')" :span="2">
-          <div class="memory-list" v-if="viewData.memory_filter?.length">
-            <div v-for="(config, index) in viewData.memory_filter" :key="index" class="memory-item">
-              {{ $t('opc.fins.area') }}: {{ config.area }} | {{ $t('opc.fins.address') }}: {{ config.address }} | {{ $t('opc.fins.length') }}: {{ config.length }}
-            </div>
-          </div>
-          <span v-else>-</span>
         </el-descriptions-item>
       </el-descriptions>
       <template #footer>
         <el-button type="primary" @click="viewDialogVisible = false">{{ $t('common.confirm') }}</el-button>
       </template>
     </el-dialog>
-
-    <!-- 内存配置查看对话框 -->
-    <el-dialog
-      v-model="memoryDialogVisible"
-      :title="$t('opc.fins.memoryConfigTitle')"
-      width="500px"
-      class="view-dialog"
-    >
-      <el-table :data="memoryViewData" border size="small">
-        <el-table-column prop="area" :label="$t('opc.fins.area')" width="100" />
-        <el-table-column prop="address" :label="$t('opc.fins.address')" width="120" />
-        <el-table-column prop="length" :label="$t('opc.fins.length')" width="100" />
-      </el-table>
-      <template #footer>
-        <el-button type="primary" @click="memoryDialogVisible = false">{{ $t('common.confirm') }}</el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import { Connection, Plus, InfoFilled, View, Edit, Delete } from '@element-plus/icons-vue'
@@ -235,229 +428,317 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
 
-// 类型定义
-interface MemoryConfig {
-  area: string
-  address: number
-  length: number
+// ==================== 类型 ====================
+interface AreaTab { area: string; begin: string; end: string }
+interface AddrTab { begin: string; end: string }
+interface CommandFilter {
+  MEMORY_AREA: number[]; PARAMETER_AREA: number[]; PROGRAM_AREA: number[]
+  CONTROL: number[]; CONTROLLER_DATA: number[]; STATUS: number[]
+  CLOCK: number[]; TEST: number[]; MESSAGE: number[]
+  ACCESS_RIGHT: number[]; ERROR: number[]; FILE: number[]
+  FORCED: number[]; NAME: number[]
 }
-
 interface FinsRule {
-  id: string
-  group_name: string
-  rule_work: boolean
-  cmd_filter: string[]
-  memory_filter: MemoryConfig[]
+  id: string; groupName: string; rule_work: boolean
+  gct_limit: number; noresp_disable: number
+  r_filter_type: number; table_r_tabs: AreaTab[]
+  w_filter_type: number; table_w_tabs: AreaTab[]
+  s_filter_type: number; table_s_tabs: AddrTab[]
+  d_filter_type: number; table_d_tabs: AddrTab[]
+  commandFilter: CommandFilter
 }
 
-// 状态
-// 用户组选项
-const groupOptions = [
-  'opc_group_1',
-  'opc_group_2',
-  'admin_group',
-  'user_group'
+// ==================== 选项 ====================
+const groupOptions = ['opc_group_1', 'opc_group_2', 'admin_group', 'user_group']
+
+const commandCategories = [
+  { key: 'MEMORY_AREA' as const, label: t('opc.fins.cmdCategory.MEMORY_AREA'), commands: [
+    { value: 0, label: 'Memory Area Read' }, { value: 1, label: 'Memory Area Write' },
+    { value: 2, label: 'Memory Area Fill' }, { value: 3, label: 'Memory Area Transfer' }
+  ]},
+  { key: 'PARAMETER_AREA' as const, label: t('opc.fins.cmdCategory.PARAMETER_AREA'), commands: [
+    { value: 0, label: 'Parameter Area Read' }, { value: 1, label: 'Parameter Area Write' }
+  ]},
+  { key: 'PROGRAM_AREA' as const, label: t('opc.fins.cmdCategory.PROGRAM_AREA'), commands: [
+    { value: 0, label: 'Program Area Read' }, { value: 1, label: 'Program Area Write' },
+    { value: 2, label: 'Program Area Clear' }
+  ]},
+  { key: 'CONTROL' as const, label: t('opc.fins.cmdCategory.CONTROL'), commands: [
+    { value: 0, label: 'Run' }, { value: 1, label: 'Stop' }, { value: 2, label: 'Reset' }
+  ]},
+  { key: 'CONTROLLER_DATA' as const, label: t('opc.fins.cmdCategory.CONTROLLER_DATA'), commands: [
+    { value: 0, label: 'Controller Data Read' }
+  ]},
+  { key: 'STATUS' as const, label: t('opc.fins.cmdCategory.STATUS'), commands: [
+    { value: 0, label: 'Status Read' }, { value: 1, label: 'Status Read All' }
+  ]},
+  { key: 'CLOCK' as const, label: t('opc.fins.cmdCategory.CLOCK'), commands: [
+    { value: 0, label: 'Clock Read' }, { value: 1, label: 'Clock Write' }
+  ]},
+  { key: 'TEST' as const, label: t('opc.fins.cmdCategory.TEST'), commands: [
+    { value: 0, label: 'Echo Back' }
+  ]},
+  { key: 'MESSAGE' as const, label: t('opc.fins.cmdCategory.MESSAGE'), commands: [
+    { value: 0, label: 'Message Read' }, { value: 1, label: 'Message Write' },
+    { value: 2, label: 'Message Clear' }
+  ]},
+  { key: 'ACCESS_RIGHT' as const, label: t('opc.fins.cmdCategory.ACCESS_RIGHT'), commands: [
+    { value: 0, label: 'Access Right Read' }, { value: 1, label: 'Access Right Write' },
+    { value: 2, label: 'Access Right Cancel' }
+  ]},
+  { key: 'ERROR' as const, label: t('opc.fins.cmdCategory.ERROR'), commands: [
+    { value: 0, label: 'Error Read' }, { value: 1, label: 'Error Read All' },
+    { value: 2, label: 'Error Clear' }, { value: 3, label: 'Error Clear All' }
+  ]},
+  { key: 'FILE' as const, label: t('opc.fins.cmdCategory.FILE'), commands: [
+    { value: 0, label: 'File Read' }, { value: 1, label: 'File Write' },
+    { value: 2, label: 'File Transfer' }, { value: 3, label: 'File Delete' }
+  ]},
+  { key: 'FORCED' as const, label: t('opc.fins.cmdCategory.FORCED'), commands: [
+    { value: 0, label: 'Forced Set' }, { value: 1, label: 'Forced Cancel' },
+    { value: 2, label: 'Forced Cancel All' }, { value: 3, label: 'Forced Status' }
+  ]},
+  { key: 'NAME' as const, label: t('opc.fins.cmdCategory.NAME'), commands: [
+    { value: 0, label: 'Name Read' }, { value: 1, label: 'Name Write' }
+  ]}
 ]
 
+// ==================== 辅助 ====================
+const getFilterTypeLabel = (type: number) => {
+  const map: Record<number, string> = { 0: t('opc.fins.filterTypeOptions.noLimit'), 1: t('opc.fins.filterTypeOptions.blacklist'), 2: t('opc.fins.filterTypeOptions.whitelist') }
+  return map[type] || '-'
+}
+const getFilterTypeTagType = (type: number) => ({ 0: 'info', 1: 'danger', 2: 'success' }[type] || 'info')
+
+const emptyCmdFilter = (): CommandFilter => ({
+  MEMORY_AREA: [], PARAMETER_AREA: [], PROGRAM_AREA: [], CONTROL: [],
+  CONTROLLER_DATA: [], STATUS: [], CLOCK: [], TEST: [], MESSAGE: [],
+  ACCESS_RIGHT: [], ERROR: [], FILE: [], FORCED: [], NAME: []
+})
+
+const getActiveCmdCategories = (cf: CommandFilter | undefined) => {
+  if (!cf) return []
+  return Object.keys(cf).filter(k => (cf as any)[k]?.length > 0)
+}
+
+// ==================== 状态 ====================
 const loading = ref(false)
 const submitLoading = ref(false)
 const dialogVisible = ref(false)
 const viewDialogVisible = ref(false)
-const memoryDialogVisible = ref(false)
 const isEdit = ref(false)
 const formRef = ref<FormInstance>()
 const editingId = ref('')
-const memoryViewData = ref<MemoryConfig[]>([])
+const currentStep = ref(1)
+const activeCategories = ref<string[]>([])
 
-// 命令选项
-const cmdOptions = [
-  'MEMORY_AREA_READ', 'MEMORY_AREA_WRITE', 'MEMORY_READ', 'MEMORY_WRITE',
-  'PARAMETER_AREA_READ', 'PARAMETER_AREA_WRITE', 'PROGRAM_AREA_READ', 'PROGRAM_AREA_WRITE',
-  'DM_REG_READ', 'DM_REG_WRITE', 'IO_REG_READ', 'IO_REG_WRITE',
-  'CONTROL', 'STATUS_READ', 'RUN', 'STOP', 'CLEAR'
-]
+// 子弹窗
+const areaModalVisible = ref(false)
+const addrModalVisible = ref(false)
+const areaFormRef = ref<FormInstance>()
+const addrFormRef = ref<FormInstance>()
+const areaTarget = ref<'r' | 'w'>('r')
+const addrTarget = ref<'s' | 'd'>('s')
+const areaForm = reactive({ area: '', begin: '', end: '' })
+const addrForm = reactive({ begin: '', end: '' })
 
-// 内存区域选项
-const areaOptions = ['CIO', 'WR', 'HR', 'AR', 'DM', 'EM']
-
-// 模拟数据
+// ==================== 模拟数据 ====================
 const mockData = ref<FinsRule[]>([
   {
-    id: '1',
-    group_name: 'plc_control',
-    rule_work: true,
-    cmd_filter: ['PROGRAM_AREA_WRITE', 'CLEAR', 'STOP'],
-    memory_filter: [
-      { area: 'DM', address: 0, length: 100 },
-      { area: 'CIO', address: 0, length: 50 }
-    ]
+    id: '1', groupName: 'plc_control', rule_work: true, gct_limit: 2, noresp_disable: 0,
+    r_filter_type: 1, table_r_tabs: [{ area: '82', begin: '000000', end: '00ffff' }],
+    w_filter_type: 0, table_w_tabs: [],
+    s_filter_type: 2, table_s_tabs: [{ begin: '000001', end: '0000ff' }],
+    d_filter_type: 0, table_d_tabs: [],
+    commandFilter: { ...emptyCmdFilter(), MEMORY_AREA: [0, 1], CONTROL: [0, 2] }
   },
   {
-    id: '2',
-    group_name: 'hmi_readonly',
-    rule_work: true,
-    cmd_filter: ['MEMORY_WRITE', 'DM_REG_WRITE'],
-    memory_filter: [
-      { area: 'DM', address: 100, length: 200 }
-    ]
+    id: '2', groupName: 'hmi_readonly', rule_work: true, gct_limit: 3, noresp_disable: 1,
+    r_filter_type: 0, table_r_tabs: [],
+    w_filter_type: 2, table_w_tabs: [{ area: 'd0', begin: '000000', end: '000100' }],
+    s_filter_type: 0, table_s_tabs: [],
+    d_filter_type: 1, table_d_tabs: [{ begin: '000100', end: '000200' }],
+    commandFilter: { ...emptyCmdFilter(), STATUS: [0, 1], CONTROLLER_DATA: [0] }
   },
   {
-    id: '3',
-    group_name: 'engineering_station',
-    rule_work: false,
-    cmd_filter: [],
-    memory_filter: []
+    id: '3', groupName: 'scada_system', rule_work: false, gct_limit: 2, noresp_disable: 0,
+    r_filter_type: 0, table_r_tabs: [],
+    w_filter_type: 0, table_w_tabs: [],
+    s_filter_type: 0, table_s_tabs: [],
+    d_filter_type: 0, table_d_tabs: [],
+    commandFilter: emptyCmdFilter()
   }
 ])
 
 const tableData = ref<FinsRule[]>([])
+const pagination = reactive({ page: 1, pageSize: 10, total: 0 })
 
-const pagination = reactive({
-  page: 1,
-  pageSize: 10,
-  total: 0
-})
-
-const defaultMemoryConfig = (): MemoryConfig[] => []
-
+// ==================== 表单 ====================
 const formData = reactive({
-  group_name: '',
-  rule_work: true,
-  cmd_filter: [] as string[],
-  memory_filter: defaultMemoryConfig()
+  groupName: '', rule_work: true, gct_limit: 2, noresp_disable: 0,
+  r_filter_type: 0, table_r_tabs: [] as AreaTab[],
+  w_filter_type: 0, table_w_tabs: [] as AreaTab[],
+  s_filter_type: 0, table_s_tabs: [] as AddrTab[],
+  d_filter_type: 0, table_d_tabs: [] as AddrTab[],
+  commandFilter: emptyCmdFilter()
 })
 
 const viewData = ref<FinsRule>({
-  id: '',
-  group_name: '',
-  rule_work: false,
-  cmd_filter: [],
-  memory_filter: []
+  id: '', groupName: '', rule_work: false, gct_limit: 2, noresp_disable: 0,
+  r_filter_type: 0, table_r_tabs: [], w_filter_type: 0, table_w_tabs: [],
+  s_filter_type: 0, table_s_tabs: [], d_filter_type: 0, table_d_tabs: [],
+  commandFilter: emptyCmdFilter()
 })
 
 const formRules: FormRules = {
-  group_name: [
-    { required: true, message: t('opc.fins.groupNameRequired'), trigger: 'blur' }
+  groupName: [{ required: true, message: t('opc.fins.groupNameRequired'), trigger: 'change' }],
+  gct_limit: [{ required: true, message: t('opc.fins.gctLimitRequired'), trigger: 'blur' }]
+}
+
+const isValidArea = (v: string) => /^[0-9a-fA-F]{2}$/.test(v)
+const isValidAddr = (v: string) => /^[0-9a-fA-F]{6}$/.test(v)
+
+const areaRules: FormRules = {
+  area: [
+    { required: true, message: t('opc.fins.validation.areaRequired') },
+    { validator: (_r: any, v: string, cb: Function) => { isValidArea(v) ? cb() : cb(new Error(t('opc.fins.validation.areaFormat'))) } }
+  ],
+  begin: [
+    { required: true, message: t('opc.fins.validation.beginRequired') },
+    { validator: (_r: any, v: string, cb: Function) => { isValidAddr(v) ? cb() : cb(new Error(t('opc.fins.validation.addrFormat'))) } }
+  ],
+  end: [
+    { required: true, message: t('opc.fins.validation.endRequired') },
+    { validator: (_r: any, v: string, cb: Function) => { isValidAddr(v) ? cb() : cb(new Error(t('opc.fins.validation.addrFormat'))) } }
   ]
 }
 
-// 列表方法
+const addrRules: FormRules = {
+  begin: [
+    { required: true, message: t('opc.fins.validation.beginRequired') },
+    { validator: (_r: any, v: string, cb: Function) => { isValidAddr(v) ? cb() : cb(new Error(t('opc.fins.validation.addrFormat'))) } }
+  ],
+  end: [
+    { required: true, message: t('opc.fins.validation.endRequired') },
+    { validator: (_r: any, v: string, cb: Function) => { isValidAddr(v) ? cb() : cb(new Error(t('opc.fins.validation.addrFormat'))) } }
+  ]
+}
+
+// ==================== 数据加载 ====================
 const fetchList = () => {
   loading.value = true
   setTimeout(() => {
     tableData.value = mockData.value
     pagination.total = mockData.value.length
     loading.value = false
-  }, 500)
+  }, 300)
 }
+
+// ==================== 操作 ====================
+const goToStep = (step: number) => { currentStep.value = step }
 
 const resetForm = () => {
-  formData.group_name = ''
-  formData.rule_work = true
-  formData.cmd_filter = []
-  formData.memory_filter = defaultMemoryConfig()
-  editingId.value = ''
+  formData.groupName = ''; formData.rule_work = true; formData.gct_limit = 2; formData.noresp_disable = 0
+  formData.r_filter_type = 0; formData.table_r_tabs = []
+  formData.w_filter_type = 0; formData.table_w_tabs = []
+  formData.s_filter_type = 0; formData.table_s_tabs = []
+  formData.d_filter_type = 0; formData.table_d_tabs = []
+  formData.commandFilter = emptyCmdFilter()
+  editingId.value = ''; currentStep.value = 1
 }
 
-const handleAdd = () => {
-  isEdit.value = false
-  resetForm()
-  dialogVisible.value = true
-}
+const handleAdd = () => { isEdit.value = false; resetForm(); dialogVisible.value = true }
 
 const handleView = (row: FinsRule) => {
-  viewData.value = { ...row, cmd_filter: [...row.cmd_filter], memory_filter: [...row.memory_filter] }
+  viewData.value = { ...row, commandFilter: { ...row.commandFilter } }
   viewDialogVisible.value = true
 }
 
-const showMemoryConfig = (row: FinsRule) => {
-  memoryViewData.value = [...row.memory_filter]
-  memoryDialogVisible.value = true
-}
-
 const handleEdit = (row: FinsRule) => {
-  isEdit.value = true
-  editingId.value = row.id
-  formData.group_name = row.group_name
-  formData.rule_work = row.rule_work
-  formData.cmd_filter = [...row.cmd_filter]
-  formData.memory_filter = row.memory_filter.map(m => ({ ...m }))
-  dialogVisible.value = true
+  isEdit.value = true; editingId.value = row.id
+  formData.groupName = row.groupName; formData.rule_work = row.rule_work
+  formData.gct_limit = row.gct_limit; formData.noresp_disable = row.noresp_disable
+  formData.r_filter_type = row.r_filter_type; formData.table_r_tabs = row.table_r_tabs.map(t => ({ ...t }))
+  formData.w_filter_type = row.w_filter_type; formData.table_w_tabs = row.table_w_tabs.map(t => ({ ...t }))
+  formData.s_filter_type = row.s_filter_type; formData.table_s_tabs = row.table_s_tabs.map(t => ({ ...t }))
+  formData.d_filter_type = row.d_filter_type; formData.table_d_tabs = row.table_d_tabs.map(t => ({ ...t }))
+  formData.commandFilter = { ...row.commandFilter }
+  currentStep.value = 1; dialogVisible.value = true
 }
 
 const handleDelete = async (row: FinsRule) => {
   try {
-    await ElMessageBox.confirm(
-      t('opc.fins.deleteConfirm', { name: row.group_name }),
-      t('common.confirm'),
-      { type: 'warning' }
-    )
+    await ElMessageBox.confirm(t('opc.fins.deleteConfirm', { name: row.groupName }), t('common.confirm'), { type: 'warning' })
     mockData.value = mockData.value.filter(item => item.id !== row.id)
     fetchList()
-    ElNotification({
-      title: t('common.success'),
-      message: t('opc.fins.deleteSuccess'),
-      type: 'success',
-      customClass: 'notification-success'
-    })
-  } catch {
-    // 用户取消
-  }
+    ElNotification({ title: t('common.success'), message: t('opc.fins.deleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
 }
 
-const addMemoryConfig = () => {
-  formData.memory_filter.push({ area: 'DM', address: 0, length: 1 })
+const handleToggleStatus = (_row: FinsRule) => {
+  ElNotification({ title: t('common.success'), message: t('opc.fins.editSuccess'), type: 'success', customClass: 'notification-success' })
 }
 
-const removeMemoryConfig = (index: number) => {
-  formData.memory_filter.splice(index, 1)
+// 子弹窗：区域条目
+const openAreaModal = (target: 'r' | 'w') => {
+  areaTarget.value = target; areaForm.area = ''; areaForm.begin = ''; areaForm.end = ''
+  areaModalVisible.value = true
+}
+const confirmAreaEntry = () => {
+  areaFormRef.value?.validate((valid) => {
+    if (!valid) return
+    const entry = { area: areaForm.area.toLowerCase(), begin: areaForm.begin.toLowerCase(), end: areaForm.end.toLowerCase() }
+    if (areaTarget.value === 'r') formData.table_r_tabs.push(entry)
+    else formData.table_w_tabs.push(entry)
+    areaModalVisible.value = false
+  })
+}
+
+// 子弹窗：地址条目
+const openAddrModal = (target: 's' | 'd') => {
+  addrTarget.value = target; addrForm.begin = ''; addrForm.end = ''
+  addrModalVisible.value = true
+}
+const confirmAddrEntry = () => {
+  addrFormRef.value?.validate((valid) => {
+    if (!valid) return
+    const entry = { begin: addrForm.begin.toLowerCase(), end: addrForm.end.toLowerCase() }
+    if (addrTarget.value === 's') formData.table_s_tabs.push(entry)
+    else formData.table_d_tabs.push(entry)
+    addrModalVisible.value = false
+  })
 }
 
 const handleSubmit = () => {
   if (!formRef.value) return
-
   formRef.value.validate((valid) => {
-    if (valid) {
-      submitLoading.value = true
-      setTimeout(() => {
-        if (isEdit.value) {
-          const index = mockData.value.findIndex(item => item.id === editingId.value)
-          if (index !== -1) {
-            mockData.value[index] = {
-              id: editingId.value,
-              group_name: formData.group_name,
-              rule_work: formData.rule_work,
-              cmd_filter: [...formData.cmd_filter],
-              memory_filter: formData.memory_filter.map(m => ({ ...m }))
-            }
-          }
-        } else {
-          mockData.value.push({
-            id: Date.now().toString(),
-            group_name: formData.group_name,
-            rule_work: formData.rule_work,
-            cmd_filter: [...formData.cmd_filter],
-            memory_filter: formData.memory_filter.map(m => ({ ...m }))
-          })
-        }
-
-        submitLoading.value = false
-        dialogVisible.value = false
-        ElNotification({
-          title: t('common.success'),
-          message: isEdit.value ? t('opc.fins.editSuccess') : t('opc.fins.addSuccess'),
-          type: 'success',
-          customClass: 'notification-success'
-        })
-        fetchList()
-      }, 1000)
-    }
+    if (!valid) { currentStep.value = 1; return }
+    submitLoading.value = true
+    setTimeout(() => {
+      const data = {
+        id: isEdit.value ? editingId.value : Date.now().toString(),
+        groupName: formData.groupName, rule_work: formData.rule_work,
+        gct_limit: formData.gct_limit, noresp_disable: formData.noresp_disable,
+        r_filter_type: formData.r_filter_type, table_r_tabs: formData.table_r_tabs.map(t => ({ ...t })),
+        w_filter_type: formData.w_filter_type, table_w_tabs: formData.table_w_tabs.map(t => ({ ...t })),
+        s_filter_type: formData.s_filter_type, table_s_tabs: formData.table_s_tabs.map(t => ({ ...t })),
+        d_filter_type: formData.d_filter_type, table_d_tabs: formData.table_d_tabs.map(t => ({ ...t })),
+        commandFilter: { ...formData.commandFilter }
+      }
+      if (isEdit.value) {
+        const idx = mockData.value.findIndex(item => item.id === editingId.value)
+        if (idx !== -1) mockData.value[idx] = data
+      } else {
+        mockData.value.push(data)
+      }
+      submitLoading.value = false; dialogVisible.value = false
+      ElNotification({ title: t('common.success'), message: isEdit.value ? t('opc.fins.editSuccess') : t('opc.fins.addSuccess'), type: 'success', customClass: 'notification-success' })
+      fetchList()
+    }, 500)
   })
 }
 
-onMounted(() => {
-  fetchList()
-})
+fetchList()
 </script>
 
 <style scoped>
@@ -467,223 +748,146 @@ onMounted(() => {
   min-height: calc(100vh - 60px);
 }
 
-/* 页面头部 */
+/* ========== 页面头部 ========== */
 .page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   padding: 14px 20px;
   background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
-  border-radius: 12px;
-  margin-bottom: 16px;
+  border-radius: 12px; margin-bottom: 16px;
   box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
 }
-
-.header-left {
-  display: flex;
-  align-items: center;
-  color: white;
-}
-
+.header-left { display: flex; align-items: center; color: white; }
 .header-icon {
-  width: 36px;
-  height: 36px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  font-size: 18px;
+  width: 36px; height: 36px; background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  margin-right: 12px; font-size: 18px;
 }
+.header-title { font-size: 18px; font-weight: 600; }
+.btn-add { background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3); color: white; }
+.btn-add:hover { background: rgba(255, 255, 255, 0.3); }
 
-.header-title {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.btn-add {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-}
-
-.btn-add:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* 页面描述 */
+/* ========== 页面描述 ========== */
 .page-describe {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  display: flex; align-items: center; gap: 8px; padding: 12px 16px;
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
-  border-radius: 8px;
-  margin-bottom: 16px;
-  color: #606266;
-  font-size: 14px;
+  border-radius: 8px; margin-bottom: 16px; color: #606266; font-size: 14px;
 }
+.describe-icon { color: #409EFF; font-size: 16px; }
 
-.describe-icon {
-  color: #409EFF;
-  font-size: 16px;
-}
-
-/* 内容区域 */
-.content-wrapper {
-  flex: 1;
-}
-
+/* ========== 主卡片 ========== */
 .main-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  background: white; border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
 }
+.card-content { padding: 24px 28px; }
 
-.card-content {
-  padding: 20px;
-}
-
-/* 表格样式 */
-.fins-table {
-  width: 100%;
-}
-
+/* ========== 表格 ========== */
 .fins-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
-  font-weight: 600;
-  color: #303133;
-  padding: 14px 12px;
+  font-weight: 600; color: #303133; padding: 14px 12px;
 }
-
-.fins-table :deep(.el-table td.el-table__cell) {
-  padding: 14px 12px;
-}
-
+.fins-table :deep(.el-table td.el-table__cell) { padding: 14px 12px; }
 .fins-table :deep(.el-table .el-table__row:hover > td) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%) !important;
 }
-
-/* 组名称 */
-.group-name {
-  font-weight: 600;
-  color: #409EFF;
+.group-name { font-weight: 600; color: #409EFF; }
+.count-badge {
+  margin-left: 6px; background: rgba(64, 158, 255, 0.1); color: #409EFF;
+  padding: 1px 6px; border-radius: 10px; font-size: 12px;
 }
-
-/* 标签 */
-.cmd-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.cmd-tag {
-  font-size: 12px;
-}
-
-.empty-text {
-  color: #c0c4cc;
-}
-
-/* 操作按钮 */
-.action-btns {
-  display: flex;
-  gap: 6px;
-}
-
-/* 分页 */
+.cmd-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.cmd-tag { font-size: 12px; }
+.empty-text { color: #c0c4cc; }
+.action-btns { display: flex; gap: 6px; }
 .pagination-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(64, 158, 255, 0.08);
+  display: flex; justify-content: flex-end; margin-top: 20px;
+  padding-top: 16px; border-top: 1px solid rgba(64, 158, 255, 0.08);
 }
 
-/* 表单对话框 */
-.form-dialog :deep(.el-dialog__header) {
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
-  margin-right: 0;
-  padding: 16px 20px;
+/* ========== Stepper ========== */
+.bs-stepper { margin-bottom: 24px; }
+.bs-stepper-header {
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px 0; gap: 0;
+}
+.bs-stepper-header .step {
+  display: flex; flex-direction: column; align-items: center; cursor: pointer;
+  min-width: 60px;
+}
+.bs-stepper-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: #909399;
+  background: #f0f2f5; border: 2px solid #dcdfe6;
+  transition: all 0.3s ease;
+}
+.step.active .bs-stepper-circle {
+  background: linear-gradient(135deg, #409EFF, #67C23A); color: white;
+  border-color: transparent; box-shadow: 0 0 12px rgba(64, 158, 255, 0.4);
+}
+.step.done .bs-stepper-circle {
+  background: linear-gradient(135deg, #67C23A, #409EFF); color: white;
+  border-color: transparent;
+}
+.bs-stepper-label {
+  margin-top: 6px; font-size: 12px; color: #909399; white-space: nowrap;
+}
+.step.active .bs-stepper-label { color: #409EFF; font-weight: 600; }
+.step.done .bs-stepper-label { color: #67C23A; }
+.bs-stepper-header .line {
+  flex: 1; height: 3px; background: #dcdfe6;
+  margin: 0 4px; margin-bottom: 20px; border-radius: 2px;
+  transition: background 0.3s ease; max-width: 40px;
+}
+.bs-stepper-header .line.active {
+  background: linear-gradient(90deg, #409EFF, #67C23A);
+}
+
+/* ========== 步骤内容 ========== */
+.step-content { min-height: 300px; }
+.step-title {
+  font-size: 16px; font-weight: 600; color: #303133;
+  margin-bottom: 20px; padding-bottom: 8px;
   border-bottom: 1px solid rgba(64, 158, 255, 0.1);
 }
-
-.form-dialog :deep(.el-dialog__body) {
-  padding: 24px;
+.form-tip { margin-top: 4px; font-size: 12px; color: #909399; }
+.hex-value {
+  font-family: 'Courier New', monospace; font-size: 13px;
+  color: #409EFF; letter-spacing: 1px;
 }
+.dynamic-table-section { margin-top: 16px; }
 
-.form-dialog :deep(.el-dialog__footer) {
+/* ========== 命令过滤折叠面板 ========== */
+.command-collapse :deep(.el-collapse-item__header) {
+  font-weight: 600; font-size: 14px; color: #303133;
+}
+.command-checkbox-group {
+  display: flex; flex-wrap: wrap; gap: 12px;
+}
+.command-checkbox-group .el-checkbox { min-width: 180px; }
+
+/* ========== 步骤按钮 ========== */
+.step-footer {
+  display: flex; justify-content: flex-end; gap: 10px;
+  padding-top: 20px; margin-top: 20px;
   border-top: 1px solid rgba(64, 158, 255, 0.1);
-  padding: 16px 20px;
 }
 
-.form-content {
-  max-width: 100%;
+/* ========== 对话框 ========== */
+.form-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+  margin-right: 0; padding: 16px 20px;
+  border-bottom: 1px solid rgba(64, 158, 255, 0.1);
 }
+.form-dialog :deep(.el-dialog__body) { padding: 24px; max-height: 60vh; overflow-y: auto; }
+.form-dialog :deep(.el-dialog__footer) { border-top: 1px solid rgba(64, 158, 255, 0.1); padding: 16px 20px; }
+.form-content { max-width: 100%; }
 
-/* 内存配置 */
-.memory-config-wrapper {
-  width: 100%;
-}
-
-.memory-config-item {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-/* 查看对话框 */
+/* ========== 查看对话框 ========== */
 .view-dialog :deep(.el-dialog__header) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
 }
-
-.view-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.view-tag {
-  font-size: 12px;
-}
-
-.memory-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.memory-item {
-  padding: 4px 8px;
-  background: rgba(64, 158, 255, 0.05);
-  border-radius: 4px;
-  font-size: 13px;
-}
-
-/* 底部按钮 */
-.dialog-footer {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-/* 响应式 */
-@media (max-width: 768px) {
-  .page-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .action-btns {
-    flex-direction: column;
-  }
-
-  .memory-config-item {
-    flex-wrap: wrap;
-  }
-}
+.view-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.view-tag { font-size: 12px; }
 </style>
