@@ -79,7 +79,11 @@ export default {
     logout: '退出登录',
     logoutConfirm: '确定要退出登录吗?',
     logoutSuccess: '已退出登录',
-    developing: '功能开发中'
+    developing: '功能开发中',
+    linkStatus: '链路状态',
+    linkOnline: '在线',
+    linkOffline: '离线',
+    linkDetail: '链路状态详情'
   },
   menu: {
     system: '系统',

@@ -227,7 +227,7 @@ const handleLogin = async () => {
 
     // Redirect
     const redirect = route.query.redirect as string
-    router.push(redirect || '/system/user')
+    router.push(redirect || '/supervise/sysInfo')
   } catch (error) {
     console.error('Login failed:', error)
   } finally {

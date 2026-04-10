@@ -54,6 +54,24 @@
               <component :is="isCollapse ? 'Expand' : 'Fold'" />
             </el-icon>
           </div>
+
+          <!-- Link Status Monitor -->
+          <div class="tech-link-bar">
+            <div class="tlb-bg" />
+            <div class="tlb-scan" />
+            <div class="tlb-corner tlb-tl" /><div class="tlb-corner tlb-tr" /><div class="tlb-corner tlb-bl" /><div class="tlb-corner tlb-br" />
+            <div class="tlb-label">
+              <svg viewBox="0 0 16 16" width="14" height="14" class="tlb-icon"><circle cx="8" cy="8" r="6" fill="none" stroke-width="1.2"/><circle cx="8" cy="8" r="2.5"/><line x1="8" y1="2" x2="8" y2="5" stroke-width="1.2"/><line x1="8" y1="11" x2="8" y2="14" stroke-width="1.2"/><line x1="2" y1="8" x2="5" y2="8" stroke-width="1.2"/><line x1="11" y1="8" x2="14" y2="8" stroke-width="1.2"/></svg>
+              <span>{{ $t('navbar.linkStatus') }}</span>
+            </div>
+            <div class="tlb-links">
+              <div v-for="link in linkList" :key="link.name" class="tlb-node" :class="link.online ? 'node-on' : 'node-off'">
+                <span class="tlb-ring"><span class="tlb-dot" /></span>
+                <span class="tlb-name">{{ link.name }}</span>
+              </div>
+            </div>
+          </div>
+
           <el-breadcrumb separator="/" class="header-breadcrumb">
             <el-breadcrumb-item v-for="item in breadcrumbs" :key="item.path">
               {{ item.title }}
@@ -140,6 +158,12 @@ const route = useRoute()
 const isCollapse = ref(false)
 const nickName = ref(sessionStorage.getItem('nick_name') || '')
 const currentLocale = ref(getLocale())
+
+// ==================== 链路状态监控 ====================
+interface LinkItem { name: string; online: boolean }
+const linkList = ref<LinkItem[]>([
+  { name: '内联通道', online: true }
+])
 
 // Icon mapping
 const getIcon = (iconName: string) => {
@@ -579,6 +603,7 @@ const handleCommand = async (command: string) => {
   display: flex;
   align-items: center;
   gap: 20px;
+  position: relative;
 }
 
 .hamburger{
@@ -612,6 +637,116 @@ const handleCommand = async (command: string) => {
   align-items: center;
   gap: 16px;
 }
+
+/* ========== Tech Link Status Bar ========== */
+.tech-link-bar {
+  position: relative; display: flex; align-items: center; gap: 12px;
+  padding: 0 16px 0 12px; height: 34px;
+  border-radius: 6px; overflow: hidden;
+  border: 1px solid rgba(37, 99, 235, 0.15);
+  margin-left: 4px;
+}
+
+/* 渐变底色 */
+.tlb-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(6, 182, 212, 0.04) 50%, rgba(37, 99, 235, 0.05) 100%);
+}
+
+/* 扫描光 */
+.tlb-scan {
+  position: absolute; top: 0; left: 0; width: 50px; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.12), transparent);
+  animation: tlbScanMove 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes tlbScanMove {
+  0% { left: -50px; }
+  100% { left: calc(100% + 50px); }
+}
+
+/* 四角科技装饰 */
+.tlb-corner {
+  position: absolute; width: 6px; height: 6px;
+  border-color: rgba(56, 189, 248, 0.4); border-style: solid; border-width: 0;
+  pointer-events: none;
+}
+.tlb-tl { top: -1px; left: -1px; border-top-width: 1.5px; border-left-width: 1.5px; border-top-left-radius: 3px; }
+.tlb-tr { top: -1px; right: -1px; border-top-width: 1.5px; border-right-width: 1.5px; border-top-right-radius: 3px; }
+.tlb-bl { bottom: -1px; left: -1px; border-bottom-width: 1.5px; border-left-width: 1.5px; border-bottom-left-radius: 3px; }
+.tlb-br { bottom: -1px; right: -1px; border-bottom-width: 1.5px; border-right-width: 1.5px; border-bottom-right-radius: 3px; }
+
+/* 标题区 */
+.tlb-label {
+  display: flex; align-items: center; gap: 5px;
+  position: relative; z-index: 1;
+  padding-right: 10px; margin-right: 2px;
+  border-right: 1px solid rgba(56, 189, 248, 0.15);
+}
+.tlb-icon {
+  stroke: #38bdf8; fill: none;
+  filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.4));
+}
+.tlb-icon circle:nth-child(2) { fill: #38bdf8; }
+.tlb-label span {
+  font-size: 11px; font-weight: 700; color: #0284c7;
+  letter-spacing: 1px; text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* 节点列表 */
+.tlb-links {
+  display: flex; align-items: center; gap: 8px;
+  position: relative; z-index: 1;
+}
+
+/* 单个链路节点 */
+.tlb-node {
+  display: flex; align-items: center; gap: 5px;
+  padding: 3px 8px; border-radius: 4px;
+  transition: background 0.2s;
+}
+.node-on { background: rgba(16, 185, 129, 0.06); }
+.node-on:hover { background: rgba(16, 185, 129, 0.12); }
+.node-off { background: rgba(239, 68, 68, 0.05); }
+.node-off:hover { background: rgba(239, 68, 68, 0.1); }
+
+/* 双层圆点指示器 */
+.tlb-ring {
+  width: 14px; height: 14px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; flex-shrink: 0;
+}
+.node-on .tlb-ring {
+  border: 1.5px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.1);
+}
+.node-off .tlb-ring {
+  border: 1.5px solid rgba(239, 68, 68, 0.15);
+}
+.tlb-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+}
+.node-on .tlb-dot {
+  background: #10b981;
+  box-shadow: 0 0 4px #10b981, 0 0 10px rgba(16, 185, 129, 0.4);
+  animation: tlbBreathe 2s ease-in-out infinite;
+}
+.node-off .tlb-dot {
+  background: #ef4444;
+  box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
+}
+@keyframes tlbBreathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.tlb-name {
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+  font-family: 'Courier New', monospace; letter-spacing: 0.3px;
+}
+.node-on .tlb-name { color: #059669; }
+.node-off .tlb-name { color: #b91c1c; }
 
 /* Language Switcher */
 .lang-switcher{

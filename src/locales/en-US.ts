@@ -79,7 +79,11 @@ export default {
     logout: 'Logout',
     logoutConfirm: 'Are you sure you want to logout?',
     logoutSuccess: 'Logged out',
-    developing: 'Feature under development'
+    developing: 'Feature under development',
+    linkStatus: 'Link',
+    linkOnline: 'Online',
+    linkOffline: 'Offline',
+    linkDetail: 'Link Status Detail'
   },
   menu: {
     system: 'System',
