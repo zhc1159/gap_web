@@ -64,64 +64,66 @@
       </div>
     </div>
 
-    <!-- 配置卡片 -->
-    <div class="card main-card">
-      <div class="card-content">
-        <div class="section-header">
-          <div class="section-dot"></div>
-          <h3 class="section-title">{{ $t('systemManage.funcManager.switch.inner') }}</h3>
-        </div>
-
-        <!-- 内网 SNMP -->
-        <div class="config-row">
-          <div class="row-left">
-            <div class="icon-wrapper inner-icon" :class="{ enabled: innerEnabled }">
-              <el-icon :size="22"><Monitor /></el-icon>
+    <!-- 配置卡片 - 并排布局 -->
+    <div class="cards-row">
+      <!-- 内网 SNMP -->
+      <div class="card switch-card">
+        <div class="card-content">
+          <div class="section-header">
+            <div class="section-dot"></div>
+            <h3 class="section-title">{{ $t('systemManage.funcManager.switch.inner') }}</h3>
+          </div>
+          <div class="config-row">
+            <div class="row-left">
+              <div class="icon-wrapper inner-icon" :class="{ enabled: innerEnabled }">
+                <el-icon :size="22"><Monitor /></el-icon>
+              </div>
+              <div class="row-text">
+                <span class="row-title">{{ $t('systemManage.funcManager.switch.inner') }}</span>
+                <span class="row-desc">{{ $t('systemManage.funcManager.switch.innerDesc') }}</span>
+              </div>
             </div>
-            <div class="row-text">
-              <span class="row-title">{{ $t('systemManage.funcManager.switch.inner') }}</span>
-              <span class="row-desc">{{ $t('systemManage.funcManager.switch.innerDesc') }}</span>
+            <div class="row-right">
+              <el-switch
+                v-model="innerEnabled"
+                size="large"
+                :active-text="$t('systemManage.funcManager.status.on')"
+                :inactive-text="$t('systemManage.funcManager.status.off')"
+                inline-prompt
+                @change="handleInnerChange"
+              />
             </div>
           </div>
-          <div class="row-right">
-            <el-switch
-              v-model="innerEnabled"
-              size="large"
-              :active-text="$t('systemManage.funcManager.status.on')"
-              :inactive-text="$t('systemManage.funcManager.status.off')"
-              inline-prompt
-              @change="handleInnerChange"
-            />
-          </div>
         </div>
+      </div>
 
-        <div class="config-divider"></div>
-
-        <div class="section-header">
-          <div class="section-dot"></div>
-          <h3 class="section-title">{{ $t('systemManage.funcManager.switch.outer') }}</h3>
-        </div>
-
-        <!-- 外网 SNMP -->
-        <div class="config-row">
-          <div class="row-left">
-            <div class="icon-wrapper outer-icon" :class="{ enabled: outerEnabled }">
-              <el-icon :size="22"><Connection /></el-icon>
-            </div>
-            <div class="row-text">
-              <span class="row-title">{{ $t('systemManage.funcManager.switch.outer') }}</span>
-              <span class="row-desc">{{ $t('systemManage.funcManager.switch.outerDesc') }}</span>
-            </div>
+      <!-- 外网 SNMP -->
+      <div class="card switch-card">
+        <div class="card-content">
+          <div class="section-header">
+            <div class="section-dot"></div>
+            <h3 class="section-title">{{ $t('systemManage.funcManager.switch.outer') }}</h3>
           </div>
-          <div class="row-right">
-            <el-switch
-              v-model="outerEnabled"
-              size="large"
-              :active-text="$t('systemManage.funcManager.status.on')"
-              :inactive-text="$t('systemManage.funcManager.status.off')"
-              inline-prompt
-              @change="handleOuterChange"
-            />
+          <div class="config-row">
+            <div class="row-left">
+              <div class="icon-wrapper outer-icon" :class="{ enabled: outerEnabled }">
+                <el-icon :size="22"><Connection /></el-icon>
+              </div>
+              <div class="row-text">
+                <span class="row-title">{{ $t('systemManage.funcManager.switch.outer') }}</span>
+                <span class="row-desc">{{ $t('systemManage.funcManager.switch.outerDesc') }}</span>
+              </div>
+            </div>
+            <div class="row-right">
+              <el-switch
+                v-model="outerEnabled"
+                size="large"
+                :active-text="$t('systemManage.funcManager.status.on')"
+                :inactive-text="$t('systemManage.funcManager.status.off')"
+                inline-prompt
+                @change="handleOuterChange"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -370,8 +372,14 @@ onMounted(() => {
   line-height: 1.6;
 }
 
-/* ========== 配置卡片 ========== */
-.main-card {
+/* ========== 配置卡片并排布局 ========== */
+.cards-row {
+  display: flex;
+  gap: 20px;
+}
+
+.switch-card {
+  flex: 1;
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -469,9 +477,4 @@ onMounted(() => {
   line-height: 1.4;
 }
 
-.config-divider {
-  height: 1px;
-  background: linear-gradient(90deg, rgba(64, 158, 255, 0.06) 0%, rgba(64, 158, 255, 0.1) 50%, rgba(64, 158, 255, 0.06) 100%);
-  margin: 8px 0 20px;
-}
 </style>
