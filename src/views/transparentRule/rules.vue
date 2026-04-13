@@ -131,9 +131,11 @@
           <div class="pagination-wrapper">
             <el-pagination
               v-model:current-page="pagination.page"
-              :page-size="pagination.pageSize"
+              v-model:page-size="pagination.pageSize"
+              :page-sizes="[10, 20, 50, 100]"
               :total="pagination.total"
-              layout="total, prev, pager, next, jumper"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChange"
               @current-change="handlePageChange"
             />
           </div>
@@ -515,6 +517,11 @@ const handleSubmit = async () => {
   })
 }
 
+const handleSizeChange = (size: number) => {
+  pagination.pageSize = size
+  fetchList()
+}
+
 const handlePageChange = (page: number) => {
   pagination.page = page
   fetchList()
@@ -548,10 +555,10 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 14px 20px;
-  background: linear-gradient(135deg, #67C23A 0%, #409EFF 100%);
+  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
   border-radius: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 16px rgba(103, 194, 58, 0.2);
+  box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
 }
 
 .header-left {

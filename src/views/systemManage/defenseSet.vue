@@ -77,90 +77,97 @@
       </div>
     </div>
 
-    <!-- 配置卡片 -->
-    <div class="card main-card">
-      <div class="card-content">
-        <div class="section-header">
-          <div class="section-dot" :class="{ active: engineEnabled }"></div>
-          <h3 class="section-title">{{ $t('systemManage.defenseSet.engine.label') }}</h3>
-        </div>
-
-        <!-- 引擎开关 -->
-        <div class="config-row">
-          <div class="row-left">
-            <div class="icon-wrapper" :class="{ enabled: engineEnabled }">
-              <el-icon :size="20"><Switch /></el-icon>
-            </div>
-            <div class="row-text">
-              <span class="row-title">{{ $t('systemManage.defenseSet.engine.switch') }}</span>
-              <span class="row-desc">{{ engineEnabled ? $t('systemManage.defenseSet.engine.enable') : $t('systemManage.defenseSet.engine.disable') }}</span>
-            </div>
+    <!-- 配置卡片 - 并排布局 -->
+    <div class="cards-row">
+      <!-- 引擎开关 -->
+      <div class="card switch-card">
+        <div class="card-content">
+          <div class="section-header">
+            <div class="section-dot" :class="{ active: engineEnabled }"></div>
+            <h3 class="section-title">{{ $t('systemManage.defenseSet.engine.label') }}</h3>
           </div>
-          <div class="row-right">
-            <el-switch
-              v-model="engineEnabled"
-              size="large"
-              :active-text="$t('systemManage.defenseSet.engine.enable')"
-              :inactive-text="$t('systemManage.defenseSet.engine.disable')"
-              inline-prompt
-              @change="handleEngineToggle"
-            />
-          </div>
-        </div>
-
-        <div class="config-divider"></div>
-
-        <!-- 监听接口 -->
-        <div class="config-row">
-          <div class="row-left">
-            <div class="icon-wrapper interface-icon" :class="{ enabled: engineEnabled }">
-              <el-icon :size="20"><Connection /></el-icon>
+          <div class="config-row">
+            <div class="row-left">
+              <div class="icon-wrapper" :class="{ enabled: engineEnabled }">
+                <el-icon :size="20"><Switch /></el-icon>
+              </div>
+              <div class="row-text">
+                <span class="row-title">{{ $t('systemManage.defenseSet.engine.switch') }}</span>
+                <span class="row-desc">{{ engineEnabled ? $t('systemManage.defenseSet.engine.enable') : $t('systemManage.defenseSet.engine.disable') }}</span>
+              </div>
             </div>
-            <div class="row-text">
-              <span class="row-title">{{ $t('systemManage.defenseSet.interface.label') }}</span>
-              <span class="row-desc">{{ $t('systemManage.defenseSet.interface.placeholder') }}</span>
+            <div class="row-right">
+              <el-switch
+                v-model="engineEnabled"
+                size="large"
+                :active-text="$t('systemManage.defenseSet.engine.enable')"
+                :inactive-text="$t('systemManage.defenseSet.engine.disable')"
+                inline-prompt
+                @change="handleEngineToggle"
+              />
             </div>
           </div>
-          <div class="row-right">
-            <el-select
-              v-model="selectedInterface"
-              :placeholder="$t('systemManage.defenseSet.interface.placeholder')"
-              :disabled="!engineEnabled"
-              filterable
-              style="width: 320px"
-            >
-              <el-option
-                v-for="iface in interfaceList"
-                :key="iface.value"
-                :label="`${iface.label} (${iface.ipAddress || '--'})`"
-                :value="iface.value"
-                :disabled="iface.status === 'down'"
-              >
-                <div class="interface-option">
-                  <span class="iface-name">{{ iface.label }}</span>
-                  <span class="iface-ip">{{ iface.ipAddress || '--' }}</span>
-                  <el-tag
-                    :type="iface.status === 'up' ? 'success' : 'danger'"
-                    size="small"
-                    effect="dark"
-                    class="iface-status-tag"
-                  >
-                    {{ iface.status === 'up' ? $t('systemManage.defenseSet.interface.statusUp') : $t('systemManage.defenseSet.interface.statusDown') }}
-                  </el-tag>
-                </div>
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-
-        <!-- 保存按钮 -->
-        <div class="action-row">
-          <el-button type="primary" size="large" class="apply-btn" @click="handleSave">
-            <el-icon><Check /></el-icon>
-            {{ $t('systemManage.defenseSet.actions.save') }}
-          </el-button>
         </div>
       </div>
+
+      <!-- 监听接口 -->
+      <div class="card switch-card">
+        <div class="card-content">
+          <div class="section-header">
+            <div class="section-dot" :class="{ active: engineEnabled }"></div>
+            <h3 class="section-title">{{ $t('systemManage.defenseSet.interface.label') }}</h3>
+          </div>
+          <div class="config-row">
+            <div class="row-left">
+              <div class="icon-wrapper interface-icon" :class="{ enabled: engineEnabled }">
+                <el-icon :size="20"><Connection /></el-icon>
+              </div>
+              <div class="row-text">
+                <span class="row-title">{{ $t('systemManage.defenseSet.interface.label') }}</span>
+                <span class="row-desc">{{ $t('systemManage.defenseSet.interface.placeholder') }}</span>
+              </div>
+            </div>
+            <div class="row-right">
+              <el-select
+                v-model="selectedInterface"
+                :placeholder="$t('systemManage.defenseSet.interface.placeholder')"
+                :disabled="!engineEnabled"
+                filterable
+                style="width: 320px"
+              >
+                <el-option
+                  v-for="iface in interfaceList"
+                  :key="iface.value"
+                  :label="`${iface.label} (${iface.ipAddress || '--'})`"
+                  :value="iface.value"
+                  :disabled="iface.status === 'down'"
+                >
+                  <div class="interface-option">
+                    <span class="iface-name">{{ iface.label }}</span>
+                    <span class="iface-ip">{{ iface.ipAddress || '--' }}</span>
+                    <el-tag
+                      :type="iface.status === 'up' ? 'success' : 'danger'"
+                      size="small"
+                      effect="dark"
+                      class="iface-status-tag"
+                    >
+                      {{ iface.status === 'up' ? $t('systemManage.defenseSet.interface.statusUp') : $t('systemManage.defenseSet.interface.statusDown') }}
+                    </el-tag>
+                  </div>
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 保存按钮 -->
+    <div class="action-row">
+      <el-button type="primary" size="large" class="apply-btn" @click="handleSave">
+        <el-icon><Check /></el-icon>
+        {{ $t('systemManage.defenseSet.actions.save') }}
+      </el-button>
     </div>
   </div>
 </template>
@@ -503,8 +510,14 @@ onMounted(() => {
   background: rgba(64, 158, 255, 0.15);
 }
 
-/* ========== 配置卡片 ========== */
-.main-card {
+/* ========== 配置卡片并排布局 ========== */
+.cards-row {
+  display: flex;
+  gap: 20px;
+}
+
+.switch-card {
+  flex: 1;
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -599,12 +612,6 @@ onMounted(() => {
   line-height: 1.4;
 }
 
-.config-divider {
-  height: 1px;
-  background: linear-gradient(90deg, rgba(64, 158, 255, 0.06) 0%, rgba(64, 158, 255, 0.1) 50%, rgba(64, 158, 255, 0.06) 100%);
-  margin: 4px 0;
-}
-
 /* 接口选项 */
 .interface-option {
   display: flex;
@@ -632,9 +639,8 @@ onMounted(() => {
 .action-row {
   display: flex;
   justify-content: flex-end;
-  padding-top: 20px;
-  margin-top: 8px;
-  border-top: 1px solid rgba(64, 158, 255, 0.08);
+  padding: 0 32px;
+  margin-top: 20px;
 }
 
 .apply-btn {
