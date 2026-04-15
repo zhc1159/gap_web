@@ -105,9 +105,11 @@
           <div class="pagination-wrapper">
             <el-pagination
               v-model:current-page="pagination.page"
-              :page-size="pagination.pageSize"
+              v-model:page-size="pagination.pageSize"
+              :page-sizes="[10, 20, 50, 100]"
               :total="pagination.total"
-              layout="total, prev, pager, next, jumper"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChange"
               @current-change="handlePageChange"
             />
           </div>
@@ -328,6 +330,11 @@ const downloadCertificate = (userName: string) => {
 
 const handlePageChange = (page: number) => {
   pagination.page = page
+}
+
+const handleSizeChange = (size: number) => {
+  pagination.pageSize = size
+  fetchList()
 }
 
 onMounted(() => {
