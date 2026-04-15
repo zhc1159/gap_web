@@ -66,7 +66,15 @@
         <el-icon class="card-icon"><List /></el-icon>
         <span>{{ $t('systemMaintenance.loadProfileShow.profileList') }}</span>
       </div>
-      <el-table :data="profileList" stripe style="width: 100%">
+      <div v-if="selectedRows.length > 0" class="batch-bar">
+          <span class="batch-info">{{ $t('systemMaintenance.loadProfileShow.selectedCount', { count: selectedRows.length }) }}</span>
+          <el-button type="danger" size="small" @click="handleBatchDelete">
+            <el-icon><Delete /></el-icon>
+            {{ $t('common.delete') }}
+          </el-button>
+        </div>
+      <el-table :data="profileList" stripe style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="45" />
         <el-table-column type="index" width="60" label="#" />
         <el-table-column prop="description" :label="$t('systemMaintenance.loadProfileShow.description')" min-width="180">
           <template #default="{ row }">
@@ -220,12 +228,15 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import {
   FolderOpened, Plus, Upload, Files, CircleCheck, Clock, DataAnalysis,
   List, Document, Calendar, RefreshRight, Download, Delete, InfoFilled,
   UploadFilled, Check
 } from '@element-plus/icons-vue'
+
+const { t } = useI18n()
 
 // 类型定义
 interface ProfileItem {
@@ -243,6 +254,7 @@ const dialogVisible = ref(false)
 const actionType = ref<'add' | 'upload'>('add')
 const profileDescription = ref('')
 const selectedFile = ref<File | null>(null)
+const selectedRows = ref<ProfileItem[]>([])
 const uploading = ref(false)
 const uploadProgress = ref(0)
 const uploadRef = ref()
@@ -478,6 +490,28 @@ const handleDelete = async (row: ProfileItem) => {
   }
 }
 
+// 选择变化
+const handleSelectionChange = (rows: ProfileItem[]) => {
+  selectedRows.value = rows
+}
+
+// 批量删除
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('systemMaintenance.loadProfileShow.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const lineNumbers = selectedRows.value.map(row => row.lineNumber)
+    profileList.value = profileList.value.filter(p => !lineNumbers.includes(p.lineNumber))
+    selectedRows.value = []
+    ElNotification({ title: t('common.success'), message: t('systemMaintenance.loadProfileShow.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch {
+    // cancelled
+  }
+}
+
 onMounted(() => {
   // 模拟加载数据
 })
@@ -636,6 +670,18 @@ onMounted(() => {
 }
 
 /* 卡片 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+.batch-info { font-size: 13px; color: #606266; }
+
 .card {
   background: white;
   border-radius: 12px;

@@ -3297,7 +3297,10 @@ export default {
       totalProfiles: 'Total Profiles',
       currentProfile: 'Current Version',
       lastBackup: 'Last Backup',
-      totalSize: 'Total Size'
+      totalSize: 'Total Size',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} profile(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     profileBackup: {
       title: 'Configuration Backup',

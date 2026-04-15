@@ -3315,7 +3315,10 @@ export default {
       totalProfiles: '存档总数',
       currentProfile: '当前版本',
       lastBackup: '最近备份',
-      totalSize: '占用空间'
+      totalSize: '占用空间',
+      selectedCount: '已选择 {count} 个存档',
+      batchDeleteConfirm: '确定要删除选中的 {count} 个存档吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     profileBackup: {
       title: '配置备份',
