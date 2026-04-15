@@ -67,6 +67,18 @@
                   </template>
                 </el-table-column>
               </el-table>
+
+              <div class="pagination-wrapper">
+                <el-pagination
+                  v-model:current-page="innerPagination.page"
+                  v-model:page-size="innerPagination.pageSize"
+                  :page-sizes="[10, 20, 50, 100]"
+                  :total="innerPagination.total"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  @size-change="(size: number) => { innerPagination.pageSize = size }"
+                  @current-change="(page: number) => { innerPagination.page = page }"
+                />
+              </div>
             </el-tab-pane>
 
             <!-- 外网路由 -->
@@ -109,6 +121,18 @@
                   </template>
                 </el-table-column>
               </el-table>
+
+              <div class="pagination-wrapper">
+                <el-pagination
+                  v-model:current-page="outerPagination.page"
+                  v-model:page-size="outerPagination.pageSize"
+                  :page-sizes="[10, 20, 50, 100]"
+                  :total="outerPagination.total"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  @size-change="(size: number) => { outerPagination.pageSize = size }"
+                  @current-change="(page: number) => { outerPagination.page = page }"
+                />
+              </div>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -178,6 +202,8 @@ const outerTableRef = ref()
 const innerSelectedRows = ref<RouteEntry[]>([])
 const outerSelectedRows = ref<RouteEntry[]>([])
 
+const innerPagination = reactive({ page: 1, pageSize: 10, total: 0 })
+const outerPagination = reactive({ page: 1, pageSize: 10, total: 0 })
 const formData = reactive({
   id: 0,
   zone: 'inner' as 'inner' | 'outer',
@@ -323,7 +349,8 @@ async function handleBatchDelete(tab: 'inner' | 'outer') {
 }
 
 onMounted(() => {
-  // Mock数据已预置
+  innerPagination.total = innerRouteList.value.length
+  outerPagination.total = outerRouteList.value.length
 })
 </script>
 
@@ -417,6 +444,14 @@ onMounted(() => {
 .batch-info {
   font-size: 13px;
   color: #606266;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(64, 158, 255, 0.08);
 }
 
 .main-card {
