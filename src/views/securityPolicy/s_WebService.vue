@@ -25,7 +25,15 @@
     <!-- 主内容区 -->
     <div class="main-card">
       <div class="card-content">
-        <el-table :data="tableData" v-loading="loading" class="ws-table">
+        <div v-if="selectedRows.length > 0" class="batch-bar">
+          <span class="batch-info">{{ $t('securityPolicy.s_WebService.selectedCount', { count: selectedRows.length }) }}</span>
+          <el-button type="danger" size="small" @click="handleBatchDelete">
+            <el-icon><Delete /></el-icon>
+            {{ $t('common.batchDelete') }}
+          </el-button>
+        </div>
+        <el-table :data="tableData" v-loading="loading" class="ws-table" @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="50" />
           <!-- 用户组 -->
           <el-table-column prop="groupName" :label="$t('securityPolicy.s_WebService.groupName')" min-width="120">
             <template #default="{ row }">
@@ -375,6 +383,7 @@ const mockData = ref<WsRule[]>([
 ])
 
 const tableData = ref<WsRule[]>([])
+const selectedRows = ref<WsRule[]>([])
 const pagination = reactive({ page: 1, pageSize: 10, total: 0 })
 
 // ==================== 表单 ====================
@@ -402,6 +411,25 @@ const fetchList = () => {
     pagination.total = mockData.value.length
     loading.value = false
   }, 300)
+}
+
+// ==================== 批量选择 ====================
+const handleSelectionChange = (rows: WsRule[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('securityPolicy.s_WebService.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(row => row.id)
+    mockData.value = mockData.value.filter(item => !ids.includes(item.id))
+    fetchList()
+    ElNotification({ title: t('common.success'), message: t('securityPolicy.s_WebService.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
 }
 
 // ==================== 步骤操作 ====================
@@ -589,6 +617,23 @@ const handleSizeChange = (size: number) => {
 .badge-tag { font-size: 12px; }
 .soap-tag { background: rgba(64, 158, 255, 0.08); border-color: rgba(64, 158, 255, 0.2); color: #409EFF; }
 .empty-text { color: #c0c4cc; }
+/* ========== 批量操作栏 ========== */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
+}
+
 .action-btns { display: flex; gap: 6px; }
 .pagination-wrapper {
   display: flex; justify-content: flex-end; margin-top: 20px;

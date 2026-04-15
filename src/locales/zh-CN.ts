@@ -821,7 +821,10 @@ export default {
       stepTransferDesc: '配置上传下载权限、大小限制和杀毒扫描',
       prevStep: '上一步',
       nextStep: '下一步',
-      complete: '完成配置'
+      complete: '完成配置',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条FTP安全策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     s_http: {
       title: 'HTTP安全',
@@ -886,7 +889,10 @@ export default {
       addSuccess: '添加成功',
       editSuccess: '修改成功',
       enableSuccess: '启用成功',
-      disableSuccess: '禁用成功'
+      disableSuccess: '禁用成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条HTTP安全策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     s_email: {
       title: '邮件安全',
@@ -975,7 +981,10 @@ export default {
       deleteConfirm: '确定要删除规则 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条Telnet安全规则吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     s_WebService: {
       title: 'WebService安全',
@@ -1032,7 +1041,10 @@ export default {
       stepHead: 'HEAD检查',
       stepSoap: 'SOAP检查',
       prevStep: '上一步',
-      nextStep: '下一步'
+      nextStep: '下一步',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条规则吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     s_httpProxy: {
       title: 'Web代理安全',

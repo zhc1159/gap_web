@@ -813,7 +813,10 @@ export default {
       stepTransferDesc: 'Configure upload/download permissions, size limits and virus scanning',
       prevStep: 'Previous',
       nextStep: 'Next',
-      complete: 'Complete'
+      complete: 'Complete',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} FTP security policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     s_http: {
       title: 'HTTP Security',
@@ -878,7 +881,10 @@ export default {
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully',
       enableSuccess: 'Enabled successfully',
-      disableSuccess: 'Disabled successfully'
+      disableSuccess: 'Disabled successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} HTTP security policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     s_email: {
       title: 'Email Security',
@@ -967,7 +973,10 @@ export default {
       deleteConfirm: 'Are you sure to delete rule "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} Telnet security rule(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     s_WebService: {
       title: 'WebService Security',
@@ -1024,7 +1033,10 @@ export default {
       stepHead: 'HEAD Inspection',
       stepSoap: 'SOAP Inspection',
       prevStep: 'Previous',
-      nextStep: 'Next'
+      nextStep: 'Next',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} rule(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     s_httpProxy: {
       title: 'Web Proxy Security',
