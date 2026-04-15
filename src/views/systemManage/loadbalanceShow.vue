@@ -29,7 +29,15 @@
           <el-tabs v-model="activeTab" class="network-tabs">
             <!-- 内网负载均衡 -->
             <el-tab-pane :label="$t('systemManage.loadbalanceShow.innerTab')" name="inner">
-              <el-table :data="innerList" v-loading="innerLoading" class="lb-table" stripe>
+              <div v-if="innerSelectedRows.length > 0" class="batch-bar">
+                <span class="batch-info">{{ $t('systemManage.loadbalanceShow.selectedCount', { count: innerSelectedRows.length }) }}</span>
+                <el-button type="danger" size="small" @click="handleBatchDelete('inner')">
+                  <el-icon><Delete /></el-icon>
+                  {{ $t('common.delete') }}
+                </el-button>
+              </div>
+              <el-table ref="innerTableRef" :data="innerList" v-loading="innerLoading" class="lb-table" stripe @selection-change="(rows: LoadbalanceRule[]) => innerSelectedRows = rows">
+                <el-table-column type="selection" width="45" />
                 <el-table-column :label="$t('systemManage.loadbalanceShow.index')" type="index" width="70" align="center" />
                 <el-table-column :label="$t('systemManage.loadbalanceShow.floatIp')" prop="floatIp" min-width="150">
                   <template #default="{ row }">
@@ -74,7 +82,15 @@
 
             <!-- 外网负载均衡 -->
             <el-tab-pane :label="$t('systemManage.loadbalanceShow.outerTab')" name="outer">
-              <el-table :data="outerList" v-loading="outerLoading" class="lb-table" stripe>
+              <div v-if="outerSelectedRows.length > 0" class="batch-bar">
+                <span class="batch-info">{{ $t('systemManage.loadbalanceShow.selectedCount', { count: outerSelectedRows.length }) }}</span>
+                <el-button type="danger" size="small" @click="handleBatchDelete('outer')">
+                  <el-icon><Delete /></el-icon>
+                  {{ $t('common.delete') }}
+                </el-button>
+              </div>
+              <el-table ref="outerTableRef" :data="outerList" v-loading="outerLoading" class="lb-table" stripe @selection-change="(rows: LoadbalanceRule[]) => outerSelectedRows = rows">
+                <el-table-column type="selection" width="45" />
                 <el-table-column :label="$t('systemManage.loadbalanceShow.index')" type="index" width="70" align="center" />
                 <el-table-column :label="$t('systemManage.loadbalanceShow.floatIp')" prop="floatIp" min-width="150">
                   <template #default="{ row }">
@@ -270,6 +286,10 @@ const virtualIps = ['10.0.0.100', '10.0.0.200', '10.0.0.150']
 
 const innerLoading = ref(false)
 const outerLoading = ref(false)
+const innerTableRef = ref()
+const outerTableRef = ref()
+const innerSelectedRows = ref<LoadbalanceRule[]>([])
+const outerSelectedRows = ref<LoadbalanceRule[]>([])
 
 const innerList = ref<LoadbalanceRule[]>([
   {
@@ -472,6 +492,25 @@ async function handleDelete(row: LoadbalanceRule): Promise<void> {
   }
 }
 
+// 批量删除
+async function handleBatchDelete(tab: 'inner' | 'outer') {
+  const selectedRows = tab === 'inner' ? innerSelectedRows : outerSelectedRows
+  try {
+    await ElMessageBox.confirm(
+      t('systemManage.loadbalanceShow.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const uuids = selectedRows.value.map(row => row.uuid)
+    const list = tab === 'inner' ? innerList : outerList
+    list.value = list.value.filter(v => !uuids.includes(v.uuid))
+    selectedRows.value = []
+    ElNotification({ title: t('common.success'), message: t('systemManage.loadbalanceShow.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch {
+    // cancelled
+  }
+}
+
 // ==================== Detail Dialog ====================
 const detailDialogVisible = ref(false)
 const currentDetail = ref<RealServer[]>([])
@@ -555,6 +594,23 @@ function showDetail(row: LoadbalanceRule): void {
 /* 内容 */
 .content-wrapper {
   flex: 1;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 .main-card {

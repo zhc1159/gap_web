@@ -29,7 +29,15 @@
           <el-tabs v-model="activeTab" class="network-tabs">
             <!-- 内网路由 -->
             <el-tab-pane :label="$t('systemManage.routeShow.innerTab')" name="inner">
-              <el-table :data="innerRouteList" v-loading="loading" class="route-table" stripe>
+              <div v-if="innerSelectedRows.length > 0" class="batch-bar">
+                <span class="batch-info">{{ $t('systemManage.routeShow.selectedCount', { count: innerSelectedRows.length }) }}</span>
+                <el-button type="danger" size="small" @click="handleBatchDelete('inner')">
+                  <el-icon><Delete /></el-icon>
+                  {{ $t('common.delete') }}
+                </el-button>
+              </div>
+              <el-table ref="innerTableRef" :data="innerRouteList" v-loading="loading" class="route-table" stripe @selection-change="(rows: RouteEntry[]) => innerSelectedRows = rows">
+                <el-table-column type="selection" width="45" />
                 <el-table-column :label="$t('systemManage.routeShow.table.index')" type="index" width="70" align="center" />
                 <el-table-column :label="$t('systemManage.routeShow.table.destination')" prop="dIp" min-width="220">
                   <template #default="{ row }">
@@ -63,7 +71,15 @@
 
             <!-- 外网路由 -->
             <el-tab-pane :label="$t('systemManage.routeShow.outerTab')" name="outer">
-              <el-table :data="outerRouteList" v-loading="loading" class="route-table" stripe>
+              <div v-if="outerSelectedRows.length > 0" class="batch-bar">
+                <span class="batch-info">{{ $t('systemManage.routeShow.selectedCount', { count: outerSelectedRows.length }) }}</span>
+                <el-button type="danger" size="small" @click="handleBatchDelete('outer')">
+                  <el-icon><Delete /></el-icon>
+                  {{ $t('common.delete') }}
+                </el-button>
+              </div>
+              <el-table ref="outerTableRef" :data="outerRouteList" v-loading="loading" class="route-table" stripe @selection-change="(rows: RouteEntry[]) => outerSelectedRows = rows">
+                <el-table-column type="selection" width="45" />
                 <el-table-column :label="$t('systemManage.routeShow.table.index')" type="index" width="70" align="center" />
                 <el-table-column :label="$t('systemManage.routeShow.table.destination')" prop="dIp" min-width="220">
                   <template #default="{ row }">
@@ -157,6 +173,10 @@ const activeTab = ref('inner')
 const dialogVisible = ref(false)
 const dialogMode = ref<'add' | 'edit'>('add')
 const formRef = ref<FormInstance>()
+const innerTableRef = ref()
+const outerTableRef = ref()
+const innerSelectedRows = ref<RouteEntry[]>([])
+const outerSelectedRows = ref<RouteEntry[]>([])
 
 const formData = reactive({
   id: 0,
@@ -283,6 +303,25 @@ async function handleDelete(row: RouteEntry, _tab: string) {
   }
 }
 
+// 批量删除
+async function handleBatchDelete(tab: 'inner' | 'outer') {
+  const selectedRows = tab === 'inner' ? innerSelectedRows : outerSelectedRows
+  try {
+    await ElMessageBox.confirm(
+      t('systemManage.routeShow.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(row => row.id)
+    const list = tab === 'inner' ? innerRouteList : outerRouteList
+    list.value = list.value.filter(v => !ids.includes(v.id))
+    selectedRows.value = []
+    ElNotification({ title: t('common.success'), message: t('systemManage.routeShow.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch {
+    // cancelled
+  }
+}
+
 onMounted(() => {
   // Mock数据已预置
 })
@@ -361,6 +400,23 @@ onMounted(() => {
 /* 内容 */
 .content-wrapper {
   flex: 1;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 .main-card {

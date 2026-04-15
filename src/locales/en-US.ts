@@ -2766,6 +2766,9 @@ export default {
         deleteSuccess: 'Deleted successfully',
         deleteFail: 'Delete failed'
       },
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} VLAN configuration(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful',
       validation: {
         zoneRequired: 'Please select zone',
         networkAddressRequired: 'Please enter network address',
@@ -2825,7 +2828,10 @@ export default {
         gatewayRequired: 'Please enter gateway address',
         gatewayInvalid: 'Please enter a valid gateway IP address',
         interfaceRequired: 'Please select a network interface'
-      }
+      },
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} route(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     softwareConf: {
       title: 'SSH Management',
@@ -2967,7 +2973,10 @@ export default {
         info: 'Info',
         warning: 'Warning',
         critical: 'Critical'
-      }
+      },
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} log(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     defenseUpdate: {
       title: 'Signature Update',
@@ -3101,7 +3110,10 @@ export default {
       deleteConfirm: 'Are you sure you want to delete this load balancing rule?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Modified successfully'
+      editSuccess: 'Modified successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} rule(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     lvsShow: {
       title: 'Load Balance',
@@ -3162,8 +3174,11 @@ export default {
       msg: {
         deleteSuccess: 'Deleted successfully',
         addSuccess: 'Added successfully',
-        editSuccess: 'Modified successfully'
+        editSuccess: 'Modified successfully',
+        batchDeleteSuccess: 'Batch delete successful'
       },
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} LVS rule(s)? This action cannot be undone.',
       validation: {
         zoneRequired: 'Network zone is required',
         floatIpRequired: 'Float IP is required',

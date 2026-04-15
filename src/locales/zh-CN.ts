@@ -2783,6 +2783,9 @@ export default {
         deleteSuccess: '删除成功',
         deleteFail: '删除失败'
       },
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 项 VLAN 配置吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功',
       validation: {
         zoneRequired: '请选择所属区域',
         networkAddressRequired: '请输入网络地址',
@@ -2842,7 +2845,10 @@ export default {
         gatewayRequired: '请输入网关地址',
         gatewayInvalid: '请输入有效的网关 IP 地址',
         interfaceRequired: '请选择网络接口'
-      }
+      },
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条路由配置吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     softwareConf: {
       title: 'SSH管理',
@@ -2984,7 +2990,10 @@ export default {
         info: '信息',
         warning: '警告',
         critical: '严重'
-      }
+      },
+      selectedCount: '已选择 {count} 条',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条告警日志吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     defenseUpdate: {
       title: '特征库升级',
@@ -3118,7 +3127,10 @@ export default {
       deleteConfirm: '确定要删除该负载均衡规则吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条负载均衡规则吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     lvsShow: {
       title: '负载均衡',
@@ -3179,8 +3191,11 @@ export default {
       msg: {
         deleteSuccess: '删除成功',
         addSuccess: '添加成功',
-        editSuccess: '修改成功'
+        editSuccess: '修改成功',
+        batchDeleteSuccess: '批量删除成功'
       },
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条LVS规则吗？此操作不可恢复。',
       validation: {
         zoneRequired: '请选择所属网络',
         floatIpRequired: '请输入浮动IP',

@@ -62,7 +62,15 @@
       <!-- 表格区域 -->
       <div class="card main-card">
         <div class="card-content">
-          <el-table :data="tableData" v-loading="loading" class="log-table" stripe>
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('systemManage.defenseLog.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.delete') }}
+            </el-button>
+          </div>
+          <el-table :data="tableData" v-loading="loading" class="log-table" stripe @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="45" />
             <el-table-column :label="$t('systemManage.defenseLog.table.index')" width="80" align="center">
               <template #default="{ row }">
                 <span class="index-badge">{{ row.index }}</span>
@@ -148,6 +156,12 @@ const filterForm = reactive({
 // 表格数据
 const tableData = ref<DefenseLogItem[]>([])
 const loading = ref(false)
+const selectedRows = ref<DefenseLogItem[]>([])
+
+// 选择变化
+const handleSelectionChange = (rows: DefenseLogItem[]) => {
+  selectedRows.value = rows
+}
 
 // 分页
 const pagination = reactive({
@@ -247,6 +261,24 @@ async function handleAction(command: string) {
     } catch {
       // cancelled
     }
+  }
+}
+
+// 批量删除
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('systemManage.defenseLog.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(row => row.id)
+    tableData.value = tableData.value.filter(row => !ids.includes(row.id))
+    pagination.total -= ids.length
+    selectedRows.value = []
+    ElNotification({ title: t('common.success'), message: t('systemManage.defenseLog.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch {
+    // cancelled
   }
 }
 
@@ -358,6 +390,23 @@ onMounted(() => {
 
 .filter-date {
   width: 260px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 主卡片 */
