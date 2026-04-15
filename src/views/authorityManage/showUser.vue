@@ -21,7 +21,17 @@
       <div class="card main-card">
         <div class="card-content">
           <!-- 表格区域 -->
-          <el-table :data="userList" v-loading="loading" class="user-table">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('authorityManage.showUser.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
+
+          <el-table :data="userList" v-loading="loading" class="user-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <el-table-column prop="username" :label="$t('authorityManage.showUser.username')" min-width="120">
               <template #default="{ row }">
                 <div class="user-cell">
@@ -153,7 +163,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { UserFilled, Plus, User, CircleCheck, CircleClose, Download, Document } from '@element-plus/icons-vue'
+import { UserFilled, Plus, User, CircleCheck, CircleClose, Download, Document, Delete } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -187,6 +197,7 @@ const dialogVisible = ref(false)
 const dialogType = ref<'add' | 'edit'>('add')
 const certSwitch = ref(true)
 const formRef = ref<FormInstance>()
+const selectedRows = ref<AdminUser[]>([])
 
 // 模拟数据
 const userList = ref<AdminUser[]>([
@@ -330,6 +341,32 @@ const downloadCertificate = (userName: string) => {
 
 const handlePageChange = (page: number) => {
   pagination.page = page
+}
+
+const handleSelectionChange = (rows: AdminUser[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('authorityManage.showUser.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    userList.value = userList.value.filter(u => !ids.includes(u.id))
+    selectedRows.value = []
+    pagination.total = userList.value.length
+    ElNotification({
+      title: t('common.success'),
+      message: t('authorityManage.showUser.batchDeleteSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
+  } catch {
+    // 用户取消
+  }
 }
 
 const handleSizeChange = (size: number) => {
@@ -476,6 +513,23 @@ onMounted(() => {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 分页 */

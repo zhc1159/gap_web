@@ -33,7 +33,8 @@ export default {
     today: '今天',
     last7Days: '最近7天',
     last30Days: '最近30天',
-    info: '提示'
+    info: '提示',
+    batchDelete: '批量删除'
   },
   login: {
     title: 'GAP安全隔离网闸',
@@ -488,7 +489,10 @@ export default {
       activateSuccess: '激活成功',
       freezeSuccess: '冻结成功',
       issueCertSuccess: '证书签发成功',
-      downloadCertSuccess: '证书下载成功'
+      downloadCertSuccess: '证书下载成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 个管理员吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     userIpShow: {
       title: '管理机',
@@ -508,7 +512,10 @@ export default {
       ipRequired: '请输入IP地址',
       saveSuccess: '保存成功',
       deleteConfirm: '确定要删除IP地址 "{ip}" 的配置吗？',
-      deleteSuccess: '删除成功'
+      deleteSuccess: '删除成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条管理机配置吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     otp: {
       title: '动态口令',
@@ -532,7 +539,10 @@ export default {
       deleteConfirm: '确定要删除用户 "{name}" 的口令配置吗？',
       deleteSuccess: '删除成功',
       qrcodeTitle: 'OTP 二维码',
-      qrcodeHint: '请使用认证APP扫描二维码获取动态口令'
+      qrcodeHint: '请使用认证APP扫描二维码获取动态口令',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 个动态口令配置吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     secureShow: {
       title: '安全选项',

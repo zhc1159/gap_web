@@ -33,7 +33,8 @@ export default {
     today: 'Today',
     last7Days: 'Last 7 Days',
     last30Days: 'Last 30 Days',
-    info: 'Info'
+    info: 'Info',
+    batchDelete: 'Batch Delete'
   },
   login: {
     title: 'GAP Security Gateway',
@@ -483,7 +484,10 @@ export default {
       activateSuccess: 'Activated successfully',
       freezeSuccess: 'Frozen successfully',
       issueCertSuccess: 'Certificate issued successfully',
-      downloadCertSuccess: 'Certificate downloaded successfully'
+      downloadCertSuccess: 'Certificate downloaded successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete {count} selected admin(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     userIpShow: {
       title: 'Management Host',
@@ -503,7 +507,10 @@ export default {
       ipRequired: 'Please enter IP address',
       saveSuccess: 'Saved successfully',
       deleteConfirm: 'Are you sure to delete the configuration for IP address "{ip}"?',
-      deleteSuccess: 'Deleted successfully'
+      deleteSuccess: 'Deleted successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete {count} selected config(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     otp: {
       title: 'Dynamic Password',
@@ -527,7 +534,10 @@ export default {
       deleteConfirm: 'Are you sure to delete OTP configuration for user "{name}"?',
       deleteSuccess: 'Deleted successfully',
       qrcodeTitle: 'OTP QR Code',
-      qrcodeHint: 'Scan the QR code with authenticator app'
+      qrcodeHint: 'Scan the QR code with authenticator app',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete {count} selected OTP config(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     secureShow: {
       title: 'Security Options',

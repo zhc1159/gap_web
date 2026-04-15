@@ -21,7 +21,17 @@
       <div class="card main-card">
         <div class="card-content">
           <!-- 表格区域 -->
-          <el-table :data="ipList" v-loading="loading" class="ip-table">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('authorityManage.userIpShow.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
+
+          <el-table :data="ipList" v-loading="loading" class="ip-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <el-table-column :label="$t('authorityManage.userIpShow.ipAddress')" min-width="200">
               <template #default="{ row }">
                 <div class="ip-cell">
@@ -115,7 +125,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { Monitor, Plus, Location, User } from '@element-plus/icons-vue'
+import { Monitor, Plus, Location, User, Delete } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -142,6 +152,7 @@ const saving = ref(false)
 const dialogVisible = ref(false)
 const dialogType = ref<'add' | 'edit'>('add')
 const formRef = ref<FormInstance>()
+const selectedRows = ref<UserIp[]>([])
 
 // 模拟数据
 const ipList = ref<UserIp[]>([
@@ -250,6 +261,32 @@ const deleteIp = async (item: UserIp) => {
 
 const handlePageChange = (page: number) => {
   pagination.page = page
+}
+
+const handleSelectionChange = (rows: UserIp[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('authorityManage.userIpShow.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    ipList.value = ipList.value.filter(i => !ids.includes(i.id))
+    selectedRows.value = []
+    pagination.total = ipList.value.length
+    ElNotification({
+      title: t('common.success'),
+      message: t('authorityManage.userIpShow.batchDeleteSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
+  } catch {
+    // 用户取消
+  }
 }
 
 const handleSizeChange = (size: number) => {
@@ -395,6 +432,23 @@ onMounted(() => {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 分页 */
