@@ -731,15 +731,14 @@ onMounted(() => {
   gap: 12px;
   padding: 10px 16px;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(230, 162, 60, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
   border-radius: 8px;
   border: 1px solid rgba(245, 108, 108, 0.15);
 }
 
 .batch-info {
-  font-size: 14px;
-  color: #F56C6C;
-  font-weight: 500;
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 表格样式 */

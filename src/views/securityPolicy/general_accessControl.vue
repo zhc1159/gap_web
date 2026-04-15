@@ -699,9 +699,8 @@ onMounted(() => {
 }
 
 .batch-info {
-  font-size: 14px;
-  color: #F56C6C;
-  font-weight: 500;
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 表格样式 */

@@ -874,9 +874,8 @@ onMounted(() => {
   border: 1px solid rgba(245, 108, 108, 0.15);
 }
 .batch-info {
-  font-size: 14px;
-  color: #F56C6C;
-  font-weight: 500;
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 操作按钮 */
