@@ -102,9 +102,11 @@
             <el-pagination
               v-model:current-page="pagination.page"
               v-model:page-size="pagination.pageSize"
+              :page-sizes="[10, 20, 50, 100]"
               :total="pagination.total"
-              layout="total, sizes, prev, pager, next"
-              :page-sizes="[10, 20, 50]"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
             />
           </div>
         </div>
@@ -378,6 +380,17 @@ const handleSubmit = () => {
 onMounted(() => {
   fetchList()
 })
+
+// 分页
+function handleSizeChange(size: number) {
+  pagination.pageSize = size
+  fetchList()
+}
+
+function handleCurrentChange(page: number) {
+  pagination.page = page
+  fetchList()
+}
 </script>
 
 <style scoped>
