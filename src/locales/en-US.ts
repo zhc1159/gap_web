@@ -1259,7 +1259,10 @@ export default {
       enableSuccess: 'Enabled successfully',
       disableSuccess: 'Disabled successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} rule(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     s_stfp: {
       title: 'STFP Security',
@@ -1296,7 +1299,10 @@ export default {
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully',
       enableSuccess: 'Enabled successfully',
-      disableSuccess: 'Disabled successfully'
+      disableSuccess: 'Disabled successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     file_approval: {
       title: 'Pending Approval',
