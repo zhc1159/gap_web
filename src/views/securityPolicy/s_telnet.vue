@@ -418,14 +418,13 @@ const handleSizeChange = (size: number) => {
   gap: 12px;
   padding: 10px 16px;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
   border-radius: 8px;
-  border: 1px solid rgba(64, 158, 255, 0.15);
+  border: 1px solid rgba(245, 108, 108, 0.15);
 }
 .batch-info {
-  font-size: 14px;
-  color: #409EFF;
-  font-weight: 500;
+  font-size: 13px;
+  color: #606266;
 }
 
 .action-btns { display: flex; gap: 6px; }
