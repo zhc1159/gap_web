@@ -98,9 +98,11 @@
             <el-pagination
               v-model:current-page="pagination.page"
               v-model:page-size="pagination.pageSize"
+              :page-sizes="[10, 20, 50, 100]"
               :total="pagination.total"
-              layout="total, sizes, prev, pager, next"
-              :page-sizes="[10, 20, 50]"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChange"
+              @current-change="handlePageChange"
             />
           </div>
         </div>
@@ -332,6 +334,16 @@ const modbusCommands = [
 ]
 
 // 列表方法
+const handleSizeChange = (size: number) => {
+  pagination.pageSize = size
+  fetchList()
+}
+
+const handlePageChange = (page: number) => {
+  pagination.page = page
+  fetchList()
+}
+
 const fetchList = () => {
   loading.value = true
   setTimeout(() => {
