@@ -20,8 +20,18 @@
     <div class="content-wrapper">
       <div class="card main-card">
         <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('objectManage.timeGroup.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
+
           <!-- 表格区域 -->
-          <el-table :data="groupList" v-loading="loading" class="time-table">
+          <el-table :data="groupList" v-loading="loading" class="time-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <el-table-column prop="group_name" :label="$t('objectManage.timeGroup.groupName')" min-width="150">
               <template #default="{ row }">
                 <div class="group-name-cell">
@@ -214,7 +224,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { Clock, Plus, Timer, Close } from '@element-plus/icons-vue'
+import { Clock, Plus, Timer, Close, Delete } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -254,7 +264,7 @@ const saving = ref(false)
 const dialogVisible = ref(false)
 const dialogMode = ref<'add' | 'edit'>('add')
 const formRef = ref<FormInstance>()
-
+const selectedRows = ref<TimeGroup[]>([])
 const pagination = reactive({
   page: 1,
   pageSize: 10,
@@ -418,6 +428,31 @@ const handlePageChange = (page: number) => {
   pagination.page = page
 }
 
+const handleSelectionChange = (rows: TimeGroup[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('objectManage.timeGroup.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    groupList.value = groupList.value.filter(g => !ids.includes(g.id))
+    selectedRows.value = []
+    pagination.total = groupList.value.length
+    ElNotification({
+      title: t('common.success'),
+      message: t('objectManage.timeGroup.batchDeleteSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
+  } catch {
+    // 用户取消
+  }
+}
 const handleSizeChange = (size: number) => {
   pagination.pageSize = size
   pagination.page = 1
@@ -574,6 +609,23 @@ onMounted(() => {
 .action-btns {
   display: flex;
   gap: 8px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 分页 */

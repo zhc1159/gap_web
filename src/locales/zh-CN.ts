@@ -665,7 +665,10 @@ export default {
       deleteConfirm: '确定要删除IP组 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 个IP组吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     timeGroup: {
       title: '时间组',
@@ -707,7 +710,10 @@ export default {
       addSuccess: '添加成功',
       editSuccess: '修改成功',
       deleteSuccess: '删除成功',
-      deleteConfirm: '确定要删除时间组 "{name}" 吗？'
+      deleteConfirm: '确定要删除时间组 "{name}" 吗？',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 个时间组吗？',
+      batchDeleteSuccess: '批量删除成功'
     }
   },
 

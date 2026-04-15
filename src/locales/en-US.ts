@@ -658,7 +658,10 @@ export default {
       deleteConfirm: 'Are you sure to delete IP group "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete {count} selected IP group(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     timeGroup: {
       title: 'Time Group',
@@ -700,7 +703,10 @@ export default {
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully',
       deleteSuccess: 'Deleted successfully',
-      deleteConfirm: 'Are you sure to delete time group "{name}"?'
+      deleteConfirm: 'Are you sure to delete time group "{name}"?',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure to delete {count} selected time group(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     }
   },
 

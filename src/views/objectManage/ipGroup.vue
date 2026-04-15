@@ -26,8 +26,18 @@
     <div class="content-wrapper">
       <div class="card main-card">
         <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('objectManage.ipGroup.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
+
           <!-- 表格区域 -->
-          <el-table :data="tableData" v-loading="loading" class="ip-table">
+          <el-table :data="tableData" v-loading="loading" class="ip-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <!-- IP组名 -->
             <el-table-column prop="ipName" :label="$t('objectManage.ipGroup.ipName')" min-width="150">
               <template #default="{ row }">
@@ -266,6 +276,7 @@ const viewVisible = ref(false)
 const formMode = ref<'add' | 'edit'>('add')
 const formRef = ref<FormInstance>()
 const ipInput = ref('')
+const selectedRows = ref<IpGroup[]>([])
 
 // 模拟数据
 const mockData = ref<IpGroup[]>([
@@ -454,6 +465,31 @@ const handlePageChange = (page: number) => {
   fetchList()
 }
 
+const handleSelectionChange = (rows: IpGroup[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('objectManage.ipGroup.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    mockData.value = mockData.value.filter(r => !ids.includes(r.id))
+    selectedRows.value = []
+    fetchList()
+    ElNotification({
+      title: t('common.success'),
+      message: t('objectManage.ipGroup.batchDeleteSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
+  } catch {
+    // 用户取消
+  }
+}
 const handleSizeChange = (size: number) => {
   pagination.pageSize = size
   fetchList()
@@ -663,6 +699,23 @@ onMounted(() => {
 .action-btns {
   display: flex;
   gap: 8px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 分页 */
