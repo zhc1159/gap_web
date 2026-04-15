@@ -27,7 +27,15 @@
     <!-- 主内容区 -->
     <div class="main-card">
       <div class="card-content">
-        <el-table :data="tableData" v-loading="loading" class="user-table">
+        <div v-if="selectedRows.length > 0" class="batch-bar">
+          <span class="batch-info">{{ $t('userManage.super_opcUser.selectedCount', { count: selectedRows.length }) }}</span>
+          <el-button type="danger" size="small" @click="handleBatchDelete">
+            <el-icon><Delete /></el-icon>
+            {{ $t('common.delete') }}
+          </el-button>
+        </div>
+        <el-table :data="tableData" v-loading="loading" class="user-table" @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="45" />
           <!-- 账号 -->
           <el-table-column prop="username" :label="$t('userManage.super_opcUser.account')" min-width="120">
             <template #default="{ row }">
@@ -212,6 +220,7 @@ const groupOptions = [
 // ==================== 状态 ====================
 const loading = ref(false)
 const submitLoading = ref(false)
+const selectedRows = ref<OpcUser[]>([])
 const authModuleEnabled = ref(true)
 const dialogVisible = ref(false)
 const isEdit = ref(false)
@@ -306,6 +315,27 @@ const handleDelete = async (row: OpcUser) => {
   } catch { /* cancel */ }
 }
 
+// 选择变化
+const handleSelectionChange = (rows: OpcUser[]) => {
+  selectedRows.value = rows
+}
+
+// 批量删除
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('userManage.super_opcUser.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.warning'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(row => row.id)
+    mockData.value = mockData.value.filter(item => !ids.includes(item.id))
+    selectedRows.value = []
+    fetchList()
+    ElNotification({ title: t('common.success'), message: t('userManage.super_opcUser.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
+}
+
 const handleAuthModuleChange = (val: boolean) => {
   ElNotification({ title: t('common.success'), message: val ? t('userManage.super_opcUser.authModuleOn') : t('userManage.super_opcUser.authModuleOff'), type: 'success', customClass: 'notification-success' })
 }
@@ -384,6 +414,18 @@ fetchList()
 .describe-icon { color: #409EFF; font-size: 16px; }
 
 /* ========== 主卡片 ========== */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+.batch-info { font-size: 13px; color: #606266; }
+
 .main-card {
   background: white; border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);

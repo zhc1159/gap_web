@@ -606,7 +606,10 @@ export default {
       deactivateSuccess: 'Deactivated successfully',
       authModule: 'Auth Module',
       authModuleOn: 'Auth module enabled',
-      authModuleOff: 'Auth module disabled'
+      authModuleOff: 'Auth module disabled',
+      selectedCount: '{count} user(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} user(s)? This action cannot be undone.',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     authFun: { title: 'Auth Function Management', emptyDesc: 'Auth Function Management Module' }
   },

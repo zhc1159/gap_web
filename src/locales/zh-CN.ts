@@ -612,7 +612,10 @@ export default {
       deactivateSuccess: '禁用成功',
       authModule: '认证功能模块',
       authModuleOn: '认证功能模块已开启',
-      authModuleOff: '认证功能模块已关闭'
+      authModuleOff: '认证功能模块已关闭',
+      selectedCount: '已选择 {count} 个用户',
+      batchDeleteConfirm: '确定要删除选中的 {count} 个用户吗？此操作不可恢复。',
+      batchDeleteSuccess: '批量删除成功'
     },
     authFun: { title: '认证功能模块管理', emptyDesc: '认证功能模块管理' }
   },
