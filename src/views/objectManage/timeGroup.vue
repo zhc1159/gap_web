@@ -83,6 +83,19 @@
               </template>
             </el-table-column>
           </el-table>
+
+          <!-- 分页 -->
+          <div class="pagination-wrapper">
+            <el-pagination
+              v-model:current-page="pagination.page"
+              v-model:page-size="pagination.pageSize"
+              :page-sizes="[10, 20, 50, 100]"
+              :total="pagination.total"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChange"
+              @current-change="handlePageChange"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -242,6 +255,12 @@ const dialogVisible = ref(false)
 const dialogMode = ref<'add' | 'edit'>('add')
 const formRef = ref<FormInstance>()
 
+const pagination = reactive({
+  page: 1,
+  pageSize: 10,
+  total: 0
+})
+
 // 星期选项
 const WEEKDAY_OPTIONS = [
   { value: 1, label: t('objectManage.timeGroup.weekdays.monday') },
@@ -395,8 +414,17 @@ const formatTimePiece = (hour: number, min: number, sec: number): string => {
   return `${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
 }
 
+const handlePageChange = (page: number) => {
+  pagination.page = page
+}
+
+const handleSizeChange = (size: number) => {
+  pagination.pageSize = size
+  pagination.page = 1
+}
+
 onMounted(() => {
-  // 模拟加载数据
+  pagination.total = groupList.value.length
 })
 </script>
 
@@ -546,6 +574,15 @@ onMounted(() => {
 .action-btns {
   display: flex;
   gap: 8px;
+}
+
+/* 分页 */
+.pagination-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(64, 158, 255, 0.08);
 }
 
 /* 对话框 */
