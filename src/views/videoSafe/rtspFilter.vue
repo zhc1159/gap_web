@@ -26,8 +26,17 @@
     <div class="content-wrapper">
       <div class="card main-card">
         <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('videoSafe.rtspFilter.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
           <!-- 表格区域 -->
-          <el-table :data="tableData" v-loading="loading" class="rtsp-table">
+          <el-table :data="tableData" v-loading="loading" class="rtsp-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <!-- 状态 -->
             <el-table-column :label="$t('videoSafe.rtspFilter.status')" min-width="80" align="center">
               <template #default="{ row }">
@@ -274,6 +283,8 @@ const mockData = ref<RTSPFilterRule[]>([
 
 const tableData = ref<RTSPFilterRule[]>([])
 
+const selectedRows = ref<RTSPFilterRule[]>([])
+
 const pagination = reactive({
   page: 1,
   pageSize: 10,
@@ -353,6 +364,25 @@ const handleDelete = async (row: RTSPFilterRule) => {
   } catch {
     // 用户取消
   }
+}
+
+const handleSelectionChange = (rows: RTSPFilterRule[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('videoSafe.rtspFilter.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    mockData.value = mockData.value.filter(r => !ids.includes(r.id))
+    selectedRows.value = []
+    fetchList()
+    ElNotification({ title: t('common.success'), message: t('videoSafe.rtspFilter.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
 }
 
 const handleSubmit = () => {
@@ -523,6 +553,22 @@ onMounted(() => {
 .action-btns {
   display: flex;
   gap: 8px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 分页 */

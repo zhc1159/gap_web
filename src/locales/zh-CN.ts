@@ -1436,7 +1436,10 @@ export default {
       enableSuccess: '启用成功',
       disableSuccess: '禁用成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条规则吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     sipFilter: {
       title: 'SIP安全',
@@ -1477,7 +1480,10 @@ export default {
       disableSuccess: '禁用成功',
       ptzConfigTitle: '云台控制配置',
       codecConfigTitle: '视频编码配置',
-      ptzAllowLabel: '是否允许控制信令通过:'
+      ptzAllowLabel: '是否允许控制信令通过:',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     rtspFilter: {
       title: 'RTSP安全',
@@ -1506,7 +1512,10 @@ export default {
       editSuccess: '修改成功',
       enableSuccess: '启用成功',
       disableSuccess: '禁用成功',
-      codecConfigTitle: '视频编码配置'
+      codecConfigTitle: '视频编码配置',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     rtspOption: {
       title: 'RTSP高级选项',

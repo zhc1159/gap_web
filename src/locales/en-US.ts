@@ -1425,7 +1425,10 @@ export default {
       enableSuccess: 'Enabled successfully',
       disableSuccess: 'Disabled successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} rule(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     sipFilter: {
       title: 'SIP Security',
@@ -1466,7 +1469,10 @@ export default {
       disableSuccess: 'Disabled successfully',
       ptzConfigTitle: 'PTZ Control Configuration',
       codecConfigTitle: 'Video Codec Configuration',
-      ptzAllowLabel: 'Allow Control Signal:'
+      ptzAllowLabel: 'Allow Control Signal:',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     rtspFilter: {
       title: 'RTSP Security',
@@ -1495,7 +1501,10 @@ export default {
       editSuccess: 'Updated successfully',
       enableSuccess: 'Enabled successfully',
       disableSuccess: 'Disabled successfully',
-      codecConfigTitle: 'Video Codec Configuration'
+      codecConfigTitle: 'Video Codec Configuration',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     rtspOption: {
       title: 'RTSP Advanced Options',
