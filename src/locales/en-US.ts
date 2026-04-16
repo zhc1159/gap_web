@@ -1757,7 +1757,10 @@ export default {
       deleteConfirm: 'Are you sure to delete rule "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     s7: {
       title: 'S7 Security',
