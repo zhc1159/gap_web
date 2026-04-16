@@ -66,14 +66,15 @@
         <el-icon class="card-icon"><List /></el-icon>
         <span>{{ $t('systemMaintenance.loadProfileShow.profileList') }}</span>
       </div>
-      <div v-if="selectedRows.length > 0" class="batch-bar">
+      <div class="card-content">
+        <div v-if="selectedRows.length > 0" class="batch-bar">
           <span class="batch-info">{{ $t('systemMaintenance.loadProfileShow.selectedCount', { count: selectedRows.length }) }}</span>
           <el-button type="danger" size="small" @click="handleBatchDelete">
             <el-icon><Delete /></el-icon>
             {{ $t('common.delete') }}
           </el-button>
         </div>
-      <el-table :data="profileList" stripe border style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table :data="profileList" stripe class="log-table" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="45" />
         <el-table-column type="index" width="60" label="#" />
         <el-table-column prop="description" :label="$t('systemMaintenance.loadProfileShow.description')" min-width="180">
@@ -144,6 +145,7 @@
           </template>
         </el-table-column>
       </el-table>
+      </div>
     </div>
 
     <!-- 添加/上传对话框 -->
@@ -686,19 +688,23 @@ onMounted(() => {
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(64, 158, 255, 0.08);
+  border: 1px solid rgba(144, 147, 153, 0.08);
   overflow: hidden;
+}
+
+.card-content {
+  padding: 20px;
 }
 
 .card-header {
   display: flex;
   align-items: center;
   padding: 14px 20px;
-  border-bottom: 1px solid rgba(64, 158, 255, 0.08);
+  border-bottom: 1px solid rgba(144, 147, 153, 0.08);
   font-size: 15px;
   font-weight: 500;
   color: #303133;
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
+  background: linear-gradient(135deg, rgba(144, 147, 153, 0.05) 0%, rgba(96, 98, 102, 0.05) 100%);
 }
 
 .card-icon {
@@ -715,16 +721,23 @@ onMounted(() => {
 }
 
 /* 表格样式 */
-:deep(.el-table) {
-  --el-table-border-color: rgba(64, 158, 255, 0.1);
+.log-table {
+  width: 100%;
 }
 
-:deep(.el-table th) {
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+.log-table :deep(.el-table th.el-table__cell) {
+  background: linear-gradient(135deg, rgba(144, 147, 153, 0.05) 0%, rgba(96, 98, 102, 0.05) 100%);
+  font-weight: 600;
+  color: #303133;
+  padding: 14px 12px;
 }
 
-:deep(.el-table__row:hover > td) {
-  background: rgba(64, 158, 255, 0.05) !important;
+.log-table :deep(.el-table td.el-table__cell) {
+  padding: 14px 12px;
+}
+
+.log-table :deep(.el-table .el-table__row:hover > td) {
+  background: linear-gradient(135deg, rgba(144, 147, 153, 0.03) 0%, rgba(96, 98, 102, 0.03) 100%) !important;
 }
 
 .description-cell {
