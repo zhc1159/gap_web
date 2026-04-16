@@ -2377,7 +2377,10 @@ export default {
       enableSuccess: 'Enabled successfully',
       disableSuccess: 'Disabled successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} transfer path(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     databaseShow: {
       title: 'Database Configuration',
