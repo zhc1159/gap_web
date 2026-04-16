@@ -40,8 +40,17 @@
     <div class="content-wrapper">
       <div class="card main-card">
         <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('opc.opc_accessControl.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
           <!-- 表格区域 -->
-          <el-table :data="tableData" v-loading="loading" class="proxy-table">
+          <el-table :data="tableData" v-loading="loading" class="proxy-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <!-- 状态 -->
             <el-table-column :label="$t('opc.opc_accessControl.status')" min-width="80" align="center">
               <template #default="{ row }">
@@ -400,8 +409,34 @@ const formRules: FormRules = {
 // 方法
 const handleDirectionChange = (dir: DataDirection) => {
   direction.value = dir
+  selectedRows.value = []
   pagination.page = 1
   fetchList()
+}
+
+const selectedRows = ref<ProxyRule[]>([])
+
+const handleSelectionChange = (rows: ProxyRule[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('opc.opc_accessControl.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    if (direction.value === 'out') {
+      mockDataOut.value = mockDataOut.value.filter(r => !ids.includes(r.id))
+    } else {
+      mockDataIn.value = mockDataIn.value.filter(r => !ids.includes(r.id))
+    }
+    selectedRows.value = []
+    fetchList()
+    ElNotification({ title: t('common.success'), message: t('opc.opc_accessControl.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
 }
 
 const fetchList = () => {
@@ -803,6 +838,22 @@ onMounted(() => {
   flex: 1;
   color: #303133;
   font-size: 14px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 响应式 */

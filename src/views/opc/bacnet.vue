@@ -26,8 +26,17 @@
     <div class="content-wrapper">
       <div class="card main-card">
         <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('opc.bacnet.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
           <!-- 数据表格 -->
-          <el-table :data="tableData" v-loading="loading" class="bacnet-table">
+          <el-table :data="tableData" v-loading="loading" class="bacnet-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <!-- 用户组 -->
             <el-table-column prop="group_name" :label="$t('opc.bacnet.groupName')" min-width="150">
               <template #default="{ row }">
@@ -405,6 +414,27 @@ const handleDelete = async (row: BacnetRule) => {
   }
 }
 
+const selectedRows = ref<BacnetRule[]>([])
+
+const handleSelectionChange = (rows: BacnetRule[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('opc.bacnet.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    mockData.value = mockData.value.filter(r => !ids.includes(r.id))
+    selectedRows.value = []
+    fetchList()
+    ElNotification({ title: t('common.success'), message: t('opc.bacnet.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
+}
+
 const handleSubmit = () => {
   if (!formRef.value) return
 
@@ -658,6 +688,22 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   gap: 12px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 响应式 */

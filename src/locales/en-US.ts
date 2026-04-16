@@ -1587,7 +1587,10 @@ export default {
       enableSuccess: 'Enabled successfully',
       disableSuccess: 'Disabled successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} rule(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     modbus: {
       title: 'MODBUS Security',
@@ -1625,7 +1628,10 @@ export default {
       deleteConfirm: 'Are you sure to delete rule "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     opcShow: {
       title: 'OPC Security',
@@ -1651,7 +1657,10 @@ export default {
       deleteConfirm: 'Are you sure to delete rule "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     iec104: {
       title: 'IEC104',
@@ -1688,7 +1697,10 @@ export default {
       deleteConfirm: 'Are you sure to delete rule "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     dnp3: {
       title: 'DNP3 Security',
@@ -1714,7 +1726,10 @@ export default {
       deleteConfirm: 'Are you sure to delete rule "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     bacnet: {
       title: 'BACNET Security',
@@ -1798,7 +1813,10 @@ export default {
       previous: 'Previous',
       next: 'Next',
       submit: 'Submit',
-      noConfig: 'No configurations'
+      noConfig: 'No configurations',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     trdp: {
       title: 'TRDP Security',
@@ -1828,7 +1846,10 @@ export default {
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully',
       noKeywords: 'No keywords',
-      noCmdIds: 'No command IDs'
+      noCmdIds: 'No command IDs',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     opcdaOption: {
       title: 'OPCDA Options',
@@ -1921,7 +1942,10 @@ export default {
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully',
-      noData: 'No data'
+      noData: 'No data',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     cip: {
       title: 'CIP/ENIP Security',
@@ -1966,7 +1990,10 @@ export default {
       cipCommands: 'CIP Commands',
       cipCommandsLabel: 'CIP Commands',
       cipCommandsPlaceholder: 'Select CIP commands (multiple)',
-      commandsRequired: 'Please select at least one command when filter type is not "No Limit"'
+      commandsRequired: 'Please select at least one command when filter type is not "No Limit"',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     mms: {
       title: 'MMS Security',
@@ -2004,7 +2031,10 @@ export default {
       deleteConfirm: 'Are you sure to delete MMS rule for group "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     fins: {
       title: 'FINS Security',
@@ -2083,7 +2113,10 @@ export default {
       deleteConfirm: 'Are you sure to delete FINS rule for group "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     hartip: {
       title: 'HARTIP Security',
@@ -2114,6 +2147,9 @@ export default {
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
       editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     s_onebit: {
       title: '1Bit Security Policy',
@@ -2153,7 +2189,10 @@ export default {
       deleteConfirm: 'Are you sure to delete this policy?',
       deleteSuccess: 'Deleted successfully',
       editSuccess: 'Updated successfully',
-      addSuccess: 'Added successfully'
+      addSuccess: 'Added successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} policy/policies?',
+      batchDeleteSuccess: 'Batch delete successful'
     }
   },
 

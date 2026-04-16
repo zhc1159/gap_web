@@ -1599,7 +1599,10 @@ export default {
       enableSuccess: '启用成功',
       disableSuccess: '禁用成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条规则吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     modbus: {
       title: 'MODBUS安全',
@@ -1637,7 +1640,10 @@ export default {
       deleteConfirm: '确定要删除规则 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     opcShow: {
       title: 'OPC安全',
@@ -1663,7 +1669,10 @@ export default {
       deleteConfirm: '确定要删除规则 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     iec104: {
       title: 'IEC104',
@@ -1700,7 +1709,10 @@ export default {
       deleteConfirm: '确定要删除规则 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     dnp3: {
       title: 'DNP3安全',
@@ -1726,7 +1738,10 @@ export default {
       deleteConfirm: '确定要删除规则 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     bacnet: {
       title: 'BACNET安全',
@@ -1810,7 +1825,10 @@ export default {
       previous: '上一步',
       next: '下一步',
       submit: '提交',
-      noConfig: '暂无配置项'
+      noConfig: '暂无配置项',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     trdp: {
       title: 'TRDP安全',
@@ -1840,7 +1858,10 @@ export default {
       addSuccess: '添加成功',
       editSuccess: '修改成功',
       noKeywords: '暂无关键字',
-      noCmdIds: '暂无命令ID'
+      noCmdIds: '暂无命令ID',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     opcdaOption: {
       title: 'OPCDA高级选项',
@@ -1933,7 +1954,10 @@ export default {
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
       editSuccess: '修改成功',
-      noData: '暂无数据'
+      noData: '暂无数据',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     cip: {
       title: 'CIP和ENIP安全',
@@ -1978,7 +2002,10 @@ export default {
       cipCommands: 'CIP层命令',
       cipCommandsLabel: 'CIP层命令',
       cipCommandsPlaceholder: '请选择CIP层命令（可多选）',
-      commandsRequired: '过滤类型不为"不限制"时，请至少选择一个命令'
+      commandsRequired: '过滤类型不为"不限制"时，请至少选择一个命令',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     mms: {
       title: 'MMS安全',
@@ -2016,7 +2043,10 @@ export default {
       deleteConfirm: '确定要删除用户组 "{name}" 的MMS规则吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     fins: {
       title: 'FINS安全',
@@ -2095,7 +2125,10 @@ export default {
       deleteConfirm: '确定要删除用户组 "{name}" 的FINS规则吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     hartip: {
       title: 'HARTIP安全',
@@ -2125,7 +2158,10 @@ export default {
       deleteConfirm: '确定要删除规则 "{name}" 吗？',
       deleteSuccess: '删除成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     s_onebit: {
       title: '1Bit安全策略',
@@ -2165,7 +2201,10 @@ export default {
       deleteConfirm: '确定要删除该策略吗？',
       deleteSuccess: '删除成功',
       editSuccess: '修改成功',
-      addSuccess: '添加成功'
+      addSuccess: '添加成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条策略吗？',
+      batchDeleteSuccess: '批量删除成功'
     }
   },
 

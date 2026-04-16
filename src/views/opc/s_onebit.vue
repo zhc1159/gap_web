@@ -27,7 +27,15 @@
       <div class="card main-card">
         <div class="card-content">
           <!-- 数据表格 -->
-          <el-table :data="tableData" v-loading="loading" class="onebit-table">
+          <div v-if="selectedRows.length > 0" class="batch-bar">
+            <span class="batch-info">{{ $t('opc.s_onebit.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ $t('common.batchDelete') }}
+            </el-button>
+          </div>
+          <el-table :data="tableData" v-loading="loading" class="onebit-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" />
             <!-- 规则名称 -->
             <el-table-column prop="name" :label="$t('opc.s_onebit.ruleName')" min-width="150">
               <template #default="{ row }">
@@ -254,6 +262,26 @@ const groupOptions = [
 ]
 
 // 状态
+const selectedRows = ref<OnebitRule[]>([])
+const handleSelectionChange = (rows: OnebitRule[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('opc.s_onebit.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    mockData.value = mockData.value.filter(r => !ids.includes(r.id))
+    selectedRows.value = []
+    fetchList()
+    ElNotification({ title: t('common.success'), message: t('opc.s_onebit.batchDeleteSuccess'), type: 'success', customClass: 'notification-success' })
+  } catch { /* cancel */ }
+}
+
 const tableData = ref<OnebitRule[]>([])
 const loading = ref(false)
 const dialogVisible = ref(false)
@@ -544,6 +572,22 @@ onMounted(() => {
 
 .card-content {
   padding: 20px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 表格样式 */
