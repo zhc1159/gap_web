@@ -492,9 +492,9 @@ onMounted(() => {
   gap: 12px;
   padding: 10px 16px;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, rgba(144, 147, 153, 0.08) 0%, rgba(96, 98, 102, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
   border-radius: 8px;
-  border: 1px solid rgba(144, 147, 153, 0.15);
+  border: 1px solid rgba(245, 108, 108, 0.15);
 }
 
 .batch-info {
