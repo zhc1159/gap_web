@@ -113,9 +113,13 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('rulesManage.filePathShow.actions')" min-width="160" fixed="right">
+            <el-table-column :label="$t('rulesManage.filePathShow.actions')" min-width="220" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
+                  <el-button size="small" class="btn-view" @click="handleView(row)">
+                    <el-icon><View /></el-icon>
+                    {{ $t('rulesManage.filePathShow.view') }}
+                  </el-button>
                   <el-button type="primary" size="small" @click="handleEdit(row)">
                     <el-icon><Edit /></el-icon>
                     {{ $t('rulesManage.filePathShow.edit') }}
@@ -144,6 +148,146 @@
         </div>
       </div>
     </div>
+
+    <!-- 查看详情对话框 -->
+    <el-dialog
+      v-model="viewVisible"
+      :title="$t('rulesManage.filePathShow.viewDetail')"
+      width="700px"
+      class="view-dialog"
+    >
+      <div class="view-content">
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('rulesManage.filePathShow.step1') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.protocol') }}</span>
+              <el-tag type="primary" size="small" effect="plain">{{ viewData.protocol }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.serverAddr') }}</span>
+              <span class="view-value">{{ viewData.internalUrl }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.port') }}</span>
+              <span class="view-value">{{ viewData.internalPort }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.username') }}</span>
+              <span class="view-value">{{ viewData.internalUsername }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.path') }}</span>
+              <span class="view-value">{{ viewData.internalPath }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.encoding') }}</span>
+              <span class="view-value">{{ viewData.internalEncoding }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('rulesManage.filePathShow.step2') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.serverAddr') }}</span>
+              <span class="view-value">{{ viewData.externalUrl }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.port') }}</span>
+              <span class="view-value">{{ viewData.externalPort }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.username') }}</span>
+              <span class="view-value">{{ viewData.externalUsername }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.path') }}</span>
+              <span class="view-value">{{ viewData.externalPath }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.encoding') }}</span>
+              <span class="view-value">{{ viewData.externalEncoding }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('rulesManage.filePathShow.step3') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.ruleName') }}</span>
+              <span class="view-value">{{ viewData.name }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.direction') }}</span>
+              <el-tag :type="getDirectionTagType(viewData.direction)" size="small">
+                {{ getDirectionText(viewData.direction) }}
+              </el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.scanInterval') }}</span>
+              <span class="view-value">{{ viewData.scanInterval }} {{ viewData.scanIntervalUnit === 'SECONDS' ? $t('rulesManage.filePathShow.seconds') : $t('rulesManage.filePathShow.days') }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.fileLanding') }}</span>
+              <el-tag :type="viewData.fileLanding ? 'success' : 'info'" size="small">
+                {{ viewData.fileLanding ? $t('common.enabled') : $t('common.disabled') }}
+              </el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.sameFileMode') }}</span>
+              <span class="view-value">{{ viewData.sameFileMode === 'OVERWRITE' ? $t('rulesManage.filePathShow.overwrite') : $t('rulesManage.filePathShow.skip') }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.deleteAfterSync') }}</span>
+              <el-tag :type="viewData.deleteAfterSync ? 'success' : 'info'" size="small">
+                {{ viewData.deleteAfterSync ? $t('common.enabled') : $t('common.disabled') }}
+              </el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.virusScan') }}</span>
+              <el-tag :type="viewData.virusScan ? 'success' : 'info'" size="small">
+                {{ viewData.virusScan ? $t('common.enabled') : $t('common.disabled') }}
+              </el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.syncMode') }}</span>
+              <span class="view-value">{{ viewData.syncMode === 'NORMAL' ? $t('rulesManage.filePathShow.normalMode') : $t('rulesManage.filePathShow.precisionMode') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('rulesManage.filePathShow.step4') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.filterMode') }}</span>
+              <span class="view-value">
+                <template v-if="viewData.filterMode === 'DISABLED'">{{ $t('rulesManage.filePathShow.filterDisabled') }}</template>
+                <template v-else-if="viewData.filterMode === 'BLACKLIST'">{{ $t('rulesManage.filePathShow.blacklist') }}</template>
+                <template v-else>{{ $t('rulesManage.filePathShow.whitelist') }}</template>
+              </span>
+            </div>
+            <div class="view-item" v-if="viewData.filterMode !== 'DISABLED'">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.filterType') }}</span>
+              <span class="view-value">{{ viewData.fileTypes?.join(', ') || '-' }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.keywordFilter') }}</span>
+              <el-tag :type="viewData.keywordFilterEnabled ? 'success' : 'info'" size="small">
+                {{ viewData.keywordFilterEnabled ? $t('common.enabled') : $t('common.disabled') }}
+              </el-tag>
+            </div>
+            <div class="view-item" v-if="viewData.keywordFilterEnabled">
+              <span class="view-label">{{ $t('rulesManage.filePathShow.keywords') }}</span>
+              <span class="view-value">{{ viewData.keywords?.join(', ') || '-' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <el-button type="primary" @click="viewVisible = false">{{ $t('common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
 
     <!-- 添加/编辑对话框（步骤向导） -->
     <el-dialog
@@ -377,7 +521,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { FolderOpened, Plus, InfoFilled, Edit, Delete, VideoPlay, VideoPause, Connection } from '@element-plus/icons-vue'
+import { FolderOpened, Plus, InfoFilled, View, Edit, Delete, VideoPlay, VideoPause, Connection } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -673,6 +817,24 @@ const handleAdd = () => {
   dialogVisible.value = true
 }
 
+const viewVisible = ref(false)
+const viewData = ref<TransferPath>({
+  id: '', name: '', enabled: true, status: 'STOPPED', protocol: 'FTP',
+  direction: 'INBOUND', internalUrl: '', internalPort: 21, internalUsername: '',
+  internalPassword: '', internalPath: '', internalEncoding: 'UTF8',
+  externalUrl: '', externalPort: 21, externalUsername: '', externalPassword: '',
+  externalPath: '', externalEncoding: 'UTF8', scanInterval: 60, scanIntervalUnit: 'SECONDS',
+  fileLanding: true, sameFileMode: 'OVERWRITE', deleteAfterSync: false,
+  virusScan: false, deleteEmptyDir: false, syncMode: 'NORMAL',
+  tempPrefix: '', tempSuffix: '.tmp', filterMode: 'DISABLED',
+  fileTypes: [], keywordFilterEnabled: false, keywords: []
+})
+
+const handleView = (row: TransferPath) => {
+  viewData.value = { ...row, fileTypes: [...row.fileTypes], keywords: [...row.keywords] }
+  viewVisible.value = true
+}
+
 const handleEdit = (row: TransferPath) => {
   isEdit.value = true
   currentStep.value = 0
@@ -951,9 +1113,73 @@ onMounted(() => {
 }
 
 /* 操作按钮 */
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
 .action-btns {
   display: flex;
   gap: 8px;
+}
+
+/* 查看对话框 */
+.view-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, rgba(230, 162, 60, 0.05) 0%, rgba(144, 147, 153, 0.05) 100%);
+}
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.view-section {
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(144, 147, 153, 0.15);
+}
+
+.view-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.view-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid #E6A23C;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.view-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-label {
+  min-width: 100px;
+  font-size: 13px;
+  color: #909399;
+}
+
+.view-value {
+  font-size: 14px;
+  color: #303133;
 }
 
 /* 分页 */

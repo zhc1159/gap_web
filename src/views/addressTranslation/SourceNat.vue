@@ -129,9 +129,13 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('addressTranslation.sourceNat.actions')" min-width="160" fixed="right">
+            <el-table-column :label="$t('addressTranslation.sourceNat.actions')" min-width="220" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
+                  <el-button size="small" class="btn-view" @click="handleView(row)">
+                    <el-icon><View /></el-icon>
+                    {{ $t('addressTranslation.sourceNat.view') }}
+                  </el-button>
                   <el-button type="primary" size="small" @click="handleEdit(row)">
                     <el-icon><Edit /></el-icon>
                     {{ $t('addressTranslation.sourceNat.edit') }}
@@ -160,6 +164,95 @@
         </div>
       </div>
     </div>
+
+    <!-- 查看详情对话框 -->
+    <el-dialog
+      v-model="viewVisible"
+      :title="$t('addressTranslation.sourceNat.viewDetail')"
+      width="600px"
+      class="view-dialog"
+    >
+      <div class="view-content">
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('addressTranslation.sourceNat.basicConfig') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.ruleName') }}</span>
+              <span class="view-value">{{ viewData.name }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.status') }}</span>
+              <el-tag :type="viewData.enabled === '1' ? 'success' : 'danger'" size="small">
+                {{ viewData.enabled === '1' ? $t('common.enabled') : $t('common.disabled') }}
+              </el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.protocol') }}</span>
+              <el-tag :type="getProtocolTagType(viewData.proto)" size="small">
+                {{ viewData.proto || $t('addressTranslation.sourceNat.any') }}
+              </el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.direction') }}</span>
+              <el-tag :type="viewData.where === 'in' ? 'success' : 'warning'" size="small">
+                {{ viewData.where === 'in' ? $t('addressTranslation.sourceNat.inToOut') : $t('addressTranslation.sourceNat.outToIn') }}
+              </el-tag>
+            </div>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('addressTranslation.sourceNat.matchCondition') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.sourceAddr') }}</span>
+              <span class="view-value">{{ viewData.ip_group_src || $t('addressTranslation.sourceNat.any') }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.sourcePort') }}</span>
+              <span class="view-value">{{ viewData.src_port || $t('addressTranslation.sourceNat.any') }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.destAddr') }}</span>
+              <span class="view-value">{{ viewData.ip_group_dst || $t('addressTranslation.sourceNat.any') }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.destPort') }}</span>
+              <span class="view-value">{{ viewData.dst_port || $t('addressTranslation.sourceNat.any') }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('addressTranslation.sourceNat.natConfig') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.action') }}</span>
+              <el-tag :type="viewData.action === 'SNAT' ? 'success' : 'warning'" size="small">
+                {{ viewData.action === 'SNAT' ? $t('addressTranslation.sourceNat.snat') : $t('addressTranslation.sourceNat.masquerade') }}
+              </el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.outInterface') }}</span>
+              <span class="view-value">{{ viewData.eth_out || '-' }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.virtualSourceAddr') }}</span>
+              <span class="view-value">{{ viewData.to_source_addr || $t('addressTranslation.sourceNat.any') }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.virtualSourcePort') }}</span>
+              <span class="view-value">{{ viewData.to_source_port || $t('addressTranslation.sourceNat.any') }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('addressTranslation.sourceNat.priority') }}</span>
+              <span class="view-value">{{ viewData.priority }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <el-button type="primary" @click="viewVisible = false">{{ $t('common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
 
     <!-- 添加/编辑对话框 -->
     <el-dialog
@@ -309,7 +402,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { Position, Plus, InfoFilled, Edit, Delete, Setting, Filter, RefreshRight } from '@element-plus/icons-vue'
+import { Position, Plus, InfoFilled, View, Edit, Delete, Setting, Filter, RefreshRight } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -528,6 +621,18 @@ const handleAdd = () => {
   formVisible.value = true
 }
 
+const viewVisible = ref(false)
+const viewData = ref<SourceNatRule>({
+  id: '', name: '', enabled: '1', proto: '', eth_out: '',
+  ip_group_src: '', src_port: '', ip_group_dst: '', dst_port: '',
+  to_source_addr: '', to_source_port: '', action: 'SNAT', where: 'in', priority: 1
+})
+
+const handleView = (row: SourceNatRule) => {
+  viewData.value = { ...row }
+  viewVisible.value = true
+}
+
 const handleEdit = (row: SourceNatRule) => {
   formMode.value = 'edit'
   Object.assign(formData, { ...row })
@@ -741,9 +846,73 @@ onMounted(() => {
 }
 
 /* 操作按钮 */
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
 .action-btns {
   display: flex;
   gap: 8px;
+}
+
+/* 查看对话框 */
+.view-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(144, 147, 153, 0.05) 100%);
+}
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.view-section {
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(144, 147, 153, 0.15);
+}
+
+.view-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.view-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid #409EFF;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.view-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-label {
+  min-width: 100px;
+  font-size: 13px;
+  color: #909399;
+}
+
+.view-value {
+  font-size: 14px;
+  color: #303133;
 }
 
 /* 分页 */
