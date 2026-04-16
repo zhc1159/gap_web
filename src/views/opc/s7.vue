@@ -113,139 +113,138 @@
       :close-on-click-modal="false"
     >
       <!-- 步骤条 -->
-      <div class="bs-stepper">
-        <div class="bs-stepper-header">
-          <div class="step" :class="{ active: currentStep === 1, done: currentStep > 1 }" @click="goToStep(1)">
-            <button type="button" class="step-trigger">
-              <span class="bs-stepper-circle">1</span>
-              <span class="bs-stepper-label">{{ steps[0].label }}</span>
-            </button>
-          </div>
-          <div class="line" :class="{ active: currentStep >= 2 }"></div>
-          <div class="step" :class="{ active: currentStep === 2, done: currentStep > 2 }" @click="goToStep(2)">
-            <button type="button" class="step-trigger">
-              <span class="bs-stepper-circle">2</span>
-              <span class="bs-stepper-label">{{ steps[1].label }}</span>
-            </button>
-          </div>
-          <div class="line" :class="{ active: currentStep >= 3 }"></div>
-          <div class="step" :class="{ active: currentStep === 3 }" @click="goToStep(3)">
-            <button type="button" class="step-trigger">
-              <span class="bs-stepper-circle">3</span>
-              <span class="bs-stepper-label">{{ steps[2].label }}</span>
-            </button>
-          </div>
-        </div>
+      <div class="wizard-steps">
+        <el-steps :active="2" align-center>
+          <el-step :title="$t('opc.s7.steps.basic')" :icon="Setting"
+            :status="stepVisible[0] ? 'process' : 'wait'"
+            @click.native="scrollToStep(0)" class="clickable-step" />
+          <el-step :title="$t('opc.s7.steps.readFilter')" :icon="Setting"
+            :status="stepVisible[1] ? 'process' : 'wait'"
+            @click.native="scrollToStep(1)" class="clickable-step" />
+          <el-step :title="$t('opc.s7.steps.writeFilter')" :icon="Setting"
+            :status="stepVisible[2] ? 'process' : 'wait'"
+            @click.native="scrollToStep(2)" class="clickable-step" />
+        </el-steps>
       </div>
 
-      <!-- Step 1: 基础设置 -->
-      <div v-show="currentStep === 1" class="step-content">
+      <div class="wizard-content" ref="wizardContentRef">
         <el-form :model="formData" :rules="formRules" ref="formRef" label-width="160px" class="step-form">
-          <el-form-item :label="$t('opc.s7.ruleSwitch')">
-            <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
-          </el-form-item>
-          <el-form-item :label="$t('opc.s7.groupName')" prop="group_name">
-            <el-select v-model="formData.group_name" :placeholder="$t('opc.s7.groupNamePlaceholder')" style="width: 100%">
-              <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('opc.s7.protocolExtSwitch')">
-            <el-switch v-model="formData.userdata_disable" :active-text="$t('opc.s7.disabled')" :inactive-text="$t('opc.s7.enabled')" active-color="#f56c6c" inactive-color="#67c23a" />
-          </el-form-item>
-          <el-form-item :label="$t('opc.s7.userdataFilter')">
-            <el-select v-model="formData.userdata_func_filter" multiple filterable allow-create :placeholder="$t('opc.s7.filterPlaceholder')" style="width: 100%">
-              <el-option v-for="cmd in userdataOptions" :key="cmd.value" :label="cmd.label" :value="cmd.value" />
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('opc.s7.jobFilter')">
-            <el-select v-model="formData.job_func_filter" multiple filterable allow-create :placeholder="$t('opc.s7.filterPlaceholder')" style="width: 100%">
-              <el-option v-for="cmd in jobOptions" :key="cmd.value" :label="cmd.label" :value="cmd.value" />
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('opc.s7.ackFilter')">
-            <el-select v-model="formData.ack_func_filter" multiple filterable allow-create :placeholder="$t('opc.s7.filterPlaceholder')" style="width: 100%">
-              <el-option v-for="cmd in ackOptions" :key="cmd.value" :label="cmd.label" :value="cmd.value" />
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
 
-      <!-- Step 2: 读过滤 -->
-      <div v-show="currentStep === 2" class="step-content">
-        <el-form :model="formData" label-width="100px" class="step-form">
-          <el-form-item :label="$t('opc.s7.filterType')">
-            <el-radio-group v-model="formData.r_filter_type">
-              <el-radio :value="0">{{ $t('opc.s7.noLimit') }}</el-radio>
-              <el-radio :value="1">{{ $t('opc.s7.whitelist') }}</el-radio>
-              <el-radio :value="2">{{ $t('opc.s7.blacklist') }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('opc.s7.readConfig')">
-            <div class="filter-config-wrapper">
-              <div class="config-header">
-                <el-button type="primary" size="small" @click="addReadConfig">
-                  <el-icon><Plus /></el-icon>
-                  {{ $t('opc.s7.addConfig') }}
-                </el-button>
-              </div>
-              <div v-if="formData.r_tabs.length" class="config-list">
-                <div v-for="(config, index) in formData.r_tabs" :key="index" class="config-item">
-                  <span class="config-info">
-                    {{ config.block }}{{ config.block === 'DB' ? config.dbIndex : '' }}:
-                    {{ config.startAddr }} - {{ config.endAddr }}
-                  </span>
-                  <el-button type="danger" size="small" link @click="removeReadConfig(index)">
-                    <el-icon><Delete /></el-icon>
+          <!-- Step 1: 基础设置 -->
+          <div id="step-0" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.s7.steps.basic') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.s7.ruleSwitch')">
+              <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
+            </el-form-item>
+            <el-form-item :label="$t('opc.s7.groupName')" prop="group_name">
+              <el-select v-model="formData.group_name" :placeholder="$t('opc.s7.groupNamePlaceholder')" style="width: 100%">
+                <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('opc.s7.protocolExtSwitch')">
+              <el-switch v-model="formData.userdata_disable" :active-text="$t('opc.s7.disabled')" :inactive-text="$t('opc.s7.enabled')" active-color="#f56c6c" inactive-color="#67c23a" />
+            </el-form-item>
+            <el-form-item :label="$t('opc.s7.userdataFilter')">
+              <el-select v-model="formData.userdata_func_filter" multiple filterable allow-create :placeholder="$t('opc.s7.filterPlaceholder')" style="width: 100%">
+                <el-option v-for="cmd in userdataOptions" :key="cmd.value" :label="cmd.label" :value="cmd.value" />
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('opc.s7.jobFilter')">
+              <el-select v-model="formData.job_func_filter" multiple filterable allow-create :placeholder="$t('opc.s7.filterPlaceholder')" style="width: 100%">
+                <el-option v-for="cmd in jobOptions" :key="cmd.value" :label="cmd.label" :value="cmd.value" />
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('opc.s7.ackFilter')">
+              <el-select v-model="formData.ack_func_filter" multiple filterable allow-create :placeholder="$t('opc.s7.filterPlaceholder')" style="width: 100%">
+                <el-option v-for="cmd in ackOptions" :key="cmd.value" :label="cmd.label" :value="cmd.value" />
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <!-- Step 2: 读过滤 -->
+          <div id="step-1" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.s7.steps.readFilter') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.s7.filterType')">
+              <el-radio-group v-model="formData.r_filter_type">
+                <el-radio :value="0">{{ $t('opc.s7.noLimit') }}</el-radio>
+                <el-radio :value="1">{{ $t('opc.s7.whitelist') }}</el-radio>
+                <el-radio :value="2">{{ $t('opc.s7.blacklist') }}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('opc.s7.readConfig')">
+              <div class="filter-config-wrapper">
+                <div class="config-header">
+                  <el-button type="primary" size="small" @click="addReadConfig">
+                    <el-icon><Plus /></el-icon>
+                    {{ $t('opc.s7.addConfig') }}
                   </el-button>
                 </div>
+                <div v-if="formData.r_tabs.length" class="config-list">
+                  <div v-for="(config, index) in formData.r_tabs" :key="index" class="config-item">
+                    <span class="config-info">
+                      {{ config.block }}{{ config.block === 'DB' ? config.dbIndex : '' }}:
+                      {{ config.startAddr }} - {{ config.endAddr }}
+                    </span>
+                    <el-button type="danger" size="small" link @click="removeReadConfig(index)">
+                      <el-icon><Delete /></el-icon>
+                    </el-button>
+                  </div>
+                </div>
+                <div v-else class="config-empty">{{ $t('opc.s7.noConfig') }}</div>
               </div>
-              <div v-else class="config-empty">{{ $t('opc.s7.noConfig') }}</div>
-            </div>
-          </el-form-item>
-        </el-form>
-      </div>
+            </el-form-item>
+          </div>
 
-      <!-- Step 3: 写过滤 -->
-      <div v-show="currentStep === 3" class="step-content">
-        <el-form :model="formData" label-width="100px" class="step-form">
-          <el-form-item :label="$t('opc.s7.filterType')">
-            <el-radio-group v-model="formData.w_filter_type">
-              <el-radio :value="0">{{ $t('opc.s7.noLimit') }}</el-radio>
-              <el-radio :value="1">{{ $t('opc.s7.whitelist') }}</el-radio>
-              <el-radio :value="2">{{ $t('opc.s7.blacklist') }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item :label="$t('opc.s7.writeConfig')">
-            <div class="filter-config-wrapper">
-              <div class="config-header">
-                <el-button type="primary" size="small" @click="addWriteConfig">
-                  <el-icon><Plus /></el-icon>
-                  {{ $t('opc.s7.addConfig') }}
-                </el-button>
-              </div>
-              <div v-if="formData.w_tabs.length" class="config-list">
-                <div v-for="(config, index) in formData.w_tabs" :key="index" class="config-item">
-                  <span class="config-info">
-                    {{ config.block }}{{ config.block === 'DB' ? config.dbIndex : '' }}:
-                    {{ config.startAddr }} - {{ config.endAddr }}
-                  </span>
-                  <el-button type="danger" size="small" link @click="removeWriteConfig(index)">
-                    <el-icon><Delete /></el-icon>
+          <!-- Step 3: 写过滤 -->
+          <div id="step-2" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.s7.steps.writeFilter') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.s7.filterType')">
+              <el-radio-group v-model="formData.w_filter_type">
+                <el-radio :value="0">{{ $t('opc.s7.noLimit') }}</el-radio>
+                <el-radio :value="1">{{ $t('opc.s7.whitelist') }}</el-radio>
+                <el-radio :value="2">{{ $t('opc.s7.blacklist') }}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item :label="$t('opc.s7.writeConfig')">
+              <div class="filter-config-wrapper">
+                <div class="config-header">
+                  <el-button type="primary" size="small" @click="addWriteConfig">
+                    <el-icon><Plus /></el-icon>
+                    {{ $t('opc.s7.addConfig') }}
                   </el-button>
                 </div>
+                <div v-if="formData.w_tabs.length" class="config-list">
+                  <div v-for="(config, index) in formData.w_tabs" :key="index" class="config-item">
+                    <span class="config-info">
+                      {{ config.block }}{{ config.block === 'DB' ? config.dbIndex : '' }}:
+                      {{ config.startAddr }} - {{ config.endAddr }}
+                    </span>
+                    <el-button type="danger" size="small" link @click="removeWriteConfig(index)">
+                      <el-icon><Delete /></el-icon>
+                    </el-button>
+                  </div>
+                </div>
+                <div v-else class="config-empty">{{ $t('opc.s7.noConfig') }}</div>
               </div>
-              <div v-else class="config-empty">{{ $t('opc.s7.noConfig') }}</div>
-            </div>
-          </el-form-item>
+            </el-form-item>
+          </div>
+
         </el-form>
       </div>
 
-      <!-- 步骤条底部按钮 -->
       <template #footer>
         <div class="stepper-footer">
-          <el-button v-if="currentStep > 1" @click="previousStep">{{ $t('opc.s7.previous') }}</el-button>
-          <el-button v-if="currentStep < 3" type="primary" @click="nextStep">{{ $t('opc.s7.next') }}</el-button>
-          <el-button v-if="currentStep === 3" type="success" @click="handleSubmit" :loading="submitLoading">{{ $t('opc.s7.submit') }}</el-button>
+          <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
+          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -345,10 +344,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { Cpu, Plus, InfoFilled, View, Edit, Delete } from '@element-plus/icons-vue'
+import { Cpu, Plus, InfoFilled, View, Edit, Delete, Setting } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -410,18 +409,35 @@ const ackOptions = [
 ]
 
 // ==================== 步骤条 ====================
-const currentStep = ref(1)
-const steps = computed(() => [
-  { label: t('opc.s7.steps.basic') },
-  { label: t('opc.s7.steps.readFilter') },
-  { label: t('opc.s7.steps.writeFilter') }
-])
+const stepVisible = reactive([true, false, false])
+let scrollObserver: IntersectionObserver | null = null
+const wizardContentRef = ref<HTMLElement>()
 
-const goToStep = (step: number) => {
-  if (step >= 1 && step <= 3) currentStep.value = step
+const setupScrollObserver = () => {
+  if (scrollObserver) scrollObserver.disconnect()
+  const container = wizardContentRef.value
+  if (!container) return
+  scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        const index = parseInt(entry.target.id.replace('step-', ''))
+        stepVisible[index] = entry.isIntersecting
+      })
+    },
+    { root: container, threshold: 0.1 }
+  )
+  for (let i = 0; i < 3; i++) {
+    const el = document.getElementById('step-' + i)
+    if (el) scrollObserver!.observe(el)
+  }
 }
-const nextStep = () => { if (currentStep.value < 3) currentStep.value++ }
-const previousStep = () => { if (currentStep.value > 1) currentStep.value-- }
+
+const scrollToStep = (step: number) => {
+  const el = document.getElementById('step-' + step)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 // ==================== 状态 ====================
 const loading = ref(false)
@@ -549,8 +565,8 @@ const resetForm = () => {
 const handleAdd = () => {
   isEdit.value = false
   resetForm()
-  currentStep.value = 1
   dialogVisible.value = true
+  nextTick(() => setupScrollObserver())
 }
 
 const handleView = (row: S7Rule) => {
@@ -571,8 +587,8 @@ const handleEdit = (row: S7Rule) => {
   formData.r_tabs = row.r_tabs.map(t => ({ ...t }))
   formData.w_filter_type = row.w_filter_type
   formData.w_tabs = row.w_tabs.map(t => ({ ...t }))
-  currentStep.value = 1
   dialogVisible.value = true
+  nextTick(() => setupScrollObserver())
 }
 
 const handleDelete = async (row: S7Rule) => {
@@ -653,7 +669,6 @@ const handleSubmit = () => {
   if (!formRef.value) return
   formRef.value.validate((valid) => {
     if (!valid) {
-      currentStep.value = 1
       return
     }
     submitLoading.value = true
@@ -836,96 +851,28 @@ fetchList()
 }
 
 /* ========== 步骤条 ========== */
-.bs-stepper {
-  margin-bottom: 24px;
-}
+.wizard-steps { padding: 0 20px 12px; }
+.wizard-steps :deep(.clickable-step) { cursor: pointer; }
+.wizard-steps :deep(.clickable-step:hover .el-step__title) { color: #409EFF; }
 
-.bs-stepper-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-}
+.wizard-content { padding: 24px; max-height: 55vh; overflow-y: auto; }
 
-.bs-stepper-header .step {
-  position: relative;
-  z-index: 1;
+.step-panel {
+  margin-bottom: 24px; padding-bottom: 24px;
+  border-bottom: 1px dashed rgba(64, 158, 255, 0.12);
 }
+.step-panel:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 
-.step-trigger {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 20px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.step-section-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 2px solid; border-image: linear-gradient(90deg, #409EFF, #67C23A) 1;
+  font-size: 15px; font-weight: 600; color: #303133;
 }
-
-.bs-stepper-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(144, 147, 153, 0.1);
-  border: 2px solid rgba(144, 147, 153, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  color: #909399;
-  transition: all 0.3s ease;
-}
-
-.bs-stepper-label {
-  font-size: 13px;
-  color: #909399;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.step.active .bs-stepper-circle {
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.15), rgba(103, 194, 58, 0.15));
-  border-color: #409EFF;
-  color: #409EFF;
-  box-shadow: 0 0 12px rgba(64, 158, 255, 0.25);
-}
-
-.step.active .bs-stepper-label {
-  color: #409EFF;
-  font-weight: 600;
-}
-
-.step.done .bs-stepper-circle {
+.section-dot {
+  width: 10px; height: 10px; border-radius: 50%;
   background: linear-gradient(135deg, #409EFF, #67C23A);
-  border-color: #67C23A;
-  color: white;
-  box-shadow: 0 0 10px rgba(103, 194, 58, 0.3);
-}
-
-.step.done .bs-stepper-label {
-  color: #67C23A;
-}
-
-.bs-stepper-header .line {
-  flex: 1;
-  height: 2px;
-  background: rgba(144, 147, 153, 0.15);
-  margin: 0 4px;
-  margin-bottom: 28px;
-  border-radius: 1px;
-  transition: background 0.3s ease;
-}
-
-.bs-stepper-header .line.active {
-  background: linear-gradient(90deg, #409EFF, #67C23A);
-}
-
-/* ========== 步骤内容 ========== */
-.step-content {
-  min-height: 200px;
+  box-shadow: 0 0 8px rgba(64, 158, 255, 0.3);
 }
 
 .step-form {
@@ -991,9 +938,7 @@ fetchList()
 }
 
 .stepper-dialog :deep(.el-dialog__body) {
-  padding: 24px;
-  max-height: 60vh;
-  overflow-y: auto;
+  padding: 20px 24px;
 }
 
 .stepper-dialog :deep(.el-dialog__footer) {

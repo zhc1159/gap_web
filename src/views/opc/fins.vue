@@ -124,220 +124,223 @@
       class="form-dialog"
       :close-on-click-modal="false"
     >
-      <!-- Stepper -->
-      <div class="bs-stepper">
-        <div class="bs-stepper-header">
-          <div class="step" :class="{ active: currentStep === 1, done: currentStep > 1 }" @click="goToStep(1)">
-            <div class="bs-stepper-circle"><span>1</span></div>
-            <div class="bs-stepper-label">{{ $t('opc.fins.step.basic') }}</div>
-          </div>
-          <div class="line" :class="{ active: currentStep >= 2 }"></div>
-          <div class="step" :class="{ active: currentStep === 2, done: currentStep > 2 }" @click="goToStep(2)">
-            <div class="bs-stepper-circle"><span>2</span></div>
-            <div class="bs-stepper-label">{{ $t('opc.fins.step.readFilter') }}</div>
-          </div>
-          <div class="line" :class="{ active: currentStep >= 3 }"></div>
-          <div class="step" :class="{ active: currentStep === 3, done: currentStep > 3 }" @click="goToStep(3)">
-            <div class="bs-stepper-circle"><span>3</span></div>
-            <div class="bs-stepper-label">{{ $t('opc.fins.step.writeFilter') }}</div>
-          </div>
-          <div class="line" :class="{ active: currentStep >= 4 }"></div>
-          <div class="step" :class="{ active: currentStep === 4, done: currentStep > 4 }" @click="goToStep(4)">
-            <div class="bs-stepper-circle"><span>4</span></div>
-            <div class="bs-stepper-label">{{ $t('opc.fins.step.sourceFilter') }}</div>
-          </div>
-          <div class="line" :class="{ active: currentStep >= 5 }"></div>
-          <div class="step" :class="{ active: currentStep === 5, done: currentStep > 5 }" @click="goToStep(5)">
-            <div class="bs-stepper-circle"><span>5</span></div>
-            <div class="bs-stepper-label">{{ $t('opc.fins.step.destFilter') }}</div>
-          </div>
-          <div class="line" :class="{ active: currentStep >= 6 }"></div>
-          <div class="step" :class="{ active: currentStep === 6 }" @click="goToStep(6)">
-            <div class="bs-stepper-circle"><span>6</span></div>
-            <div class="bs-stepper-label">{{ $t('opc.fins.step.commandFilter') }}</div>
-          </div>
-        </div>
+      <!-- 步骤条 -->
+      <div class="wizard-steps">
+        <el-steps :active="5" align-center>
+          <el-step :title="$t('opc.fins.step.basic')" :icon="Setting"
+            :status="stepVisible[0] ? 'process' : 'wait'"
+            @click.native="scrollToStep(0)" class="clickable-step" />
+          <el-step :title="$t('opc.fins.step.readFilter')" :icon="Setting"
+            :status="stepVisible[1] ? 'process' : 'wait'"
+            @click.native="scrollToStep(1)" class="clickable-step" />
+          <el-step :title="$t('opc.fins.step.writeFilter')" :icon="Setting"
+            :status="stepVisible[2] ? 'process' : 'wait'"
+            @click.native="scrollToStep(2)" class="clickable-step" />
+          <el-step :title="$t('opc.fins.step.sourceFilter')" :icon="Setting"
+            :status="stepVisible[3] ? 'process' : 'wait'"
+            @click.native="scrollToStep(3)" class="clickable-step" />
+          <el-step :title="$t('opc.fins.step.destFilter')" :icon="Setting"
+            :status="stepVisible[4] ? 'process' : 'wait'"
+            @click.native="scrollToStep(4)" class="clickable-step" />
+          <el-step :title="$t('opc.fins.step.commandFilter')" :icon="Setting"
+            :status="stepVisible[5] ? 'process' : 'wait'"
+            @click.native="scrollToStep(5)" class="clickable-step" />
+        </el-steps>
       </div>
 
-      <!-- Step 1: 基本设置 -->
-      <div v-show="currentStep === 1" class="step-content">
+      <div class="wizard-content" ref="wizardContentRef">
         <el-form :model="formData" :rules="formRules" ref="formRef" label-width="140px" class="form-content">
-          <el-form-item :label="$t('opc.fins.ruleSwitch')">
-            <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
-          </el-form-item>
-          <el-form-item :label="$t('opc.fins.groupName')" prop="groupName">
-            <el-select v-model="formData.groupName" :placeholder="$t('opc.fins.groupNamePlaceholder')" style="width: 100%" :disabled="isEdit">
-              <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
-            </el-select>
-          </el-form-item>
-          <el-form-item :label="$t('opc.fins.gctLimit')" prop="gct_limit">
-            <el-input-number v-model="formData.gct_limit" :min="0" controls-position="right" style="width: 100%" />
-            <div class="form-tip">{{ $t('opc.fins.gctLimitTip') }}</div>
-          </el-form-item>
-          <el-form-item :label="$t('opc.fins.norespDisable')">
-            <el-select v-model="formData.noresp_disable" style="width: 100%">
-              <el-option :label="$t('opc.fins.noresp.disable')" :value="0" />
-              <el-option :label="$t('opc.fins.noresp.enable')" :value="1" />
-            </el-select>
-          </el-form-item>
+
+          <!-- Step 1: 基本设置 -->
+          <div id="step-0" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.fins.step.basic') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.fins.ruleSwitch')">
+              <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
+            </el-form-item>
+            <el-form-item :label="$t('opc.fins.groupName')" prop="groupName">
+              <el-select v-model="formData.groupName" :placeholder="$t('opc.fins.groupNamePlaceholder')" style="width: 100%" :disabled="isEdit">
+                <el-option v-for="group in groupOptions" :key="group" :label="group" :value="group" />
+              </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('opc.fins.gctLimit')" prop="gct_limit">
+              <el-input-number v-model="formData.gct_limit" :min="0" controls-position="right" style="width: 100%" />
+              <div class="form-tip">{{ $t('opc.fins.gctLimitTip') }}</div>
+            </el-form-item>
+            <el-form-item :label="$t('opc.fins.norespDisable')">
+              <el-select v-model="formData.noresp_disable" style="width: 100%">
+                <el-option :label="$t('opc.fins.noresp.disable')" :value="0" />
+                <el-option :label="$t('opc.fins.noresp.enable')" :value="1" />
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <!-- Step 2: 读过滤 -->
+          <div id="step-1" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.fins.step.readFilter') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.fins.filterType')">
+              <el-select v-model="formData.r_filter_type" style="width: 100%">
+                <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+              </el-select>
+            </el-form-item>
+            <el-button type="primary" size="small" @click="openAreaModal('r')">
+              <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+            </el-button>
+            <div v-if="formData.table_r_tabs.length > 0" class="dynamic-table-section">
+              <el-table :data="formData.table_r_tabs" size="small" border>
+                <el-table-column prop="area" :label="$t('opc.fins.filter.area')" width="100" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.area.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="130" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="130" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+                  <template #default="{ $index }">
+                    <el-button type="danger" link @click="formData.table_r_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+
+          <!-- Step 3: 写过滤 -->
+          <div id="step-2" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.fins.step.writeFilter') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.fins.filterType')">
+              <el-select v-model="formData.w_filter_type" style="width: 100%">
+                <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+              </el-select>
+            </el-form-item>
+            <el-button type="primary" size="small" @click="openAreaModal('w')">
+              <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+            </el-button>
+            <div v-if="formData.table_w_tabs.length > 0" class="dynamic-table-section">
+              <el-table :data="formData.table_w_tabs" size="small" border>
+                <el-table-column prop="area" :label="$t('opc.fins.filter.area')" width="100" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.area.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="130" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="130" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+                  <template #default="{ $index }">
+                    <el-button type="danger" link @click="formData.table_w_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+
+          <!-- Step 4: 源过滤 -->
+          <div id="step-3" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.fins.step.sourceFilter') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.fins.filterType')">
+              <el-select v-model="formData.s_filter_type" style="width: 100%">
+                <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+              </el-select>
+            </el-form-item>
+            <el-button type="primary" size="small" @click="openAddrModal('s')">
+              <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+            </el-button>
+            <div v-if="formData.table_s_tabs.length > 0" class="dynamic-table-section">
+              <el-table :data="formData.table_s_tabs" size="small" border>
+                <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="150" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="150" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+                  <template #default="{ $index }">
+                    <el-button type="danger" link @click="formData.table_s_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+
+          <!-- Step 5: 目的过滤 -->
+          <div id="step-4" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.fins.step.destFilter') }}</span>
+            </div>
+            <el-form-item :label="$t('opc.fins.filterType')">
+              <el-select v-model="formData.d_filter_type" style="width: 100%">
+                <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
+                <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
+              </el-select>
+            </el-form-item>
+            <el-button type="primary" size="small" @click="openAddrModal('d')">
+              <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
+            </el-button>
+            <div v-if="formData.table_d_tabs.length > 0" class="dynamic-table-section">
+              <el-table :data="formData.table_d_tabs" size="small" border>
+                <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="150" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="150" align="center">
+                  <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
+                </el-table-column>
+                <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
+                  <template #default="{ $index }">
+                    <el-button type="danger" link @click="formData.table_d_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
+
+          <!-- Step 6: 命令过滤 -->
+          <div id="step-5" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('opc.fins.step.commandFilter') }}</span>
+            </div>
+            <el-collapse v-model="activeCategories" class="command-collapse">
+              <el-collapse-item v-for="cat in commandCategories" :key="cat.key" :title="cat.label" :name="cat.key">
+                <el-checkbox-group v-model="formData.commandFilter[cat.key]" class="command-checkbox-group">
+                  <el-checkbox v-for="cmd in cat.commands" :key="cmd.value" :value="cmd.value" :label="cmd.value">
+                    {{ cmd.label }}
+                  </el-checkbox>
+                </el-checkbox-group>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+
         </el-form>
       </div>
 
-      <!-- Step 2: 读过滤 -->
-      <div v-show="currentStep === 2" class="step-content">
-        <h4 class="step-title">{{ $t('opc.fins.step.readFilter') }}</h4>
-        <el-form label-width="140px">
-          <el-form-item :label="$t('opc.fins.filterType')">
-            <el-select v-model="formData.r_filter_type" style="width: 100%">
-              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <el-button type="primary" size="small" @click="openAreaModal('r')" style="margin-left: 140px">
-          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
-        </el-button>
-        <div v-if="formData.table_r_tabs.length > 0" class="dynamic-table-section">
-          <el-table :data="formData.table_r_tabs" size="small" border>
-            <el-table-column prop="area" :label="$t('opc.fins.filter.area')" width="100" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.area.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="130" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="130" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
-              <template #default="{ $index }">
-                <el-button type="danger" link @click="formData.table_r_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
+          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
         </div>
-      </div>
-
-      <!-- Step 3: 写过滤 -->
-      <div v-show="currentStep === 3" class="step-content">
-        <h4 class="step-title">{{ $t('opc.fins.step.writeFilter') }}</h4>
-        <el-form label-width="140px">
-          <el-form-item :label="$t('opc.fins.filterType')">
-            <el-select v-model="formData.w_filter_type" style="width: 100%">
-              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <el-button type="primary" size="small" @click="openAreaModal('w')" style="margin-left: 140px">
-          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
-        </el-button>
-        <div v-if="formData.table_w_tabs.length > 0" class="dynamic-table-section">
-          <el-table :data="formData.table_w_tabs" size="small" border>
-            <el-table-column prop="area" :label="$t('opc.fins.filter.area')" width="100" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.area.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="130" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="130" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
-              <template #default="{ $index }">
-                <el-button type="danger" link @click="formData.table_w_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-
-      <!-- Step 4: 源过滤 -->
-      <div v-show="currentStep === 4" class="step-content">
-        <h4 class="step-title">{{ $t('opc.fins.step.sourceFilter') }}</h4>
-        <el-form label-width="140px">
-          <el-form-item :label="$t('opc.fins.filterType')">
-            <el-select v-model="formData.s_filter_type" style="width: 100%">
-              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <el-button type="primary" size="small" @click="openAddrModal('s')" style="margin-left: 140px">
-          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
-        </el-button>
-        <div v-if="formData.table_s_tabs.length > 0" class="dynamic-table-section">
-          <el-table :data="formData.table_s_tabs" size="small" border>
-            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="150" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="150" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
-              <template #default="{ $index }">
-                <el-button type="danger" link @click="formData.table_s_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-
-      <!-- Step 5: 目的过滤 -->
-      <div v-show="currentStep === 5" class="step-content">
-        <h4 class="step-title">{{ $t('opc.fins.step.destFilter') }}</h4>
-        <el-form label-width="140px">
-          <el-form-item :label="$t('opc.fins.filterType')">
-            <el-select v-model="formData.d_filter_type" style="width: 100%">
-              <el-option :label="$t('opc.fins.filterTypeOptions.noLimit')" :value="0" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.blacklist')" :value="1" />
-              <el-option :label="$t('opc.fins.filterTypeOptions.whitelist')" :value="2" />
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <el-button type="primary" size="small" @click="openAddrModal('d')" style="margin-left: 140px">
-          <el-icon><Plus /></el-icon> {{ $t('opc.fins.addEntry') }}
-        </el-button>
-        <div v-if="formData.table_d_tabs.length > 0" class="dynamic-table-section">
-          <el-table :data="formData.table_d_tabs" size="small" border>
-            <el-table-column prop="begin" :label="$t('opc.fins.filter.begin')" width="150" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.begin.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column prop="end" :label="$t('opc.fins.filter.end')" width="150" align="center">
-              <template #default="{ row }"><span class="hex-value">0x{{ row.end.toUpperCase() }}</span></template>
-            </el-table-column>
-            <el-table-column :label="$t('opc.fins.actions')" width="80" align="center">
-              <template #default="{ $index }">
-                <el-button type="danger" link @click="formData.table_d_tabs.splice($index, 1)">{{ $t('opc.fins.delete') }}</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-
-      <!-- Step 6: 命令过滤 -->
-      <div v-show="currentStep === 6" class="step-content">
-        <h4 class="step-title">{{ $t('opc.fins.step.commandFilter') }}</h4>
-        <el-collapse v-model="activeCategories" class="command-collapse">
-          <el-collapse-item v-for="cat in commandCategories" :key="cat.key" :title="cat.label" :name="cat.key">
-            <el-checkbox-group v-model="formData.commandFilter[cat.key]" class="command-checkbox-group">
-              <el-checkbox v-for="cmd in cat.commands" :key="cmd.value" :value="cmd.value" :label="cmd.value">
-                {{ cmd.label }}
-              </el-checkbox>
-            </el-checkbox-group>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-
-      <!-- 步骤按钮 -->
-      <div class="step-footer">
-        <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
-        <el-button v-if="currentStep > 1" @click="currentStep--">{{ $t('opc.fins.previous') }}</el-button>
-        <el-button v-if="currentStep < 6" type="primary" @click="currentStep++">{{ $t('opc.fins.next') }}</el-button>
-        <el-button v-if="currentStep === 6" type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('opc.fins.submit') }}</el-button>
-      </div>
+      </template>
     </el-dialog>
 
     <!-- 添加区域条目弹窗(Step 2/3) -->
@@ -430,10 +433,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { Connection, Plus, InfoFilled, View, Edit, Delete } from '@element-plus/icons-vue'
+import { Connection, Plus, InfoFilled, View, Edit, Delete, Setting } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -559,8 +562,38 @@ const viewDialogVisible = ref(false)
 const isEdit = ref(false)
 const formRef = ref<FormInstance>()
 const editingId = ref('')
-const currentStep = ref(1)
 const activeCategories = ref<string[]>([])
+
+// ==================== IntersectionObserver ====================
+const stepVisible = reactive([true, false, false, false, false, false])
+let scrollObserver: IntersectionObserver | null = null
+const wizardContentRef = ref<HTMLElement>()
+
+const setupScrollObserver = () => {
+  if (scrollObserver) scrollObserver.disconnect()
+  const container = wizardContentRef.value
+  if (!container) return
+  scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        const index = parseInt(entry.target.id.replace('step-', ''))
+        stepVisible[index] = entry.isIntersecting
+      })
+    },
+    { root: container, threshold: 0.1 }
+  )
+  for (let i = 0; i < 6; i++) {
+    const el = document.getElementById('step-' + i)
+    if (el) scrollObserver!.observe(el)
+  }
+}
+
+const scrollToStep = (step: number) => {
+  const el = document.getElementById('step-' + step)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 // 子弹窗
 const areaModalVisible = ref(false)
@@ -675,7 +708,6 @@ const fetchList = () => {
 }
 
 // ==================== 操作 ====================
-const goToStep = (step: number) => { currentStep.value = step }
 
 const resetForm = () => {
   formData.groupName = ''; formData.rule_work = true; formData.gct_limit = 2; formData.noresp_disable = 0
@@ -684,10 +716,10 @@ const resetForm = () => {
   formData.s_filter_type = 0; formData.table_s_tabs = []
   formData.d_filter_type = 0; formData.table_d_tabs = []
   formData.commandFilter = emptyCmdFilter()
-  editingId.value = ''; currentStep.value = 1
+  editingId.value = ''
 }
 
-const handleAdd = () => { isEdit.value = false; resetForm(); dialogVisible.value = true }
+const handleAdd = () => { isEdit.value = false; resetForm(); dialogVisible.value = true; nextTick(() => setupScrollObserver()) }
 
 const handleView = (row: FinsRule) => {
   viewData.value = { ...row, commandFilter: { ...row.commandFilter } }
@@ -703,7 +735,7 @@ const handleEdit = (row: FinsRule) => {
   formData.s_filter_type = row.s_filter_type; formData.table_s_tabs = row.table_s_tabs.map(t => ({ ...t }))
   formData.d_filter_type = row.d_filter_type; formData.table_d_tabs = row.table_d_tabs.map(t => ({ ...t }))
   formData.commandFilter = { ...row.commandFilter }
-  currentStep.value = 1; dialogVisible.value = true
+  dialogVisible.value = true; nextTick(() => setupScrollObserver())
 }
 
 const handleDelete = async (row: FinsRule) => {
@@ -752,7 +784,7 @@ const confirmAddrEntry = () => {
 const handleSubmit = () => {
   if (!formRef.value) return
   formRef.value.validate((valid) => {
-    if (!valid) { currentStep.value = 1; return }
+    if (!valid) { return }
     submitLoading.value = true
     setTimeout(() => {
       const data = {
@@ -872,50 +904,28 @@ fetchList()
 }
 
 /* ========== Stepper ========== */
-.bs-stepper { margin-bottom: 24px; }
-.bs-stepper-header {
-  display: flex; align-items: center; justify-content: center;
-  padding: 16px 0; gap: 0;
-}
-.bs-stepper-header .step {
-  display: flex; flex-direction: column; align-items: center; cursor: pointer;
-  min-width: 60px;
-}
-.bs-stepper-circle {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 14px; color: #909399;
-  background: #f0f2f5; border: 2px solid #dcdfe6;
-  transition: all 0.3s ease;
-}
-.step.active .bs-stepper-circle {
-  background: linear-gradient(135deg, #409EFF, #67C23A); color: white;
-  border-color: transparent; box-shadow: 0 0 12px rgba(64, 158, 255, 0.4);
-}
-.step.done .bs-stepper-circle {
-  background: linear-gradient(135deg, #67C23A, #409EFF); color: white;
-  border-color: transparent;
-}
-.bs-stepper-label {
-  margin-top: 6px; font-size: 12px; color: #909399; white-space: nowrap;
-}
-.step.active .bs-stepper-label { color: #409EFF; font-weight: 600; }
-.step.done .bs-stepper-label { color: #67C23A; }
-.bs-stepper-header .line {
-  flex: 1; height: 3px; background: #dcdfe6;
-  margin: 0 4px; margin-bottom: 20px; border-radius: 2px;
-  transition: background 0.3s ease; max-width: 40px;
-}
-.bs-stepper-header .line.active {
-  background: linear-gradient(90deg, #409EFF, #67C23A);
-}
+.wizard-steps { padding: 0 20px 12px; }
+.wizard-steps :deep(.clickable-step) { cursor: pointer; }
+.wizard-steps :deep(.clickable-step:hover .el-step__title) { color: #409EFF; }
 
-/* ========== 步骤内容 ========== */
-.step-content { min-height: 300px; }
-.step-title {
-  font-size: 16px; font-weight: 600; color: #303133;
-  margin-bottom: 20px; padding-bottom: 8px;
-  border-bottom: 1px solid rgba(64, 158, 255, 0.1);
+.wizard-content { padding: 24px; max-height: 55vh; overflow-y: auto; }
+
+.step-panel {
+  margin-bottom: 24px; padding-bottom: 24px;
+  border-bottom: 1px dashed rgba(64, 158, 255, 0.12);
+}
+.step-panel:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.step-section-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 2px solid; border-image: linear-gradient(90deg, #409EFF, #67C23A) 1;
+  font-size: 15px; font-weight: 600; color: #303133;
+}
+.section-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: linear-gradient(135deg, #409EFF, #67C23A);
+  box-shadow: 0 0 8px rgba(64, 158, 255, 0.3);
 }
 .form-tip { margin-top: 4px; font-size: 12px; color: #909399; }
 .hex-value {
@@ -933,21 +943,15 @@ fetchList()
 }
 .command-checkbox-group .el-checkbox { min-width: 180px; }
 
-/* ========== 步骤按钮 ========== */
-.step-footer {
-  display: flex; justify-content: flex-end; gap: 10px;
-  padding-top: 20px; margin-top: 20px;
-  border-top: 1px solid rgba(64, 158, 255, 0.1);
-}
-
 /* ========== 对话框 ========== */
 .form-dialog :deep(.el-dialog__header) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   margin-right: 0; padding: 16px 20px;
   border-bottom: 1px solid rgba(64, 158, 255, 0.1);
 }
-.form-dialog :deep(.el-dialog__body) { padding: 24px; max-height: 60vh; overflow-y: auto; }
+.form-dialog :deep(.el-dialog__body) { padding: 20px 24px; }
 .form-dialog :deep(.el-dialog__footer) { border-top: 1px solid rgba(64, 158, 255, 0.1); padding: 16px 20px; }
+.dialog-footer { display: flex; justify-content: center; gap: 12px; }
 .form-content { max-width: 100%; }
 
 /* ========== 查看对话框 ========== */

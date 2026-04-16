@@ -125,28 +125,30 @@
       :close-on-click-modal="false"
     >
       <!-- 步骤条 -->
-      <div class="stepper">
-        <div v-for="(step, idx) in steps" :key="idx" class="stepper-sequence">
-          <div class="stepper-step" :class="{ active: currentStep === idx, done: currentStep > idx }" @click="currentStep = idx">
-            <div class="step-dot">
-              <el-icon v-if="currentStep > idx"><Check /></el-icon>
-              <span v-else>{{ idx + 1 }}</span>
-            </div>
-            <span class="step-label">{{ step }}</span>
-          </div>
-          <div v-if="idx < steps.length - 1" class="stepper-line" :class="{ done: currentStep > idx }" />
-        </div>
+      <div class="wizard-steps">
+        <el-steps :active="2" align-center>
+          <el-step :title="$t('securityPolicy.s_WebService.stepBasic')" :icon="Setting"
+            :status="stepVisible[0] ? 'process' : 'wait'"
+            @click.native="scrollToStep(0)" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_WebService.stepHead')" :icon="Setting"
+            :status="stepVisible[1] ? 'process' : 'wait'"
+            @click.native="scrollToStep(1)" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_WebService.stepSoap')" :icon="Setting"
+            :status="stepVisible[2] ? 'process' : 'wait'"
+            @click.native="scrollToStep(2)" class="clickable-step" />
+        </el-steps>
       </div>
 
-      <el-form :model="formData" :rules="formRules" ref="formRef" label-width="180px" class="form-content">
+      <div class="wizard-content" ref="wizardContentRef">
+        <el-form :model="formData" :rules="formRules" ref="formRef" label-width="180px" class="form-content">
 
-        <!-- 步骤1：基础设置 -->
-        <div v-show="currentStep === 0" class="step-panel">
-          <div class="step-section-header">
-            <div class="section-dot" />
-            <span>{{ $t('securityPolicy.s_WebService.basicSettings') }}</span>
-          </div>
-          <div class="step-section-body">
+          <!-- 步骤1：基础设置 -->
+          <div id="step-0" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('securityPolicy.s_WebService.basicSettings') }}</span>
+            </div>
+            <div class="step-section-body">
             <el-form-item :label="$t('securityPolicy.s_WebService.ruleSwitch')">
               <el-switch v-model="formData.rule_work" :active-text="$t('common.on')" :inactive-text="$t('common.off')" inline-prompt />
             </el-form-item>
@@ -158,13 +160,13 @@
           </div>
         </div>
 
-        <!-- 步骤2：HEAD检查 -->
-        <div v-show="currentStep === 1" class="step-panel">
-          <div class="step-section-header">
-            <div class="section-dot" />
-            <span>{{ $t('securityPolicy.s_WebService.headInspection') }}</span>
-          </div>
-          <div class="step-section-body">
+          <!-- 步骤2：HEAD检查 -->
+          <div id="step-1" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('securityPolicy.s_WebService.headInspection') }}</span>
+            </div>
+            <div class="step-section-body">
             <el-form-item :label="$t('securityPolicy.s_WebService.blackCmdLabel')">
               <el-select v-model="formData.head.blackCmd" multiple :placeholder="$t('securityPolicy.s_WebService.blackCmdPlaceholder')" style="width: 100%">
                 <el-option v-for="cmd in httpCommands" :key="cmd" :label="cmd" :value="cmd" />
@@ -188,13 +190,13 @@
           </div>
         </div>
 
-        <!-- 步骤3：SOAP检查 -->
-        <div v-show="currentStep === 2" class="step-panel">
-          <div class="step-section-header">
-            <div class="section-dot" />
-            <span>{{ $t('securityPolicy.s_WebService.soapInspection') }}</span>
-          </div>
-          <div class="step-section-body">
+          <!-- 步骤3：SOAP检查 -->
+          <div id="step-2" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('securityPolicy.s_WebService.soapInspection') }}</span>
+            </div>
+            <div class="step-section-body">
             <!-- SOAP函数名 -->
             <el-form-item :label="$t('securityPolicy.s_WebService.soapFunLabel')">
               <div class="tag-input-wrapper">
@@ -253,14 +255,13 @@
             </el-form-item>
           </div>
         </div>
-      </el-form>
+        </el-form>
+      </div>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button v-if="currentStep > 0" @click="currentStep--">{{ $t('securityPolicy.s_WebService.prevStep') }}</el-button>
-          <el-button v-if="currentStep < 2" type="primary" @click="nextStep">{{ $t('securityPolicy.s_WebService.nextStep') }}</el-button>
-          <el-button v-if="currentStep === 2" type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
           <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
+          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -324,10 +325,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, type Ref } from 'vue'
+import { ref, reactive, nextTick, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { Connection, Plus, InfoFilled, View, Edit, Delete, Check } from '@element-plus/icons-vue'
+import { Connection, Plus, InfoFilled, View, Edit, Delete, Setting } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -343,11 +344,35 @@ const httpCommands = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS', 'PATCH'
 
 // ==================== 步骤 ====================
 const currentStep = ref(0)
-const steps = computed(() => [
-  t('securityPolicy.s_WebService.stepBasic'),
-  t('securityPolicy.s_WebService.stepHead'),
-  t('securityPolicy.s_WebService.stepSoap')
-])
+const stepVisible = reactive([true, false, false])
+let scrollObserver: IntersectionObserver | null = null
+const wizardContentRef = ref<HTMLElement>()
+
+const setupScrollObserver = () => {
+  if (scrollObserver) scrollObserver.disconnect()
+  const container = wizardContentRef.value
+  if (!container) return
+  scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        const index = parseInt(entry.target.id.replace('step-', ''))
+        stepVisible[index] = entry.isIntersecting
+      })
+    },
+    { root: container, threshold: 0.1 }
+  )
+  for (let i = 0; i < 3; i++) {
+    const el = document.getElementById('step-' + i)
+    if (el) scrollObserver!.observe(el)
+  }
+}
+
+const scrollToStep = (step: number) => {
+  const el = document.getElementById('step-' + step)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 // ==================== 状态 ====================
 const loading = ref(false)
@@ -432,15 +457,6 @@ const handleBatchDelete = async () => {
   } catch { /* cancel */ }
 }
 
-// ==================== 步骤操作 ====================
-const nextStep = () => {
-  if (currentStep.value === 0 && !formData.groupName) {
-    formRef.value?.validateField('groupName')
-    return
-  }
-  if (currentStep.value < 2) currentStep.value++
-}
-
 // ==================== IP操作 ====================
 const isIPv4 = (v: string) => /^((25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\.){3}(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)$/.test(v)
 
@@ -488,7 +504,7 @@ const resetForm = () => {
   currentStep.value = 0
 }
 
-const handleAdd = () => { isEdit.value = false; resetForm(); dialogVisible.value = true }
+const handleAdd = () => { isEdit.value = false; resetForm(); dialogVisible.value = true; nextTick(() => setupScrollObserver()) }
 
 const handleView = (row: WsRule) => {
   viewData.value = {
@@ -504,7 +520,7 @@ const handleEdit = (row: WsRule) => {
   formData.groupName = row.groupName; formData.rule_work = row.rule_work
   formData.head = { blackCmd: [...row.head.blackCmd], whitelistIp: [...row.head.whitelistIp] }
   formData.soap = { soapFun: [...row.soap.soapFun], soapParam: [...row.soap.soapParam], soapRequest: [...row.soap.soapRequest], soapResponse: [...row.soap.soapResponse], soapCompress: row.soap.soapCompress }
-  newIp.value = ''; dialogVisible.value = true
+  newIp.value = ''; dialogVisible.value = true; nextTick(() => setupScrollObserver())
 }
 
 const handleDelete = async (row: WsRule) => {
@@ -657,53 +673,22 @@ const handleSizeChange = (size: number) => {
   margin-right: 0; padding: 16px 20px;
   border-bottom: 1px solid rgba(64, 158, 255, 0.1);
 }
-.form-dialog :deep(.el-dialog__body) { padding: 20px 24px; max-height: 65vh; overflow-y: auto; }
+.form-dialog :deep(.el-dialog__body) { padding: 20px 24px; }
 .form-dialog :deep(.el-dialog__footer) { border-top: 1px solid rgba(64, 158, 255, 0.1); padding: 16px 20px; }
 
 /* ========== 步骤条 ========== */
-.stepper {
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 28px; padding: 0 20px;
-}
-.stepper-sequence { display: flex; align-items: center; }
-.stepper-step {
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  cursor: pointer; user-select: none;
-}
-.step-dot {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 600; color: #909399;
-  background: #f0f2f5; border: 2px solid #dcdfe6;
-  transition: all 0.3s ease;
-}
-.stepper-step.active .step-dot {
-  background: linear-gradient(135deg, #409EFF, #67C23A);
-  color: white; border-color: transparent;
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.35);
-}
-.stepper-step.done .step-dot {
-  background: #67C23A; color: white; border-color: transparent;
-  box-shadow: 0 2px 8px rgba(103, 194, 58, 0.3);
-}
-.step-label { font-size: 13px; color: #909399; white-space: nowrap; }
-.stepper-step.active .step-label { color: #409EFF; font-weight: 600; }
-.stepper-step.done .step-label { color: #67C23A; }
-.stepper-line {
-  flex: 1; height: 3px; margin: 0 12px; margin-bottom: 24px;
-  background: #dcdfe6; border-radius: 2px; min-width: 60px;
-  transition: background 0.3s ease;
-}
-.stepper-line.done { background: linear-gradient(90deg, #67C23A, #67C23A); }
+.wizard-steps { padding: 0 20px 12px; }
+.wizard-steps :deep(.clickable-step) { cursor: pointer; }
+.wizard-steps :deep(.clickable-step:hover .el-step__title) { color: #409EFF; }
+
+.wizard-content { padding: 24px; max-height: 55vh; overflow-y: auto; }
 
 /* ========== 步骤面板 ========== */
 .step-panel {
-  animation: fadeIn 0.3s ease;
+  margin-bottom: 24px; padding-bottom: 24px;
+  border-bottom: 1px dashed rgba(64, 158, 255, 0.12);
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.step-panel:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 .step-section-header {
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 20px; padding-bottom: 12px;

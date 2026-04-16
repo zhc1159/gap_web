@@ -298,17 +298,32 @@
       :close-on-click-modal="false"
     >
       <!-- 步骤条 -->
-      <el-steps :active="currentStep" finish-status="success" align-center class="steps-nav">
-        <el-step :title="$t('rulesManage.filePathShow.step1')" />
-        <el-step :title="$t('rulesManage.filePathShow.step2')" />
-        <el-step :title="$t('rulesManage.filePathShow.step3')" />
-        <el-step :title="$t('rulesManage.filePathShow.step4')" />
-      </el-steps>
+      <div class="wizard-steps">
+        <el-steps :active="3" align-center>
+          <el-step :title="$t('rulesManage.filePathShow.step1')" :icon="Setting"
+            :status="stepVisible[0] ? 'process' : 'wait'"
+            @click.native="scrollToStep(0)" class="clickable-step" />
+          <el-step :title="$t('rulesManage.filePathShow.step2')" :icon="Setting"
+            :status="stepVisible[1] ? 'process' : 'wait'"
+            @click.native="scrollToStep(1)" class="clickable-step" />
+          <el-step :title="$t('rulesManage.filePathShow.step3')" :icon="Setting"
+            :status="stepVisible[2] ? 'process' : 'wait'"
+            @click.native="scrollToStep(2)" class="clickable-step" />
+          <el-step :title="$t('rulesManage.filePathShow.step4')" :icon="Setting"
+            :status="stepVisible[3] ? 'process' : 'wait'"
+            @click.native="scrollToStep(3)" class="clickable-step" />
+        </el-steps>
+      </div>
 
-      <div class="step-content">
-        <!-- Step 1: 内网端配置 -->
-        <div v-show="currentStep === 0" class="step-panel">
-          <el-form :model="formData" :rules="formRules" ref="internalFormRef" label-width="120px" class="form-content">
+      <div class="wizard-content" ref="wizardContentRef">
+        <el-form :model="formData" :rules="formRules" ref="formRef" label-width="140px" class="form-content">
+
+          <!-- Step 1: 内网端配置 -->
+          <div id="step-0" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('rulesManage.filePathShow.step1') }}</span>
+            </div>
             <el-form-item :label="$t('rulesManage.filePathShow.protocol')" prop="protocol">
               <el-select v-model="formData.protocol" :placeholder="$t('common.pleaseSelect')" style="width: 100%" @change="handleProtocolChange">
                 <el-option label="FTP" value="FTP" />
@@ -346,22 +361,14 @@
                 {{ $t('rulesManage.filePathShow.testConnection') }}
               </el-button>
             </el-form-item>
-          </el-form>
-        </div>
+          </div>
 
-        <!-- Step 2: 外网端配置 -->
-        <div v-show="currentStep === 1" class="step-panel">
-          <el-form :model="formData" :rules="formRules" ref="externalFormRef" label-width="120px" class="form-content">
-            <el-form-item :label="$t('rulesManage.filePathShow.protocol')" prop="protocol">
-              <el-select v-model="formData.protocol" :placeholder="$t('common.pleaseSelect')" style="width: 100%" @change="handleProtocolChange">
-                <el-option label="FTP" value="FTP" />
-                <el-option label="FTPS" value="FTPS" />
-                <el-option label="SFTP" value="SFTP" />
-                <el-option label="SAMBA" value="SAMBA" />
-                <el-option label="NFS" value="NFS" />
-                <el-option label="SCP" value="SCP" />
-              </el-select>
-            </el-form-item>
+          <!-- Step 2: 外网端配置 -->
+          <div id="step-1" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('rulesManage.filePathShow.step2') }}</span>
+            </div>
             <el-form-item :label="$t('rulesManage.filePathShow.serverAddr')" prop="externalUrl">
               <el-input v-model="formData.externalUrl" :placeholder="$t('rulesManage.filePathShow.serverAddrPlaceholder')" />
             </el-form-item>
@@ -389,12 +396,14 @@
                 {{ $t('rulesManage.filePathShow.testConnection') }}
               </el-button>
             </el-form-item>
-          </el-form>
-        </div>
+          </div>
 
-        <!-- Step 3: 策略配置 -->
-        <div v-show="currentStep === 2" class="step-panel">
-          <el-form :model="formData" :rules="formRules" ref="strategyFormRef" label-width="140px" class="form-content">
+          <!-- Step 3: 策略配置 -->
+          <div id="step-2" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('rulesManage.filePathShow.step3') }}</span>
+            </div>
             <el-form-item :label="$t('rulesManage.filePathShow.ruleName')" prop="name">
               <el-input v-model="formData.name" :placeholder="$t('rulesManage.filePathShow.ruleNamePlaceholder')" />
             </el-form-item>
@@ -446,12 +455,14 @@
             <el-form-item :label="$t('rulesManage.filePathShow.tempSuffix')">
               <el-input v-model="formData.tempSuffix" :placeholder="$t('rulesManage.filePathShow.tempSuffixPlaceholder')" style="width: 300px" />
             </el-form-item>
-          </el-form>
-        </div>
+          </div>
 
-        <!-- Step 4: 规则配置 -->
-        <div v-show="currentStep === 3" class="step-panel">
-          <el-form :model="formData" label-width="140px" class="form-content">
+          <!-- Step 4: 规则配置 -->
+          <div id="step-3" class="step-panel">
+            <div class="step-section-header">
+              <div class="section-dot" />
+              <span>{{ $t('rulesManage.filePathShow.step4') }}</span>
+            </div>
             <el-form-item :label="$t('rulesManage.filePathShow.filterMode')">
               <el-radio-group v-model="formData.filterMode">
                 <el-radio value="DISABLED">{{ $t('rulesManage.filePathShow.filterDisabled') }}</el-radio>
@@ -502,15 +513,15 @@
                 </div>
               </div>
             </el-form-item>
-          </el-form>
-        </div>
+          </div>
+
+        </el-form>
       </div>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button v-if="currentStep > 0" @click="prevStep">{{ $t('rulesManage.filePathShow.prevStep') }}</el-button>
-          <el-button v-if="currentStep < 3" type="primary" @click="nextStep">{{ $t('rulesManage.filePathShow.nextStep') }}</el-button>
-          <el-button v-if="currentStep === 3" type="success" :loading="submitLoading" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
+          <el-button @click="dialogVisible = false">{{ $t('common.cancel') }}</el-button>
+          <el-button type="primary" :loading="submitLoading" @click="handleSubmit">{{ $t('common.confirm') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -518,10 +529,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { FolderOpened, Plus, InfoFilled, View, Edit, Delete, VideoPlay, VideoPause, Connection } from '@element-plus/icons-vue'
+import { FolderOpened, Plus, InfoFilled, View, Edit, Delete, VideoPlay, VideoPause, Connection, Setting } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const { t } = useI18n()
@@ -573,10 +584,38 @@ const testLoading = ref(false)
 const newKeyword = ref('')
 const dialogVisible = ref(false)
 const isEdit = ref(false)
-const currentStep = ref(0)
-const internalFormRef = ref<FormInstance>()
-const externalFormRef = ref<FormInstance>()
-const strategyFormRef = ref<FormInstance>()
+const formRef = ref<FormInstance>()
+
+// ==================== IntersectionObserver ====================
+const stepVisible = reactive([true, false, false, false])
+let scrollObserver: IntersectionObserver | null = null
+const wizardContentRef = ref<HTMLElement>()
+
+const setupScrollObserver = () => {
+  if (scrollObserver) scrollObserver.disconnect()
+  const container = wizardContentRef.value
+  if (!container) return
+  scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        const index = parseInt(entry.target.id.replace('step-', ''))
+        stepVisible[index] = entry.isIntersecting
+      })
+    },
+    { root: container, threshold: 0.1 }
+  )
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('step-' + i)
+    if (el) scrollObserver!.observe(el)
+  }
+}
+
+const scrollToStep = (step: number) => {
+  const el = document.getElementById('step-' + step)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
 
 // 模拟数据
 const mockData = ref<TransferPath[]>([
@@ -812,9 +851,9 @@ const resetForm = () => {
 
 const handleAdd = () => {
   isEdit.value = false
-  currentStep.value = 0
   resetForm()
   dialogVisible.value = true
+  nextTick(() => setupScrollObserver())
 }
 
 const viewVisible = ref(false)
@@ -837,9 +876,9 @@ const handleView = (row: TransferPath) => {
 
 const handleEdit = (row: TransferPath) => {
   isEdit.value = true
-  currentStep.value = 0
   Object.assign(formData, { ...row, fileTypes: [...row.fileTypes], keywords: [...row.keywords] })
   dialogVisible.value = true
+  nextTick(() => setupScrollObserver())
 }
 
 const handleToggle = (row: TransferPath) => {
@@ -910,14 +949,6 @@ const testConnection = (_type: 'internal' | 'external') => {
       customClass: 'notification-success'
     })
   }, 1500)
-}
-
-const nextStep = () => {
-  if (currentStep.value < 3) currentStep.value++
-}
-
-const prevStep = () => {
-  if (currentStep.value > 0) currentStep.value--
 }
 
 const handleSubmit = () => {
@@ -1209,21 +1240,28 @@ onMounted(() => {
 }
 
 /* 步骤条 */
-.steps-nav {
-  margin-bottom: 24px;
-}
+.wizard-steps { padding: 0 20px 12px; }
+.wizard-steps :deep(.clickable-step) { cursor: pointer; }
+.wizard-steps :deep(.clickable-step:hover .el-step__title) { color: #409EFF; }
 
-.steps-nav :deep(.el-step__title) {
-  font-size: 13px;
-}
-
-/* 步骤内容 */
-.step-content {
-  min-height: 350px;
-}
+.wizard-content { padding: 24px; max-height: 55vh; overflow-y: auto; }
 
 .step-panel {
-  padding: 10px 0;
+  margin-bottom: 24px; padding-bottom: 24px;
+  border-bottom: 1px dashed rgba(64, 158, 255, 0.12);
+}
+.step-panel:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.step-section-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 2px solid; border-image: linear-gradient(90deg, #409EFF, #67C23A) 1;
+  font-size: 15px; font-weight: 600; color: #303133;
+}
+.section-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: linear-gradient(135deg, #409EFF, #67C23A);
+  box-shadow: 0 0 8px rgba(64, 158, 255, 0.3);
 }
 
 .form-content {
