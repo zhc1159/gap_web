@@ -84,7 +84,17 @@ export default {
     linkStatus: 'Link',
     linkOnline: 'Online',
     linkOffline: 'Offline',
-    linkDetail: 'Link Status Detail'
+    linkDetail: 'Link Status Detail',
+    themes: {
+      default: 'Classic Blue',
+      'cyber-neon': 'Cyber Neon',
+      matrix: 'Matrix',
+      aurora: 'Aurora',
+      crimson: 'Crimson Tech',
+      ocean: 'Ocean Deep',
+      solar: 'Solar',
+      arctic: 'Arctic'
+    }
   },
   menu: {
     system: 'System',

@@ -84,7 +84,17 @@ export default {
     linkStatus: '链路状态',
     linkOnline: '在线',
     linkOffline: '离线',
-    linkDetail: '链路状态详情'
+    linkDetail: '链路状态详情',
+    themes: {
+      default: '经典蓝绿',
+      'cyber-neon': '赛博霓虹',
+      matrix: '矩阵黑客',
+      aurora: '极光紫',
+      crimson: '赤焰科技',
+      ocean: '深海科技',
+      solar: '日耀金',
+      arctic: '极光冰白'
+    }
   },
   menu: {
     system: '系统',

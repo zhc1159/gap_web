@@ -1,3 +1,6 @@
+/* Theme System */
+@import './themes.css';
+
 /* Global CSS Variables - Blue Theme */
 :root {
   /* Primary colors - Blue style */

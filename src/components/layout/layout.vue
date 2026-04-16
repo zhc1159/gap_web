@@ -79,6 +79,31 @@
           </el-breadcrumb>
         </div>
         <div class="header-right">
+          <!-- Theme Switcher -->
+          <el-dropdown trigger="click" @command="handleThemeChange" class="theme-switcher">
+            <div class="theme-btn">
+              <div class="theme-preview" :style="{ background: themeStore.currentThemeInfo.previewGradient }" />
+              <span>{{ currentThemeLabel }}</span>
+              <el-icon><ArrowDown /></el-icon>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu class="theme-dropdown-menu">
+                <el-dropdown-item
+                  v-for="th in themeStore.themes"
+                  :key="th.id"
+                  :command="th.id"
+                  :class="{ 'is-active': themeStore.currentTheme === th.id }"
+                >
+                  <div class="theme-option">
+                    <div class="theme-option-dot" :style="{ background: th.previewGradient }" />
+                    <span class="theme-option-label">{{ $t('navbar.themes.' + th.id) }}</span>
+                    <el-icon v-if="themeStore.currentTheme === th.id" class="theme-check"><Check /></el-icon>
+                  </div>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+
           <!-- Language Switcher -->
           <el-dropdown trigger="click" @command="handleLanguageChange" class="lang-switcher">
             <div class="lang-btn">
@@ -148,12 +173,14 @@ import { ElMessageBox, ElNotification } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Logout } from '@/axios/base'
 import { setLocale, getLocale } from '@/locales'
+import { useThemeStore } from '@/stores/theme'
 import * as Icons from '@element-plus/icons-vue'
 import { markRaw } from 'vue'
 
 const { t } = useI18n()
 const router = useRouter()
 const route = useRoute()
+const themeStore = useThemeStore()
 
 const isCollapse = ref(false)
 const nickName = ref(sessionStorage.getItem('nick_name') || '')
@@ -180,6 +207,16 @@ const handleLanguageChange = (lang: string) => {
   setLocale(lang)
   currentLocale.value = lang
   window.location.reload()
+}
+
+// Theme
+const currentThemeLabel = computed(() => {
+  const info = themeStore.currentThemeInfo
+  return currentLocale.value === 'zh-CN' ? info.labelZh : info.labelEn
+})
+
+const handleThemeChange = (id: string) => {
+  themeStore.setTheme(id)
 }
 
 // Menu list based on user permissions
@@ -467,15 +504,16 @@ const handleCommand = async (command: string) => {
 .layout-container {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #ecfeff 100%);
+  background: var(--page-bg);
+  transition: background 0.3s;
 }
 
-/* Sidebar - Blue Style */
+/* Sidebar */
 .layout-sidebar{
   width: 220px;
-  background: rgba(255, 255, 255, 0.85);
-  border-right: 1px solid rgba(37, 99, 235, 0.1);
-  transition: width 0.3s;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  transition: width 0.3s, background 0.3s;
   display: flex;
   flex-direction: column;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.04);
@@ -491,8 +529,8 @@ const handleCommand = async (command: string) => {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  border-bottom: 1px solid rgba(37, 99, 235, 0.08);
-  background: rgba(37, 99, 235, 0.03);
+  border-bottom: 1px solid var(--sidebar-border);
+  background: rgba(128, 128, 128, 0.03);
 }
 
 .sidebar-logo{
@@ -501,10 +539,10 @@ const handleCommand = async (command: string) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  background: var(--sidebar-logo-gradient);
   border-radius: 10px;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-title{
@@ -512,7 +550,7 @@ const handleCommand = async (command: string) => {
   font-size: 16px;
   font-weight: 700;
   white-space: nowrap;
-  color: #1e293b;
+  color: var(--el-text-color-primary);
 }
 
 .sidebar-menu{
@@ -543,7 +581,7 @@ const handleCommand = async (command: string) => {
   margin: 4px 12px;
   border-radius: 12px;
   transition: all 0.3s ease;
-  color: #64748b;
+  color: var(--sidebar-text);
 }
 
 .sidebar-menu :deep(.el-sub-menu .el-menu-item){
@@ -557,19 +595,19 @@ const handleCommand = async (command: string) => {
 
 .sidebar-menu :deep(.el-menu-item:hover),
 .sidebar-menu :deep(.el-sub-menu__title:hover){
-  background: rgba(37, 99, 235, 0.08) !important;
-  color: #2563eb !important;
+  background: var(--sidebar-hover-bg) !important;
+  color: var(--sidebar-text-active) !important;
 }
 
 .sidebar-menu :deep(.el-menu-item.is-active){
-  color: #2563eb !important;
-  background: rgba(37, 99, 235, 0.08) !important;
+  color: var(--sidebar-text-active) !important;
+  background: var(--sidebar-active-bg) !important;
   font-weight: 700;
 }
 
 .sidebar-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title){
-  color: #2563eb !important;
-  background: rgba(37, 99, 235, 0.08) !important;
+  color: var(--sidebar-text-active) !important;
+  background: var(--sidebar-active-bg) !important;
   font-weight: 700;
 }
 
@@ -583,14 +621,15 @@ const handleCommand = async (command: string) => {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #ecfeff 100%);
+  background: var(--page-bg);
+  transition: background 0.3s;
 }
 
-/* Header - Blue Style */
+/* Header */
 .layout-header{
   height: 64px;
-  background: rgba(255, 255, 255, 0.8);
-  border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -610,22 +649,22 @@ const handleCommand = async (command: string) => {
   cursor: pointer;
   padding: 10px;
   border-radius: 10px;
-  color: #64748b;
+  color: var(--header-text);
   transition: all 0.3s ease;
 }
 
 .hamburger:hover{
-  background: rgba(37, 99, 235, 0.08);
-  color: #2563eb;
+  background: var(--sidebar-hover-bg);
+  color: var(--theme-primary);
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__inner){
-  color: #64748b;
+  color: var(--header-text);
   font-weight: 500;
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__inner:last-child){
-  color: #2563eb;
+  color: var(--theme-primary);
 }
 
 .header-breadcrumb :deep(.el-breadcrumb__separator){
@@ -761,14 +800,14 @@ const handleCommand = async (command: string) => {
   padding: 8px 12px;
   border-radius: 10px;
   transition: all 0.3s ease;
-  color: #64748b;
+  color: var(--header-text);
   border: 1px solid transparent;
 }
 
 .lang-btn:hover{
-  background: rgba(37, 99, 235, 0.06);
-  border-color: rgba(37, 99, 235, 0.15);
-  color: #2563eb;
+  background: var(--sidebar-hover-bg);
+  border-color: var(--sidebar-border);
+  color: var(--theme-primary);
 }
 
 .lang-btn .el-icon:last-child{
@@ -792,18 +831,18 @@ const handleCommand = async (command: string) => {
 }
 
 .user-info:hover{
-  background: rgba(37, 99, 235, 0.06);
-  border-color: rgba(37, 99, 235, 0.15);
+  background: var(--sidebar-hover-bg);
+  border-color: var(--sidebar-border);
 }
 
 .user-avatar{
-  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  background: var(--sidebar-logo-gradient);
   color: #fff;
   font-weight: 700;
 }
 
 .nick-name{
-  color: #1e293b;
+  color: var(--el-text-color-primary);
   font-weight: 600;
   max-width: 100px;
   overflow: hidden;
@@ -812,7 +851,7 @@ const handleCommand = async (command: string) => {
 }
 
 .user-info .el-icon{
-  color: #3b82f6;
+  color: var(--theme-primary-light);
 }
 
 /* Content area */
@@ -836,12 +875,12 @@ const handleCommand = async (command: string) => {
 /* Footer */
 .layout-footer{
   height: 44px;
-  background: rgba(255, 255, 255, 0.6);
-  border-top: 1px solid rgba(37, 99, 235, 0.08);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--header-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #94a3b8;
+  color: var(--footer-text);
   font-size: 12px;
   font-weight: 500;
 }
@@ -857,20 +896,82 @@ const handleCommand = async (command: string) => {
   opacity: 0;
 }
 
-/* Dropdown menu blue theme */
+/* Dropdown menu theme */
 :deep(.el-dropdown-menu){
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(37, 99, 235, 0.1);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
 }
 
 :deep(.el-dropdown-menu__item){
-  color: #64748b;
+  color: var(--el-text-color-regular);
 }
 
 :deep(.el-dropdown-menu__item:hover){
-  background: rgba(37, 99, 235, 0.06);
-  color: #2563eb;
+  background: var(--sidebar-hover-bg);
+  color: var(--theme-primary);
+}
+
+/* ========== Theme Switcher ========== */
+.theme-switcher {
+  margin-right: 8px;
+}
+
+.theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  color: var(--header-text);
+  border: 1px solid transparent;
+}
+
+.theme-btn:hover {
+  background: var(--sidebar-hover-bg);
+  border-color: var(--sidebar-border);
+  color: var(--theme-primary);
+}
+
+.theme-preview {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.theme-btn .el-icon:last-child {
+  font-size: 12px;
+  margin-left: 2px;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 160px;
+}
+
+.theme-option-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid rgba(128, 128, 128, 0.15);
+}
+
+.theme-option-label {
+  flex: 1;
+  font-size: 14px;
+}
+
+.theme-check {
+  color: var(--theme-primary);
+  font-size: 16px;
+  font-weight: bold;
 }
 </style>
