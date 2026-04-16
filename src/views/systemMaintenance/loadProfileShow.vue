@@ -73,7 +73,7 @@
             {{ $t('common.delete') }}
           </el-button>
         </div>
-      <el-table :data="profileList" stripe style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table :data="profileList" stripe border style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="45" />
         <el-table-column type="index" width="60" label="#" />
         <el-table-column prop="description" :label="$t('systemMaintenance.loadProfileShow.description')" min-width="180">
