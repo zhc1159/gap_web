@@ -120,7 +120,7 @@
             <el-table-column :label="$t('securityPolicy.general_accessControl.actions')" min-width="200" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
-                  <el-button type="info" size="small" @click="handleView(row)">
+                  <el-button size="small" class="btn-view" @click="handleView(row)">
                     <el-icon><View /></el-icon>
                     {{ $t('securityPolicy.general_accessControl.view') }}
                   </el-button>
@@ -584,6 +584,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
 .access-control-page {
   padding: 20px;
   background: linear-gradient(180deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);

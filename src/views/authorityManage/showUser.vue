@@ -95,6 +95,9 @@
                   >
                     {{ $t('authorityManage.showUser.freeze') }}
                   </el-button>
+                  <el-button size="small" type="primary" @click="openEditDialog(row)">
+                    {{ $t('authorityManage.showUser.edit') }}
+                  </el-button>
                   <el-button
                     v-if="row.username !== currentUser"
                     size="small"
@@ -102,9 +105,6 @@
                     @click="deleteUser(row)"
                   >
                     {{ $t('authorityManage.showUser.delete') }}
-                  </el-button>
-                  <el-button size="small" type="info" @click="openEditDialog(row)">
-                    {{ $t('authorityManage.showUser.edit') }}
                   </el-button>
                 </div>
               </template>

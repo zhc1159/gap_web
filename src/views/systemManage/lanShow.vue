@@ -109,11 +109,18 @@
                       <span class="mono-text">{{ row.defaultRouteV6 || '-' }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column :label="$t('systemManage.lanShow.actions')" width="100" fixed="right" align="center">
+                  <el-table-column :label="$t('systemManage.lanShow.actions')" width="180" fixed="right" align="center">
                     <template #default="{ row }">
-                      <el-button type="primary" size="small" text style="color: #fff" @click="openEditInterface(row)">
-                        {{ $t('systemManage.lanShow.edit') }}
-                      </el-button>
+                      <div class="action-btns">
+                        <el-button size="small" class="btn-detail" @click="openDetailDialog(row)">
+                          <el-icon><ZoomIn /></el-icon>
+                          {{ $t('systemManage.lanShow.detail') }}
+                        </el-button>
+                        <el-button type="primary" size="small" @click="openEditInterface(row)">
+                          <el-icon><Edit /></el-icon>
+                          {{ $t('systemManage.lanShow.edit') }}
+                        </el-button>
+                      </div>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -215,11 +222,18 @@
                       <span class="mono-text">{{ row.defaultRouteV6 || '-' }}</span>
                     </template>
                   </el-table-column>
-                  <el-table-column :label="$t('systemManage.lanShow.actions')" width="100" fixed="right" align="center">
+                  <el-table-column :label="$t('systemManage.lanShow.actions')" width="180" fixed="right" align="center">
                     <template #default="{ row }">
-                      <el-button type="primary" size="small" text style="color: #fff" @click="openEditInterface(row)">
-                        {{ $t('systemManage.lanShow.edit') }}
-                      </el-button>
+                      <div class="action-btns">
+                        <el-button size="small" class="btn-detail" @click="openDetailDialog(row)">
+                          <el-icon><ZoomIn /></el-icon>
+                          {{ $t('systemManage.lanShow.detail') }}
+                        </el-button>
+                        <el-button type="primary" size="small" @click="openEditInterface(row)">
+                          <el-icon><Edit /></el-icon>
+                          {{ $t('systemManage.lanShow.edit') }}
+                        </el-button>
+                      </div>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -316,6 +330,71 @@
       </template>
     </el-dialog>
 
+    <!-- 接口详情弹窗 -->
+    <el-dialog v-model="showDetailDialog" :title="$t('systemManage.lanShow.detailTitle')" width="600px" class="detail-dialog">
+      <div v-if="detailRow" class="detail-content">
+        <div class="detail-header">
+          <div class="detail-icon-box">
+            <el-icon><Monitor /></el-icon>
+          </div>
+          <div class="detail-header-info">
+            <div class="detail-name">{{ detailRow.nickName }}</div>
+            <div class="detail-remark">{{ detailRow.remark || '-' }}</div>
+          </div>
+          <div class="detail-status-badge" :class="getStatusClass(detailRow)">
+            <span class="status-dot"></span>
+            <span>{{ getStatusLabel(detailRow) }}</span>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="detail-grid">
+            <div class="detail-field">
+              <span class="field-label">{{ $t('systemManage.lanShow.interfaceName') }}</span>
+              <span class="field-value">{{ detailRow.ethName }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="field-label">MAC</span>
+              <span class="field-value mono">{{ detailRow.macAddr || '-' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="field-label">{{ $t('systemManage.lanShow.ipv4Addr') }}</span>
+              <span class="field-value mono">{{ detailRow.ipv4Addr || '-' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="field-label">{{ $t('systemManage.lanShow.ipv4Mask') }}</span>
+              <span class="field-value mono">{{ detailRow.ipv4Netmask || '-' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="field-label">{{ $t('systemManage.lanShow.defaultRouteV4') }}</span>
+              <span class="field-value mono">{{ detailRow.defaultRouteV4 || '-' }}</span>
+            </div>
+            <div class="detail-field">
+              <span class="field-label">{{ $t('systemManage.lanShow.defaultRouteV6') }}</span>
+              <span class="field-value mono">{{ detailRow.defaultRouteV6 || '-' }}</span>
+            </div>
+          </div>
+          <!-- 虚拟IP -->
+          <div v-if="detailRow.virtualIps?.length" class="detail-section">
+            <div class="detail-section-title">{{ $t('systemManage.lanShow.virtualIpMask') }}</div>
+            <div v-for="(vip, idx) in detailRow.virtualIps" :key="idx" class="detail-sub-item">
+              <el-tag size="small" type="primary">{{ vip.ethName }}</el-tag>
+              <span class="mono">{{ vip.ipAddr }} / {{ vip.netmask }}</span>
+            </div>
+          </div>
+          <!-- IPv6地址 -->
+          <div v-if="detailRow.ipv6Addrs?.length" class="detail-section">
+            <div class="detail-section-title">{{ $t('systemManage.lanShow.ipv6AddrMask') }}</div>
+            <div v-for="(ip6, idx) in detailRow.ipv6Addrs" :key="idx" class="detail-sub-item">
+              <span class="mono">{{ ip6.address }} / {{ ip6.netmask }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <el-button @click="showDetailDialog = false">{{ $t('common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -331,7 +410,8 @@ import {
   InfoFilled,
   Connection,
   ArrowDown,
-  ArrowUp
+  ArrowUp,
+  ZoomIn
 } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
@@ -566,6 +646,15 @@ async function handleDeleteVirtualIP(vip: VirtualIP) {
   } catch {
     // cancelled
   }
+}
+
+// 详情弹窗
+const showDetailDialog = ref(false)
+const detailRow = ref<InterfaceInfo | null>(null)
+
+function openDetailDialog(row: InterfaceInfo) {
+  detailRow.value = row
+  showDetailDialog.value = true
 }
 
 // 刷新
@@ -937,6 +1026,25 @@ onMounted(() => {
   flex: 1;
 }
 
+/* 操作按钮 */
+.action-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-detail {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-detail:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
 /* DNS配置区 */
 .dns-section {
   margin-top: 20px;
@@ -968,6 +1076,144 @@ onMounted(() => {
   font-family: 'Courier New', monospace;
   font-size: 14px;
   color: #303133;
+}
+
+/* 详情弹窗 */
+.detail-content {
+  padding: 4px 0;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.06) 0%, rgba(103, 194, 58, 0.06) 100%);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.detail-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #409EFF, #67C23A);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.detail-header-info {
+  flex: 1;
+}
+
+.detail-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.detail-remark {
+  font-size: 13px;
+  color: #909399;
+  margin-top: 2px;
+}
+
+.detail-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.detail-status-badge .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.detail-status-badge.status-ok {
+  background: rgba(103, 194, 58, 0.1);
+  color: #67C23A;
+}
+
+.detail-status-badge.status-ok .status-dot {
+  background: #67C23A;
+}
+
+.detail-status-badge.status-warning {
+  background: rgba(230, 162, 60, 0.1);
+  color: #E6A23C;
+}
+
+.detail-status-badge.status-warning .status-dot {
+  background: #E6A23C;
+}
+
+.detail-status-badge.status-off {
+  background: rgba(245, 108, 108, 0.1);
+  color: #F56C6C;
+}
+
+.detail-status-badge.status-off .status-dot {
+  background: #F56C6C;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 12px;
+  color: #909399;
+}
+
+.field-value {
+  font-size: 14px;
+  color: #303133;
+}
+
+.field-value.mono {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.detail-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(144, 147, 153, 0.15);
+}
+
+.detail-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #606266;
+  margin-bottom: 10px;
+}
+
+.detail-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+  color: #606266;
+}
+
+.detail-sub-item .mono {
+  font-family: 'Courier New', monospace;
 }
 
 /* 响应式 */

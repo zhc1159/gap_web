@@ -90,9 +90,13 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('securityPolicy.s_http.actions')" min-width="160" fixed="right">
+            <el-table-column :label="$t('securityPolicy.s_http.actions')" min-width="220" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
+                  <el-button size="small" class="btn-view" @click="handleView(row)">
+                    <el-icon><View /></el-icon>
+                    {{ $t('securityPolicy.s_http.view') }}
+                  </el-button>
                   <el-button type="primary" size="small" @click="handleEdit(row)">
                     <el-icon><Edit /></el-icon>
                     {{ $t('securityPolicy.s_http.edit') }}
@@ -410,6 +414,109 @@
         </div>
       </template>
     </el-dialog>
+
+    <!-- 查看弹窗 -->
+    <el-dialog v-model="viewVisible" :title="$t('securityPolicy.s_http.viewDetail')" width="600px">
+      <div v-if="viewData" class="view-content">
+        <!-- 基础信息 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_http.stepBasic') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.policySwitch') }}</span>
+              <el-tag :type="viewData.enabled ? 'success' : 'danger'" size="small">{{ viewData.enabled ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.userGroup') }}</span>
+              <span class="view-value">{{ viewData.userGroup }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.contentFilterMode') }}</span>
+              <el-tag :type="viewData.contentFilterMode === 'WHITELIST' ? 'success' : 'danger'" size="small">{{ viewData.contentFilterMode === 'WHITELIST' ? $t('securityPolicy.s_http.whitelist') : $t('securityPolicy.s_http.blacklist') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.contentKeywords') }}</span>
+              <span class="view-value">{{ viewData.contentKeywords.length ? viewData.contentKeywords.join(', ') : '-' }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- 协议头过滤 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_http.stepHeader') }}</div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('securityPolicy.s_http.headerFilterMode') }}</span>
+            <el-tag :type="viewData.headerFilterMode === 'WHITELIST' ? 'success' : 'danger'" size="small">{{ viewData.headerFilterMode === 'WHITELIST' ? $t('securityPolicy.s_http.whitelist') : $t('securityPolicy.s_http.blacklist') }}</el-tag>
+          </div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('securityPolicy.s_http.headerMethods') }}</span>
+            <span class="view-value">{{ viewData.headerMethods.length ? viewData.headerMethods.join(', ') : '-' }}</span>
+          </div>
+        </div>
+        <!-- URL过滤 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_http.stepUrl') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.urlFilterMode') }}</span>
+              <el-tag :type="viewData.urlFilterMode === 'WHITELIST' ? 'success' : 'danger'" size="small">{{ viewData.urlFilterMode === 'WHITELIST' ? $t('securityPolicy.s_http.whitelist') : $t('securityPolicy.s_http.blacklist') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.urlLengthCheckSwitch') }}</span>
+              <el-tag :type="viewData.urlLengthCheck ? 'success' : 'info'" size="small">{{ viewData.urlLengthCheck ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item" v-if="viewData.urlLengthCheck">
+              <span class="view-label">{{ $t('securityPolicy.s_http.urlMaxLength') }}</span>
+              <span class="view-value">{{ viewData.urlMaxLength }} {{ $t('securityPolicy.s_http.characters') }}</span>
+            </div>
+          </div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('securityPolicy.s_http.urlList') }}</span>
+            <span class="view-value">{{ viewData.urlList.length ? viewData.urlList.join(', ') : '-' }}</span>
+          </div>
+        </div>
+        <!-- 文件传输 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_http.stepFile') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.downloadCacheSwitch') }}</span>
+              <el-tag :type="viewData.downloadCache ? 'success' : 'info'" size="small">{{ viewData.downloadCache ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.downloadFilterMode') }}</span>
+              <el-tag :type="viewData.downloadFilterMode === 'WHITELIST' ? 'success' : 'danger'" size="small">{{ viewData.downloadFilterMode === 'WHITELIST' ? $t('securityPolicy.s_http.whitelist') : $t('securityPolicy.s_http.blacklist') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.downloadFileTypes') }}</span>
+              <span class="view-value">{{ viewData.downloadFileTypes.length ? viewData.downloadFileTypes.join(', ') : '-' }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.downloadVirusScan') }}</span>
+              <el-tag :type="viewData.downloadVirusScan ? 'warning' : 'info'" size="small">{{ viewData.downloadVirusScan ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.uploadCacheSwitch') }}</span>
+              <el-tag :type="viewData.uploadCache ? 'success' : 'info'" size="small">{{ viewData.uploadCache ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.uploadFilterMode') }}</span>
+              <el-tag :type="viewData.uploadFilterMode === 'WHITELIST' ? 'success' : 'danger'" size="small">{{ viewData.uploadFilterMode === 'WHITELIST' ? $t('securityPolicy.s_http.whitelist') : $t('securityPolicy.s_http.blacklist') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.uploadFileTypes') }}</span>
+              <span class="view-value">{{ viewData.uploadFileTypes.length ? viewData.uploadFileTypes.join(', ') : '-' }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_http.uploadVirusScan') }}</span>
+              <el-tag :type="viewData.uploadVirusScan ? 'warning' : 'info'" size="small">{{ viewData.uploadVirusScan ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <el-button type="primary" @click="viewVisible = false">{{ $t('common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -418,7 +525,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import {
-  Link, Plus, InfoFilled, Edit, Delete, Setting, Document, Folder,
+  Link, Plus, InfoFilled, Edit, Delete, Setting, Document, Folder, View,
   Download, Upload, ArrowLeft, ArrowRight, Check, Close, Filter
 } from '@element-plus/icons-vue'
 
@@ -452,6 +559,8 @@ const httpMethods = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS', 'PATCH']
 
 // 状态
 const loading = ref(false)
+const viewVisible = ref(false)
+const viewData = ref<HttpSecurityConfig | null>(null)
 const saving = ref(false)
 const formVisible = ref(false)
 const formMode = ref<'add' | 'edit'>('add')
@@ -612,6 +721,11 @@ const handleAdd = () => {
   formVisible.value = true
 }
 
+const handleView = (row: HttpSecurityConfig) => {
+  viewData.value = { ...row }
+  viewVisible.value = true
+}
+
 const handleEdit = (row: HttpSecurityConfig) => {
   formMode.value = 'edit'
   Object.assign(formData, {
@@ -752,6 +866,65 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.view-section {
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(144, 147, 153, 0.15);
+}
+
+.view-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.view-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid #409EFF;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.view-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-label {
+  min-width: 100px;
+  font-size: 13px;
+  color: #909399;
+}
+
+.view-value {
+  font-size: 14px;
+  color: #303133;
+}
+
 .http-security-page {
   padding: 20px;
   background: linear-gradient(180deg, rgba(245, 108, 108, 0.02) 0%, rgba(64, 158, 255, 0.02) 100%);

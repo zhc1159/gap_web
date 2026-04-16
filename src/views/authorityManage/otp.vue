@@ -65,11 +65,11 @@
             <el-table-column :label="$t('authorityManage.otp.actions')" min-width="180">
               <template #default="{ row }">
                 <div class="action-btns">
+                  <el-button size="small" type="primary" @click="openEditDialog(row)">
+                    {{ $t('authorityManage.otp.edit') }}
+                  </el-button>
                   <el-button size="small" type="danger" @click="deleteOtp(row)">
                     {{ $t('authorityManage.otp.delete') }}
-                  </el-button>
-                  <el-button size="small" type="info" @click="openEditDialog(row)">
-                    {{ $t('authorityManage.otp.edit') }}
                   </el-button>
                 </div>
               </template>

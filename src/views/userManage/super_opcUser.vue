@@ -84,7 +84,7 @@
           <el-table-column :label="$t('userManage.super_opcUser.actions')" min-width="150" fixed="right">
             <template #default="{ row }">
               <div class="action-btns">
-                <el-button type="warning" size="small" @click="handleEdit(row)">
+                <el-button type="primary" size="small" @click="handleEdit(row)">
                   <el-icon><Edit /></el-icon>
                   {{ $t('userManage.super_opcUser.edit') }}
                 </el-button>

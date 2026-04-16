@@ -53,6 +53,9 @@
             <el-table-column :label="$t('authorityManage.userIpShow.actions')" min-width="150">
               <template #default="{ row }">
                 <div class="action-btns">
+                  <el-button size="small" type="primary" @click="openEditDialog(row)">
+                    {{ $t('authorityManage.userIpShow.edit') }}
+                  </el-button>
                   <el-button
                     v-if="!isProtectedUser(row.username)"
                     size="small"
@@ -60,9 +63,6 @@
                     @click="deleteIp(row)"
                   >
                     {{ $t('authorityManage.userIpShow.delete') }}
-                  </el-button>
-                  <el-button size="small" type="info" @click="openEditDialog(row)">
-                    {{ $t('authorityManage.userIpShow.edit') }}
                   </el-button>
                 </div>
               </template>

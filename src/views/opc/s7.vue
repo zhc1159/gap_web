@@ -73,11 +73,11 @@
           <el-table-column :label="$t('opc.s7.actions')" min-width="200" fixed="right">
             <template #default="{ row }">
               <div class="action-btns">
-                <el-button type="primary" size="small" @click="handleView(row)">
+                <el-button class="btn-view" size="small" @click="handleView(row)">
                   <el-icon><View /></el-icon>
                   {{ $t('opc.s7.view') }}
                 </el-button>
-                <el-button type="warning" size="small" @click="handleEdit(row)">
+                <el-button type="primary" size="small" @click="handleEdit(row)">
                   <el-icon><Edit /></el-icon>
                   {{ $t('opc.s7.edit') }}
                 </el-button>
@@ -703,6 +703,16 @@ fetchList()
 </script>
 
 <style scoped>
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
 .s7-page {
   padding: 20px;
   background: linear-gradient(180deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);

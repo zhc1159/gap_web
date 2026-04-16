@@ -100,9 +100,13 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('videoSafe.sipFilter.actions')" min-width="160" fixed="right">
+            <el-table-column :label="$t('videoSafe.sipFilter.actions')" min-width="220" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
+                  <el-button size="small" class="btn-view" @click="handleView(row)">
+                    <el-icon><View /></el-icon>
+                    {{ $t('videoSafe.sipFilter.view') }}
+                  </el-button>
                   <el-button type="primary" size="small" @click="handleEdit(row)">
                     <el-icon><Edit /></el-icon>
                     {{ $t('videoSafe.sipFilter.edit') }}
@@ -259,6 +263,52 @@
         </div>
       </template>
     </el-dialog>
+
+    <!-- 查看弹窗 -->
+    <el-dialog v-model="viewVisible" :title="$t('videoSafe.sipFilter.viewDetail')" width="600px">
+      <div v-if="viewData" class="view-content">
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('videoSafe.sipFilter.policySwitch') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('videoSafe.sipFilter.status') }}</span>
+              <el-tag :type="viewData.ruleWork ? 'success' : 'danger'" size="small">{{ viewData.ruleWork ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('videoSafe.sipFilter.userGroup') }}</span>
+              <span class="view-value">{{ viewData.groupName }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('videoSafe.sipFilter.blackCmd') }}</div>
+          <div class="view-item">
+            <span class="view-value">{{ viewData.blackCmd.length ? viewData.blackCmd.join(', ') : '-' }}</span>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('videoSafe.sipFilter.ptzControl') }}</div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('videoSafe.sipFilter.ptzAllow') }}</span>
+            <el-tag :type="viewData.white === 1 ? 'success' : 'danger'" size="small">{{ viewData.white === 1 ? $t('common.on') : $t('common.off') }}</el-tag>
+          </div>
+          <div class="view-item" v-if="viewData.ptzcmd?.length">
+            <span class="view-label">{{ $t('videoSafe.sipFilter.ptzConfigTitle') }}</span>
+            <span class="view-value">{{ viewData.ptzcmd.map(p => `${p.cmd}(${p.allow ? $t('common.on') : $t('common.off')})`).join(', ') }}</span>
+          </div>
+        </div>
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('videoSafe.sipFilter.codecConfig') }}</div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('videoSafe.sipFilter.codec') }}</span>
+            <span class="view-value">{{ viewData.codec.length ? viewData.codec.join(', ') : '-' }}</span>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <el-button type="primary" @click="viewVisible = false">{{ $t('common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -266,7 +316,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { VideoCameraFilled, Plus, InfoFilled, Edit, Delete, Film } from '@element-plus/icons-vue'
+import { VideoCameraFilled, Plus, InfoFilled, Edit, Delete, Film, View } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 
@@ -298,6 +348,8 @@ interface PTZCommandOption {
 
 // 状态
 const loading = ref(false)
+const viewVisible = ref(false)
+const viewData = ref<SIPFilterRule | null>(null)
 const saving = ref(false)
 const formVisible = ref(false)
 const formMode = ref<'add' | 'edit'>('add')
@@ -453,6 +505,11 @@ const handleAdd = () => {
   formVisible.value = true
 }
 
+const handleView = (row: SIPFilterRule) => {
+  viewData.value = { ...row }
+  viewVisible.value = true
+}
+
 const handleEdit = (row: SIPFilterRule) => {
   formMode.value = 'edit'
   Object.assign(formData, {
@@ -534,6 +591,65 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.view-section {
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(144, 147, 153, 0.15);
+}
+
+.view-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.view-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid #409EFF;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.view-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-label {
+  min-width: 100px;
+  font-size: 13px;
+  color: #909399;
+}
+
+.view-value {
+  font-size: 14px;
+  color: #303133;
+}
+
 .sip-filter-page {
   padding: 20px;
   background: linear-gradient(180deg, rgba(144, 147, 153, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);

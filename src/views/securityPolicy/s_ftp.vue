@@ -90,9 +90,13 @@
             </el-table-column>
 
             <!-- 操作 -->
-            <el-table-column :label="$t('securityPolicy.s_ftp.actions')" min-width="160" fixed="right">
+            <el-table-column :label="$t('securityPolicy.s_ftp.actions')" min-width="220" fixed="right">
               <template #default="{ row }">
                 <div class="action-btns">
+                  <el-button size="small" class="btn-view" @click="handleView(row)">
+                    <el-icon><View /></el-icon>
+                    {{ $t('securityPolicy.s_ftp.view') }}
+                  </el-button>
                   <el-button type="primary" size="small" @click="handleEdit(row)">
                     <el-icon><Edit /></el-icon>
                     {{ $t('securityPolicy.s_ftp.edit') }}
@@ -407,6 +411,95 @@
         </div>
       </template>
     </el-dialog>
+
+    <!-- 查看弹窗 -->
+    <el-dialog v-model="viewVisible" :title="$t('securityPolicy.s_ftp.viewDetail')" width="600px">
+      <div v-if="viewData" class="view-content">
+        <!-- 基础信息 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_ftp.basicConfig') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.policySwitch') }}</span>
+              <el-tag :type="viewData.enabled ? 'success' : 'danger'" size="small">{{ viewData.enabled ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.userGroup') }}</span>
+              <span class="view-value">{{ viewData.userGroup }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.userFilterMode') }}</span>
+              <el-tag :type="viewData.userFilterMode === 'ALLOW' ? 'success' : 'danger'" size="small">{{ viewData.userFilterMode === 'ALLOW' ? $t('securityPolicy.s_ftp.allowMode') : $t('securityPolicy.s_ftp.denyMode') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.userList') }}</span>
+              <span class="view-value">{{ viewData.userList.length ? viewData.userList.join(', ') : '-' }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- 信令过滤 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_ftp.ftpSignal') }}</div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('securityPolicy.s_ftp.blockedSignals') }}</span>
+            <span class="view-value">{{ viewData.blockedSignals.length ? viewData.blockedSignals.join(', ') : '-' }}</span>
+          </div>
+        </div>
+        <!-- 文件过滤 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_ftp.fileFilter') }}</div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('securityPolicy.s_ftp.filenameKeywords') }}</span>
+            <span class="view-value">{{ viewData.filenameKeywords.length ? viewData.filenameKeywords.join(', ') : '-' }}</span>
+          </div>
+          <div class="view-item">
+            <span class="view-label">{{ $t('securityPolicy.s_ftp.contentKeywords') }}</span>
+            <span class="view-value">{{ viewData.contentKeywords.length ? viewData.contentKeywords.join(', ') : '-' }}</span>
+          </div>
+        </div>
+        <!-- 传输控制 -->
+        <div class="view-section">
+          <div class="view-section-title">{{ $t('securityPolicy.s_ftp.stepTransfer') }}</div>
+          <div class="view-grid">
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.uploadPermission') }}</span>
+              <el-tag :type="viewData.uploadEnabled ? 'success' : 'danger'" size="small">{{ viewData.uploadEnabled ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.virusScan') }}({{ $t('securityPolicy.s_ftp.uploadConfig') }})</span>
+              <el-tag :type="viewData.uploadVirusScan ? 'warning' : 'info'" size="small">{{ viewData.uploadVirusScan ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item" v-if="viewData.uploadEnabled">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.maxSize') }}(↑)</span>
+              <span class="view-value">{{ viewData.uploadMaxSize }} KB</span>
+            </div>
+            <div class="view-item" v-if="viewData.uploadEnabled">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.blockedTypes') }}(↑)</span>
+              <span class="view-value">{{ viewData.uploadBlockedTypes.length ? viewData.uploadBlockedTypes.join(', ') : '-' }}</span>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.downloadPermission') }}</span>
+              <el-tag :type="viewData.downloadEnabled ? 'success' : 'danger'" size="small">{{ viewData.downloadEnabled ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.virusScan') }}({{ $t('securityPolicy.s_ftp.downloadConfig') }})</span>
+              <el-tag :type="viewData.downloadVirusScan ? 'warning' : 'info'" size="small">{{ viewData.downloadVirusScan ? $t('common.on') : $t('common.off') }}</el-tag>
+            </div>
+            <div class="view-item" v-if="viewData.downloadEnabled">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.maxSize') }}(↓)</span>
+              <span class="view-value">{{ viewData.downloadMaxSize }} KB</span>
+            </div>
+            <div class="view-item" v-if="viewData.downloadEnabled">
+              <span class="view-label">{{ $t('securityPolicy.s_ftp.blockedTypes') }}(↓)</span>
+              <span class="view-value">{{ viewData.downloadBlockedTypes.length ? viewData.downloadBlockedTypes.join(', ') : '-' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <el-button type="primary" @click="viewVisible = false">{{ $t('common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -415,7 +508,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import {
-  FolderOpened, Plus, InfoFilled, Edit, Delete, Setting,
+  FolderOpened, Plus, InfoFilled, Edit, Delete, Setting, View,
   User, Connection, Filter, Upload, Download, ArrowLeft, ArrowRight, Check,
   WarningFilled, CircleCheck
 } from '@element-plus/icons-vue'
@@ -456,6 +549,8 @@ const signalOptions = [
 
 // 状态
 const loading = ref(false)
+const viewVisible = ref(false)
+const viewData = ref<FtpSecurityConfig | null>(null)
 const saving = ref(false)
 const formVisible = ref(false)
 const formMode = ref<'add' | 'edit'>('add')
@@ -601,6 +696,11 @@ const handleAdd = () => {
   formMode.value = 'add'
   resetForm()
   formVisible.value = true
+}
+
+const handleView = (row: FtpSecurityConfig) => {
+  viewData.value = { ...row }
+  viewVisible.value = true
 }
 
 const handleEdit = (row: FtpSecurityConfig) => {
@@ -759,6 +859,65 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.view-section {
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(144, 147, 153, 0.15);
+}
+
+.view-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.view-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  border-left: 3px solid #409EFF;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.view-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-label {
+  min-width: 100px;
+  font-size: 13px;
+  color: #909399;
+}
+
+.view-value {
+  font-size: 14px;
+  color: #303133;
+}
+
 .ftp-security-page {
   padding: 20px;
   background: linear-gradient(180deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);

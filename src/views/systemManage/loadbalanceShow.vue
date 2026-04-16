@@ -59,7 +59,7 @@
                 </el-table-column>
                 <el-table-column :label="$t('systemManage.loadbalanceShow.detail')" width="100" align="center">
                   <template #default="{ row }">
-                    <el-button type="primary" size="small" text style="color: #fff" @click="showDetail(row)">
+                    <el-button size="small" class="btn-detail" @click="showDetail(row)">
                       <el-icon><InfoFilled /></el-icon>
                       {{ $t('systemManage.loadbalanceShow.detailBtn') }}
                     </el-button>
@@ -124,7 +124,7 @@
                 </el-table-column>
                 <el-table-column :label="$t('systemManage.loadbalanceShow.detail')" width="100" align="center">
                   <template #default="{ row }">
-                    <el-button type="primary" size="small" text style="color: #fff" @click="showDetail(row)">
+                    <el-button size="small" class="btn-detail" @click="showDetail(row)">
                       <el-icon><InfoFilled /></el-icon>
                       {{ $t('systemManage.loadbalanceShow.detailBtn') }}
                     </el-button>
@@ -551,6 +551,17 @@ outerPagination.total = outerList.value.length
 </script>
 
 <style scoped>
+.btn-detail {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-detail:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
 .loadbalance-page {
   padding: 20px;
   background: linear-gradient(180deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);

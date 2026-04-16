@@ -106,7 +106,7 @@
                     <el-icon><View /></el-icon>
                     {{ $t('objectManage.ipGroup.view') }}
                   </el-button>
-                  <el-button type="warning" size="small" @click="handleEdit(row)">
+                  <el-button type="primary" size="small" @click="handleEdit(row)">
                     <el-icon><Edit /></el-icon>
                     {{ $t('objectManage.ipGroup.edit') }}
                   </el-button>

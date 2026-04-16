@@ -85,11 +85,11 @@
           <el-table-column :label="$t('securityPolicy.s_WebService.actions')" min-width="200" fixed="right">
             <template #default="{ row }">
               <div class="action-btns">
-                <el-button type="primary" size="small" @click="handleView(row)">
+                <el-button size="small" class="btn-view" @click="handleView(row)">
                   <el-icon><View /></el-icon>
                   {{ $t('securityPolicy.s_WebService.view') }}
                 </el-button>
-                <el-button type="warning" size="small" @click="handleEdit(row)">
+                <el-button type="primary" size="small" @click="handleEdit(row)">
                   <el-icon><Edit /></el-icon>
                   {{ $t('securityPolicy.s_WebService.edit') }}
                 </el-button>
@@ -563,6 +563,17 @@ const handleSizeChange = (size: number) => {
 </script>
 
 <style scoped>
+.btn-view {
+  background: #606266;
+  border-color: #606266;
+  color: #fff;
+}
+
+.btn-view:hover {
+  background: #73767a;
+  border-color: #73767a;
+}
+
 .webservice-page {
   padding: 20px;
   background: linear-gradient(180deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);

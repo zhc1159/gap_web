@@ -76,7 +76,7 @@
           <el-table-column :label="$t('securityPolicy.s_telnet.actions')" min-width="200" fixed="right">
             <template #default="{ row }">
               <div class="action-btns">
-                <el-button type="warning" size="small" @click="handleEdit(row)">
+                <el-button type="primary" size="small" @click="handleEdit(row)">
                   <el-icon><Edit /></el-icon>
                   {{ $t('securityPolicy.s_telnet.edit') }}
                 </el-button>
