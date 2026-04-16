@@ -26,8 +26,18 @@
     <div class="content-wrapper">
       <div class="card main-card">
         <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div class="batch-bar" v-if="selectedRows.length > 0">
+            <span class="batch-info">{{ t('transparentRule.port.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ t('common.batchDelete') }}
+            </el-button>
+          </div>
+
           <!-- 数据表格 -->
-          <el-table :data="tableData" v-loading="loading" class="port-table">
+          <el-table :data="tableData" v-loading="loading" class="port-table" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" align="center" />
             <!-- 端口组名称 -->
             <el-table-column prop="name" :label="$t('transparentRule.port.groupName')" min-width="200">
               <template #default="{ row }">
@@ -201,6 +211,34 @@ const mockData = ref<PortGroup[]>([
 ])
 
 const tableData = ref<PortGroup[]>([])
+
+const selectedRows = ref<PortGroup[]>([])
+
+const handleSelectionChange = (rows: PortGroup[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('transparentRule.port.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    mockData.value = mockData.value.filter(r => !ids.includes(r.id))
+    selectedRows.value = []
+    fetchList()
+    ElNotification({
+      title: t('common.success'),
+      message: t('transparentRule.port.batchDeleteSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
+  } catch {
+    // 用户取消
+  }
+}
 
 const pagination = reactive({
   page: 1,
@@ -539,6 +577,23 @@ onMounted(() => {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 13px;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 操作按钮 */

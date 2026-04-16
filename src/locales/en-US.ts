@@ -2464,7 +2464,10 @@ export default {
       enableSuccess: 'Enabled successfully',
       disableSuccess: 'Disabled successfully',
       enabled: 'Enabled',
-      disabled: 'Disabled'
+      disabled: 'Disabled',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} rule(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     ip: {
       title: 'IP Group',
@@ -2492,7 +2495,10 @@ export default {
       deleteConfirm: 'Are you sure to delete IP group "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} item(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     port: {
       title: 'Port Group',
@@ -2518,7 +2524,10 @@ export default {
       deleteConfirm: 'Are you sure to delete port group "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} item(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     },
     time: {
       title: 'Time Group',
@@ -2563,7 +2572,10 @@ export default {
       deleteConfirm: 'Are you sure to delete time group "{name}"?',
       deleteSuccess: 'Deleted successfully',
       addSuccess: 'Added successfully',
-      editSuccess: 'Updated successfully'
+      editSuccess: 'Updated successfully',
+      selectedCount: '{count} item(s) selected',
+      batchDeleteConfirm: 'Are you sure you want to delete the selected {count} item(s)?',
+      batchDeleteSuccess: 'Batch delete successful'
     }
   },
 
