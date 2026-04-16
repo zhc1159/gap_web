@@ -2258,7 +2258,10 @@ export default {
       enableSuccess: '启用成功',
       disableSuccess: '禁用成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条规则吗？',
+      batchDeleteSuccess: '批量删除成功'
     },
     destNat: {
       title: '目的地址转换',
@@ -2302,7 +2305,10 @@ export default {
       enableSuccess: '启用成功',
       disableSuccess: '禁用成功',
       addSuccess: '添加成功',
-      editSuccess: '修改成功'
+      editSuccess: '修改成功',
+      selectedCount: '已选择 {count} 项',
+      batchDeleteConfirm: '确定要删除选中的 {count} 条规则吗？',
+      batchDeleteSuccess: '批量删除成功'
     }
   },
 

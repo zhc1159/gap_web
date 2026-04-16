@@ -30,8 +30,20 @@
     <div class="content-wrapper">
       <div class="card main-card">
         <div class="card-content">
+          <!-- 批量操作栏 -->
+          <div class="batch-bar" v-if="selectedRows.length > 0">
+            <span class="batch-info">{{ t('addressTranslation.destNat.selectedCount', { count: selectedRows.length }) }}</span>
+            <el-button type="danger" size="small" @click="handleBatchDelete">
+              <el-icon><Delete /></el-icon>
+              {{ t('common.batchDelete') }}
+            </el-button>
+          </div>
+
           <!-- 数据表格 -->
-          <el-table :data="tableData" v-loading="loading" class="dest-nat-table">
+          <el-table :data="tableData" v-loading="loading" class="dest-nat-table" @selection-change="handleSelectionChange">
+            <!-- 多选列 -->
+            <el-table-column type="selection" width="50" align="center" />
+
             <!-- 状态 -->
             <el-table-column :label="$t('addressTranslation.destNat.status')" min-width="80" align="center">
               <template #default="{ row }">
@@ -382,6 +394,34 @@ const mockData = ref<DestNatRule[]>([
 
 const tableData = ref<DestNatRule[]>([])
 
+const selectedRows = ref<DestNatRule[]>([])
+
+const handleSelectionChange = (rows: DestNatRule[]) => {
+  selectedRows.value = rows
+}
+
+const handleBatchDelete = async () => {
+  try {
+    await ElMessageBox.confirm(
+      t('addressTranslation.destNat.batchDeleteConfirm', { count: selectedRows.value.length }),
+      t('common.confirm'),
+      { type: 'warning' }
+    )
+    const ids = selectedRows.value.map(r => r.id)
+    mockData.value = mockData.value.filter(r => !ids.includes(r.id))
+    selectedRows.value = []
+    fetchList()
+    ElNotification({
+      title: t('common.success'),
+      message: t('addressTranslation.destNat.batchDeleteSuccess'),
+      type: 'success',
+      customClass: 'notification-success'
+    })
+  } catch {
+    // 用户取消
+  }
+}
+
 const pagination = reactive({
   page: 1,
   pageSize: 10,
@@ -692,6 +732,23 @@ onMounted(() => {
   color: #67C23A;
   font-weight: 500;
   font-family: 'Courier New', monospace;
+}
+
+/* 批量操作栏 */
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.15);
+}
+
+.batch-info {
+  font-size: 13px;
+  color: #606266;
 }
 
 /* 操作按钮 */
