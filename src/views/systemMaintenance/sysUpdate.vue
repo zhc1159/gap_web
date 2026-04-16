@@ -149,7 +149,25 @@
       width="600px"
       class="changelog-dialog"
     >
-      <pre class="changelog-content">{{ currentChangelog }}</pre>
+      <div class="changelog-wrapper">
+        <div class="changelog-header">
+          <div class="changelog-version-badge">
+            <el-icon class="badge-icon"><Box /></el-icon>
+            <span>{{ changelogVersion }}</span>
+          </div>
+          <div class="changelog-date">
+            <el-icon><Clock /></el-icon>
+            <span>{{ changelogDate }}</span>
+          </div>
+        </div>
+        <div class="changelog-divider"></div>
+        <div class="changelog-body">
+          <div class="changelog-item" v-for="(item, index) in changelogItems" :key="index">
+            <div class="item-dot" :class="{ 'dot-new': item.startsWith('新增'), 'dot-fix': item.startsWith('修复'), 'dot-opt': item.startsWith('优化') }"></div>
+            <span class="item-text">{{ item }}</span>
+          </div>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -178,7 +196,9 @@ const historyVersions = ref([
   { index: 4, version: 'V2.2', changelog: '1. 新增多语言支持\n2. 优化用户体验', updateTime: '2023-12-01', isCurrent: false }
 ])
 const changelogDialogVisible = ref(false)
-const currentChangelog = ref('')
+const changelogVersion = ref('')
+const changelogDate = ref('')
+const changelogItems = ref<string[]>([])
 
 const formatProgress = (percentage: number) => `${percentage}%`
 
@@ -271,7 +291,9 @@ const handleDelete = async (version: string) => {
 }
 
 const showChangelog = (row: any) => {
-  currentChangelog.value = row.changelog
+  changelogVersion.value = row.version
+  changelogDate.value = row.updateTime
+  changelogItems.value = row.changelog.split('\n').map((line: string) => line.replace(/^\d+\.\s*/, '').trim()).filter((line: string) => line)
   changelogDialogVisible.value = true
 }
 
@@ -572,18 +594,115 @@ onMounted(() => {
 }
 
 /* 对话框 */
-.changelog-content {
-  white-space: pre-wrap;
-  word-break: break-word;
-  background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
-  padding: 20px;
-  border-radius: 8px;
+.changelog-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.06) 0%, rgba(103, 194, 58, 0.06) 100%);
+  margin-right: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(64, 158, 255, 0.1);
+}
+
+.changelog-dialog :deep(.el-dialog__body) {
+  padding: 0;
+}
+
+.changelog-wrapper {
+  padding: 0 4px 4px;
+}
+
+.changelog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+  border-radius: 10px;
+  margin: 0 16px 0;
+}
+
+.changelog-version-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  border-radius: 20px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.badge-icon {
+  font-size: 16px;
+}
+
+.changelog-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #909399;
+}
+
+.changelog-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(64, 158, 255, 0.15) 0%, rgba(103, 194, 58, 0.15) 50%, rgba(64, 158, 255, 0.15) 100%);
+  margin: 16px 20px;
+}
+
+.changelog-body {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   max-height: 400px;
   overflow-y: auto;
-  font-family: 'Monaco', 'Menlo', monospace;
-  font-size: 13px;
+}
+
+.changelog-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.02) 0%, rgba(103, 194, 58, 0.02) 100%);
+  border-radius: 8px;
+  border-left: 3px solid #409EFF;
+  transition: all 0.3s ease;
+}
+
+.changelog-item:hover {
+  background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
+  transform: translateX(4px);
+}
+
+.item-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #409EFF;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.item-dot.dot-new {
+  background: #67C23A;
+  box-shadow: 0 0 6px rgba(103, 194, 58, 0.4);
+}
+
+.item-dot.dot-fix {
+  background: #F56C6C;
+  box-shadow: 0 0 6px rgba(245, 108, 108, 0.4);
+}
+
+.item-dot.dot-opt {
+  background: #E6A23C;
+  box-shadow: 0 0 6px rgba(230, 162, 60, 0.4);
+}
+
+.item-text {
+  font-size: 14px;
+  color: #303133;
   line-height: 1.6;
-  color: #606266;
 }
 
 /* 过渡动画 */
