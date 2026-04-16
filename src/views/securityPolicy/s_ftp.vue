@@ -136,18 +136,18 @@
     >
       <!-- 步骤条 -->
       <div class="wizard-steps">
-        <el-steps :active="currentStep" align-center finish-status="success">
-          <el-step :title="$t('securityPolicy.s_ftp.stepBasic')" :icon="Setting" @click.native="currentStep = 0" class="clickable-step" />
-          <el-step :title="$t('securityPolicy.s_ftp.stepSignal')" :icon="Connection" @click.native="currentStep = 1" class="clickable-step" />
-          <el-step :title="$t('securityPolicy.s_ftp.stepFilter')" :icon="Filter" @click.native="currentStep = 2" class="clickable-step" />
-          <el-step :title="$t('securityPolicy.s_ftp.stepTransfer')" :icon="Upload" @click.native="currentStep = 3" class="clickable-step" />
+        <el-steps :active="3" align-center>
+          <el-step :title="$t('securityPolicy.s_ftp.stepBasic')" :icon="Setting" :status="stepVisible[0] ? 'process' : 'wait'" @click.native="scrollToStep(0)" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepSignal')" :icon="Connection" :status="stepVisible[1] ? 'process' : 'wait'" @click.native="scrollToStep(1)" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepFilter')" :icon="Filter" :status="stepVisible[2] ? 'process' : 'wait'" @click.native="scrollToStep(2)" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepTransfer')" :icon="Upload" :status="stepVisible[3] ? 'process' : 'wait'" @click.native="scrollToStep(3)" class="clickable-step" />
         </el-steps>
       </div>
 
       <!-- 步骤内容 -->
-      <div class="wizard-content">
+      <div class="wizard-content" ref="wizardContentRef">
         <!-- 步骤1: 基础配置 -->
-        <div v-show="currentStep === 0" class="step-panel">
+        <div id="step-0" class="step-panel">
           <div class="step-header">
             <el-icon class="step-icon"><Setting /></el-icon>
             <span class="step-title">{{ $t('securityPolicy.s_ftp.stepBasicTitle') }}</span>
@@ -214,7 +214,7 @@
         </div>
 
         <!-- 步骤2: 信令过滤 -->
-        <div v-show="currentStep === 1" class="step-panel">
+        <div id="step-1" class="step-panel">
           <div class="step-header">
             <el-icon class="step-icon"><Connection /></el-icon>
             <span class="step-title">{{ $t('securityPolicy.s_ftp.stepSignalTitle') }}</span>
@@ -255,7 +255,7 @@
         </div>
 
         <!-- 步骤3: 文件过滤 -->
-        <div v-show="currentStep === 2" class="step-panel">
+        <div id="step-2" class="step-panel">
           <div class="step-header">
             <el-icon class="step-icon"><Filter /></el-icon>
             <span class="step-title">{{ $t('securityPolicy.s_ftp.stepFilterTitle') }}</span>
@@ -323,7 +323,7 @@
         </div>
 
         <!-- 步骤4: 传输控制 -->
-        <div v-show="currentStep === 3" class="step-panel">
+        <div id="step-3" class="step-panel">
           <div class="step-header">
             <el-icon class="step-icon"><Upload /></el-icon>
             <span class="step-title">{{ $t('securityPolicy.s_ftp.stepTransferTitle') }}</span>
@@ -396,17 +396,9 @@
 
       <template #footer>
         <div class="wizard-footer">
-          <el-button v-if="currentStep > 0" @click="prevStep">
-            <el-icon><ArrowLeft /></el-icon>
-            {{ $t('securityPolicy.s_ftp.prevStep') }}
-          </el-button>
-          <el-button v-if="currentStep < 3" type="primary" @click="nextStep">
-            {{ $t('securityPolicy.s_ftp.nextStep') }}
-            <el-icon><ArrowRight /></el-icon>
-          </el-button>
-          <el-button v-if="currentStep === 3" type="success" :loading="saving" @click="handleSubmit">
-            <el-icon><Check /></el-icon>
-            {{ $t('securityPolicy.s_ftp.complete') }}
+          <el-button @click="formVisible = false">{{ $t('common.cancel') }}</el-button>
+          <el-button type="primary" :loading="saving" @click="handleSubmit">
+            {{ $t('common.confirm') }}
           </el-button>
         </div>
       </template>
@@ -504,7 +496,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import {
@@ -696,6 +688,7 @@ const handleAdd = () => {
   formMode.value = 'add'
   resetForm()
   formVisible.value = true
+  nextTick(() => setupScrollObserver())
 }
 
 const handleView = (row: FtpSecurityConfig) => {
@@ -719,6 +712,7 @@ const handleEdit = (row: FtpSecurityConfig) => {
   newContentKeyword.value = ''
   currentStep.value = 0
   formVisible.value = true
+  nextTick(() => setupScrollObserver())
 }
 
 const handleDelete = async (row: FtpSecurityConfig) => {
@@ -768,6 +762,38 @@ const handleBatchDelete = async () => {
 }
 
 // 步骤导航
+const wizardContentRef = ref<HTMLElement>()
+const stepVisible = reactive([true, false, false, false])
+let scrollObserver: IntersectionObserver | null = null
+
+const setupScrollObserver = () => {
+  if (scrollObserver) scrollObserver.disconnect()
+  const container = wizardContentRef.value
+  if (!container) return
+
+  scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        const index = parseInt(entry.target.id.replace('step-', ''))
+        stepVisible[index] = entry.isIntersecting
+      })
+    },
+    { root: container, threshold: 0.1 }
+  )
+
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('step-' + i)
+    if (el) scrollObserver!.observe(el)
+  }
+}
+
+const scrollToStep = (step: number) => {
+  const el = document.getElementById('step-' + step)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
 const prevStep = () => {
   if (currentStep.value > 0) currentStep.value--
 }
@@ -1103,13 +1129,20 @@ onMounted(() => {
 /* 步骤内容 */
 .wizard-content {
   padding: 24px;
-  min-height: 400px;
-  max-height: 50vh;
+  max-height: 55vh;
   overflow-y: auto;
 }
 
 .step-panel {
-  animation: fadeIn 0.3s ease;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px dashed rgba(64, 158, 255, 0.12);
+}
+
+.step-panel:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 @keyframes fadeIn {
