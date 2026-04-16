@@ -137,10 +137,10 @@
       <!-- 步骤条 -->
       <div class="wizard-steps">
         <el-steps :active="currentStep" align-center finish-status="success">
-          <el-step :title="$t('securityPolicy.s_ftp.stepBasic')" :icon="Setting" />
-          <el-step :title="$t('securityPolicy.s_ftp.stepSignal')" :icon="Connection" />
-          <el-step :title="$t('securityPolicy.s_ftp.stepFilter')" :icon="Filter" />
-          <el-step :title="$t('securityPolicy.s_ftp.stepTransfer')" :icon="Upload" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepBasic')" :icon="Setting" @click.native="currentStep = 0" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepSignal')" :icon="Connection" @click.native="currentStep = 1" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepFilter')" :icon="Filter" @click.native="currentStep = 2" class="clickable-step" />
+          <el-step :title="$t('securityPolicy.s_ftp.stepTransfer')" :icon="Upload" @click.native="currentStep = 3" class="clickable-step" />
         </el-steps>
       </div>
 
@@ -1090,6 +1090,14 @@ onMounted(() => {
 .wizard-steps :deep(.el-step__icon) {
   width: 32px;
   height: 32px;
+}
+
+.wizard-steps :deep(.clickable-step) {
+  cursor: pointer;
+}
+
+.wizard-steps :deep(.clickable-step:hover .el-step__title) {
+  color: #409EFF;
 }
 
 /* 步骤内容 */
