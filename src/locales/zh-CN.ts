@@ -87,6 +87,7 @@ export default {
     linkDetail: '链路状态详情',
     themes: {
       blue: '蓝绿渐变',
+      'sky-blue': '天空蓝',
       green: '翡翠绿',
       orange: '琥珀橙',
       red: '胭脂红',

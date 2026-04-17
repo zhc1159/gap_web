@@ -13,6 +13,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(64, 158, 255, 0.06) 0%, rgba(103, 194, 58, 0.04) 100%);
   --sidebar-border: rgba(64, 158, 255, 0.1);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #409EFF, #67C23A);
   --sidebar-text: #64748b;
   --sidebar-text-active: #409EFF;
@@ -67,6 +68,70 @@
   --el-mask-color: rgba(0, 0, 0, 0.5);
 }
 
+/* ==================== 天空蓝 ==================== */
+[data-theme="sky-blue"] {
+  --theme-primary: #38bdf8;
+  --theme-primary-light: #7dd3fc;
+  --theme-gradient-start: #38bdf8;
+  --theme-gradient-end: #7dd3fc;
+
+  --sidebar-bg: linear-gradient(180deg, rgba(56, 189, 248, 0.06) 0%, rgba(125, 211, 252, 0.03) 100%);
+  --sidebar-border: rgba(56, 189, 248, 0.1);
+  --sidebar-logo-filter: invert(1);
+  --sidebar-logo-gradient: linear-gradient(135deg, #38bdf8, #7dd3fc);
+  --sidebar-text: #5a8fa8;
+  --sidebar-text-active: #38bdf8;
+  --sidebar-hover-bg: rgba(56, 189, 248, 0.08);
+  --sidebar-active-bg: rgba(56, 189, 248, 0.1);
+
+  --header-bg: rgba(240, 249, 255, 0.7);
+  --header-border: rgba(56, 189, 248, 0.08);
+  --header-text: #1e3a5f;
+
+  --page-bg: linear-gradient(180deg, rgba(56, 189, 248, 0.03) 0%, rgba(125, 211, 252, 0.02) 100%);
+
+  --page-header-gradient: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 50%, #7dd3fc 100%);
+  --page-header-shadow: rgba(56, 189, 248, 0.25);
+  --page-header-text: #ffffff;
+
+  --describe-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(125, 211, 252, 0.05) 100%);
+  --describe-icon-color: #38bdf8;
+
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(56, 189, 248, 0.1);
+  --card-shadow: 0 4px 24px rgba(56, 189, 248, 0.06);
+
+  --table-header-bg: rgba(56, 189, 248, 0.06);
+  --table-row-hover: rgba(56, 189, 248, 0.04);
+  --table-border: rgba(56, 189, 248, 0.08);
+
+  --section-dot-gradient: linear-gradient(135deg, #38bdf8, #7dd3fc);
+  --section-border-gradient: linear-gradient(90deg, #38bdf8, #7dd3fc);
+
+  --footer-bg: rgba(240, 249, 255, 0.6);
+  --footer-text: #7fb0c8;
+
+  --dialog-header-bg: rgba(56, 189, 248, 0.06);
+  --dialog-border: rgba(56, 189, 248, 0.12);
+
+  --el-color-primary: #38bdf8;
+  --el-color-primary-light-3: #62cbf9;
+  --el-color-primary-light-5: #8cd9fb;
+  --el-color-primary-light-7: #b6e7fc;
+  --el-color-primary-light-9: #e0f2fe;
+  --el-bg-color: #f0f9ff;
+  --el-bg-color-overlay: #ffffff;
+  --el-text-color-primary: #0c4a6e;
+  --el-text-color-regular: #1e5a7f;
+  --el-text-color-secondary: #5a8fa8;
+  --el-text-color-placeholder: #8fb5c8;
+  --el-border-color: #bae6fd;
+  --el-border-color-light: #e0f2fe;
+  --el-border-color-lighter: #f0f9ff;
+  --el-fill-color-blank: #ffffff;
+  --el-mask-color: rgba(0, 0, 0, 0.5);
+}
+
 /* ==================== 绿色 (Element Plus Success) ==================== */
 [data-theme="green"] {
   --theme-primary: #67C23A;
@@ -76,6 +141,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(103, 194, 58, 0.06) 0%, rgba(133, 206, 97, 0.03) 100%);
   --sidebar-border: rgba(103, 194, 58, 0.1);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #67C23A, #85ce61);
   --sidebar-text: #64748b;
   --sidebar-text-active: #67C23A;
@@ -139,6 +205,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(230, 162, 60, 0.06) 0%, rgba(235, 181, 99, 0.03) 100%);
   --sidebar-border: rgba(230, 162, 60, 0.1);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #E6A23C, #ebb563);
   --sidebar-text: #64748b;
   --sidebar-text-active: #E6A23C;
@@ -202,6 +269,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(245, 108, 108, 0.06) 0%, rgba(247, 137, 137, 0.03) 100%);
   --sidebar-border: rgba(245, 108, 108, 0.1);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #F56C6C, #f78989);
   --sidebar-text: #64748b;
   --sidebar-text-active: #F56C6C;
@@ -265,6 +333,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(6, 182, 212, 0.08) 0%, rgba(34, 211, 238, 0.04) 100%);
   --sidebar-border: rgba(6, 182, 212, 0.12);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #06b6d4, #22d3ee);
   --sidebar-text: #5f8a8f;
   --sidebar-text-active: #06b6d4;
@@ -328,6 +397,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, rgba(167, 139, 250, 0.04) 100%);
   --sidebar-border: rgba(139, 92, 246, 0.12);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #8b5cf6, #a78bfa);
   --sidebar-text: #6b5f82;
   --sidebar-text-active: #8b5cf6;
@@ -391,6 +461,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, rgba(52, 211, 153, 0.04) 100%);
   --sidebar-border: rgba(16, 185, 129, 0.12);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #10b981, #34d399);
   --sidebar-text: #5f8a74;
   --sidebar-text-active: #10b981;
@@ -454,6 +525,7 @@
 
   --sidebar-bg: linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(56, 189, 248, 0.04) 100%);
   --sidebar-border: rgba(14, 165, 233, 0.12);
+  --sidebar-logo-filter: invert(1);
   --sidebar-logo-gradient: linear-gradient(135deg, #0ea5e9, #38bdf8);
   --sidebar-text: #5a8099;
   --sidebar-text-active: #0ea5e9;
@@ -517,6 +589,7 @@
 
   --sidebar-bg: rgba(10, 10, 20, 0.95);
   --sidebar-border: rgba(0, 229, 255, 0.12);
+  --sidebar-logo-filter: none;
   --sidebar-logo-gradient: linear-gradient(135deg, #00e5ff, #7c4dff);
   --sidebar-text: #80cbc4;
   --sidebar-text-active: #00e5ff;
@@ -580,6 +653,7 @@
 
   --sidebar-bg: rgba(0, 10, 20, 0.95);
   --sidebar-border: rgba(0, 180, 216, 0.12);
+  --sidebar-logo-filter: none;
   --sidebar-logo-gradient: linear-gradient(135deg, #0077b6, #00f5d4);
   --sidebar-text: #5a8fa8;
   --sidebar-text-active: #48cae4;

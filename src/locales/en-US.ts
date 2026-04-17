@@ -87,6 +87,7 @@ export default {
     linkDetail: 'Link Status Detail',
     themes: {
       blue: 'Blue-Green',
+      'sky-blue': 'Sky Blue',
       green: 'Green',
       orange: 'Orange',
       red: 'Red',

@@ -17,6 +17,7 @@ export const useThemeStore = defineStore('theme', () => {
 
   const themes: ThemeInfo[] = [
     { id: 'blue', labelZh: '蓝绿渐变', labelEn: 'Blue-Green', previewColor: 'linear-gradient(135deg, #409EFF, #67C23A)' },
+    { id: 'sky-blue', labelZh: '天空蓝', labelEn: 'Sky Blue', previewColor: '#38bdf8' },
     { id: 'green', labelZh: '翡翠绿', labelEn: 'Green', previewColor: '#67C23A' },
     { id: 'orange', labelZh: '琥珀橙', labelEn: 'Orange', previewColor: '#E6A23C' },
     { id: 'red', labelZh: '胭脂红', labelEn: 'Red', previewColor: '#F56C6C' },
