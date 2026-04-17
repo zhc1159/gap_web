@@ -29,9 +29,7 @@
 
     <div class="login-card">
       <div class="login-header">
-        <div class="login-logo">
-          <el-icon :size="42"><Lock /></el-icon>
-        </div>
+        <img src="@/assets/images/company_logo.png" alt="Logo" class="logo-img" />
         <h1 class="login-title">{{ $t('login.title') }}</h1>
         <p class="login-subtitle">{{ $t('login.subtitle') }}</p>
       </div>
@@ -336,17 +334,12 @@ const handleLogin = async () => {
   margin-bottom: 32px;
 }
 
-.login-logo{
-  width: 80px;
-  height: 80px;
+.logo-img{
+  width: 140px;
+  height: auto;
   margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 50%, #06b6d4 100%);
-  border-radius: 20px;
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+  display: block;
+  border-radius: 12px;
 }
 
 .login-title{

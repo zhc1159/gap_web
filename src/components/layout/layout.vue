@@ -3,10 +3,7 @@
     <!-- Sidebar -->
     <div class="layout-sidebar" :class="{ 'is-collapse': isCollapse }">
       <div class="sidebar-head">
-        <div class="sidebar-logo">
-          <el-icon :size="28"><Lock /></el-icon>
-        </div>
-        <span v-show="!isCollapse" class="sidebar-title">GAP {{ $t('common.system') }}</span>
+        <img src="@/assets/images/log.png" alt="Logo" class="sidebar-logo-img" />
       </div>
       <el-menu
         :default-active="activeMenu"
@@ -528,29 +525,16 @@ const handleCommand = async (command: string) => {
   height: 64px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  justify-content: center;
+  padding: 0 12px;
   border-bottom: 1px solid var(--sidebar-border);
   background: rgba(128, 128, 128, 0.03);
 }
 
-.sidebar-logo{
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--sidebar-logo-gradient);
-  border-radius: 10px;
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.sidebar-title{
-  margin-left: 14px;
-  font-size: 16px;
-  font-weight: 700;
-  white-space: nowrap;
-  color: var(--el-text-color-primary);
+.sidebar-logo-img{
+  max-height: 44px;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .sidebar-menu{
