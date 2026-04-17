@@ -3599,7 +3599,7 @@ export default {
       title: 'System Power',
       emptyDesc: 'System Power Module',
       systemStatus: 'System Status',
-      running: 'Running',
+      running: 'System is running',
       stopped: 'Stopped',
       warningTitle: 'Operation Warning',
       warningContent: 'Rebooting or shutting down the system will interrupt all running services. Please ensure all important data has been saved and notify relevant users.',

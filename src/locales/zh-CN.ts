@@ -3622,7 +3622,7 @@ export default {
       title: '系统开关机',
       emptyDesc: '系统开关机模块',
       systemStatus: '系统状态',
-      running: '运行中',
+      running: '系统正在运行中',
       stopped: '已停止',
       warningTitle: '操作警告',
       warningContent: '重启或关闭系统将中断所有正在运行的服务，请确保已保存所有重要数据并通知相关用户。',

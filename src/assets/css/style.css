@@ -353,6 +353,12 @@ html, body {
   --el-table-border-color: var(--border-color);
   --el-table-text-color: var(--text-primary);
   --el-table-header-text-color: var(--text-secondary);
+  background-color: var(--card-bg) !important;
+}
+
+.el-table__inner-wrapper,
+.el-table__body-wrapper{
+  background-color: var(--card-bg) !important;
 }
 
 .el-table th.el-table__cell{
@@ -646,10 +652,29 @@ html, body {
 }
 
 [data-theme="cyber-neon"] .el-table,
+[data-theme="cyber-neon"] .el-table__inner-wrapper,
+[data-theme="cyber-neon"] .el-table__body-wrapper,
+[data-theme="deep-ocean"] .el-table,
+[data-theme="deep-ocean"] .el-table__inner-wrapper,
+[data-theme="deep-ocean"] .el-table__body-wrapper {
+  background-color: transparent !important;
+}
+
+[data-theme="cyber-neon"] .el-table,
 [data-theme="deep-ocean"] .el-table {
   --el-table-bg-color: transparent;
   --el-table-tr-bg-color: transparent;
   --el-table-row-hover-bg-color: rgba(6, 182, 212, 0.08);
+}
+
+[data-theme="cyber-neon"] .el-table th.el-table__cell,
+[data-theme="deep-ocean"] .el-table th.el-table__cell {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+[data-theme="cyber-neon"] .el-table .el-table__body tr td.el-table__cell,
+[data-theme="deep-ocean"] .el-table .el-table__body tr td.el-table__cell {
+  background-color: transparent !important;
 }
 
 [data-theme="cyber-neon"] .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell,

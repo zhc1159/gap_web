@@ -43,7 +43,6 @@
               </div>
               <div class="status-text">
                 <div class="status-label">{{ $t('systemMaintenance.onOff.running') }}</div>
-                <div class="status-desc">GAP Security Gateway</div>
               </div>
             </div>
           </div>
@@ -241,6 +240,8 @@ const handleShutdown = async () => {
   border-radius: 10px;
   border: 1px solid rgba(64, 158, 255, 0.08);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .panel-header {
@@ -257,8 +258,10 @@ const handleShutdown = async () => {
 
 /* 状态面板 */
 .status-body {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 24px;
   gap: 20px;
 }
@@ -310,10 +313,12 @@ const handleShutdown = async () => {
 
 /* 操作面板 */
 .action-body {
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 16px;
   gap: 16px;
+  justify-content: center;
 }
 
 .action-item {
