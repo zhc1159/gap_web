@@ -401,7 +401,7 @@ onMounted(() => {
   border-bottom: 1px solid rgba(64, 158, 255, 0.08);
   font-size: 15px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
   flex-shrink: 0;
 }
@@ -564,7 +564,7 @@ onMounted(() => {
 .status-value {
   font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .status-label {

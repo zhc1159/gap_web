@@ -364,7 +364,7 @@ onMounted(() => {
 }
 
 .ring-icon {
-  color: #C0C4CC;
+  color: var(--el-text-color-placeholder);
   transition: all 0.4s ease;
 }
 
@@ -465,7 +465,7 @@ onMounted(() => {
 .hero-title {
   font-size: 20px;
   font-weight: 700;
-  color: #303133;
+  color: var(--el-text-color-primary);
   margin: 0;
 }
 
@@ -549,7 +549,7 @@ onMounted(() => {
 }
 
 .section-title {
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 15px;
   font-weight: 600;
   margin: 0;
@@ -603,7 +603,7 @@ onMounted(() => {
 .row-title {
   font-size: 15px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .row-desc {

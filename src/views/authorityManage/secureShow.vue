@@ -262,7 +262,7 @@ onMounted(() => {
 .section-title {
   font-size: 15px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   margin-bottom: 20px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(64, 158, 255, 0.1);

@@ -468,7 +468,7 @@ function handleSave() {
 .zone-label {
   font-size: 16px;
   font-weight: 700;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 /* ========== 区块 ========== */
@@ -513,7 +513,7 @@ function handleSave() {
 
 .section-title {
   flex: 1;
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 15px;
   font-weight: 600;
   margin: 0;

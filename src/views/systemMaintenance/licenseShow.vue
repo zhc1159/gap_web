@@ -435,7 +435,7 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid rgba(64, 158, 255, 0.08);
   font-size: 15px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
 }
 
@@ -547,7 +547,7 @@ onBeforeUnmount(() => {
 }
 
 .info-value {
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 14px;
   font-weight: 500;
 }
@@ -618,7 +618,7 @@ onBeforeUnmount(() => {
 
 .info-item-value {
   font-size: 14px;
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-weight: 500;
 }
 

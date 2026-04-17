@@ -327,7 +327,7 @@ const handleManualUpdate = async () => {
   border-bottom: 1px solid rgba(64, 158, 255, 0.08);
   font-size: 15px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
 }
 
@@ -485,7 +485,7 @@ const handleManualUpdate = async () => {
 .engine-value {
   font-size: 15px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 /* 文件列表 */
@@ -512,7 +512,7 @@ const handleManualUpdate = async () => {
 .history-card :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.06) 0%, rgba(103, 194, 58, 0.06) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 18px 16px;
   font-size: 14px;
   text-align: center;

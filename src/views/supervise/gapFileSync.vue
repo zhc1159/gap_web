@@ -573,7 +573,7 @@ onBeforeUnmount(() => {
 .stat-value {
   font-size: 22px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-family: 'Courier New', monospace;
 }
 
@@ -600,7 +600,7 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid rgba(64, 158, 255, 0.08);
   font-size: 15px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
 }
 

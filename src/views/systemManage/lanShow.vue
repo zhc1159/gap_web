@@ -935,7 +935,7 @@ onMounted(() => {
 .lan-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 8px;
   font-size: 13px;
 }
@@ -1075,7 +1075,7 @@ onMounted(() => {
   flex: 1;
   font-family: 'Courier New', monospace;
   font-size: 14px;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 /* 详情弹窗 */
@@ -1112,7 +1112,7 @@ onMounted(() => {
 .detail-name {
   font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .detail-remark {
@@ -1182,7 +1182,7 @@ onMounted(() => {
 
 .field-value {
   font-size: 14px;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .field-value.mono {

@@ -661,7 +661,7 @@ onMounted(() => {
 .stat-value {
   font-size: 22px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-family: 'Courier New', monospace;
 }
 
@@ -703,7 +703,7 @@ onMounted(() => {
   border-bottom: 1px solid rgba(144, 147, 153, 0.08);
   font-size: 15px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.05) 0%, rgba(96, 98, 102, 0.05) 100%);
 }
 
@@ -728,7 +728,7 @@ onMounted(() => {
 .log-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.05) 0%, rgba(96, 98, 102, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 12px;
 }
 

@@ -519,7 +519,7 @@ onMounted(() => {
 .zone-label {
   font-size: 16px;
   font-weight: 700;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .zone-status {
@@ -590,7 +590,7 @@ onMounted(() => {
 
 .section-title {
   flex: 1;
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 15px;
   font-weight: 600;
   margin: 0;
@@ -628,7 +628,7 @@ onMounted(() => {
 .config-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 12px 8px;
 }
 
@@ -650,7 +650,7 @@ onMounted(() => {
 .ip-text {
   font-family: 'Consolas', monospace;
   font-size: 13px;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 /* ========== 操作栏 ========== */

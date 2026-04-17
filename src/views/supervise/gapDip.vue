@@ -565,7 +565,7 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid rgba(64, 158, 255, 0.08);
   font-size: 14px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .card-icon {

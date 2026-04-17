@@ -694,7 +694,7 @@ onMounted(() => {
 .proxy-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.05) 0%, rgba(102, 177, 255, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 12px;
 }
 
@@ -852,7 +852,7 @@ onMounted(() => {
 
 .view-value {
   flex: 1;
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 14px;
 }
 

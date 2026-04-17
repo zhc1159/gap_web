@@ -813,7 +813,7 @@ fetchList()
 .s7-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 12px;
 }
 
@@ -867,7 +867,7 @@ fetchList()
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 20px; padding-bottom: 12px;
   border-bottom: 2px solid; border-image: linear-gradient(90deg, #409EFF, #67C23A) 1;
-  font-size: 15px; font-weight: 600; color: #303133;
+  font-size: 15px; font-weight: 600; color: var(--el-text-color-primary);
 }
 .section-dot {
   width: 10px; height: 10px; border-radius: 50%;

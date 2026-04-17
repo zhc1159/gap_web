@@ -533,7 +533,7 @@ onMounted(() => {
 .approval-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.05) 0%, rgba(230, 162, 60, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 12px;
 }
 
@@ -559,7 +559,7 @@ onMounted(() => {
 
 .filename-text {
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 /* IP地址 */

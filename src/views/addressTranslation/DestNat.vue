@@ -802,7 +802,7 @@ onMounted(() => {
 .dest-nat-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(103, 194, 58, 0.05) 0%, rgba(144, 147, 153, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 12px;
 }
 
@@ -817,7 +817,7 @@ onMounted(() => {
 /* 规则名称 */
 .rule-name {
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 /* 虚拟地址 */
@@ -891,7 +891,7 @@ onMounted(() => {
 .view-section-title {
   font-size: 14px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   margin-bottom: 12px;
   padding-left: 10px;
   border-left: 3px solid #67C23A;
@@ -917,7 +917,7 @@ onMounted(() => {
 
 .view-value {
   font-size: 14px;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 /* 分页 */

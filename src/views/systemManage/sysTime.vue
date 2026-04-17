@@ -496,7 +496,7 @@ onUnmounted(() => {
   font-weight: 700;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   letter-spacing: 4px;
-  color: #303133;
+  color: var(--el-text-color-primary);
   line-height: 1;
 }
 
@@ -557,7 +557,7 @@ onUnmounted(() => {
 }
 
 .section-title {
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 16px;
   font-weight: 600;
   margin: 0;
@@ -669,7 +669,7 @@ onUnmounted(() => {
 .mode-name {
   font-size: 15px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .mode-desc {
@@ -699,7 +699,7 @@ onUnmounted(() => {
 .panel-title {
   font-size: 14px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .panel-body {
@@ -751,7 +751,7 @@ onUnmounted(() => {
   font-family: 'Consolas', 'Monaco', monospace;
   font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   letter-spacing: 1px;
 }
 

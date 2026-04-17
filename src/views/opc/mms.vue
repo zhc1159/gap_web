@@ -450,7 +450,7 @@ fetchList()
 /* ========== 表格 ========== */
 .mms-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
-  font-weight: 600; color: #303133; padding: 14px 12px;
+  font-weight: 600; color: var(--el-text-color-primary); padding: 14px 12px;
 }
 .mms-table :deep(.el-table td.el-table__cell) { padding: 14px 12px; }
 .mms-table :deep(.el-table .el-table__row:hover > td) {
@@ -487,7 +487,7 @@ fetchList()
   padding: 6px 12px; background: rgba(64, 158, 255, 0.03);
   border-radius: 6px; border: 1px solid rgba(64, 158, 255, 0.06);
 }
-.service-name { font-size: 13px; color: #303133; font-weight: 500; }
+.service-name { font-size: 13px; color: var(--el-text-color-primary); font-weight: 500; }
 
 /* ========== 底部按钮 ========== */
 .dialog-footer { display: flex; justify-content: center; gap: 12px; }

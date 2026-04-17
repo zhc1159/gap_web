@@ -566,7 +566,7 @@ onMounted(() => {
 .proxy-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(103, 194, 58, 0.05) 0%, rgba(64, 158, 255, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 12px;
 }
 
@@ -681,7 +681,7 @@ onMounted(() => {
   border-radius: 6px;
   margin-bottom: 8px;
   font-size: 14px;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .url-item:last-child {

@@ -362,7 +362,7 @@ onMounted(() => {
 }
 
 .ring-icon {
-  color: #C0C4CC;
+  color: var(--el-text-color-placeholder);
   transition: all 0.4s ease;
 }
 
@@ -421,7 +421,7 @@ onMounted(() => {
 .hero-title {
   font-size: 20px;
   font-weight: 700;
-  color: #303133;
+  color: var(--el-text-color-primary);
   margin: 0;
 }
 
@@ -504,7 +504,7 @@ onMounted(() => {
 }
 
 .section-title {
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 16px;
   font-weight: 600;
   margin: 0;
@@ -563,7 +563,7 @@ onMounted(() => {
 .port-label-sub {
   display: block;
   font-size: 10px;
-  color: #C0C4CC;
+  color: var(--el-text-color-placeholder);
   letter-spacing: 1px;
 }
 
@@ -596,13 +596,13 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #C0C4CC;
+  color: var(--el-text-color-placeholder);
   font-size: 12px;
   padding-left: 96px;
 }
 
 .help-icon {
-  color: #C0C4CC;
+  color: var(--el-text-color-placeholder);
 }
 
 /* ========== 禁用面板 ========== */
@@ -622,7 +622,7 @@ onMounted(() => {
 }
 
 .disabled-icon {
-  color: #C0C4CC;
+  color: var(--el-text-color-placeholder);
 }
 
 .disabled-text {

@@ -400,14 +400,14 @@ const handleSizeChange = (size: number) => {
 /* ========== 表格 ========== */
 .telnet-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
-  font-weight: 600; color: #303133; padding: 14px 12px;
+  font-weight: 600; color: var(--el-text-color-primary); padding: 14px 12px;
 }
 .telnet-table :deep(.el-table td.el-table__cell) { padding: 14px 12px; }
 .telnet-table :deep(.el-table .el-table__row:hover > td) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%) !important;
 }
 .group-name { font-weight: 600; color: #409EFF; }
-.rule-name { font-family: 'Courier New', monospace; color: #303133; font-weight: 500; }
+.rule-name { font-family: 'Courier New', monospace; color: var(--el-text-color-primary); font-weight: 500; }
 .keyword-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 .keyword-tag { font-size: 12px; }
 .empty-text { color: #c0c4cc; }

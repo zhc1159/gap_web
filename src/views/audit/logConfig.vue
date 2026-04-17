@@ -373,7 +373,7 @@ onMounted(() => {
 .card-title {
   font-size: 15px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .card-body {
@@ -417,7 +417,7 @@ onMounted(() => {
 }
 
 .config-form :deep(.el-input__inner) {
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 13px;
 }
 

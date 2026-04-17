@@ -915,7 +915,7 @@ onMounted(() => {
 .view-section-title {
   font-size: 14px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   margin-bottom: 12px;
   padding-left: 10px;
   border-left: 3px solid #409EFF;
@@ -941,7 +941,7 @@ onMounted(() => {
 
 .view-value {
   font-size: 14px;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .ftp-security-page {
@@ -1037,7 +1037,7 @@ onMounted(() => {
 .ftp-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   padding: 14px 12px;
 }
 
@@ -1172,7 +1172,7 @@ onMounted(() => {
 .step-title {
   font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .step-desc {
@@ -1269,7 +1269,7 @@ onMounted(() => {
 .signal-code {
   font-weight: 600;
   font-size: 13px;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .signal-desc {
@@ -1304,7 +1304,7 @@ onMounted(() => {
   gap: 8px;
   font-size: 14px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(64, 158, 255, 0.1);

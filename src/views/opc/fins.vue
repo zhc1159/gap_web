@@ -883,7 +883,7 @@ fetchList()
 /* ========== 表格 ========== */
 .fins-table :deep(.el-table th.el-table__cell) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.05) 0%, rgba(103, 194, 58, 0.05) 100%);
-  font-weight: 600; color: #303133; padding: 14px 12px;
+  font-weight: 600; color: var(--el-text-color-primary); padding: 14px 12px;
 }
 .fins-table :deep(.el-table td.el-table__cell) { padding: 14px 12px; }
 .fins-table :deep(.el-table .el-table__row:hover > td) {
@@ -920,7 +920,7 @@ fetchList()
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 20px; padding-bottom: 12px;
   border-bottom: 2px solid; border-image: linear-gradient(90deg, #409EFF, #67C23A) 1;
-  font-size: 15px; font-weight: 600; color: #303133;
+  font-size: 15px; font-weight: 600; color: var(--el-text-color-primary);
 }
 .section-dot {
   width: 10px; height: 10px; border-radius: 50%;
@@ -936,7 +936,7 @@ fetchList()
 
 /* ========== 命令过滤折叠面板 ========== */
 .command-collapse :deep(.el-collapse-item__header) {
-  font-weight: 600; font-size: 14px; color: #303133;
+  font-weight: 600; font-size: 14px; color: var(--el-text-color-primary);
 }
 .command-checkbox-group {
   display: flex; flex-wrap: wrap; gap: 12px;

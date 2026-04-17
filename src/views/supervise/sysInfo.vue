@@ -647,7 +647,7 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid rgba(64, 158, 255, 0.08);
   font-size: 14px;
   font-weight: 500;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .card-icon {
@@ -732,7 +732,7 @@ onBeforeUnmount(() => {
 
 .info-row .value {
   flex: 1;
-  color: #303133;
+  color: var(--el-text-color-primary);
   font-size: 13px;
   font-weight: 500;
 }

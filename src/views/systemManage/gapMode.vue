@@ -402,7 +402,7 @@ onMounted(() => {
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   margin: 0;
 }
 
@@ -476,7 +476,7 @@ onMounted(() => {
 .mode-name {
   font-size: 15px;
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
 }
 
 .mode-tag.proxy-tag {
@@ -608,7 +608,7 @@ onMounted(() => {
 
 .iface-name {
   font-weight: 600;
-  color: #303133;
+  color: var(--el-text-color-primary);
   min-width: 60px;
 }
 
