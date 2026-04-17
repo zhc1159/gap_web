@@ -1,9 +1,13 @@
 <template>
   <div class="login-container">
-    <!-- Background effects -->
+    <!-- Background tech effects -->
     <div class="login-bg">
       <div class="bg-grid"></div>
       <div class="bg-glow"></div>
+      <div class="bg-particles">
+        <span v-for="i in 20" :key="i" class="particle" :style="particleStyle(i)"></span>
+      </div>
+      <div class="scan-beam"></div>
     </div>
 
     <!-- Language Switcher -->
@@ -27,82 +31,168 @@
       </el-dropdown>
     </div>
 
-    <div class="login-card">
-      <div class="login-header">
-        <img src="@/assets/images/company_logo.png" alt="Logo" class="logo-img" />
-        <h1 class="login-title">{{ $t('login.title') }}</h1>
-        <p class="login-subtitle">{{ $t('login.subtitle') }}</p>
-      </div>
+    <!-- Main Layout -->
+    <div class="login-main">
+      <!-- Left Showcase Panel -->
+      <div class="showcase-panel">
+        <div class="showcase-content">
+          <div class="showcase-brand">
+            <h1 class="brand-title">{{ $t('login.title') }}</h1>
+          </div>
 
-      <div class="login-tabs">
-        <div
-          v-for="tab in authTabs"
-          :key="tab.value"
-          :class="['login-tab', { active: authType === tab.value }]"
-          @click="authType = tab.value"
-        >
-          <el-icon><component :is="tab.icon" /></el-icon>
-          <span>{{ $t(tab.labelKey) }}</span>
+          <div class="showcase-features">
+            <div class="feature-item" v-for="f in features" :key="f.icon">
+              <div class="feature-icon">
+                <el-icon :size="20"><component :is="f.icon" /></el-icon>
+              </div>
+              <div class="feature-text">
+                <span class="feature-title">{{ $t(f.titleKey) }}</span>
+                <span class="feature-desc">{{ $t(f.descKey) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="showcase-divider">
+          <span class="divider-line"></span>
+          <span class="divider-dot"></span>
+          <span class="divider-icon">
+            <el-icon :size="14"><Promotion /></el-icon>
+          </span>
+          <span class="divider-dot"></span>
+          <span class="divider-line"></span>
+        </div>
+
+        <!-- Ad Carousel -->
+        <div class="ad-section">
+          <div class="ad-carousel">
+            <div class="ad-track" :style="{ transform: `translateX(-${currentAd * 100}%)` }">
+              <div class="ad-card" v-for="(ad, idx) in adList" :key="idx">
+                <div class="ad-product-img"
+                  @mouseenter="previewSrc = ad.image"
+                  @mouseleave="previewSrc = ''">
+                  <img :src="ad.image" alt="" />
+                </div>
+                <div class="ad-info">
+                  <h4 class="ad-product-name">{{ ad.name }}</h4>
+                  <div class="ad-field">
+                    <span class="ad-label">{{ $t('login.adContact') }}</span>
+                    <span>{{ ad.contact }}</span>
+                  </div>
+                  <div class="ad-field">
+                    <span class="ad-label">{{ $t('login.adPhone') }}</span>
+                    <span>{{ ad.phone }}</span>
+                  </div>
+                  <div class="ad-field">
+                    <span class="ad-label">{{ $t('login.adEmail') }}</span>
+                    <span>{{ ad.email }}</span>
+                  </div>
+                  <div class="ad-field">
+                    <span class="ad-label">{{ $t('login.adAddress') }}</span>
+                    <span>{{ ad.address }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ad-dots">
+              <span
+                v-for="(_, idx) in adList"
+                :key="idx"
+                :class="['ad-dot', { active: currentAd === idx }]"
+                @click="currentAd = idx"
+              ></span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <el-form
-        ref="loginFormRef"
-        :model="loginForm"
-        :rules="loginRules"
-        class="login-form"
-        @submit.prevent="handleLogin"
-      >
-        <el-form-item prop="username">
-          <el-input
-            v-model="loginForm.username"
-            :placeholder="$t('login.usernamePlaceholder')"
-            prefix-icon="User"
-            size="large"
-          />
-        </el-form-item>
+      <!-- Right Login Panel -->
+      <div class="login-panel">
+        <div class="login-card">
+          <div class="login-header">
+            <img src="@/assets/images/company_logo.png" alt="Logo" class="login-logo" />
+            <h2 class="login-welcome">{{ $t('login.welcome') || $t('login.title') }}</h2>
+          </div>
 
-        <el-form-item prop="password">
-          <el-input
-            v-model="loginForm.password"
-            type="password"
-            :placeholder="$t('login.passwordPlaceholder')"
-            prefix-icon="Lock"
-            size="large"
-            show-password
-            @keyup.enter="handleLogin"
-          />
-        </el-form-item>
+          <div class="login-tabs">
+            <div
+              v-for="tab in authTabs"
+              :key="tab.value"
+              :class="['login-tab', { active: authType === tab.value }]"
+              @click="authType = tab.value"
+            >
+              <el-icon><component :is="tab.icon" /></el-icon>
+              <span>{{ $t(tab.labelKey) }}</span>
+            </div>
+          </div>
 
-        <el-form-item class="form-options">
-          <el-checkbox v-model="rememberMe">{{ $t('login.rememberMe') }}</el-checkbox>
-        </el-form-item>
-
-        <el-form-item class="privacy-item">
-          <el-checkbox v-model="agreePrivacy">
-            {{ $t('login.privacyAgreement') }}
-            <el-link type="primary" @click.stop="showPrivacyDialog = true">{{ $t('login.privacyPolicy') }}</el-link>
-          </el-checkbox>
-        </el-form-item>
-
-        <el-form-item>
-          <el-button
-            type="primary"
-            size="large"
-            :loading="loading"
-            class="login-button"
-            @click="handleLogin"
+          <el-form
+            ref="loginFormRef"
+            :model="loginForm"
+            :rules="loginRules"
+            class="login-form"
+            @submit.prevent="handleLogin"
           >
-            {{ $t('login.login') }}
-          </el-button>
-        </el-form-item>
-      </el-form>
+            <el-form-item prop="username">
+              <el-input
+                v-model="loginForm.username"
+                :placeholder="$t('login.usernamePlaceholder')"
+                prefix-icon="User"
+                size="large"
+              />
+            </el-form-item>
 
-      <div class="login-footer">
-        <p>{{ $t('login.firstLoginHint') }}</p>
-        <p class="account-hint">{{ $t('login.adminAccount') }}</p>
+            <el-form-item prop="password">
+              <el-input
+                v-model="loginForm.password"
+                type="password"
+                :placeholder="$t('login.passwordPlaceholder')"
+                prefix-icon="Lock"
+                size="large"
+                show-password
+                @keyup.enter="handleLogin"
+              />
+            </el-form-item>
+
+            <el-form-item class="form-options">
+              <el-checkbox v-model="rememberMe">{{ $t('login.rememberMe') }}</el-checkbox>
+            </el-form-item>
+
+            <el-form-item class="privacy-item">
+              <el-checkbox v-model="agreePrivacy">
+                {{ $t('login.privacyAgreement') }}
+                <el-link type="primary" @click.stop="showPrivacyDialog = true">{{ $t('login.privacyPolicy') }}</el-link>
+              </el-checkbox>
+            </el-form-item>
+
+            <el-form-item>
+              <el-button
+                type="primary"
+                size="large"
+                :loading="loading"
+                class="login-button"
+                @click="handleLogin"
+              >
+                {{ $t('login.login') }}
+              </el-button>
+            </el-form-item>
+          </el-form>
+
+          <div class="login-footer">
+            <p>{{ $t('login.firstLoginHint') }}</p>
+            <p class="account-hint">{{ $t('login.adminAccount') }}</p>
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Image Preview Overlay -->
+    <Transition name="preview-fade">
+      <div v-if="previewSrc" class="image-preview-overlay">
+        <img :src="previewSrc" class="image-preview-img" />
+      </div>
+    </Transition>
 
     <!-- Privacy Dialog -->
     <el-dialog
@@ -141,12 +231,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElNotification, ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { Login } from '@/axios/base'
 import { setLocale, getLocale } from '@/locales'
+import companyLogo from '@/assets/images/company_logo.png'
+import wangzhaLogo from '@/assets/images/wangzha_logo.png'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -159,6 +251,9 @@ const rememberMe = ref(false)
 const agreePrivacy = ref(false)
 const showPrivacyDialog = ref(false)
 const currentLocale = ref(getLocale())
+const currentAd = ref(0)
+const previewSrc = ref('')
+let adTimer: ReturnType<typeof setInterval> | null = null
 
 const currentLangLabel = computed(() => {
   return currentLocale.value === 'zh-CN' ? '中文' : 'EN'
@@ -192,6 +287,62 @@ const authTabs: Array<{ labelKey: string; value: 'password' | 'certificate' | 'f
   { labelKey: 'login.fingerprintLogin', value: 'fingerprint', icon: 'Pointer' }
 ]
 
+const features = [
+  { icon: 'Shield', titleKey: 'login.featureSecurity', descKey: 'login.featureSecurityDesc' },
+  { icon: 'Monitor', titleKey: 'login.featureMonitor', descKey: 'login.featureMonitorDesc' },
+  { icon: 'Connection', titleKey: 'login.featureIsolation', descKey: 'login.featureIsolationDesc' },
+  { icon: 'Setting', titleKey: 'login.featureManage', descKey: 'login.featureManageDesc' }
+]
+
+const adList = [
+  {
+    image: wangzhaLogo,
+    name: 'GAP-2000 安全隔离网闸',
+    contact: '张经理',
+    phone: '010-88886666',
+    email: 'sales@example.com',
+    address: '北京市海淀区科技园路88号'
+  },
+  {
+    image: wangzhaLogo,
+    name: 'GAP-5000 千兆隔离网闸',
+    contact: '李经理',
+    phone: '010-88887777',
+    email: 'info@example.com',
+    address: '北京市海淀区科技园路88号'
+  },
+  {
+    image: wangzhaLogo,
+    name: 'GAP-8000 万兆隔离网闸',
+    contact: '王经理',
+    phone: '010-88889999',
+    email: 'support@example.com',
+    address: '北京市海淀区科技园路88号'
+  }
+]
+
+const particleStyle = (i: number) => {
+  const seed = i * 137.5
+  return {
+    left: `${(seed * 7.3) % 100}%`,
+    top: `${(seed * 3.7) % 100}%`,
+    width: `${2 + (i % 4)}px`,
+    height: `${2 + (i % 4)}px`,
+    animationDelay: `${(i * 0.5) % 8}s`,
+    animationDuration: `${6 + (i % 5)}s`
+  }
+}
+
+onMounted(() => {
+  adTimer = setInterval(() => {
+    currentAd.value = (currentAd.value + 1) % adList.length
+  }, 4000)
+})
+
+onUnmounted(() => {
+  if (adTimer) clearInterval(adTimer)
+})
+
 const handleLogin = async () => {
   if (!agreePrivacy.value) {
     ElMessage.warning(t('login.pleaseAgreePrivacy'))
@@ -210,7 +361,6 @@ const handleLogin = async () => {
       authType: authType.value
     })
 
-    // Store token and user info
     sessionStorage.setItem('accessToken', res.data.accessToken)
     sessionStorage.setItem('nick_name', res.data.nickName)
     sessionStorage.setItem('uid', res.data.uid)
@@ -223,7 +373,6 @@ const handleLogin = async () => {
       customClass: 'notification-success'
     })
 
-    // Redirect
     const redirect = route.query.redirect as string
     router.push(redirect || '/supervise/sysInfo')
   } catch (error) {
@@ -235,25 +384,25 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
-.login-container{
+.login-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #ecfeff 100%);
+  background: linear-gradient(135deg, #eef2ff 0%, #f0f9ff 40%, #ecfeff 100%);
 }
 
-/* Language Switcher */
-.lang-switcher{
+/* ====== Language Switcher ====== */
+.lang-switcher {
   position: absolute;
   top: 20px;
   right: 20px;
-  z-index: 10;
+  z-index: 100;
 }
 
-.lang-btn{
+.lang-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -267,147 +416,488 @@ const handleLogin = async () => {
   backdrop-filter: blur(10px);
 }
 
-.lang-btn:hover{
+.lang-btn:hover {
   background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(37, 99, 235, 0.2);
+  border-color: rgba(37, 99, 235, 0.25);
   color: #2563eb;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
 }
 
-.lang-btn .el-icon:last-child{
+.lang-btn .el-icon:last-child {
   font-size: 12px;
   margin-left: 2px;
 }
 
-.lang-flag{
+.lang-flag {
   margin-right: 8px;
 }
 
-/* Bright background effects */
-.login-bg{
+/* ====== Background Tech Effects ====== */
+.login-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  pointer-events: none;
 }
 
-.bg-grid{
+.bg-grid {
   position: absolute;
   inset: 0;
   background-image:
     linear-gradient(rgba(37, 99, 235, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
+  animation: gridShift 20s linear infinite;
 }
 
-.bg-glow{
+@keyframes gridShift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(40px, 40px); }
+}
+
+.bg-glow {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(14, 165, 233, 0.08) 0%, transparent 60%);
+    radial-gradient(ellipse at 15% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 15%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(14, 165, 233, 0.06) 0%, transparent 60%);
   animation: softPulse 6s ease-in-out infinite;
 }
 
-@keyframes softPulse{
+@keyframes softPulse {
   0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }
 }
 
-/* Login card - Bright style */
-.login-card{
-  width: 420px;
-  background: rgba(255, 255, 255, 0.85);
+.bg-particles .particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.25);
+  animation: particleFloat linear infinite;
+}
+
+@keyframes particleFloat {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+}
+
+.scan-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), rgba(37, 99, 235, 0.4), transparent);
+  animation: scanDown 4s ease-in-out infinite;
+}
+
+@keyframes scanDown {
+  0% { top: -2px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ====== Main Layout ====== */
+.login-main {
+  display: flex;
+  width: 1060px;
+  min-height: 580px;
   border-radius: 24px;
-  padding: 48px 40px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow:
-    0 8px 40px rgba(37, 99, 235, 0.12),
-    0 0 0 1px rgba(37, 99, 235, 0.05);
+  overflow: hidden;
   position: relative;
   z-index: 1;
-  backdrop-filter: blur(20px);
+  box-shadow:
+    0 20px 60px rgba(37, 99, 235, 0.1),
+    0 0 0 1px rgba(37, 99, 235, 0.06);
 }
 
-.login-header{
+/* ====== Left Showcase Panel ====== */
+.showcase-panel {
+  width: 520px;
+  background: linear-gradient(160deg, #1e3a5f 0%, #0f2b4a 40%, #0a2540 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 40px 36px 24px;
+}
+
+/* Showcase tech decorations */
+.showcase-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.showcase-panel::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -1px;
+  width: 2px;
+  height: 120px;
+  transform: translateY(-50%);
+  background: linear-gradient(transparent, rgba(6, 182, 212, 0.5), transparent);
+  animation: dividerGlow 3s ease-in-out infinite;
+}
+
+@keyframes dividerGlow {
+  0%, 100% { opacity: 0.4; height: 120px; }
+  50% { opacity: 1; height: 180px; }
+}
+
+.showcase-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.showcase-brand {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
-.logo-img{
+.brand-logo {
   width: 140px;
   height: auto;
-  margin: 0 auto 20px;
-  display: block;
-  border-radius: 12px;
+  margin-bottom: 16px;
 }
 
-.login-title{
-  font-size: 26px;
+.brand-title {
+  font-size: 22px;
   font-weight: 700;
-  color: #1e293b;
+  color: #ffffff;
   margin-bottom: 8px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 
-.login-subtitle{
-  font-size: 14px;
-  color: #2563eb;
+.brand-subtitle {
+  font-size: 13px;
+  color: rgba(6, 182, 212, 0.8);
   font-weight: 500;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   text-transform: uppercase;
 }
 
-/* Login tabs - Bright style */
-.login-tabs{
+.showcase-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.feature-item {
   display: flex;
-  margin-bottom: 28px;
-  border: 1px solid rgba(37, 99, 235, 0.15);
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(6, 182, 212, 0.3);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(37, 99, 235, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #22d3ee;
+  flex-shrink: 0;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feature-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.feature-desc {
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.8);
+  line-height: 1.4;
+}
+
+/* ====== Showcase Divider ====== */
+.showcase-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), transparent);
+}
+
+.divider-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(6, 182, 212, 0.6);
+}
+
+.divider-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(37, 99, 235, 0.2));
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #22d3ee;
+  animation: dividerPulse 2s ease-in-out infinite;
+}
+
+@keyframes dividerPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.3); }
+  50% { box-shadow: 0 0 12px 2px rgba(6, 182, 212, 0.2); }
+}
+
+/* ====== Ad Carousel Section ====== */
+.ad-section {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
+}
+
+.ad-carousel {
+  overflow: hidden;
   border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ad-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ad-card {
+  min-width: 100%;
+  display: flex;
+  gap: 16px;
+  padding: 18px 20px;
+  align-items: flex-start;
+}
+
+.ad-product-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.ad-product-img:hover {
+  border-color: rgba(6, 182, 212, 0.5);
+}
+
+.ad-product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Image Preview Overlay */
+.image-preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.image-preview-img {
+  max-width: 60vw;
+  max-height: 60vh;
+  border-radius: 16px;
+  border: 2px solid rgba(6, 182, 212, 0.4);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  background: rgba(15, 23, 42, 0.95);
+  padding: 12px;
+}
+
+.preview-fade-enter-active,
+.preview-fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.preview-fade-enter-from,
+.preview-fade-leave-to {
+  opacity: 0;
+}
+
+.ad-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ad-product-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 0 0 8px;
+}
+
+.ad-field {
+  display: flex;
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(203, 213, 225, 0.8);
+}
+
+.ad-label {
+  color: rgba(148, 163, 184, 0.6);
+  flex-shrink: 0;
+  width: 60px;
+}
+
+.ad-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0 12px;
+}
+
+.ad-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ad-dot.active {
+  width: 20px;
+  background: #22d3ee;
+}
+
+/* ====== Right Login Panel ====== */
+.login-panel {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 36px;
+  backdrop-filter: blur(20px);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.login-logo {
+  width: 160px;
+  height: auto;
+  margin-bottom: 16px;
+  filter: brightness(0.85);
+}
+
+.login-welcome {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+  letter-spacing: 1px;
+}
+
+/* ====== Login Tabs ====== */
+.login-tabs {
+  display: flex;
+  margin-bottom: 24px;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 12px;
   overflow: hidden;
   background: rgba(248, 250, 252, 0.8);
 }
 
-.login-tab{
+.login-tab {
   flex: 1;
-  padding: 14px;
+  padding: 12px;
   text-align: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   transition: all 0.3s ease;
-  border-right: 1px solid rgba(37, 99, 235, 0.1);
+  border-right: 1px solid rgba(37, 99, 235, 0.08);
 }
 
-.login-tab:last-child{
+.login-tab:last-child {
   border-right: none;
 }
 
-.login-tab:hover{
+.login-tab:hover {
   color: #2563eb;
-  background: rgba(37, 99, 235, 0.06);
+  background: rgba(37, 99, 235, 0.04);
 }
 
-.login-tab.active{
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%);
+.login-tab.active {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(6, 182, 212, 0.06));
   color: #2563eb;
   font-weight: 600;
 }
 
-/* Form */
-.login-form{
-  margin-top: 8px;
+/* ====== Form ====== */
+.login-form {
+  margin-top: 4px;
 }
 
-.login-button{
+.login-button {
   width: 100%;
-  height: 46px;
-  font-size: 16px;
+  height: 44px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 4px;
   background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
@@ -416,60 +906,61 @@ const handleLogin = async () => {
   transition: all 0.3s ease;
 }
 
-.login-button:hover{
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+.login-button:hover {
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
   transform: translateY(-2px);
 }
 
-/* Checkbox */
-:deep(.el-checkbox__label){
+/* ====== Checkbox ====== */
+:deep(.el-checkbox__label) {
   color: #64748b;
+  font-size: 13px;
 }
 
-:deep(.el-checkbox__input.is-checked .el-checkbox__inner){
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
   background-color: #2563eb;
   border-color: #2563eb;
 }
 
-/* Footer */
-.login-footer{
-  margin-top: 32px;
+/* ====== Footer ====== */
+.login-footer {
+  margin-top: 24px;
   text-align: center;
   color: #94a3b8;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 2;
 }
 
-.account-hint{
+.account-hint {
   color: #2563eb;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 1px;
 }
 
-/* Privacy checkbox */
-.form-options{
+/* ====== Privacy ====== */
+.form-options {
   margin-bottom: 0;
 }
 
-.privacy-item{
-  margin-bottom: 16px;
+.privacy-item {
+  margin-bottom: 14px;
 }
 
-.privacy-item :deep(.el-checkbox__label){
+.privacy-item :deep(.el-checkbox__label) {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   line-height: 1.5;
 }
 
-.privacy-item :deep(.el-link){
-  font-size: 14px;
+.privacy-item :deep(.el-link) {
+  font-size: 13px;
   margin-left: 2px;
 }
 
-/* Privacy Dialog */
-.privacy-content{
+/* ====== Privacy Dialog ====== */
+.privacy-content {
   max-height: 400px;
   overflow-y: auto;
   padding-right: 10px;
@@ -478,28 +969,63 @@ const handleLogin = async () => {
   font-size: 14px;
 }
 
-.privacy-section-title{
+.privacy-section-title {
   font-weight: 600;
   color: #1e293b;
   margin: 20px 0 8px;
   font-size: 15px;
 }
 
-.privacy-section-title:first-child{
+.privacy-section-title:first-child {
   margin-top: 0;
 }
 
-.privacy-content p{
+.privacy-content p {
   margin: 0;
   text-indent: 2em;
 }
 
-.privacy-content ul{
+.privacy-content ul {
   margin: 8px 0;
   padding-left: 3em;
 }
 
-.privacy-content li{
+.privacy-content li {
   margin: 4px 0;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 1100px) {
+  .login-main {
+    width: 92vw;
+    max-width: 1060px;
+  }
+
+  .showcase-panel {
+    width: 46%;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-main {
+    flex-direction: column;
+    width: 95vw;
+    max-width: 440px;
+    min-height: auto;
+  }
+
+  .showcase-panel {
+    width: 100%;
+    padding: 28px 24px 20px;
+  }
+
+  .showcase-features {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .login-panel {
+    padding: 28px 24px;
+  }
 }
 </style>
