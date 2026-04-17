@@ -816,7 +816,7 @@ fetchList()
 <style scoped>
 .btn-view {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 .btn-view:hover {
@@ -852,13 +852,13 @@ fetchList()
 .page-describe {
   display: flex; align-items: center; gap: 8px; padding: 12px 16px;
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
-  border-radius: 8px; margin-bottom: 16px; color: #606266; font-size: 14px;
+  border-radius: 8px; margin-bottom: 16px; color: var(--el-text-color-secondary); font-size: 14px;
 }
 .describe-icon { color: #409EFF; font-size: 16px; }
 
 /* ========== 主卡片 ========== */
 .main-card {
-  background: white; border-radius: 16px;
+  background: var(--card-bg); border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
 }
@@ -877,7 +877,7 @@ fetchList()
 }
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* ========== 表格 ========== */
@@ -927,7 +927,7 @@ fetchList()
   background: linear-gradient(135deg, #409EFF, #67C23A);
   box-shadow: 0 0 8px rgba(64, 158, 255, 0.3);
 }
-.form-tip { margin-top: 4px; font-size: 12px; color: #909399; }
+.form-tip { margin-top: 4px; font-size: 12px; color: var(--el-text-color-placeholder); }
 .hex-value {
   font-family: 'Courier New', monospace; font-size: 13px;
   color: #409EFF; letter-spacing: 1px;

@@ -282,7 +282,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 20px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -294,7 +294,7 @@ onMounted(() => {
 /* ========== 英雄区 ========== */
 .defense-hero {
   position: relative;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 32px 40px;
   margin-bottom: 20px;
@@ -436,7 +436,7 @@ onMounted(() => {
 
 .hero-badge.badge-off {
   background: rgba(144, 147, 153, 0.06);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   border: 1px solid rgba(144, 147, 153, 0.12);
 }
 
@@ -471,7 +471,7 @@ onMounted(() => {
 
 .hero-desc {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin: 0;
   line-height: 1.6;
 }
@@ -492,7 +492,7 @@ onMounted(() => {
 .stat-value {
   font-size: 14px;
   font-weight: 700;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .stat-value.running {
@@ -501,7 +501,7 @@ onMounted(() => {
 
 .stat-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .stat-divider {
@@ -518,7 +518,7 @@ onMounted(() => {
 
 .switch-card {
   flex: 1;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -579,7 +579,7 @@ onMounted(() => {
   flex-shrink: 0;
   transition: all 0.3s;
   background: rgba(144, 147, 153, 0.08);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .icon-wrapper.enabled {
@@ -608,7 +608,7 @@ onMounted(() => {
 
 .row-desc {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   line-height: 1.4;
 }
 
@@ -626,7 +626,7 @@ onMounted(() => {
 }
 
 .iface-ip {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-family: 'Consolas', monospace;
   font-size: 13px;
 }

@@ -608,7 +608,7 @@ onMounted(() => {
 }
 
 .stat-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -651,7 +651,7 @@ onMounted(() => {
 
 .stat-icon.info {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.15) 0%, rgba(144, 147, 153, 0.05) 100%);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .stat-info {
@@ -667,7 +667,7 @@ onMounted(() => {
 
 .stat-label {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-top: 4px;
 }
 
@@ -682,10 +682,10 @@ onMounted(() => {
   border-radius: 8px;
   border: 1px solid rgba(245, 108, 108, 0.15);
 }
-.batch-info { font-size: 13px; color: #606266; }
+.batch-info { font-size: 13px; color: var(--el-text-color-secondary); }
 
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(144, 147, 153, 0.08);
@@ -753,7 +753,7 @@ onMounted(() => {
 .file-name {
   font-family: 'Courier New', monospace;
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .date-cell {
@@ -761,7 +761,7 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .action-buttons {
@@ -816,7 +816,7 @@ onMounted(() => {
 
 .upload-text {
   font-size: 14px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   margin-bottom: 8px;
 }
 
@@ -827,7 +827,7 @@ onMounted(() => {
 
 .upload-hint {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .progress-section {
@@ -841,7 +841,7 @@ onMounted(() => {
   text-align: center;
   margin-top: 10px;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* 过渡动画 */

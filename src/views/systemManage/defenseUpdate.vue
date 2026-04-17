@@ -390,7 +390,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 20px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -401,7 +401,7 @@ onMounted(() => {
 
 /* ========== 通用卡片 ========== */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -468,7 +468,7 @@ onMounted(() => {
 
 .upload-text {
   font-size: 14px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   margin-bottom: 8px;
 }
 
@@ -481,7 +481,7 @@ onMounted(() => {
 
 .upload-hint {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* 进度条 */
@@ -501,7 +501,7 @@ onMounted(() => {
 
 .progress-label {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .progress-percent {
@@ -610,7 +610,7 @@ onMounted(() => {
 }
 
 .time-icon {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 14px;
 }
 
@@ -622,12 +622,12 @@ onMounted(() => {
 
 .empty-icon {
   font-size: 48px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-bottom: 12px;
 }
 
 .empty-state p {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 14px;
 }
 

@@ -303,7 +303,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -323,7 +323,7 @@ onMounted(() => {
 
 /* 配置卡片 */
 .config-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -390,7 +390,7 @@ onMounted(() => {
 }
 
 .config-form :deep(.el-form-item__label) {
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 13px;
   font-weight: 500;
 }
@@ -399,7 +399,7 @@ onMounted(() => {
 .config-form :deep(.el-input__wrapper) {
   background: #fafbfc;
   border-radius: 6px;
-  border: 1px solid #e4e7ed;
+  border: 1px solid var(--el-border-color);
   box-shadow: none;
   transition: all 0.2s ease;
   padding: 1px 11px;
@@ -407,11 +407,11 @@ onMounted(() => {
 
 .config-form :deep(.el-input__wrapper:hover) {
   border-color: #c0c4cc;
-  background: #fff;
+  background: var(--card-bg);
 }
 
 .config-form :deep(.el-input__wrapper.is-focus) {
-  background: #fff;
+  background: var(--card-bg);
   border-color: #a0cfff;
   box-shadow: 0 2px 8px rgba(160, 199, 255, 0.15);
 }
@@ -445,7 +445,7 @@ onMounted(() => {
 }
 
 .config-form :deep(.el-select .el-input__suffix) {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* Switch 开关样式 */
@@ -457,7 +457,7 @@ onMounted(() => {
   min-width: 44px;
   height: 22px;
   border-radius: 11px;
-  background: #dcdfe6;
+  background: var(--el-border-color);
   transition: all 0.3s ease;
 }
 
@@ -469,7 +469,7 @@ onMounted(() => {
 .config-form :deep(.el-switch__action) {
   width: 18px;
   height: 18px;
-  background: #fff;
+  background: var(--card-bg);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
@@ -503,7 +503,7 @@ onMounted(() => {
 }
 
 .config-form :deep(.el-radio__label) {
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 13px;
   padding-left: 6px;
 }
@@ -513,7 +513,7 @@ onMounted(() => {
   display: block;
   margin-top: 4px;
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   line-height: 1.4;
 }
 
@@ -530,7 +530,7 @@ onMounted(() => {
   margin-top: 24px;
   text-align: center;
   padding: 20px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);

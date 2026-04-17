@@ -550,7 +550,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(103, 194, 58, 0.08) 0%, rgba(144, 147, 153, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -565,7 +565,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(103, 194, 58, 0.08);
@@ -613,7 +613,7 @@ onMounted(() => {
 }
 
 .user-icon {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 16px;
 }
 
@@ -645,7 +645,7 @@ onMounted(() => {
 /* 密码文本 */
 .password-text {
   font-family: 'Consolas', 'Monaco', monospace;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   letter-spacing: 2px;
 }
 

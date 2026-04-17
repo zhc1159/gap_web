@@ -436,7 +436,7 @@ function handleCurrentChange(page: number) {
 <style scoped>
 .btn-view {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 
@@ -505,7 +505,7 @@ function handleCurrentChange(page: number) {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -520,7 +520,7 @@ function handleCurrentChange(page: number) {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -564,7 +564,7 @@ function handleCurrentChange(page: number) {
 
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 组名称 */
@@ -638,7 +638,7 @@ function handleCurrentChange(page: number) {
 .mode-hint {
   margin-top: 8px;
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* 查看对话框 */

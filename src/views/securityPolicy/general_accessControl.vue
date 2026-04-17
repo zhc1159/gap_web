@@ -586,7 +586,7 @@ onMounted(() => {
 <style scoped>
 .btn-view {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 
@@ -660,14 +660,14 @@ onMounted(() => {
   justify-content: center;
   gap: 8px;
   padding: 12px 20px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 10px;
   border: 2px solid rgba(64, 158, 255, 0.15);
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
   font-weight: 500;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .tab-item:hover {
@@ -687,7 +687,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -711,7 +711,7 @@ onMounted(() => {
 
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 表格样式 */
@@ -770,7 +770,7 @@ onMounted(() => {
 }
 
 .status-icon {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 14px;
 }
 
@@ -793,7 +793,7 @@ onMounted(() => {
 .ip-cell {
   font-family: 'Courier New', monospace;
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 端口标签 */
@@ -858,7 +858,7 @@ onMounted(() => {
 
 .view-label {
   width: 120px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 14px;
 }
 

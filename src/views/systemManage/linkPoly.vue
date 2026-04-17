@@ -399,7 +399,7 @@ function handleSave() {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 20px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -410,7 +410,7 @@ function handleSave() {
 
 /* ========== 主卡片 ========== */
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -493,7 +493,7 @@ function handleSave() {
   align-items: center;
   justify-content: center;
   background: rgba(144, 147, 153, 0.08);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   transition: all 0.3s;
 }
 
@@ -539,7 +539,7 @@ function handleSave() {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .label-icon {

@@ -336,7 +336,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -367,7 +367,7 @@ onMounted(() => {
 
 /* 通用卡片 */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -444,7 +444,7 @@ onMounted(() => {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  border: 2px solid #dcdfe6;
+  border: 2px solid var(--el-border-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -499,7 +499,7 @@ onMounted(() => {
 
 .mode-desc {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin: 0;
   line-height: 1.5;
 }
@@ -554,7 +554,7 @@ onMounted(() => {
 
 .banner-label {
   font-size: 14px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .banner-value {
@@ -586,7 +586,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .label-icon {
@@ -613,7 +613,7 @@ onMounted(() => {
 }
 
 .iface-ip {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-family: 'Courier New', monospace;
   font-size: 13px;
 }
@@ -639,7 +639,7 @@ onMounted(() => {
 
 .placeholder-text {
   font-size: 14px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin: 0;
 }
 

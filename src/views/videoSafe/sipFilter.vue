@@ -593,7 +593,7 @@ onMounted(() => {
 <style scoped>
 .btn-view {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 
@@ -642,7 +642,7 @@ onMounted(() => {
 .view-label {
   min-width: 100px;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .view-value {
@@ -710,12 +710,12 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
 .describe-icon {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 16px;
 }
 
@@ -725,7 +725,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(144, 147, 153, 0.08);
@@ -772,7 +772,7 @@ onMounted(() => {
 .codec-tag {
   background: rgba(144, 147, 153, 0.1);
   border-color: rgba(144, 147, 153, 0.3);
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .more-tag {
@@ -802,7 +802,7 @@ onMounted(() => {
 }
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 分页 */
@@ -837,7 +837,7 @@ onMounted(() => {
 
 .form-hint {
   margin-left: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 
@@ -851,7 +851,7 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   font-weight: 600;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .divider-icon {
@@ -909,7 +909,7 @@ onMounted(() => {
 .ptz-config .config-row label {
   min-width: 140px;
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .ptz-config .param-inputs {
@@ -923,7 +923,7 @@ onMounted(() => {
 }
 
 .ptz-config .separator {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* 正则表格 */

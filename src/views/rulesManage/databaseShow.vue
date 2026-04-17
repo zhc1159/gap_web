@@ -125,7 +125,7 @@ const goToDatabaseSync = () => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -140,7 +140,7 @@ const goToDatabaseSync = () => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -197,7 +197,7 @@ const goToDatabaseSync = () => {
 
 .entry-desc {
   font-size: 14px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin: 0;
 }
 
@@ -255,7 +255,7 @@ const goToDatabaseSync = () => {
 
 .dialog-message {
   font-size: 15px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   margin: 0;
   line-height: 1.6;
 }

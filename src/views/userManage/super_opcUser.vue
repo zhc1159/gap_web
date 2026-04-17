@@ -421,7 +421,7 @@ const handleSizeChange = (size: number) => {
 .page-describe {
   display: flex; align-items: center; gap: 8px; padding: 12px 16px;
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
-  border-radius: 8px; margin-bottom: 16px; color: #606266; font-size: 14px;
+  border-radius: 8px; margin-bottom: 16px; color: var(--el-text-color-secondary); font-size: 14px;
 }
 .describe-icon { color: #409EFF; font-size: 16px; }
 
@@ -436,10 +436,10 @@ const handleSizeChange = (size: number) => {
   border-radius: 8px;
   border: 1px solid rgba(245, 108, 108, 0.15);
 }
-.batch-info { font-size: 13px; color: #606266; }
+.batch-info { font-size: 13px; color: var(--el-text-color-secondary); }
 
 .main-card {
-  background: white; border-radius: 16px;
+  background: var(--card-bg); border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
 }
@@ -456,7 +456,7 @@ const handleSizeChange = (size: number) => {
 }
 .user-name { font-weight: 600; color: #409EFF; }
 .group-text { color: #67C23A; font-weight: 500; }
-.mono-text { font-family: 'Courier New', monospace; color: #606266; font-size: 13px; }
+.mono-text { font-family: 'Courier New', monospace; color: var(--el-text-color-secondary); font-size: 13px; }
 .action-btns { display: flex; gap: 6px; }
 .pagination-wrapper {
   display: flex; justify-content: flex-end; margin-top: 20px;
@@ -472,7 +472,7 @@ const handleSizeChange = (size: number) => {
 .form-dialog :deep(.el-dialog__body) { padding: 24px; }
 .form-dialog :deep(.el-dialog__footer) { border-top: 1px solid rgba(64, 158, 255, 0.1); padding: 16px 20px; }
 .form-content { max-width: 100%; }
-.form-tip { margin-top: 4px; font-size: 12px; color: #909399; }
+.form-tip { margin-top: 4px; font-size: 12px; color: var(--el-text-color-placeholder); }
 .form-content :deep(.el-radio-group) { display: flex; gap: 16px; flex-wrap: wrap; }
 
 /* ========== 底部按钮 ========== */

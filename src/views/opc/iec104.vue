@@ -485,7 +485,7 @@ onMounted(() => {
 <style scoped>
 .btn-view {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 .btn-view:hover {
@@ -553,7 +553,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -568,7 +568,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -622,7 +622,7 @@ onMounted(() => {
 
 /* 地址数量 */
 .addr-count {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 
@@ -670,7 +670,7 @@ onMounted(() => {
 .cmd-hint {
   margin-top: 8px;
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* 地址配置 */
@@ -691,7 +691,7 @@ onMounted(() => {
   padding: 12px;
   background: #f8fafc;
   border-radius: 8px;
-  border: 1px solid #dcdfe6;
+  border: 1px solid var(--el-border-color);
 }
 
 /* 添加配置项按钮样式 */
@@ -753,7 +753,7 @@ onMounted(() => {
 }
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 响应式 */

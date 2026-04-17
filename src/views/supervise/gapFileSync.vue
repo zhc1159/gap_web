@@ -520,7 +520,7 @@ onBeforeUnmount(() => {
 }
 
 .stat-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -563,7 +563,7 @@ onBeforeUnmount(() => {
 
 .stat-icon.info {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.15) 0%, rgba(144, 147, 153, 0.05) 100%);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .stat-info {
@@ -579,13 +579,13 @@ onBeforeUnmount(() => {
 
 .stat-label {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-top: 4px;
 }
 
 /* 卡片 */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);

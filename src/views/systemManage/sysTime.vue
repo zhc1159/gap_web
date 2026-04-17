@@ -387,7 +387,7 @@ onUnmounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 20px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -401,7 +401,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 40px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 32px 40px;
   margin-bottom: 20px;
@@ -470,7 +470,7 @@ onUnmounted(() => {
 
 .time-date-text {
   font-size: 15px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-family: 'Consolas', monospace;
   letter-spacing: 1px;
 }
@@ -518,7 +518,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
   margin-top: 4px;
 }
@@ -529,7 +529,7 @@ onUnmounted(() => {
 
 /* ========== 主卡片 ========== */
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -643,7 +643,7 @@ onUnmounted(() => {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid #dcdfe6;
+  border: 2px solid var(--el-border-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -674,7 +674,7 @@ onUnmounted(() => {
 
 .mode-desc {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   line-height: 1.5;
 }
 
@@ -744,7 +744,7 @@ onUnmounted(() => {
 
 .sync-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .sync-time-mono {
@@ -756,7 +756,7 @@ onUnmounted(() => {
 }
 
 .last-sync-time {
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-family: 'Consolas', monospace;
   font-size: 14px;
 }

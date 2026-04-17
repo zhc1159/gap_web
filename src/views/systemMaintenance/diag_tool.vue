@@ -405,7 +405,7 @@ onUnmounted(() => {
 
 /* 主卡片 */
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -428,7 +428,7 @@ onUnmounted(() => {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   border-bottom: 2px solid transparent;
   transition: all 0.3s ease;
 }
@@ -466,7 +466,7 @@ onUnmounted(() => {
 .param-item label {
   font-size: 13px;
   font-weight: 500;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .param-select,

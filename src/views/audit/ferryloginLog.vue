@@ -467,12 +467,12 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
 .describe-icon {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 16px;
 }
 
@@ -483,7 +483,7 @@ onMounted(() => {
 
 /* 筛选卡片 */
 .filter-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 16px 20px;
   margin-bottom: 16px;
@@ -497,7 +497,7 @@ onMounted(() => {
 }
 
 .filter-form :deep(.el-form-item__label) {
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 13px;
 }
 
@@ -515,7 +515,7 @@ onMounted(() => {
 
 /* 主卡片 */
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(144, 147, 153, 0.08);
@@ -539,7 +539,7 @@ onMounted(() => {
 
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 表格样式 */
@@ -570,7 +570,7 @@ onMounted(() => {
 }
 
 .time-icon {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 14px;
 }
 
@@ -588,7 +588,7 @@ onMounted(() => {
 .ip-cell {
   font-family: 'Courier New', monospace;
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .desc-cell {

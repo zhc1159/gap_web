@@ -1435,7 +1435,7 @@ const handleLogin = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 20px;

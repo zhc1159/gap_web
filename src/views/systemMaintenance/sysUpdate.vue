@@ -353,7 +353,7 @@ onMounted(() => {
 
 /* 卡片 */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -518,7 +518,7 @@ onMounted(() => {
 
 .version-icon.software {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.15) 0%, rgba(144, 147, 153, 0.05) 100%);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .version-detail {
@@ -527,7 +527,7 @@ onMounted(() => {
 
 .version-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-bottom: 4px;
 }
 
@@ -641,7 +641,7 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .changelog-divider {

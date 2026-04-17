@@ -379,7 +379,7 @@ onMounted(() => {
 
 /* 卡片 */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -439,7 +439,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .setting-label .el-icon {
@@ -453,7 +453,7 @@ onMounted(() => {
 }
 
 .unit {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 
@@ -462,7 +462,7 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   padding-top: 8px;
   border-top: 1px solid rgba(64, 158, 255, 0.08);
 }
@@ -474,7 +474,7 @@ onMounted(() => {
 
 .config-form :deep(.el-form-item__label) {
   font-weight: 500;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .config-form :deep(.el-input),
@@ -532,7 +532,7 @@ onMounted(() => {
 
 .status-icon.info {
   background: linear-gradient(135deg, rgba(144, 147, 153, 0.15) 0%, rgba(144, 147, 153, 0.05) 100%);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .status-icon.danger {
@@ -549,7 +549,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.03) 0%, rgba(103, 194, 58, 0.03) 100%);
   border-radius: 8px;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .status-description .el-icon {
@@ -569,7 +569,7 @@ onMounted(() => {
 
 .status-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-top: 4px;
 }
 
@@ -579,7 +579,7 @@ onMounted(() => {
   justify-content: center;
   gap: 16px;
   padding: 20px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);

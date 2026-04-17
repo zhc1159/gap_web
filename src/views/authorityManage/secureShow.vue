@@ -244,7 +244,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -297,7 +297,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .config-label .el-icon {
@@ -317,7 +317,7 @@ onMounted(() => {
 
 .config-input .hint {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* 开关网格 */
@@ -348,7 +348,7 @@ onMounted(() => {
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .switch-label .el-icon {

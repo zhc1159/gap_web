@@ -581,7 +581,7 @@ const handleSizeChange = (size: number) => {
 <style scoped>
 .btn-view {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 
@@ -618,13 +618,13 @@ const handleSizeChange = (size: number) => {
 .page-describe {
   display: flex; align-items: center; gap: 8px; padding: 12px 16px;
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
-  border-radius: 8px; margin-bottom: 16px; color: #606266; font-size: 14px;
+  border-radius: 8px; margin-bottom: 16px; color: var(--el-text-color-secondary); font-size: 14px;
 }
 .describe-icon { color: #409EFF; font-size: 16px; }
 
 /* ========== 主卡片 ========== */
 .main-card {
-  background: white; border-radius: 16px;
+  background: var(--card-bg); border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
 }
@@ -658,7 +658,7 @@ const handleSizeChange = (size: number) => {
 
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .action-btns { display: flex; gap: 6px; }
@@ -704,14 +704,14 @@ const handleSizeChange = (size: number) => {
 
 /* ========== 表单 ========== */
 .form-content { max-width: 100%; }
-.field-hint { font-size: 11px; color: #909399; margin-left: 6px; font-weight: normal; }
+.field-hint { font-size: 11px; color: var(--el-text-color-placeholder); margin-left: 6px; font-weight: normal; }
 
 /* ========== 标签输入 ========== */
 .tag-input-wrapper { width: 100%; }
 .tag-list-box {
   display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;
   min-height: 32px; padding: 8px;
-  background: rgba(64, 158, 255, 0.02); border-radius: 6px; border: 1px solid #dcdfe6;
+  background: rgba(64, 158, 255, 0.02); border-radius: 6px; border: 1px solid var(--el-border-color);
 }
 .empty-hint { color: #c0c4cc; font-size: 13px; }
 .input-row { display: flex; gap: 8px; }

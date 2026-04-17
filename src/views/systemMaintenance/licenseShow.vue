@@ -421,7 +421,7 @@ onBeforeUnmount(() => {
 
 /* 卡片 */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -475,8 +475,8 @@ onBeforeUnmount(() => {
   background: conic-gradient(
     #67C23A 0deg,
     #67C23A calc(var(--progress, 100) * 3.6deg),
-    #e4e7ed calc(var(--progress, 100) * 3.6deg),
-    #e4e7ed 360deg
+    var(--el-border-color) calc(var(--progress, 100) * 3.6deg),
+    var(--el-border-color) 360deg
   );
   display: flex;
   align-items: center;
@@ -491,19 +491,19 @@ onBeforeUnmount(() => {
 
 .license-ring.expiring {
   --progress: 30;
-  background: conic-gradient(#E6A23C 0deg, #E6A23C 108deg, #e4e7ed 108deg, #e4e7ed 360deg);
+  background: conic-gradient(#E6A23C 0deg, #E6A23C 108deg, var(--el-border-color) 108deg, var(--el-border-color) 360deg);
 }
 
 .license-ring.expired {
   --progress: 0;
-  background: conic-gradient(#F56C6C 0deg, #F56C6C 10deg, #e4e7ed 10deg, #e4e7ed 360deg);
+  background: conic-gradient(#F56C6C 0deg, #F56C6C 10deg, var(--el-border-color) 10deg, var(--el-border-color) 360deg);
 }
 
 .ring-inner {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background: white;
+  background: var(--card-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -520,7 +520,7 @@ onBeforeUnmount(() => {
 
 .ring-unit {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-top: 2px;
 }
 
@@ -542,7 +542,7 @@ onBeforeUnmount(() => {
 }
 
 .info-label {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 14px;
 }
 
@@ -612,7 +612,7 @@ onBeforeUnmount(() => {
 
 .info-item-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-bottom: 4px;
 }
 
@@ -660,7 +660,7 @@ onBeforeUnmount(() => {
 
 .upload-text {
   font-size: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   margin-bottom: 8px;
 }
 
@@ -671,7 +671,7 @@ onBeforeUnmount(() => {
 
 .upload-hint {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .progress-section {
@@ -685,7 +685,7 @@ onBeforeUnmount(() => {
   text-align: center;
   margin-top: 10px;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .upload-actions {
@@ -705,7 +705,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 

@@ -888,7 +888,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -903,7 +903,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -951,11 +951,11 @@ onMounted(() => {
 .mono-text {
   font-family: 'Courier New', monospace;
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .remark-text {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 
@@ -997,7 +997,7 @@ onMounted(() => {
 
 .status-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 /* 展开/收起 */
@@ -1018,7 +1018,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 4px 0;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 12px;
 }
 
@@ -1036,7 +1036,7 @@ onMounted(() => {
 
 .btn-detail {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 
@@ -1066,7 +1066,7 @@ onMounted(() => {
 }
 
 .dns-label {
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
   white-space: nowrap;
 }
@@ -1117,7 +1117,7 @@ onMounted(() => {
 
 .detail-remark {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-top: 2px;
 }
 
@@ -1177,7 +1177,7 @@ onMounted(() => {
 
 .field-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .field-value {
@@ -1199,7 +1199,7 @@ onMounted(() => {
 .detail-section-title {
   font-size: 13px;
   font-weight: 600;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   margin-bottom: 10px;
 }
 
@@ -1209,7 +1209,7 @@ onMounted(() => {
   gap: 10px;
   padding: 6px 0;
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 .detail-sub-item .mono {

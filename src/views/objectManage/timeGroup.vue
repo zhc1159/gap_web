@@ -521,7 +521,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -589,13 +589,13 @@ onMounted(() => {
 }
 
 .detail-label {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
   min-width: 60px;
 }
 
 .detail-value {
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 13px;
 }
 
@@ -625,7 +625,7 @@ onMounted(() => {
 
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 分页 */
@@ -652,7 +652,7 @@ onMounted(() => {
 
 .form-help-text {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin-top: 4px;
 }
 
@@ -702,7 +702,7 @@ onMounted(() => {
 
 .time-separator {
   margin: 0 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 14px;
 }
 

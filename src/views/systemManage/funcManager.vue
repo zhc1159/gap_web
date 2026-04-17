@@ -220,7 +220,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 20px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -232,7 +232,7 @@ onMounted(() => {
 /* ========== SNMP 状态英雄区 ========== */
 .snmp-hero {
   position: relative;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 32px 40px;
   margin-bottom: 20px;
@@ -338,7 +338,7 @@ onMounted(() => {
 
 .hero-badge.badge-off {
   background: rgba(144, 147, 153, 0.06);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   border: 1px solid rgba(144, 147, 153, 0.12);
 }
 
@@ -367,7 +367,7 @@ onMounted(() => {
 
 .hero-desc {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin: 0;
   line-height: 1.6;
 }
@@ -380,7 +380,7 @@ onMounted(() => {
 
 .switch-card {
   flex: 1;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -439,7 +439,7 @@ onMounted(() => {
 
 .icon-wrapper.inner-icon {
   background: rgba(64, 158, 255, 0.08);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .icon-wrapper.inner-icon.enabled {
@@ -450,7 +450,7 @@ onMounted(() => {
 
 .icon-wrapper.outer-icon {
   background: rgba(103, 194, 58, 0.08);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .icon-wrapper.outer-icon.enabled {
@@ -473,7 +473,7 @@ onMounted(() => {
 
 .row-desc {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   line-height: 1.4;
 }
 

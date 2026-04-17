@@ -432,7 +432,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(64, 158, 255, 0.08) 0%, rgba(103, 194, 58, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 20px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -444,7 +444,7 @@ onMounted(() => {
 /* ========== 防护状态英雄区 ========== */
 .defense-hero {
   position: relative;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 32px 40px;
   margin-bottom: 20px;
@@ -550,7 +550,7 @@ onMounted(() => {
 
 .hero-badge.badge-off {
   background: rgba(144, 147, 153, 0.06);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   border: 1px solid rgba(144, 147, 153, 0.12);
 }
 
@@ -579,7 +579,7 @@ onMounted(() => {
 
 .hero-desc {
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   margin: 0;
   line-height: 1.6;
 }
@@ -605,7 +605,7 @@ onMounted(() => {
 
 .stat-label {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .stat-divider {
@@ -616,7 +616,7 @@ onMounted(() => {
 
 /* ========== 主卡片 ========== */
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -677,7 +677,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: rgba(144, 147, 153, 0.08);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   transition: all 0.3s;
 }
 
@@ -726,11 +726,11 @@ onMounted(() => {
 .type-badge.fixed-type {
   background: rgba(144, 147, 153, 0.06);
   border-color: rgba(144, 147, 153, 0.15);
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .fixed-value {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-family: 'Consolas', monospace;
   font-size: 14px;
   padding: 0 4px;
@@ -759,7 +759,7 @@ onMounted(() => {
 
 .status-text {
   font-size: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .status-indicator.active .status-text {
@@ -779,7 +779,7 @@ onMounted(() => {
 }
 
 .scan-desc {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 

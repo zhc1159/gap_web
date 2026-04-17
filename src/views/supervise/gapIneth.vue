@@ -437,7 +437,7 @@ onBeforeUnmount(() => {
 
 /* 卡片 */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(64, 158, 255, 0.08);
@@ -513,7 +513,7 @@ onBeforeUnmount(() => {
 }
 
 .rate-value {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-family: 'Courier New', monospace;
 }
 

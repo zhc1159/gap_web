@@ -893,7 +893,7 @@ onMounted(() => {
 <style scoped>
 .btn-view {
   background: #606266;
-  border-color: #606266;
+  border-color: var(--el-text-color-secondary);
   color: #fff;
 }
 
@@ -942,7 +942,7 @@ onMounted(() => {
 .view-label {
   min-width: 100px;
   font-size: 13px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
 }
 
 .view-value {
@@ -1010,7 +1010,7 @@ onMounted(() => {
   background: linear-gradient(135deg, rgba(245, 108, 108, 0.08) 0%, rgba(64, 158, 255, 0.08) 100%);
   border-radius: 8px;
   margin-bottom: 16px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
   font-size: 14px;
 }
 
@@ -1025,7 +1025,7 @@ onMounted(() => {
 }
 
 .main-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(245, 108, 108, 0.08);
@@ -1073,7 +1073,7 @@ onMounted(() => {
 }
 .batch-info {
   font-size: 13px;
-  color: #606266;
+  color: var(--el-text-color-secondary);
 }
 
 /* 操作按钮 */
@@ -1182,7 +1182,7 @@ onMounted(() => {
 }
 
 .step-desc {
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
   margin-bottom: 24px;
   padding-left: 42px;
@@ -1197,7 +1197,7 @@ onMounted(() => {
 
 .form-hint {
   margin-left: 12px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 
@@ -1218,9 +1218,9 @@ onMounted(() => {
   margin-bottom: 10px;
   min-height: 32px;
   padding: 8px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 6px;
-  border: 1px solid #dcdfe6;
+  border: 1px solid var(--el-border-color);
 }
 
 .url-list {
@@ -1245,9 +1245,9 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 8px;
-  border: 1px solid #e4e7ed;
+  border: 1px solid var(--el-border-color);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -1329,7 +1329,7 @@ onMounted(() => {
 
 .unit-text {
   margin-left: 8px;
-  color: #909399;
+  color: var(--el-text-color-placeholder);
   font-size: 13px;
 }
 
