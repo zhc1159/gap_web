@@ -2,8 +2,7 @@
   <div class="login-container">
     <!-- Background tech effects -->
     <div class="login-bg">
-      <!-- Animated grid -->
-      <div class="bg-grid"></div>
+      <!-- Animated glow -->
       <div class="bg-glow"></div>
 
       <!-- Particle network -->
@@ -586,22 +585,6 @@ const handleLogin = async () => {
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-/* Grid */
-.bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(37, 99, 235, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-  animation: gridShift 20s linear infinite;
-}
-
-@keyframes gridShift {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(40px, 40px); }
 }
 
 /* Glow orbs */
