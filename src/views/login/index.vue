@@ -68,7 +68,7 @@
         <div class="ad-section">
           <div class="ad-carousel">
             <div class="ad-track" :style="{ transform: `translateX(-${currentAd * 100}%)` }">
-              <div class="ad-card" v-for="(ad, idx) in adList" :key="idx">
+              <div class="ad-card" v-for="(ad, idx) in adList" :key="idx" @click="openAdDetail(ad)">
                 <div class="ad-product-img"
                   @mouseenter="previewSrc = ad.image"
                   @mouseleave="previewSrc = ''">
@@ -194,6 +194,40 @@
       </div>
     </Transition>
 
+    <!-- Ad Detail Dialog -->
+    <el-dialog
+      v-model="showAdDialog"
+      width="420px"
+      :show-close="true"
+      class="ad-detail-dialog"
+      align-center
+    >
+      <div class="ad-detail" v-if="currentAdData">
+        <div class="ad-detail-img">
+          <img :src="currentAdData.image" alt="" />
+        </div>
+        <h3 class="ad-detail-name">{{ currentAdData.name }}</h3>
+        <div class="ad-detail-fields">
+          <div class="ad-detail-row">
+            <span class="ad-detail-label">{{ $t('login.adContact') }}</span>
+            <span class="ad-detail-value">{{ currentAdData.contact }}</span>
+          </div>
+          <div class="ad-detail-row">
+            <span class="ad-detail-label">{{ $t('login.adPhone') }}</span>
+            <span class="ad-detail-value">{{ currentAdData.phone }}</span>
+          </div>
+          <div class="ad-detail-row">
+            <span class="ad-detail-label">{{ $t('login.adEmail') }}</span>
+            <span class="ad-detail-value">{{ currentAdData.email }}</span>
+          </div>
+          <div class="ad-detail-row">
+            <span class="ad-detail-label">{{ $t('login.adAddress') }}</span>
+            <span class="ad-detail-value">{{ currentAdData.address }}</span>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
+
     <!-- Privacy Dialog -->
     <el-dialog
       v-model="showPrivacyDialog"
@@ -253,6 +287,13 @@ const showPrivacyDialog = ref(false)
 const currentLocale = ref(getLocale())
 const currentAd = ref(0)
 const previewSrc = ref('')
+const showAdDialog = ref(false)
+const currentAdData = ref<typeof adList[0] | null>(null)
+
+const openAdDetail = (ad: typeof adList[0]) => {
+  currentAdData.value = ad
+  showAdDialog.value = true
+}
 let adTimer: ReturnType<typeof setInterval> | null = null
 
 const currentLangLabel = computed(() => {
@@ -707,6 +748,7 @@ const handleLogin = async () => {
   gap: 16px;
   padding: 18px 20px;
   align-items: flex-start;
+  cursor: pointer;
 }
 
 .ad-product-img {
@@ -715,8 +757,8 @@ const handleLogin = async () => {
   border-radius: 10px;
   overflow: hidden;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -753,7 +795,7 @@ const handleLogin = async () => {
   border-radius: 16px;
   border: 2px solid rgba(6, 182, 212, 0.4);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(255, 255, 255, 1);
   padding: 12px;
 }
 
@@ -1027,5 +1069,62 @@ const handleLogin = async () => {
   .login-panel {
     padding: 28px 24px;
   }
+}
+
+/* ====== Ad Detail Dialog ====== */
+.ad-detail {
+  text-align: center;
+}
+
+.ad-detail-img {
+  width: 100%;
+  max-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.ad-detail-img img {
+  max-width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+}
+
+.ad-detail-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 16px;
+}
+
+.ad-detail-fields {
+  text-align: left;
+}
+
+.ad-detail-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+}
+
+.ad-detail-row:last-child {
+  border-bottom: none;
+}
+
+.ad-detail-label {
+  width: 70px;
+  flex-shrink: 0;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.ad-detail-value {
+  color: #334155;
 }
 </style>
