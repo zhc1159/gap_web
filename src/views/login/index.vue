@@ -2,12 +2,42 @@
   <div class="login-container">
     <!-- Background tech effects -->
     <div class="login-bg">
+      <!-- Animated grid -->
       <div class="bg-grid"></div>
       <div class="bg-glow"></div>
-      <div class="bg-particles">
-        <span v-for="i in 20" :key="i" class="particle" :style="particleStyle(i)"></span>
-      </div>
+
+      <!-- Particle network -->
+      <canvas ref="particleCanvas" class="particle-canvas"></canvas>
+
+      <!-- Tech rings -->
+      <div class="tech-ring ring-1"></div>
+      <div class="tech-ring ring-2"></div>
+      <div class="tech-ring ring-3"></div>
+
+      <!-- Hexagons -->
+      <div class="hex hex-1"></div>
+      <div class="hex hex-2"></div>
+      <div class="hex hex-3"></div>
+      <div class="hex hex-4"></div>
+
+      <!-- Scan beams -->
       <div class="scan-beam"></div>
+      <div class="scan-beam-v"></div>
+
+      <!-- Pulse waves -->
+      <div class="pulse-wave pulse-1"></div>
+      <div class="pulse-wave pulse-2"></div>
+
+      <!-- Floating icons -->
+      <div class="float-icon fi-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div class="float-icon fi-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+      <div class="float-icon fi-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+      <div class="float-icon fi-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+
+      <!-- Data stream lines -->
+      <div class="data-stream ds-1"></div>
+      <div class="data-stream ds-2"></div>
+      <div class="data-stream ds-3"></div>
     </div>
 
     <!-- Language Switcher -->
@@ -289,13 +319,91 @@ const currentAd = ref(0)
 const previewSrc = ref('')
 const showAdDialog = ref(false)
 const currentAdData = ref<typeof adList[0] | null>(null)
+const particleCanvas = ref<HTMLCanvasElement | null>(null)
 
 const openAdDetail = (ad: typeof adList[0]) => {
   currentAdData.value = ad
   showAdDialog.value = true
 }
-let adTimer: ReturnType<typeof setInterval> | null = null
 
+// Particle network animation
+const initParticleNetwork = () => {
+  const canvas = particleCanvas.value
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+
+  const resize = () => {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
+  resize()
+  window.addEventListener('resize', resize)
+
+  const dots: { x: number; y: number; vx: number; vy: number }[] = []
+  const count = 60
+  for (let i = 0; i < count; i++) {
+    dots.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6
+    })
+  }
+
+  let animId: number
+  const draw = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    for (const d of dots) {
+      d.x += d.vx
+      d.y += d.vy
+      if (d.x < 0 || d.x > canvas.width) d.vx *= -1
+      if (d.y < 0 || d.y > canvas.height) d.vy *= -1
+    }
+
+    // Draw connections
+    for (let i = 0; i < count; i++) {
+      for (let j = i + 1; j < count; j++) {
+        const dx = dots[i].x - dots[j].x
+        const dy = dots[i].y - dots[j].y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < 150) {
+          const alpha = (1 - dist / 150) * 0.15
+          ctx.beginPath()
+          ctx.strokeStyle = `rgba(37, 99, 235, ${alpha})`
+          ctx.lineWidth = 0.8
+          ctx.moveTo(dots[i].x, dots[i].y)
+          ctx.lineTo(dots[j].x, dots[j].y)
+          ctx.stroke()
+        }
+      }
+    }
+
+    // Draw dots
+    for (const d of dots) {
+      ctx.beginPath()
+      ctx.arc(d.x, d.y, 2, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(6, 182, 212, 0.5)'
+      ctx.fill()
+      // Glow
+      ctx.beginPath()
+      ctx.arc(d.x, d.y, 5, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(6, 182, 212, 0.1)'
+      ctx.fill()
+    }
+
+    animId = requestAnimationFrame(draw)
+  }
+  draw()
+
+  return () => {
+    cancelAnimationFrame(animId)
+    window.removeEventListener('resize', resize)
+  }
+}
+let adTimer: ReturnType<typeof setInterval> | null = null
+let cleanupParticles: (() => void) | undefined
 const currentLangLabel = computed(() => {
   return currentLocale.value === 'zh-CN' ? '中文' : 'EN'
 })
@@ -362,26 +470,16 @@ const adList = [
   }
 ]
 
-const particleStyle = (i: number) => {
-  const seed = i * 137.5
-  return {
-    left: `${(seed * 7.3) % 100}%`,
-    top: `${(seed * 3.7) % 100}%`,
-    width: `${2 + (i % 4)}px`,
-    height: `${2 + (i % 4)}px`,
-    animationDelay: `${(i * 0.5) % 8}s`,
-    animationDuration: `${6 + (i % 5)}s`
-  }
-}
-
 onMounted(() => {
   adTimer = setInterval(() => {
     currentAd.value = (currentAd.value + 1) % adList.length
   }, 4000)
+  cleanupParticles = initParticleNetwork()
 })
 
 onUnmounted(() => {
   if (adTimer) clearInterval(adTimer)
+  cleanupParticles?.()
 })
 
 const handleLogin = async () => {
@@ -479,8 +577,18 @@ const handleLogin = async () => {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
+/* Canvas particle network */
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Grid */
 .bg-grid {
   position: absolute;
   inset: 0;
@@ -496,12 +604,13 @@ const handleLogin = async () => {
   100% { transform: translate(40px, 40px); }
 }
 
+/* Glow orbs */
 .bg-glow {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 15% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 15%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 90%, rgba(6, 182, 212, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 10%, rgba(37, 99, 235, 0.12) 0%, transparent 45%),
     radial-gradient(ellipse at 50% 50%, rgba(14, 165, 233, 0.06) 0%, transparent 60%);
   animation: softPulse 6s ease-in-out infinite;
 }
@@ -511,28 +620,127 @@ const handleLogin = async () => {
   50% { opacity: 1; }
 }
 
-.bg-particles .particle {
+/* Tech rings - rotating dashed circles */
+.tech-ring {
   position: absolute;
   border-radius: 50%;
-  background: rgba(37, 99, 235, 0.25);
-  animation: particleFloat linear infinite;
+  border: 1px dashed rgba(37, 99, 235, 0.15);
 }
 
-@keyframes particleFloat {
-  0% { transform: translateY(0) scale(1); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+.ring-1 {
+  width: 400px;
+  height: 400px;
+  top: -120px;
+  right: -80px;
+  animation: ringRotate 30s linear infinite;
 }
 
+.ring-2 {
+  width: 300px;
+  height: 300px;
+  bottom: -60px;
+  left: -60px;
+  border-color: rgba(6, 182, 212, 0.12);
+  animation: ringRotate 25s linear infinite reverse;
+}
+
+.ring-3 {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  right: 5%;
+  border-style: dotted;
+  border-color: rgba(6, 182, 212, 0.1);
+  animation: ringRotate 20s linear infinite;
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Hexagons */
+.hex {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: transparent;
+  border: none;
+}
+
+.hex::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgba(6, 182, 212, 0.04);
+}
+
+.hex::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border: 1px solid rgba(6, 182, 212, 0.15);
+}
+
+.hex-1 {
+  top: 12%;
+  left: 8%;
+  animation: hexFloat 8s ease-in-out infinite;
+}
+
+.hex-2 {
+  top: 70%;
+  right: 12%;
+  width: 40px;
+  height: 40px;
+  animation: hexFloat 10s ease-in-out infinite 2s;
+}
+
+.hex-3 {
+  bottom: 15%;
+  left: 15%;
+  width: 35px;
+  height: 35px;
+  animation: hexFloat 9s ease-in-out infinite 4s;
+}
+
+.hex-4 {
+  top: 25%;
+  right: 6%;
+  width: 50px;
+  height: 50px;
+  animation: hexFloat 12s ease-in-out infinite 1s;
+}
+
+@keyframes hexFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+  50% { transform: translateY(-15px) rotate(30deg); opacity: 1; }
+}
+
+/* Scan beams */
 .scan-beam {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.4), rgba(37, 99, 235, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), rgba(37, 99, 235, 0.5), transparent);
   animation: scanDown 4s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+.scan-beam-v {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(37, 99, 235, 0.3), rgba(6, 182, 212, 0.3), transparent);
+  animation: scanRight 6s ease-in-out infinite 2s;
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
 }
 
 @keyframes scanDown {
@@ -540,6 +748,125 @@ const handleLogin = async () => {
   10% { opacity: 1; }
   90% { opacity: 1; }
   100% { top: 100%; opacity: 0; }
+}
+
+@keyframes scanRight {
+  0% { left: -2px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* Pulse waves */
+.pulse-wave {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  animation: pulseExpand 4s ease-out infinite;
+}
+
+.pulse-1 {
+  width: 10px;
+  height: 10px;
+  bottom: 20%;
+  left: 10%;
+}
+
+.pulse-2 {
+  width: 10px;
+  height: 10px;
+  top: 15%;
+  right: 20%;
+  animation-delay: 2s;
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+@keyframes pulseExpand {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(15); opacity: 0; }
+}
+
+/* Floating SVG icons */
+.float-icon {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  color: rgba(37, 99, 235, 0.12);
+}
+
+.float-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.fi-1 {
+  top: 18%;
+  left: 5%;
+  animation: floatA 7s ease-in-out infinite;
+}
+
+.fi-2 {
+  top: 75%;
+  left: 12%;
+  animation: floatA 9s ease-in-out infinite 3s;
+  color: rgba(6, 182, 212, 0.12);
+}
+
+.fi-3 {
+  top: 30%;
+  right: 4%;
+  animation: floatA 8s ease-in-out infinite 1s;
+}
+
+.fi-4 {
+  bottom: 12%;
+  right: 8%;
+  animation: floatA 10s ease-in-out infinite 2s;
+  color: rgba(6, 182, 212, 0.1);
+}
+
+@keyframes floatA {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+  25% { transform: translateY(-10px) rotate(5deg); opacity: 0.8; }
+  75% { transform: translateY(8px) rotate(-5deg); opacity: 0.5; }
+}
+
+/* Data stream lines */
+.data-stream {
+  position: absolute;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(6, 182, 212, 0.3), transparent);
+  animation: streamFlow 3s linear infinite;
+}
+
+.ds-1 {
+  left: 20%;
+  height: 80px;
+  top: -80px;
+  animation-delay: 0s;
+}
+
+.ds-2 {
+  left: 55%;
+  height: 60px;
+  top: -60px;
+  animation-delay: 1s;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(37, 99, 235, 0.25), transparent);
+}
+
+.ds-3 {
+  left: 80%;
+  height: 70px;
+  top: -70px;
+  animation-delay: 2s;
+}
+
+@keyframes streamFlow {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(calc(100vh + 100px)); opacity: 0; }
 }
 
 /* ====== Main Layout ====== */
@@ -894,19 +1221,19 @@ const handleLogin = async () => {
 .login-tabs {
   display: flex;
   margin-bottom: 24px;
-  border: 1px solid rgba(37, 99, 235, 0.12);
-  border-radius: 12px;
+  border: 2px solid rgba(37, 99, 235, 0.15);
+  border-radius: 14px;
   overflow: hidden;
   background: rgba(248, 250, 252, 0.8);
 }
 
 .login-tab {
   flex: 1;
-  padding: 12px;
+  padding: 13px;
   text-align: center;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   color: #64748b;
   display: flex;
   align-items: center;
@@ -936,21 +1263,64 @@ const handleLogin = async () => {
   margin-top: 4px;
 }
 
-.login-button {
-  width: 100%;
-  height: 44px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 4px;
-  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
-  border: none;
+.login-form :deep(.el-input__wrapper) {
   border-radius: 12px;
+  padding: 4px 12px;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15) inset;
   transition: all 0.3s ease;
 }
 
+.login-form :deep(.el-input__wrapper:hover) {
+  box-shadow: 0 0 0 1.5px rgba(37, 99, 235, 0.35) inset;
+}
+
+.login-form :deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.4) inset, 0 4px 12px rgba(37, 99, 235, 0.1);
+}
+
+.login-form :deep(.el-input__inner) {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.login-form :deep(.el-input__prefix .el-icon) {
+  font-size: 18px;
+  color: #2563eb;
+}
+
+.login-button {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  border: none;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.login-button:hover::before {
+  left: 100%;
+}
+
 .login-button:hover {
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 8px 28px rgba(37, 99, 235, 0.4);
   transform: translateY(-2px);
+  background: linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%);
 }
 
 /* ====== Checkbox ====== */
