@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import en from 'element-plus/es/locale/lang/en'
@@ -17,9 +17,7 @@ const elementLocale = computed(() => {
 })
 
 const themeStore = useThemeStore()
-onMounted(() => {
-  themeStore.initTheme()
-})
+themeStore.initTheme()
 </script>
 
 <style>

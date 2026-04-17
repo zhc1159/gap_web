@@ -66,6 +66,16 @@
   --el-border-color-lighter: #f8fafc;
   --el-fill-color-blank: #ffffff;
   --el-mask-color: rgba(0, 0, 0, 0.5);
+
+  /* Element Plus Table defaults */
+  --el-table-bg-color: #ffffff;
+  --el-table-tr-bg-color: #ffffff;
+  --el-table-header-bg-color: #f8fafc;
+  --el-table-row-hover-bg-color: rgba(37, 99, 235, 0.04);
+  --el-table-border-color: #e2e8f0;
+  --el-table-text-color: #334155;
+  --el-table-header-text-color: #64748b;
+  --el-table-current-row-bg-color: rgba(37, 99, 235, 0.06);
 }
 
 /* ==================== 天空蓝 ==================== */
@@ -642,6 +652,15 @@
   --el-border-color-lighter: rgba(0, 229, 255, 0.05);
   --el-fill-color-blank: #0f0f1e;
   --el-mask-color: rgba(0, 0, 0, 0.7);
+
+  --el-table-bg-color: transparent;
+  --el-table-tr-bg-color: transparent;
+  --el-table-header-bg-color: rgba(0, 229, 255, 0.06);
+  --el-table-row-hover-bg-color: rgba(0, 229, 255, 0.08);
+  --el-table-border-color: rgba(0, 229, 255, 0.08);
+  --el-table-text-color: #e0f7fa;
+  --el-table-header-text-color: #80cbc4;
+  --el-table-current-row-bg-color: rgba(0, 229, 255, 0.1);
 }
 
 /* ==================== 深海 (暗色科技风) ==================== */
@@ -706,4 +725,13 @@
   --el-border-color-lighter: rgba(0, 180, 216, 0.05);
   --el-fill-color-blank: #000e1c;
   --el-mask-color: rgba(0, 0, 0, 0.7);
+
+  --el-table-bg-color: transparent;
+  --el-table-tr-bg-color: transparent;
+  --el-table-header-bg-color: rgba(0, 180, 216, 0.06);
+  --el-table-row-hover-bg-color: rgba(0, 180, 216, 0.08);
+  --el-table-border-color: rgba(0, 180, 216, 0.08);
+  --el-table-text-color: #caf0f8;
+  --el-table-header-text-color: #5a8fa8;
+  --el-table-current-row-bg-color: rgba(0, 180, 216, 0.1);
 }
