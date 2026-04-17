@@ -153,7 +153,7 @@
 
       <!-- Footer -->
       <div class="layout-footer">
-        <span>GAP {{ $t('login.title') }} &copy; {{ new Date().getFullYear() }}</span>
+        <span>Copyright &copy; 2026 JiangSu DeepNet Technology Co.,LTD. All Rights Reserved</span>
       </div>
     </div>
   </div>
@@ -848,7 +848,7 @@ const handleCommand = async (command: string) => {
   flex: 1;
   padding: 24px;
   padding-bottom: 32px;
-  overflow: auto;
+  overflow-y: auto;
   background: transparent;
 }
 
@@ -864,6 +864,7 @@ const handleCommand = async (command: string) => {
 /* Footer */
 .layout-footer{
   height: 44px;
+  flex-shrink: 0;
   background: var(--footer-bg);
   border-top: 1px solid var(--header-border);
   display: flex;
