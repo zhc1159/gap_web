@@ -86,14 +86,16 @@ export default {
     linkOffline: '离线',
     linkDetail: '链路状态详情',
     themes: {
-      default: '经典蓝绿',
+      blue: '蓝绿渐变',
+      green: '翡翠绿',
+      orange: '琥珀橙',
+      red: '胭脂红',
+      'tech-cyan': '科技青',
+      'tech-purple': '星云紫',
+      'tech-emerald': '翡翠荧光',
+      'tech-neon': '霓虹蓝',
       'cyber-neon': '赛博霓虹',
-      matrix: '矩阵黑客',
-      aurora: '极光紫',
-      crimson: '赤焰科技',
-      ocean: '深海科技',
-      solar: '日耀金',
-      arctic: '极光冰白'
+      'deep-ocean': '深海'
     }
   },
   menu: {

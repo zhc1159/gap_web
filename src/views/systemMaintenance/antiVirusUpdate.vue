@@ -253,7 +253,7 @@ const handleManualUpdate = async () => {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 16px;
   margin-bottom: 20px;
   box-shadow: 0 4px 20px rgba(64, 158, 255, 0.2);
@@ -262,7 +262,7 @@ const handleManualUpdate = async () => {
 .header-left {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--page-header-text);
 }
 
 .header-icon {
@@ -360,7 +360,7 @@ const handleManualUpdate = async () => {
 }
 
 .btn-upload {
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border: none;
   color: white;
   padding: 14px 28px;

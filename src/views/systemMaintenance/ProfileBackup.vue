@@ -307,7 +307,7 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 16px;
   margin-bottom: 20px;
   box-shadow: 0 4px 20px rgba(64, 158, 255, 0.2);
@@ -316,7 +316,7 @@ onMounted(() => {
 .header-left {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--page-header-text);
 }
 
 .header-icon {
@@ -595,7 +595,7 @@ onMounted(() => {
 }
 
 .btn-save {
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   color: white;
   box-shadow: 0 4px 15px rgba(64, 158, 255, 0.35);
 }

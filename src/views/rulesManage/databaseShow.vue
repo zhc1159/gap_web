@@ -87,16 +87,16 @@ const goToDatabaseSync = () => {
   align-items: center;
   justify-content: space-between;
   padding: 14px 20px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
+  box-shadow: 0 4px 16px var(--page-header-shadow);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--page-header-text);
 }
 
 .header-icon {
@@ -174,7 +174,7 @@ const goToDatabaseSync = () => {
 .entry-icon {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -202,7 +202,7 @@ const goToDatabaseSync = () => {
 }
 
 .btn-go {
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border: none;
   padding: 12px 24px;
   font-size: 15px;
@@ -242,7 +242,7 @@ const goToDatabaseSync = () => {
 .dialog-icon {
   width: 56px;
   height: 56px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 50%;
   display: flex;
   align-items: center;

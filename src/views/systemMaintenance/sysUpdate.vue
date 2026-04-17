@@ -315,7 +315,7 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 16px;
   margin-bottom: 20px;
   box-shadow: 0 4px 20px rgba(64, 158, 255, 0.2);
@@ -324,7 +324,7 @@ onMounted(() => {
 .header-left {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--page-header-text);
 }
 
 .header-icon {
@@ -419,7 +419,7 @@ onMounted(() => {
 }
 
 .btn-upload {
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border: none;
   color: white;
   padding: 12px 24px;
@@ -624,7 +624,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 20px;
   color: white;
   font-size: 15px;

@@ -383,7 +383,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 16px;
   margin-bottom: 20px;
   box-shadow: 0 4px 20px rgba(64, 158, 255, 0.2);
@@ -392,7 +392,7 @@ onBeforeUnmount(() => {
 .header-left {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--page-header-text);
 }
 
 .header-icon {

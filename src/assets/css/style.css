@@ -1,22 +1,18 @@
 /* Theme System */
 @import './themes.css';
 
-/* Global CSS Variables - Blue Theme */
+/* Global CSS Variables */
 :root {
-  /* Primary colors - Blue style */
-  --primary-color: #2563eb;
-  --primary-light: #3b82f6;
-  --primary-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 50%, #0891b2 100%);
-  --accent-blue: #2563eb;
-  --accent-cyan: #06b6d4;
-  --accent-sky: #0ea5e9;
-  --accent-teal: #14b8a6;
+  /* Primary colors */
+  --primary-color: #409EFF;
+  --primary-light: #66b1ff;
+  --primary-gradient: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
 
   /* Background colors - Bright */
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
   --bg-card: #ffffff;
-  --bg-hover: rgba(37, 99, 235, 0.06);
+  --bg-hover: rgba(64, 158, 255, 0.06);
 
   /* Text colors */
   --text-primary: #1e293b;
@@ -28,10 +24,10 @@
   --border-light: #f1f5f9;
 
   /* Status colors */
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
-  --danger-color: #ef4444;
-  --info-color: #3b82f6;
+  --success-color: #67C23A;
+  --warning-color: #E6A23C;
+  --danger-color: #F56C6C;
+  --info-color: #909399;
 
   /* Shadows */
   --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
@@ -47,25 +43,6 @@
   --spacing-xl: 24px;
   --spacing-2xl: 32px;
   --spacing-3xl: 40px;
-
-  /* Element Plus theme override - Blue */
-  --el-color-primary: #2563eb;
-  --el-color-primary-light-3: #3b82f6;
-  --el-color-primary-light-5: #60a5fa;
-  --el-color-primary-light-7: #93c5fd;
-  --el-color-primary-light-9: #dbeafe;
-
-  --el-bg-color: #ffffff;
-  --el-bg-color-overlay: #ffffff;
-
-  --el-text-color-primary: #1e293b;
-  --el-text-color-regular: #334155;
-  --el-text-color-secondary: #64748b;
-  --el-text-color-placeholder: #94a3b8;
-
-  --el-border-color: #e2e8f0;
-  --el-border-color-light: #f1f5f9;
-  --el-border-color-lighter: #f8fafc;
 }
 
 /* Reset styles */
@@ -618,4 +595,17 @@ html, body {
 
 .flex-col.gap-xl > * + * {
   margin-top: var(--spacing-xl);
+}
+
+/* ==================== Page Header (主题自适应标题栏) ==================== */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--page-header-gradient);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px var(--page-header-shadow);
+  color: var(--page-header-text);
 }

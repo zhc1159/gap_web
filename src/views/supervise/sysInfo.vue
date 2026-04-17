@@ -570,7 +570,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   color: white;
 }
 

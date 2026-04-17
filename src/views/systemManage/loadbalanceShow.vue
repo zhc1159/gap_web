@@ -574,16 +574,16 @@ outerPagination.total = outerList.value.length
   align-items: center;
   justify-content: space-between;
   padding: 14px 20px;
-  background: linear-gradient(135deg, #409EFF 0%, #67C23A 100%);
+  background: var(--page-header-gradient);
   border-radius: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 16px rgba(64, 158, 255, 0.2);
+  box-shadow: 0 4px 16px var(--page-header-shadow);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--page-header-text);
 }
 
 .header-icon {

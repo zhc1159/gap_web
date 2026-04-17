@@ -79,7 +79,7 @@
           <!-- Theme Switcher -->
           <el-dropdown trigger="click" @command="handleThemeChange" class="theme-switcher">
             <div class="theme-btn">
-              <div class="theme-preview" :style="{ background: themeStore.currentThemeInfo.previewGradient }" />
+              <div class="theme-preview" :style="{ background: themeStore.currentThemeInfo.previewColor }" />
               <span>{{ currentThemeLabel }}</span>
               <el-icon><ArrowDown /></el-icon>
             </div>
@@ -92,8 +92,9 @@
                   :class="{ 'is-active': themeStore.currentTheme === th.id }"
                 >
                   <div class="theme-option">
-                    <div class="theme-option-dot" :style="{ background: th.previewGradient }" />
+                    <div class="theme-option-dot" :style="{ background: th.previewColor }" />
                     <span class="theme-option-label">{{ $t('navbar.themes.' + th.id) }}</span>
+                    <span v-if="th.tagZh" class="theme-tag">{{ currentLocale === 'zh-CN' ? th.tagZh : th.tagEn }}</span>
                     <el-icon v-if="themeStore.currentTheme === th.id" class="theme-check"><Check /></el-icon>
                   </div>
                 </el-dropdown-item>
@@ -261,8 +262,7 @@ const menuList = ref([
     meta: { titleKey: 'menu.userManage' },
     icon: 'User',
     children: [
-      { path: 'super_opcUser', meta: { titleKey: 'userManage.super_opcUser.title' }, icon: 'UserFilled' },
-      { path: 'authFun', meta: { titleKey: 'userManage.authFun.title' }, icon: 'Key' }
+      { path: 'super_opcUser', meta: { titleKey: 'userManage.super_opcUser.title' }, icon: 'UserFilled' }
     ]
   },
   // 系统维护
@@ -514,7 +514,6 @@ const handleCommand = async (command: string) => {
   display: flex;
   flex-direction: column;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.04);
-  backdrop-filter: blur(10px);
 }
 
 .layout-sidebar.is-collapse{
@@ -528,7 +527,7 @@ const handleCommand = async (command: string) => {
   justify-content: center;
   padding: 0 12px;
   border-bottom: 1px solid var(--sidebar-border);
-  background: rgba(128, 128, 128, 0.03);
+  background: var(--sidebar-bg);
 }
 
 .sidebar-logo-img{
@@ -951,6 +950,16 @@ const handleCommand = async (command: string) => {
 .theme-option-label {
   flex: 1;
   font-size: 14px;
+}
+
+.theme-tag {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(64, 158, 255, 0.1);
+  color: #409EFF;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .theme-check {

@@ -86,14 +86,16 @@ export default {
     linkOffline: 'Offline',
     linkDetail: 'Link Status Detail',
     themes: {
-      default: 'Classic Blue',
+      blue: 'Blue-Green',
+      green: 'Green',
+      orange: 'Orange',
+      red: 'Red',
+      'tech-cyan': 'Tech Cyan',
+      'tech-purple': 'Nebula',
+      'tech-emerald': 'Emerald',
+      'tech-neon': 'Neon Blue',
       'cyber-neon': 'Cyber Neon',
-      matrix: 'Matrix',
-      aurora: 'Aurora',
-      crimson: 'Crimson Tech',
-      ocean: 'Ocean Deep',
-      solar: 'Solar',
-      arctic: 'Arctic'
+      'deep-ocean': 'Deep Ocean'
     }
   },
   menu: {
