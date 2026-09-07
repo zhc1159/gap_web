@@ -215,6 +215,16 @@ const cpuHistory = { inner: [] as number[], outer: [] as number[] }
 const memHistory = { inner: [] as number[], outer: [] as number[] }
 const timeLabels = [] as string[]
 
+// 网口速率历史数据
+const networkHistory = {
+  inner: { eth0: [] as number[], eth1: [] as number[], eth2: [] as number[] },
+  outer: { eth0: [] as number[], eth1: [] as number[], eth2: [] as number[] }
+}
+const networkCurrent = {
+  inner: { eth0: 120, eth1: 85, eth2: 45 },
+  outer: { eth0: 95, eth1: 70, eth2: 35 }
+}
+
 // 定时器
 let updateTimer: number | null = null
 
@@ -361,7 +371,7 @@ const initDiskChart = (container: HTMLDivElement | undefined) => {
 }
 
 // 初始化网络图表
-const initNetworkChart = (container: HTMLDivElement | undefined) => {
+const initNetworkChart = (container: HTMLDivElement | undefined, initData: number[][]) => {
   if (!container) return
 
   const chart = echarts.init(container)
@@ -370,7 +380,16 @@ const initNetworkChart = (container: HTMLDivElement | undefined) => {
       trigger: 'axis',
       backgroundColor: 'rgba(0, 0, 0, 0.8)',
       borderColor: '#409EFF',
-      textStyle: { color: '#fff' }
+      textStyle: { color: '#fff' },
+      formatter: (params: any) => {
+        let html = `<div style="font-weight:600;margin-bottom:4px">${params[0].axisValue}</div>`
+        params.forEach((p: any) => {
+          html += `<div style="display:flex;align-items:center;gap:6px">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color}"></span>
+            ${p.seriesName}: <b>${p.value} Mbps</b></div>`
+        })
+        return html
+      }
     },
     legend: {
       data: ['eth0', 'eth1', 'eth2'],
@@ -395,7 +414,7 @@ const initNetworkChart = (container: HTMLDivElement | undefined) => {
       {
         name: 'eth0',
         type: 'line',
-        data: [],
+        data: initData[0],
         smooth: true,
         symbol: 'none',
         lineStyle: { width: 2, color: '#409EFF' },
@@ -409,7 +428,7 @@ const initNetworkChart = (container: HTMLDivElement | undefined) => {
       {
         name: 'eth1',
         type: 'line',
-        data: [],
+        data: initData[1],
         smooth: true,
         symbol: 'none',
         lineStyle: { width: 2, color: '#67C23A' },
@@ -423,7 +442,7 @@ const initNetworkChart = (container: HTMLDivElement | undefined) => {
       {
         name: 'eth2',
         type: 'line',
-        data: [],
+        data: initData[2],
         smooth: true,
         symbol: 'none',
         lineStyle: { width: 2, color: '#E6A23C' },
@@ -474,20 +493,30 @@ const updateData = () => {
     memHistory.outer.shift()
   }
 
-  // 更新图表
-  updateChartData(1, cpuHistory.inner)
-  updateChartData(2, memHistory.inner)
-  updateChartData(3, cpuHistory.outer)
-  updateChartData(4, memHistory.outer)
+  // 更新图表（索引: 0=内网CPU, 1=内网内存, 4=外网CPU, 5=外网内存）
+  updateChartData(0, cpuHistory.inner)
+  updateChartData(1, memHistory.inner)
+  updateChartData(4, cpuHistory.outer)
+  updateChartData(5, memHistory.outer)
 
-  // 更新网络图表
-  const networkData = [
-    timeLabels.map(() => Math.round(Math.random() * 100 + 50)),
-    timeLabels.map(() => Math.round(Math.random() * 80 + 30)),
-    timeLabels.map(() => Math.round(Math.random() * 60 + 20))
-  ]
-  updateNetworkChart(5, networkData)
-  updateNetworkChart(6, networkData)
+  // 更新内网网口速率（渐进式变化）
+  const ports = ['eth0', 'eth1', 'eth2'] as const
+  const innerRanges = [{ min: 60, max: 200 }, { min: 40, max: 150 }, { min: 10, max: 80 }]
+  const outerRanges = [{ min: 50, max: 180 }, { min: 30, max: 130 }, { min: 5, max: 70 }]
+
+  ports.forEach((p, i) => {
+    networkCurrent.inner[p] = Math.round(randomChange(networkCurrent.inner[p], innerRanges[i].min, innerRanges[i].max))
+    networkHistory.inner[p].push(networkCurrent.inner[p])
+    if (networkHistory.inner[p].length > 30) networkHistory.inner[p].shift()
+
+    networkCurrent.outer[p] = Math.round(randomChange(networkCurrent.outer[p], outerRanges[i].min, outerRanges[i].max))
+    networkHistory.outer[p].push(networkCurrent.outer[p])
+    if (networkHistory.outer[p].length > 30) networkHistory.outer[p].shift()
+  })
+
+  // 更新网络图表（索引: 3=内网, 7=外网）
+  updateNetworkChart(3, [networkHistory.inner.eth0, networkHistory.inner.eth1, networkHistory.inner.eth2])
+  updateNetworkChart(7, [networkHistory.outer.eth0, networkHistory.outer.eth1, networkHistory.outer.eth2])
 }
 
 // 更新图表数据
@@ -521,18 +550,32 @@ onMounted(() => {
     memHistory.inner.push(Math.round(35 + Math.random() * 15))
     cpuHistory.outer.push(Math.round(25 + Math.random() * 20))
     memHistory.outer.push(Math.round(30 + Math.random() * 15))
+    // 网口初始历史数据
+    networkHistory.inner.eth0.push(Math.round(100 + Math.random() * 40))
+    networkHistory.inner.eth1.push(Math.round(70 + Math.random() * 30))
+    networkHistory.inner.eth2.push(Math.round(30 + Math.random() * 20))
+    networkHistory.outer.eth0.push(Math.round(80 + Math.random() * 35))
+    networkHistory.outer.eth1.push(Math.round(55 + Math.random() * 25))
+    networkHistory.outer.eth2.push(Math.round(20 + Math.random() * 18))
   }
+  // 同步当前值
+  networkCurrent.inner.eth0 = networkHistory.inner.eth0[19]
+  networkCurrent.inner.eth1 = networkHistory.inner.eth1[19]
+  networkCurrent.inner.eth2 = networkHistory.inner.eth2[19]
+  networkCurrent.outer.eth0 = networkHistory.outer.eth0[19]
+  networkCurrent.outer.eth1 = networkHistory.outer.eth1[19]
+  networkCurrent.outer.eth2 = networkHistory.outer.eth2[19]
 
   // 初始化图表
   initCpuChart(innerCpuChart.value, cpuHistory.inner)
   initMemChart(innerMemChart.value, memHistory.inner)
   initDiskChart(innerDiskChart.value)
-  initNetworkChart(innerNetworkChart.value)
+  initNetworkChart(innerNetworkChart.value, [networkHistory.inner.eth0, networkHistory.inner.eth1, networkHistory.inner.eth2])
 
   initCpuChart(outerCpuChart.value, cpuHistory.outer)
   initMemChart(outerMemChart.value, memHistory.outer)
   initDiskChart(outerDiskChart.value)
-  initNetworkChart(outerNetworkChart.value)
+  initNetworkChart(outerNetworkChart.value, [networkHistory.outer.eth0, networkHistory.outer.eth1, networkHistory.outer.eth2])
 
   // 启动定时更新
   updateTimer = window.setInterval(updateData, 3000)
